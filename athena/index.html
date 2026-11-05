@@ -118,7 +118,7 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
 </header>
 
 <!-- 1 · HOME: the dumbbell flips as you scroll -->
-<section class="scene" id="hero" style="height:240vh"><div class="stick">
+<section class="scene" id="hero" style="height:170vh"><div class="stick">
  <canvas id="cvA"></canvas><div class="scrim t"></div><div class="scrim b"></div>
  <div id="big">ATHENA</div>
  <div class="layer b">
@@ -130,7 +130,7 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
  </div></div></section>
 
 <!-- 2 · CLASSES -->
-<section class="scene cream" id="classes" style="height:200vh"><div class="stick">
+<section class="scene cream" id="classes" style="height:160vh"><div class="stick">
  <canvas id="cvB"></canvas><div class="scrim t"></div>
  <div class="layer t"><div class="k" style="color:var(--or2)">01 — CLASSES</div><h2 style="margin-top:8px">השיעורים<br><i>הבאים שלך.</i></h2></div>
 </div></section>
@@ -152,7 +152,7 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
 </section>
 
 <!-- 4 · PERSONAL -->
-<section class="scene cream" id="me" style="height:200vh"><div class="stick">
+<section class="scene cream" id="me" style="height:160vh"><div class="stick">
  <canvas id="cvC"></canvas><div class="scrim t"></div>
  <div class="layer t"><div class="k" style="color:var(--or2)">03 — PERSONAL</div><h2 style="margin-top:8px">האזור<br><i>האישי שלך.</i></h2></div>
 </div></section>
@@ -212,7 +212,7 @@ const drawCover = (cv, im, zoom) => { const g = cv.getContext('2d'); if (!im.com
 let smooth = SCENES.map(() => 0);
 function frame() {
   const vh = innerHeight;
-  SCENES.forEach((S, i) => { const r = S.el.getBoundingClientRect(), p = cl(-r.top / Math.max(1, r.height - vh)); smooth[i] = lerp(smooth[i], p, .18);
+  SCENES.forEach((S, i) => { const r = S.el.getBoundingClientRect(), p = cl(-r.top / Math.max(1, r.height - vh)); smooth[i] = lerp(smooth[i], p, .28);
     if (r.bottom > -vh && r.top < vh * 1.5) drawCover(S.cv, S.fr[Math.round(smooth[i] * 79)], 1.02 + .06 * smooth[i]); });
   // the giant ATHENA opens up as the dumbbell turns
   const hp = smooth[0]; $('#big').style.letterSpacing = lerp(-2, 10, hp) + 'px'; $('#big').style.transform = `translateY(${-60 * hp}px) scale(${1 + .08 * hp})`; $('#big').style.opacity = 1 - cl((hp - .7) / .3) * .6;

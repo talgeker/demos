@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>FITNESS CLUB — הדמיית אפליקציה</title>
 <!-- open on a phone: the three scenes are frame sequences that play as you scroll; everything else is real, tappable UI -->
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700;800;900&family=Montserrat:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700;800;900&family=Montserrat:wght@300;400;500;600;800;900&family=Anton&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--or:#F9B800;--or2:#9A6E00;--cream:#f3ece2;--ink:#1f1b17;--mut:rgba(31,27,23,.62);--y:#FFE27A;--cr:#17140f}
@@ -15,7 +15,7 @@ body{font-family:Heebo,sans-serif;color:var(--ink);background:var(--cream);overf
 /* fixed chrome */
 #top{position:fixed;top:calc(env(safe-area-inset-top) + 10px);left:50%;transform:translateX(-50%);width:min(100% - 24px,496px);height:54px;border-radius:27px;display:flex;align-items:center;gap:8px;padding:0 8px;z-index:50;transition:background .4s,color .4s}
 #top .club{flex:1;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden}
-#top .club .lg{flex-shrink:0;height:34px;width:auto;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#top .club .lg{flex-shrink:0;height:40px;width:auto;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
 .ibtn{width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:0;cursor:pointer;position:relative}
 .ibtn.qr{background:var(--or);color:#17140f}
 .ibtn .bd{position:absolute;top:6px;left:7px;width:8px;height:8px;border-radius:50%;background:#e2402b;box-shadow:0 0 0 2px #fff}
@@ -39,6 +39,7 @@ h1,h2{font-weight:900;line-height:.98}
 #hero .scrim.t{top:0;height:30%;background:linear-gradient(180deg,rgba(150,110,0,.16),rgba(150,110,0,0))}
 #hero .scrim.b{bottom:0;height:40%;background:linear-gradient(0deg,rgba(255,225,120,.45),rgba(255,225,120,0))}
 #big{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 92px);text-align:center;font-family:Montserrat;font-weight:900;font-size:min(19vw,96px);letter-spacing:-2px;line-height:.85;color:#17140f;direction:ltr;text-shadow:0 6px 28px rgba(255,240,170,.55)}
+#big .w1{display:block;font-family:Anton,Montserrat,sans-serif;font-weight:400;font-size:min(26vw,132px);line-height:.92;letter-spacing:.005em;background:linear-gradient(180deg,#4a4132 0%,#16130e 48%,#000 52%,#1d1912 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.45)) drop-shadow(0 12px 22px rgba(90,60,0,.35))}
 #hero .layer.b{bottom:calc(env(safe-area-inset-bottom) + 96px);color:var(--cr)}
 #hero h1{font-size:44px;color:#17140f;text-shadow:0 2px 16px rgba(255,240,170,.7)}
 #hero h1 em{font-style:normal;color:#17140f;background:linear-gradient(transparent 62%,rgba(255,255,255,.55) 62%)}
@@ -118,9 +119,9 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
 </header>
 
 <!-- 1 · HOME: the dumbbell flips as you scroll -->
-<section class="scene" id="hero" style="height:240vh"><div class="stick">
+<section class="scene" id="hero" style="height:170vh"><div class="stick">
  <canvas id="cvA"></canvas><div class="scrim t"></div><div class="scrim b"></div>
- <div id="big">FITNESS<br>CLUB</div>
+ <div id="big"><span class="w1">FITNESS</span><span class="w1">CLUB</span></div>
  <div class="layer b">
   <h1 style="font-size:34px">מועדון כושר<br><em>בסטנדרט חדש.</em></h1>
   <div class="chips"><div class="chip glass-o"><span class="dot"></span>פתוח עכשיו · עד 22:50</div><div class="chip glass-o">כל העדכונים החמים ←</div></div>
@@ -130,7 +131,7 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
  </div></div></section>
 
 <!-- 2 · CLASSES -->
-<section class="scene cream" id="classes" style="height:200vh"><div class="stick">
+<section class="scene cream" id="classes" style="height:160vh"><div class="stick">
  <canvas id="cvB"></canvas><div class="scrim t"></div>
  <div class="layer t"><div class="k" style="color:var(--or2)">01 — CLASSES</div><h2 style="margin-top:8px">השיעורים<br><i>הבאים שלך.</i></h2></div>
 </div></section>
@@ -152,7 +153,7 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
 </section>
 
 <!-- 4 · PERSONAL -->
-<section class="scene cream" id="me" style="height:200vh"><div class="stick">
+<section class="scene cream" id="me" style="height:160vh"><div class="stick">
  <canvas id="cvC"></canvas><div class="scrim t"></div>
  <div class="layer t"><div class="k" style="color:var(--or2)">03 — PERSONAL</div><h2 style="margin-top:8px">האזור<br><i>האישי שלך.</i></h2></div>
 </div></section>
@@ -180,7 +181,7 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
   <div class="kv"><b>הצהרת נגישות</b><span>←</span></div>
   <div class="kv" style="border:0"><b style="color:#b8340c">התנתק</b><span>⎋</span></div>
  </div>
- <footer><img src="img/logo.png" alt="FITNESS CLUB" style="width:200px;height:auto;filter:drop-shadow(0 12px 24px rgba(0,0,0,.25))"><div style="margin-top:10px">הדמיה של אפליקציית FITNESS CLUB · Build 10752</div></footer>
+ <footer><img src="img/logo.png" alt="FITNESS CLUB" style="width:230px;height:auto;filter:drop-shadow(0 12px 22px rgba(0,0,0,.2))"><div style="margin-top:10px">הדמיה של אפליקציית FITNESS CLUB · Build 10752</div></footer>
 </section>
 
 <nav id="tabs" class="glass"><div id="pill"></div>
@@ -212,7 +213,7 @@ const drawCover = (cv, im, zoom) => { const g = cv.getContext('2d'); if (!im.com
 let smooth = SCENES.map(() => 0);
 function frame() {
   const vh = innerHeight;
-  SCENES.forEach((S, i) => { const r = S.el.getBoundingClientRect(), p = cl(-r.top / Math.max(1, r.height - vh)); smooth[i] = lerp(smooth[i], p, .18);
+  SCENES.forEach((S, i) => { const r = S.el.getBoundingClientRect(), p = cl(-r.top / Math.max(1, r.height - vh)); smooth[i] = lerp(smooth[i], p, .28);
     if (r.bottom > -vh && r.top < vh * 1.5) drawCover(S.cv, S.fr[Math.round(smooth[i] * 79)], 1.02 + .06 * smooth[i]); });
   // the giant FITNESS CLUB opens up as the dumbbell turns
   const hp = smooth[0]; $('#big').style.letterSpacing = lerp(-2, 10, hp) + 'px'; $('#big').style.transform = `translateY(${-60 * hp}px) scale(${1 + .08 * hp})`; $('#big').style.opacity = 1 - cl((hp - .7) / .3) * .6;
@@ -253,7 +254,7 @@ $('#ups').innerHTML = UPS.map(([d, w, tm, n, st]) => `<div class="up glass-o"><d
 
 // ---------- personal ----------
 const ME = {
-  buy: `<div class="mcard"><div class="sheen"></div><div class="st">● פעיל</div><img src="img/logo.png" alt="FITNESS CLUB" style="position:absolute;right:20px;top:18px;height:52px;width:auto;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.25)">
+  buy: `<div class="mcard"><div class="sheen"></div><div class="st">● פעיל</div><img src="img/logo.png" alt="FITNESS CLUB" style="position:absolute;right:20px;top:18px;height:62px;width:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))">
     <div style="position:absolute;right:20px;bottom:20px;left:20px"><div style="font-size:22px;font-weight:900">מנוי שנתי · חדר כושר</div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:13px;opacity:.9"><span>תוקף <span class="num">01/08/2026 – 31/07/2027</span></span><span>עלות <span class="num">₪2,868</span></span></div></div></div>
     <div class="kv" style="margin-top:10px"><span>ימים שנותרו</span><b class="num">270</b></div><div class="kv" style="border:0"><span>חידוש אוטומטי</span><b>פעיל</b></div>`,
   info: `<div class="kv"><span>שם</span><b>מתאמן לדוגמה</b></div><div class="kv"><span>טלפון</span><b class="num">050-0000000</b></div><div class="kv"><span>מס׳ לקוח</span><b class="num">7534</b></div><div class="kv" style="border:0"><span>מועדון</span><b>FITNESS CLUB · מועדון כושר בסטנדרט חדש</b></div>`,
