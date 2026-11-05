@@ -213,7 +213,7 @@ const DEFS = `<defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop of
 const load = (d, n, ext = 'jpg') => [...Array(n).keys()].map(i => { const im = new Image(); im.decoding = 'async'; im.src = `frames/${d}/${String(i).padStart(3, '0')}.${ext}`; return im; });
 const V = (new URLSearchParams(location.search).get('v') || 'b').toLowerCase(); document.body.classList.add('v-b');
 const PRE = { 1: { fit: 1, z: 1.1, ty: 112, fs: 101, tt: 92 }, 2: { fit: 0, z: 1.1, ty: 112, fs: 101, tt: 92 }, 3: { fit: 0, z: .92, ty: 150, fs: 84, tt: 88 }, 4: { fit: 1, z: 1.0, ty: 150, fs: 101, tt: 92 } };
-const P = PRE[new URLSearchParams(location.search).get('o') || 1] || PRE[1], VAR = { m: 1 }; let L = { s: 1 };
+const P = PRE[new URLSearchParams(location.search).get('o') || 2] || PRE[2], VAR = { m: 1 }; let L = { s: 1 };
 // the hero is one composition designed on a 390×844 screen; on any phone it is scaled as a whole so title and dumbbell keep the exact same relation
 function heroLayout() { const u = innerWidth / 390, top = 80, chips = document.querySelector('#hero .chips').getBoundingClientRect().top - document.querySelector('#hero').getBoundingClientRect().top;
   const k = P.fit ? Math.min(1, (chips - top) / (554 - top)) : 1, sc = u * k; L = { s: sc, top };
@@ -223,8 +223,8 @@ const drawHero = (cv, im, zx, fg) => { const g = cv.getContext('2d'); if (!im ||
   g.clearRect(0, 0, cv.width, cv.height); g.drawImage(im, x, y, w, h);
   if (!fg) { // feather the frame's edges into the hero's painted backdrop, so a smaller hero object never shows a seam
     const f = Math.min(w, h) * .14; g.save(); g.globalCompositeOperation = 'destination-in';
-    let gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(f / h, '#000'); gr.addColorStop(1 - f / h, '#000'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, cv.width, cv.height);
-    gr = g.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(f / w, '#000'); gr.addColorStop(1 - f / w, '#000'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, cv.width, cv.height); g.restore(); } };
+    let gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, y > 0 ? 'rgba(0,0,0,0)' : '#000'); gr.addColorStop(f / h, '#000'); gr.addColorStop(1 - f / h, '#000'); gr.addColorStop(1, y + h < cv.height ? 'rgba(0,0,0,0)' : '#000'); g.fillStyle = gr; g.fillRect(0, 0, cv.width, cv.height);
+    if (x > 0) { gr = g.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(f / w, '#000'); gr.addColorStop(1 - f / w, '#000'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, cv.width, cv.height); } g.restore(); } };
 const FG = VAR.m ? load('af', 80, 'webp') : [];
 const SCENES = [{ el: $('#hero'), cv: $('#cvA'), fr: load('a', 80) }, { el: $('#classes'), cv: $('#cvB'), fr: load('b', 80) }, { el: $('#me'), cv: $('#cvC'), fr: load('c', 80) }];
 function fit(cv) { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2); cv.width = r.width * d; cv.height = r.height * d; }
