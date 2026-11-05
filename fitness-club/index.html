@@ -42,7 +42,9 @@ h1,h2{font-weight:900;line-height:.98}
 #big2{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 92px);text-align:center;line-height:.85;direction:ltr;display:none}
 .v-b #big2{display:block}.v-b #big .w1+.w1{visibility:hidden}
 .fgc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}.v-a .fgc,.v-b .fgc{display:block}
-#big .w1,#big2 .w1{display:block;font-family:Anton,Montserrat,sans-serif;font-weight:400;font-size:min(26vw,132px);line-height:.92;letter-spacing:.005em;background:linear-gradient(180deg,#4a4132 0%,#16130e 48%,#000 52%,#1d1912 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.45)) drop-shadow(0 12px 22px rgba(90,60,0,.35))}
+#big,#big2{top:var(--tt,92px)!important}
+#hero .stick{background:radial-gradient(120% 80% at 35% 55%,#F7BE2C 0%,#E39F1A 45%,#C47A0E 100%)}
+#big .w1,#big2 .w1{font-size:var(--fs,min(26vw,132px))!important;display:block;font-family:Anton,Montserrat,sans-serif;font-weight:400;font-size:min(26vw,132px);line-height:.92;letter-spacing:.005em;background:linear-gradient(180deg,#4a4132 0%,#16130e 48%,#000 52%,#1d1912 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.45)) drop-shadow(0 12px 22px rgba(90,60,0,.35))}
 #hero .layer.b{bottom:calc(env(safe-area-inset-bottom) + 96px);color:var(--cr)}
 #hero h1{font-size:44px;color:#17140f;text-shadow:0 2px 16px rgba(255,240,170,.7)}
 #hero h1 em{font-style:normal;color:#17140f;background:linear-gradient(transparent 62%,rgba(255,255,255,.55) 62%)}
@@ -126,7 +128,6 @@ footer{padding:40px 0 140px;text-align:center;color:var(--mut);font-size:12px}
  <canvas id="cvA"></canvas><div class="scrim t"></div><div class="scrim b"></div>
  <div id="big"><span class="w1">FITNESS</span><span class="w1">CLUB</span></div><canvas id="cvAf" class="fgc"></canvas><div id="big2" class="bigc"><span class="w1" style="visibility:hidden">FITNESS</span><span class="w1">CLUB</span></div>
  <div class="layer b">
-  <h1 style="font-size:34px">מועדון כושר<br><em>בסטנדרט חדש.</em></h1>
   <div class="chips"><div class="chip glass-o"><span class="dot"></span>פתוח עכשיו · עד 22:50</div><div class="chip glass-o">כל העדכונים החמים ←</div></div>
   <div class="qa"><button class="glass-o" data-go="classes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>לו״ז שיעורים</button>
    <button class="glass-o" data-act="nav"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>ניווט למועדון</button>
@@ -210,8 +211,20 @@ const DEFS = `<defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop of
 
 // ---------- scroll-scrubbed scenes ----------
 const load = (d, n, ext = 'jpg') => [...Array(n).keys()].map(i => { const im = new Image(); im.decoding = 'async'; im.src = `frames/${d}/${String(i).padStart(3, '0')}.${ext}`; return im; });
-const V = (new URLSearchParams(location.search).get('v') || 'b').toLowerCase(); document.body.classList.add('v-' + V);
-const VAR = { a: { z: 1.02, dy: 40, m: 1 }, b: { z: .9, dy: 70, m: 1 }, c: { z: .8, dy: 100, m: 0 } }[V] || { z: .9, dy: 70, m: 1 };
+const V = (new URLSearchParams(location.search).get('v') || 'b').toLowerCase(); document.body.classList.add('v-b');
+const PRE = { 1: { fit: 1, z: 1.1, ty: 112, fs: 101, tt: 92 }, 2: { fit: 0, z: 1.1, ty: 112, fs: 101, tt: 92 }, 3: { fit: 0, z: .92, ty: 150, fs: 84, tt: 88 }, 4: { fit: 1, z: 1.0, ty: 150, fs: 101, tt: 92 } };
+const P = PRE[new URLSearchParams(location.search).get('o') || 1] || PRE[1], VAR = { m: 1 }; let L = { s: 1 };
+// the hero is one composition designed on a 390×844 screen; on any phone it is scaled as a whole so title and dumbbell keep the exact same relation
+function heroLayout() { const u = innerWidth / 390, top = 80, chips = document.querySelector('#hero .chips').getBoundingClientRect().top - document.querySelector('#hero').getBoundingClientRect().top;
+  const k = P.fit ? Math.min(1, (chips - top) / (554 - top)) : 1, sc = u * k; L = { s: sc, top };
+  ['#big', '#big2'].forEach(q => { $(q).style.setProperty('--fs', P.fs * sc + 'px'); $(q).style.setProperty('--tt', top + (P.tt - top) * sc + 'px'); }); }
+const drawHero = (cv, im, zx, fg) => { const g = cv.getContext('2d'); if (!im || !im.complete || !im.naturalWidth) return; const d = cv.width / innerWidth, W = im.naturalWidth, H = im.naturalHeight;
+  const w = 390 * P.z * zx * L.s * d, h = w * H / W, x = (cv.width - w) / 2, y = (L.top + (P.ty - L.top) * L.s) * d - (h - 390 * P.z * L.s * d * H / W) / 2, e = 24;
+  g.clearRect(0, 0, cv.width, cv.height); g.drawImage(im, x, y, w, h);
+  if (!fg) { // feather the frame's edges into the hero's painted backdrop, so a smaller hero object never shows a seam
+    const f = Math.min(w, h) * .14; g.save(); g.globalCompositeOperation = 'destination-in';
+    let gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(f / h, '#000'); gr.addColorStop(1 - f / h, '#000'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, cv.width, cv.height);
+    gr = g.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(f / w, '#000'); gr.addColorStop(1 - f / w, '#000'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, cv.width, cv.height); g.restore(); } };
 const FG = VAR.m ? load('af', 80, 'webp') : [];
 const SCENES = [{ el: $('#hero'), cv: $('#cvA'), fr: load('a', 80) }, { el: $('#classes'), cv: $('#cvB'), fr: load('b', 80) }, { el: $('#me'), cv: $('#cvC'), fr: load('c', 80) }];
 function fit(cv) { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2); cv.width = r.width * d; cv.height = r.height * d; }
@@ -224,8 +237,8 @@ let smooth = SCENES.map(() => 0);
 function frame() {
   const vh = innerHeight;
   SCENES.forEach((S, i) => { const r = S.el.getBoundingClientRect(), p = cl(-r.top / Math.max(1, r.height - vh)); smooth[i] = lerp(smooth[i], p, .28);
-    if (r.bottom > -vh && r.top < vh * 1.5) { const z = (i === 0 ? VAR.z : 1.02) + .06 * smooth[i], k = Math.round(smooth[i] * 79), dy = i === 0 ? VAR.dy : 0; drawCover(S.cv, S.fr[k], z, dy);
-      if (i === 0 && VAR.m) { const f = $('#cvAf'); if (f.width !== S.cv.width) fit(f); f.getContext('2d').clearRect(0, 0, f.width, f.height); drawCover(f, FG[k], z, dy, 1); } } });
+    if (r.bottom > -vh && r.top < vh * 1.5) { const k = Math.round(smooth[i] * 79); if (i === 0) drawHero(S.cv, S.fr[k], 1 + .06 * smooth[i]); else drawCover(S.cv, S.fr[k], 1.02 + .06 * smooth[i]);
+      if (i === 0 && VAR.m) { const f = $('#cvAf'); if (f.width !== S.cv.width) fit(f); f.getContext('2d').clearRect(0, 0, f.width, f.height); drawHero(f, FG[k], 1 + .06 * smooth[i], 1); } } });
   // the giant FITNESS CLUB opens up as the dumbbell turns
   const hp = smooth[0]; ['#big', '#big2'].forEach(q => { $(q).style.letterSpacing = lerp(-2, 10, hp) + 'px'; $(q).style.transform = `translateY(${-60 * hp}px) scale(${1 + .08 * hp})`; $(q).style.opacity = 1 - cl((hp - .7) / .3) * .6; });
   // chrome: dark-on-cream or cream-on-orange, whichever the screen shows under it
@@ -234,7 +247,7 @@ function frame() {
   $$('.tab').forEach((t, i) => t.classList.toggle('on', i === cur)); const tb = $$('.tab')[cur]; $('#pill').style.left = (tb.offsetLeft - 1) + 'px';
   requestAnimationFrame(frame);
 }
-addEventListener('resize', () => SCENES.forEach(S => fit(S.cv))); SCENES.forEach(S => fit(S.cv)); requestAnimationFrame(frame);
+addEventListener('resize', () => { SCENES.forEach(S => fit(S.cv)); heroLayout(); }); SCENES.forEach(S => fit(S.cv)); heroLayout(); requestAnimationFrame(frame);
 $$('[data-go]').forEach(b => b.onclick = () => $('#' + b.dataset.go).scrollIntoView({ behavior: 'smooth' }));
 
 // ---------- classes (the old app's schedule, days, filters and favourites) ----------
