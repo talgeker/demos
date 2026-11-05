@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B3B9C">
+<link rel="icon" href="assets/logo-cut.png">
+<title>Blue Bus · חומוס פול · פרדס חנה</title>
+<!--
+  Local demo (not published). Open index.html directly or serve the folder.
+  3D bowl = two scroll-scrubbed JPG frame sequences:
+    frames/rotate/000.jpg …   (hero: the bowl turns)
+    frames/explode/000.jpg …  (the bowl separates into floating layers and comes back)
+  Frame counts: frames/manifest.js (window.BLUEBUS_FRAMES={rotate:N,explode:N}, written by tools/update_manifest.py)
+  or frames/manifest.json; a sequence missing from the manifest is counted automatically by probing. If a folder is missing, frames/_placeholder/<name> is used.
+  Recording hook: window.READY, window.T_END, window.renderAt(t) (deterministic phone-scroll timeline).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@500;700;800;900&family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--b1:#0B3B9C;--b2:#06225E;--b3:#041741;--y:#FFD200;--y2:#FFB800;--cream:#F7EEDC;--cream2:#EFE0C2;--ink:#0A1F4F;--mut:rgba(10,31,79,.66);--pad:20px}
+html{background:var(--b2);scroll-behavior:auto}
+body{font-family:Assistant,system-ui,sans-serif;color:#fff;background:var(--b2);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.d{font-family:'Secular One',Rubik,sans-serif;font-weight:400;letter-spacing:-.5px}
+.num{font-family:Rubik,sans-serif;direction:ltr;unicode-bidi:isolate;display:inline-block}
+mark{background:none;color:var(--y);position:relative;white-space:nowrap}
+mark.hl{color:inherit;background:linear-gradient(transparent 58%,var(--y) 58%,var(--y) 92%,transparent 92%);padding:0 .08em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+.k{font-family:Rubik;font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+.k:before{content:"";width:26px;height:2px;background:currentColor;border-radius:2px}
+.glass{background:linear-gradient(150deg,rgba(255,255,255,.16),rgba(255,255,255,.06));backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 20px 50px rgba(2,10,40,.28)}
+.glass-l{background:linear-gradient(150deg,rgba(255,255,255,.82),rgba(255,255,255,.56));backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 0 #fff,0 20px 46px rgba(80,55,10,.14);color:var(--ink)}
+.btn{height:54px;border-radius:27px;padding:0 22px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:Rubik;font-weight:700;font-size:15.5px;border:0;cursor:pointer;white-space:nowrap;transition:transform .2s}
+.btn:active{transform:scale(.96)}
+.btn.y{background:var(--y);color:var(--b2);box-shadow:0 10px 28px rgba(255,210,0,.35),inset 0 -3px 0 rgba(0,0,0,.12)}
+.btn.b{background:var(--b1);color:#fff;box-shadow:0 10px 28px rgba(11,59,156,.3)}
+.btn.g{color:#fff}
+.btn svg{flex-shrink:0}
+/* grain */
+#grain{position:fixed;inset:-50%;z-index:70;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* top bar */
+#top{position:fixed;z-index:60;top:calc(env(safe-area-inset-top) + 10px);left:50%;transform:translateX(-50%);width:min(100% - 20px,1180px);height:58px;border-radius:29px;display:flex;align-items:center;gap:10px;padding:0 7px 0 14px;transition:background .35s,color .35s,border-color .35s}
+#top img{height:40px;width:auto;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
+#top .nm{flex:1;font-family:Rubik;font-weight:800;font-size:14px;line-height:1.05;white-space:nowrap}
+#top .nm small{display:block;font-family:Assistant;font-weight:600;font-size:11.5px;opacity:.72}
+#top nav{display:none;gap:4px}
+#top nav a{padding:9px 14px;border-radius:20px;font-weight:700;font-size:14.5px;opacity:.85}
+#top nav a:hover{background:rgba(255,255,255,.14);opacity:1}
+#top .btn{height:44px;padding:0 16px;font-size:14px}
+body.lt #top{background:linear-gradient(150deg,rgba(255,255,255,.8),rgba(255,255,255,.55));color:var(--ink);border-color:rgba(255,255,255,.9)}
+body.lt #top nav a:hover{background:rgba(11,59,156,.08)}
+/* scrubbed scenes */
+.scene{position:relative}
+.stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:radial-gradient(60% 45% at 50% 48%,#0A50CD,#011B64 80%)}
+.stick canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scrim{position:absolute;left:0;right:0;pointer-events:none}
+.scrim.t{top:0;height:38%;background:linear-gradient(180deg,rgba(4,23,65,.72),rgba(4,23,65,0))}
+.scrim.b{bottom:0;height:42%;background:linear-gradient(0deg,rgba(4,23,65,.82),rgba(4,23,65,0))}
+.ghost{position:absolute;left:0;right:0;white-space:nowrap;font-family:Rubik;font-weight:900;line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(255,210,0,.42);pointer-events:none;will-change:transform}
+/* hero */
+#hero .ghost{top:63%;font-size:42vw;-webkit-text-stroke-color:rgba(255,210,0,.3)}
+#hero .h{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 88px);padding:0 var(--pad)}
+#hero .chip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:17px;font-weight:700;font-size:13.5px}
+#hero h1{font-size:clamp(44px,12.4vw,104px);line-height:.98;margin-top:14px;text-shadow:0 6px 30px rgba(2,10,40,.45)}
+#hero h1 span{display:block;will-change:transform}
+#hero .f{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 22px);padding:0 var(--pad)}
+#hero .lead{font-size:16px;line-height:1.5;max-width:420px;opacity:.92;margin-bottom:14px;text-shadow:0 2px 12px rgba(2,10,40,.6)}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.ctas .btn{flex:1;min-width:140px}
+.hint{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:12.5px;font-weight:600;opacity:.75}
+.hint i{width:18px;height:28px;border:2px solid currentColor;border-radius:10px;position:relative}
+.hint i:after{content:"";position:absolute;top:5px;left:50%;width:3px;height:6px;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:wh 1.6s ease-in-out infinite}
+@keyframes wh{0%{transform:translateY(0);opacity:1}100%{transform:translateY(9px);opacity:0}}
+.rate{display:none}
+.dot{width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 10px #3ddc84}
+.dot.off{background:#ff6b5b;box-shadow:0 0 10px #ff6b5b}
+/* marquee */
+.bandwrap{position:relative;z-index:3;overflow:hidden;padding:24px 0 30px;margin:-38px 0 -30px}
+.band{background:var(--y);color:var(--b2);overflow:hidden;padding:14px 0;transform:rotate(-2deg) scaleX(1.06);box-shadow:0 14px 30px rgba(2,10,40,.25)}
+.band .row{white-space:nowrap;font-family:'Secular One';font-size:30px;line-height:1;will-change:transform}
+.band .row b{display:inline-block;margin:0 18px;color:var(--b1)}
+/* manifesto */
+#story{background:var(--cream);color:var(--ink);padding:90px 0 80px;overflow:hidden;position:relative}
+.kin{white-space:nowrap;font-family:Rubik;font-weight:900;font-size:clamp(78px,21vw,260px);line-height:.92;letter-spacing:-2px;will-change:transform}
+.kin.o{color:transparent;-webkit-text-stroke:2px var(--b1)}
+.kin.c{color:var(--b1)}
+.kin.yy{color:var(--y2);text-shadow:0 2px 0 rgba(10,31,79,.08)}
+.story-grid{display:grid;gap:26px;margin-top:40px}
+.story-grid p{font-size:19px;line-height:1.6;font-weight:600}
+.photo{position:relative;border-radius:34px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(70,45,5,.25)}
+.photo img{position:absolute;left:0;top:-12%;width:100%;height:124%;object-fit:cover;will-change:transform}
+.sticker{position:absolute;top:18px;left:18px;width:108px;height:108px;border-radius:50%;background:var(--y);color:var(--b2);display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Secular One';font-size:18px;line-height:1.05;box-shadow:0 12px 26px rgba(0,0,0,.25);will-change:transform}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border-radius:24px;padding:16px 12px;text-align:center}
+.stat b{display:block;font-family:Rubik;font-weight:900;font-size:30px;color:var(--b1);line-height:1}
+.stat span{font-size:12.5px;font-weight:700;color:var(--mut)}
+/* explode */
+#explode .intro{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 92px);padding:0 var(--pad);will-change:transform,opacity}
+#explode .intro h2{font-size:clamp(44px,11.5vw,96px);line-height:.98;margin-top:12px}
+#explode .intro p{margin-top:10px;font-size:16px;opacity:.85}
+#explode .outro{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 40px);padding:0 var(--pad);text-align:center;will-change:transform,opacity}
+#explode .outro h3{font-size:clamp(40px,10.5vw,88px);line-height:1}
+#explode .ghost{top:auto;bottom:8%;font-size:34vw}
+#labels{position:absolute;inset:0;pointer-events:none}
+#labels svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.lb{position:absolute;top:0;left:0;padding:9px 14px 10px;border-radius:18px;white-space:nowrap;will-change:transform,opacity}
+.lb b{display:block;font-family:Rubik;font-weight:800;font-size:15px;line-height:1.1}
+.lb small{display:block;font-size:12px;font-weight:600;opacity:.8;margin-top:2px}
+.lb .n{position:absolute;top:-9px;width:22px;height:22px;border-radius:50%;background:var(--y);color:var(--b2);font:800 11.5px/22px Rubik;text-align:center}
+.lb.R .n{right:-6px}.lb.L .n{left:-6px}
+/* menu */
+#menu{background:var(--cream);color:var(--ink);padding:100px 0 90px;position:relative;overflow:hidden}
+#menu .bgword{position:absolute;top:30px;right:0;left:0;white-space:nowrap;font-family:Rubik;font-weight:900;font-size:30vw;line-height:.8;color:rgba(11,59,156,.06);pointer-events:none;will-change:transform}
+h2.big{font-size:clamp(46px,12vw,110px);line-height:.96;margin-top:12px}
+.sub{font-size:17px;line-height:1.55;color:var(--mut);margin-top:12px;max-width:520px;font-weight:600}
+.menu{display:grid;gap:12px;margin-top:34px;position:relative}
+.item{position:relative;border-radius:28px;padding:20px 20px 20px 18px;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center;will-change:transform}
+.item h3{font-family:'Secular One';font-weight:400;font-size:25px;line-height:1.1;color:var(--b2)}
+.item p{grid-column:1;font-size:14.5px;line-height:1.45;color:var(--mut);font-weight:600}
+.price{grid-row:1/3;grid-column:2;min-width:70px;height:70px;border-radius:35px;background:var(--y);color:var(--b2);display:flex;align-items:center;justify-content:center;font-family:Rubik;font-weight:900;font-size:24px;direction:ltr;box-shadow:inset 0 -3px 0 rgba(0,0,0,.1)}
+.price small{font-size:14px;font-weight:800;margin-left:1px}
+.item.star{background:linear-gradient(150deg,var(--b1),var(--b2));color:#fff;border:0;box-shadow:0 24px 50px rgba(11,59,156,.35)}
+.item.star h3{color:var(--y)}.item.star p{color:rgba(255,255,255,.8)}
+.badge{position:absolute;top:-11px;right:20px;background:var(--y);color:var(--b2);font:800 12px/1 Rubik;padding:6px 12px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.mnote{margin-top:16px;font-size:13px;color:var(--mut);text-align:center}
+/* hours */
+#hours{background:radial-gradient(100% 70% at 80% 0%,var(--b1),var(--b2) 70%);padding:100px 0 90px;position:relative;overflow:hidden}
+#hours .ghost{top:40px;font-size:30vw;-webkit-text-stroke-color:rgba(255,255,255,.08)}
+.hgrid{display:grid;gap:14px;margin-top:30px;position:relative}
+.card{border-radius:32px;padding:10px 22px}
+.hr{display:flex;justify-content:space-between;align-items:center;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:17px}
+.hr:last-child{border:0}
+.hr b{font-family:Rubik;font-weight:700}
+.hr .num{font-weight:800;font-size:19px}
+.hr.today{color:var(--y)}
+.hr.today b:after{content:"היום";font:800 11px/1 Rubik;background:var(--y);color:var(--b2);padding:4px 8px;border-radius:9px;margin-right:8px;vertical-align:2px}
+.hr .closed{font-weight:800;opacity:.7}
+.status{display:flex;align-items:center;gap:10px;padding:18px 0 8px;font-weight:700;font-size:15px}
+.rating{border-radius:32px;padding:26px 22px;display:flex;align-items:center;gap:18px}
+.rating .big{font-family:Rubik;font-weight:900;font-size:76px;line-height:.8;color:var(--y);direction:ltr}
+.stars{position:relative;display:inline-block;font-size:24px;letter-spacing:3px;line-height:1;direction:ltr}
+.stars:before{content:"★★★★★";color:rgba(255,255,255,.22)}
+.stars i{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:var(--y);font-style:normal}
+.stars i:before{content:"★★★★★"}
+.rating p{margin-top:8px;font-size:15px;font-weight:600;opacity:.85}
+.rating .g{display:inline-flex;align-items:center;gap:6px}
+/* find us */
+#find{background:var(--y);color:var(--b2);padding:100px 0 90px;position:relative;overflow:hidden}
+#find .kin{color:var(--b1);font-size:clamp(90px,25vw,300px)}
+#find .kin.o{-webkit-text-stroke-color:var(--b1);color:transparent}
+.fgrid{display:grid;gap:16px;margin-top:30px}
+.map{position:relative;border-radius:34px;overflow:hidden;aspect-ratio:16/11;background:#F4E7C8;box-shadow:0 26px 50px rgba(90,60,0,.25)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;left:50%;top:48%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center}
+.pin img{width:118px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.3))}
+.pin i{width:16px;height:16px;border-radius:50%;background:var(--b1);border:3px solid #fff;margin-top:6px;box-shadow:0 0 0 8px rgba(11,59,156,.18)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acts .btn{width:100%;height:62px;border-radius:24px}
+.acts .wide{grid-column:1/-1}
+.btn.wa{background:#1FAF5A;color:#fff;box-shadow:0 12px 26px rgba(31,175,90,.32)}
+.btn.w{background:#fff;color:var(--b2)}
+.addr{font-size:18px;font-weight:700;line-height:1.5}
+.addr small{display:block;font-size:14px;font-weight:600;opacity:.72}
+footer{background:var(--b3);color:rgba(255,255,255,.78);padding:60px 0 calc(env(safe-area-inset-bottom) + 40px);text-align:center}
+footer img{width:min(64vw,300px);filter:drop-shadow(0 18px 30px rgba(0,0,0,.4))}
+footer .t{font-family:'Secular One';font-size:22px;color:#fff;margin-top:16px}
+footer .s{font-size:13.5px;margin-top:8px;line-height:1.6}
+footer .fine{font-size:11.5px;opacity:.5;margin-top:22px}
+/* desktop */
+@media (min-width:900px){
+ :root{--pad:48px}
+ #top{height:64px;border-radius:32px;padding:0 8px 0 18px}#top img{height:46px}#top nav{display:flex}
+ #hero .h{top:auto;bottom:16vh;right:0;left:auto;width:37%;max-width:640px}
+ #hero h1{font-size:clamp(56px,5.2vw,100px)}
+ #hero .f{bottom:auto;top:auto;left:var(--pad);right:auto;width:340px;bottom:16vh;padding:0}
+ #hero .f .lead{display:none}
+ #hero .ghost{top:auto;bottom:-3vw;font-size:22vw}
+ .rate{display:block;border-radius:28px;padding:18px 20px;margin-bottom:14px}
+ .rate b{font-family:Rubik;font-weight:900;font-size:44px;color:var(--y);direction:ltr;display:inline-block;line-height:1}
+ .rate span{font-size:14px;font-weight:600;opacity:.85;display:block;margin-top:4px}
+ #hero .hint{display:none}
+ .hero-lead-d{display:block!important}
+ .story-grid{grid-template-columns:1.05fr .95fr;align-items:center;gap:60px;margin-top:60px}
+ .story-grid p{font-size:22px}
+ #explode .intro{width:34%;right:0;left:auto;top:auto;bottom:16vh}
+ #explode .outro{width:34%;right:0;left:auto;bottom:16vh;text-align:right}
+ #explode .outro h3{font-size:clamp(44px,5.4vw,84px)}
+ .menu{grid-template-columns:1fr 1fr;gap:16px}
+ .item{padding:26px 26px 26px 22px}
+ .hgrid{grid-template-columns:1.2fr .8fr;align-items:start}
+ .fgrid{grid-template-columns:1.2fr .8fr;align-items:center;gap:30px}
+ .lb b{font-size:17px}
+}
+.hero-lead-d{display:none;font-size:18px;line-height:1.55;margin-top:16px;max-width:480px;opacity:.9;text-shadow:0 2px 12px rgba(2,10,40,.6)}
+</style></head><body>
+<div id="grain"></div>
+
+<header id="top" class="glass">
+ <img src="assets/logo-cut.png" alt="Blue Bus">
+ <div class="nm">Blue Bus<small>חומוס פול · פרדס חנה</small></div>
+ <nav><a href="#explode">מה בקערה</a><a href="#menu">תפריט</a><a href="#hours">שעות</a><a href="#find">איך מגיעים</a></nav>
+ <a class="btn y js-wa" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>הזמנה</a>
+</header>
+
+<!-- 1 · HERO: the bowl turns as you scroll -->
+<section class="scene" id="hero" style="height:260vh"><div class="stick">
+ <canvas id="cvRotate"></canvas>
+ <div class="ghost" id="heroGhost">חומוס · פול · חומוס · פול ·</div>
+ <div class="scrim t"></div><div class="scrim b"></div>
+ <div class="h">
+  <div class="chip glass"><span class="dot js-dot"></span><span class="js-open">חומוס פול · פרדס חנה</span></div>
+  <h1 class="d"><span data-hx="1">החומוס שכל</span><span data-hx="-1">האזור <mark>מדבר</mark></span><span data-hx="1"><mark>עליו.</mark></span></h1>
+  <p class="hero-lead-d">טחון טרי כל בוקר, גרגירים חמים, פול שמתבשל לאט ופיתה שיוצאת חמה. בלי פוזות. רק טעם.</p>
+ </div>
+ <div class="f">
+  <div class="rate glass"><b>4.6</b> <span class="stars" style="font-size:20px"><i style="width:92%"></i></span><span>607 ביקורות בגוגל</span></div>
+  <p class="lead">טחון טרי כל בוקר, גרגירים חמים, פול שמתבשל לאט ופיתה שיוצאת חמה.</p>
+  <div class="ctas"><a class="btn y" href="#menu">לתפריט</a><a class="btn g glass js-wa" href="#">הזמנה בוואטסאפ</a></div>
+  <div class="hint"><i></i>גללו · הקערה מסתובבת איתכם</div>
+ </div>
+</div></section>
+
+<div class="bandwrap"><div class="band"><div class="row" data-mx="-1">חם מהסיר <b>✦</b> טחון טרי כל בוקר <b>✦</b> פול חם <b>✦</b> מסבחה <b>✦</b> פיתה חמה <b>✦</b> חם מהסיר <b>✦</b> טחון טרי כל בוקר <b>✦</b> פול חם <b>✦</b> מסבחה <b>✦</b> פיתה חמה <b>✦</b></div></div></div>
+
+<!-- STORY -->
+<section id="story">
+ <div class="kin c" data-mx="1">טחון טרי</div>
+ <div class="kin o" data-mx="-1">כל בוקר</div>
+ <div class="kin yy" data-mx="1">מ-8:30 ☀</div>
+ <div class="wrap story-grid">
+  <div>
+   <div class="k" style="color:var(--b1)">הסיפור</div>
+   <h2 class="d big" style="font-size:clamp(40px,9vw,76px)">קערה עמוקה.<br><mark class="hl">פיתה ביד.</mark></h2>
+   <p style="margin-top:18px">בלו בוס זה המקום שבו פרדס חנה עוצרת לארוחת בוקר מאוחרת. חומוס חלק ועשיר, שמן זית בנדיבות, פול שמתבשל לאט ופיתה שיוצאת חמה. ככה זה כאן, כל בוקר מחדש.</p>
+   <div class="stats" style="margin-top:24px">
+    <div class="stat glass-l"><b class="num">4.6★</b><span>דירוג בגוגל</span></div>
+    <div class="stat glass-l"><b class="num">607</b><span>ביקורות</span></div>
+    <div class="stat glass-l"><b class="num">6</b><span>ימים בשבוע</span></div>
+   </div>
+  </div>
+  <div class="photo" data-py="-40"><img src="assets/hummus-ref.jpg" alt="קערת חומוס עם ביצה, גרגירים ושמן זית" data-py="60"><div class="sticker" data-rot="1">יוצא<br>חם<br>מהסיר</div></div>
+ </div>
+</section>
+
+<!-- 2 · EXPLODE: the bowl comes apart, every layer gets a name, then it comes back together -->
+<section class="scene" id="explode" style="height:480vh"><div class="stick">
+ <canvas id="cvExplode"></canvas>
+ <div class="ghost" id="exGhost">מה יש בקערה · מה יש בקערה ·</div>
+ <div class="scrim t" style="height:30%"></div><div class="scrim b" style="height:30%"></div>
+ <div id="labels"><svg id="lines"></svg></div>
+ <div class="intro" id="exIntro"><div class="k" style="color:var(--y)">01 · מה יש בקערה</div><h2 class="d">מפרקים<br>את <mark>הקערה.</mark></h2><p>שבע שכבות. אפס קיצורי דרך. גללו לאט.</p></div>
+ <div class="outro" id="exOutro"><h3 class="d">ובחזרה לקערה.<br><mark>בתיאבון!</mark></h3></div>
+</div></section>
+
+<!-- 3 · MENU
+  NOTE: SAMPLE MENU — every price below is a PLACEHOLDER (not the restaurant's real prices).
+  Edit names / descriptions / prices directly in the .item blocks.
+-->
+<section id="menu">
+ <div class="bgword" data-mx="-1">תפריט · תפריט · תפריט ·</div>
+ <div class="wrap">
+  <div class="k" style="color:var(--b1)">02 · התפריט</div>
+  <h2 class="d big">מה <mark class="hl">מזמינים</mark><br>היום?</h2>
+  <p class="sub">כל מנה מגיעה עם פיתה חמה, ירקות חמוצים, בצל וחריף בצד.</p>
+  <div class="menu">
+   <div class="item glass-l" data-py="18"><h3>חומוס</h3><p>חומוס חלק, טחינה, שמן זית כתית וגרגירים</p><div class="price">32<small>₪</small></div></div>
+   <div class="item star" data-py="30"><span class="badge">הכי מוזמן</span><h3>חומוס פול</h3><p>פול חם שמתבשל לאט, לימון, שום ושמן זית</p><div class="price">36<small>₪</small></div></div>
+   <div class="item glass-l" data-py="18"><h3>חומוס מסבחה</h3><p>גרגירים חמים בטחינה לימונית על חומוס חם</p><div class="price">36<small>₪</small></div></div>
+   <div class="item glass-l" data-py="30"><h3>חומוס ביצה</h3><p>ביצה קשה חצויה, פפריקה מעושנת ופטרוזיליה</p><div class="price">35<small>₪</small></div></div>
+   <div class="item glass-l" data-py="18"><h3>פלאפל בצד</h3><p>חמישה כדורים, יוצאים חמים מהשמן</p><div class="price">14<small>₪</small></div></div>
+   <div class="item glass-l" data-py="30"><h3>פיתה נוספת</h3><p>רכה וחמה, בדיוק לניגוב</p><div class="price">4<small>₪</small></div></div>
+   <div class="item glass-l" data-py="18"><h3>שתייה</h3><p>שתייה קלה, לימונדה או תה נענע</p><div class="price">9<small>₪</small></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- 4 · HOURS + RATING -->
+<section id="hours">
+ <div class="ghost" data-mx="1">שעות · שעות · שעות ·</div>
+ <div class="wrap" style="position:relative">
+  <div class="k" style="color:var(--y)">03 · שעות פתיחה</div>
+  <h2 class="d big">מתי <mark>באים?</mark></h2>
+  <div class="hgrid">
+   <div class="card glass">
+    <div class="status"><span class="dot js-dot"></span><span class="js-open">חומוס פול · פרדס חנה</span></div>
+    <div class="hr" data-days="0,1,2,3,4"><b>ראשון – חמישי</b><span class="num">8:30 – 15:30</span></div>
+    <div class="hr" data-days="5"><b>שישי</b><span class="num">8:30 – 14:30</span></div>
+    <div class="hr" data-days="6"><b>שבת</b><span class="closed">סגור</span></div>
+   </div>
+   <div class="rating glass">
+    <div class="big">4.6</div>
+    <div><span class="stars"><i style="width:92%"></i></span><p><span class="g"><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg><span class="num">607</span> ביקורות בגוגל</span></p></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 5 · FIND US -->
+<section id="find">
+ <div class="kin" data-mx="-1">פרדס חנה ✦ פרדס חנה</div>
+ <div class="kin o" data-mx="1">חומוס פול ✦ חומוס פול</div>
+ <div class="wrap fgrid">
+  <div class="map" data-py="-24">
+   <svg viewBox="0 0 400 275" preserveAspectRatio="xMidYMid slice"><rect width="400" height="275" fill="#F4E7C8"/>
+    <path d="M-10 200 C90 170 160 210 230 160 S350 110 420 130" stroke="#fff" stroke-width="16" fill="none"/><path d="M-10 200 C90 170 160 210 230 160 S350 110 420 130" stroke="#E8D6AE" stroke-width="2" fill="none" stroke-dasharray="8 8"/>
+    <path d="M150 -10 C170 80 190 140 200 290" stroke="#fff" stroke-width="12" fill="none"/><path d="M-10 70 L420 40" stroke="#fff" stroke-width="8" fill="none"/><path d="M300 -10 L270 290" stroke="#fff" stroke-width="7" fill="none"/>
+    <circle cx="70" cy="110" r="34" fill="#DDE8C4"/><circle cx="330" cy="215" r="44" fill="#DDE8C4"/><rect x="230" y="60" width="44" height="30" rx="6" fill="#EAD9B4"/><rect x="40" y="220" width="60" height="34" rx="6" fill="#EAD9B4"/></svg>
+   <div class="pin"><img src="assets/logo-cut.png" alt=""><i></i></div>
+  </div>
+  <div>
+   <div class="k">04 · איך מגיעים</div>
+   <h2 class="d big" style="font-size:clamp(42px,10vw,84px)">בואו <mark class="hl" style="color:var(--b2)">לאכול</mark><br>אצלנו.</h2>
+   <p class="addr" style="margin:14px 0 20px">Blue Bus · חומוס פול<small>פרדס חנה-כרכור</small></p>
+   <div class="acts">
+    <a class="btn b" id="waze" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>ניווט ב-Waze</a>
+    <a class="btn w" id="gmaps" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg>Google Maps</a>
+    <a class="btn wa wide js-wa" href="#" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>הזמנה בוואטסאפ</a>
+    <a class="btn w wide js-tel" href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>התקשרו אלינו</a>
+   </div>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <img src="assets/logo-cut.png" alt="Blue Bus · חומוס פול · פרדס חנה">
+ <div class="t">חומוס פול · פרדס חנה</div>
+ <div class="s">א׳–ה׳ <span class="num">8:30–15:30</span> · ו׳ <span class="num">8:30–14:30</span> · שבת סגור</div>
+ <div class="fine">© Blue Bus · הדמיית אתר</div>
+</footer>
+
+<script src="frames/manifest.js" onerror="this.remove()"></script>
+<script>
+// ===================== EDIT ME =====================
+const WHATSAPP_NUMBER = '972500000000';   // PLACEHOLDER — the restaurant's real WhatsApp number, international format without "+"
+const PHONE_NUMBER    = '+972500000000';  // PLACEHOLDER — the restaurant's real phone number
+const WHATSAPP_TEXT   = 'היי Blue Bus, אשמח להזמין:';
+const PLACE_QUERY     = 'Blue Bus פרדס חנה';
+// Ingredient labels for the explode scene, calibrated to frames/explode (1280x720) at full separation (frames 96-120).
+// x / y = the spot on the layer, as a fraction of the FRAME width / height. side = which side the tag sits on.
+// m = phone slot: t1/t2 = rows above the bowl, b1/b2 = rows below it.
+const LABELS = [
+  { t: 'פטרוזיליה טרייה', s: 'קצוצה ביד, ברגע האחרון', x: .55, y: .07, side: 'R', m: 't1' },
+  { t: 'פפריקה מעושנת',  s: 'ענן של עשן ומתיקות',     x: .31, y: .19, side: 'L', m: 't1' },
+  { t: 'ביצה קשה',       s: 'חצויה, עם פפריקה',       x: .60, y: .20, side: 'R', m: 't2' },
+  { t: 'שמן זית כתית',   s: 'בנדיבות, בלי לחסוך',     x: .29, y: .33, side: 'L', m: 't2' },
+  { t: 'גרגירים חמים',   s: 'מבושלים לאט',            x: .49, y: .41, side: 'R', m: 'b1' },
+  { t: 'חומוס חלק ועשיר', s: 'טחון טרי כל בוקר',      x: .36, y: .57, side: 'L', m: 'b1' },
+  { t: 'הקערה',          s: 'עמוקה, כמו שצריך',       x: .50, y: .85, side: 'L', m: 'b2' },
+];
+// explode choreography (fraction of the explode section's scroll). The footage runs whole bowl -> fully exploded;
+// the site plays it forward, holds it apart with the labels, then plays it backwards so the bowl re-assembles.
+const EXPLODE = { out: [.08, .42], back: [.62, .90] };
+const SPIN_FPS = 9;   // hero: idle turn speed (frames/sec) on top of the scroll scrub — the rotate clip is a seamless 360° loop
+// ===================================================
+
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, k) => a + (b - a) * k;
+const sm = (a, b, x) => { const t = cl((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const pad = i => String(i).padStart(3, '0');
+
+// ---------- links ----------
+const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_TEXT)}`;
+$$('.js-wa').forEach(a => { a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
+$$('.js-tel').forEach(a => a.href = 'tel:' + PHONE_NUMBER);
+$('#waze').href = 'https://waze.com/ul?q=' + encodeURIComponent(PLACE_QUERY) + '&navigate=yes';
+$('#gmaps').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(PLACE_QUERY);
+
+// ---------- open now (Israel time) ----------
+(() => {
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' })), d = now.getDay(), m = now.getHours() * 60 + now.getMinutes();
+  const close = d <= 4 ? 15 * 60 + 30 : d == 5 ? 14 * 60 + 30 : 0, open = d <= 5 && m >= 8 * 60 + 30 && m < close;
+  const txt = open ? `פתוח עכשיו · עד ${d == 5 ? '14:30' : '15:30'}` : d == 6 || (d == 5 && m >= close) ? 'סגור · נפתח ביום ראשון ב-8:30' : m < 8 * 60 + 30 ? 'נפתח היום ב-8:30' : 'סגור · נפתח מחר ב-8:30';
+  $$('.js-open').forEach(e => e.textContent = txt); $$('.js-dot').forEach(e => e.classList.toggle('off', !open));
+  $$('.hr').forEach(r => r.classList.toggle('today', r.dataset.days.split(',').includes(String(d))));
+})();
+
+// ---------- frame sequences ----------
+// order of truth: frames/manifest.js → frames/manifest.json (http only) → probing 000.jpg, 001.jpg, … ; placeholder folder if empty
+const probe = src => new Promise(r => { const im = new Image(); im.onload = () => r(true); im.onerror = () => r(false); im.src = src; });
+async function countFrames(dir) {
+  if (!await probe(`${dir}/000.jpg`)) return 0;
+  let lo = 0, hi = 1; while (hi < 4096 && await probe(`${dir}/${pad(hi)}.jpg`)) { lo = hi; hi *= 2; }
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; (await probe(`${dir}/${pad(m)}.jpg`)) ? lo = m : hi = m; }
+  return lo + 1;
+}
+async function manifest() {
+  if (window.BLUEBUS_FRAMES) return window.BLUEBUS_FRAMES;
+  if (!/^https?:/.test(location.protocol)) return null;
+  try { const r = await fetch('frames/manifest.json', { cache: 'no-store' }); return r.ok ? await r.json() : null; } catch (e) { return null; }
+}
+async function resolveSeq(name, man) {
+  const dir = `frames/${name}`, pdir = `frames/_placeholder/${name}`;
+  if (man && man[name] > 0) return { dir, n: man[name], real: true };            // counted by tools/update_manifest.py
+  let n = await countFrames(dir); if (n) return { dir, n, real: true };           // not in the manifest: probe for it
+  const pn = man && man._placeholder && man._placeholder[name];
+  return { dir: pdir, n: pn > 0 ? pn : await countFrames(pdir), real: false };
+}
+
+const SCENES = { rotate: { el: $('#hero'), cv: $('#cvRotate'), fr: [], key: '', loop: true }, explode: { el: $('#explode'), cv: $('#cvExplode'), fr: [], key: '' } };
+// where the food sits inside the frames (fraction of frame; union over every frame) and where it should land on screen.
+// The whole box is always fitted inside the viewport, so the bowl / floating parsley are never cropped; the footage's
+// blue background is extended around it.
+SCENES.rotate.content = { x0: .17, x1: .83, y0: .06, y1: .96 };
+SCENES.explode.content = { x0: .19, x1: .81, y0: 0, y1: .97 };
+SCENES.explode.feather = { t: .025, b: .12, l: .14, r: .14 };   // parsley floats right up to the top edge: barely feather there
+SCENES.rotate.box = (vw, vh) => vw >= 900 ? { cx: vw * .45, cy: vh * .52, w: vw * .38, h: vh * .6 } : { cx: vw / 2, cy: vh * .53, w: vw - 20, h: vh * .40 };
+SCENES.explode.box = (vw, vh) => vw >= 900 ? { cx: vw * .42, cy: (vh + 80) / 2, w: vw * .5, h: vh - 110 } : { cx: vw / 2, cy: vh * .55, w: vw - 20, h: vh * .42 };
+const S_LIST = Object.values(SCENES);
+let pending = 0;
+function loadSeq(S, { dir, n }) {
+  // frame 0 first so the first screen paints immediately, then the rest
+  S.fr = new Array(n); S.ok = new Array(n).fill(false);
+  const one = i => new Promise(res => { const im = new Image(); im.decoding = 'async'; pending++;
+    im.onload = () => { S.ok[i] = true; S.key = ''; pending--; res(); }; im.onerror = () => { pending--; res(); }; im.src = `${dir}/${pad(i)}.jpg`; S.fr[i] = im; });
+  return one(0).then(() => Promise.all([...Array(n).keys()].slice(1).map(one)));
+}
+const nearest = (S, i) => { for (let d = 0; d < S.fr.length; d++) { if (S.ok[i - d]) return S.fr[i - d]; if (S.ok[i + d]) return S.fr[i + d]; } return null; };
+
+// canvas: the content box of the frame is fitted into the scene's target box; empty margins get the footage's own background
+const tiny = document.createElement('canvas'), off = document.createElement('canvas');
+function fit(cv) { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, innerWidth > 900 ? 1.5 : 2); cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); cv.dpr = d; }
+function draw(S, i) {
+  const n = S.fr.length; if (!n) return; i = cl(Math.round(i), 0, n - 1); const cv = S.cv, key = i + '|' + cv.width + 'x' + cv.height;
+  if (key === S.key) return; const im = nearest(S, i); if (!im) return; S.key = S.ok[i] ? key : '';
+  const g = cv.getContext('2d'), W = cv.width, H = cv.height, iw = im.naturalWidth, ih = im.naturalHeight, d = cv.dpr;
+  const C = S.content || { x0: 0, x1: 1, y0: 0, y1: 1 }, B = S.box(W / d, H / d);
+  const s = Math.min(B.w / ((C.x1 - C.x0) * iw), B.h / ((C.y1 - C.y0) * ih)) * d;
+  const w = iw * s, h = ih * s, x = B.cx * d - ((C.x0 + C.x1) / 2) * w, y = B.cy * d - ((C.y0 + C.y1) / 2) * h;
+  S.rect = { x: x / d, y: y / d, w: w / d, h: h / d };
+  if (x <= 0 && y <= 0 && x + w >= W && y + h >= H) { g.drawImage(im, x, y, w, h); return; }
+  // backdrop: the footage sits on a vignetted royal-blue gradient (dark navy at the edges, brighter behind the food),
+  // so the margins get the same navy plus a soft glow centred on the frame, and the frame is feathered into it
+  g.fillStyle = '#011B64'; g.fillRect(0, 0, W, H);
+  const gl = g.createRadialGradient(x + w / 2, y + h * .45, 0, x + w / 2, y + h * .45, Math.max(w, h) * .62);
+  gl.addColorStop(0, 'rgba(10,80,205,.55)'); gl.addColorStop(1, 'rgba(10,80,205,0)'); g.fillStyle = gl; g.fillRect(0, 0, W, H);
+  const bgIm = S.ok[0] ? S.fr[0] : im;   // sample the edge row from frame 0 (clean background — later frames have parsley crossing the top edge)
+  // top / bottom gaps: continue the frame's own edge row outward (no seam), fading into the navy
+  const ext = (sy, dy, dh, fromTop) => { if (dh <= 0) return; tiny.width = 64; tiny.height = 1; tiny.getContext('2d').drawImage(bgIm, 0, sy, iw, Math.max(1, ih * .006), 0, 0, 64, 1);
+    g.drawImage(tiny, 0, 0, 64, 1, x, dy, w, dh); const fg = g.createLinearGradient(0, fromTop ? dy + dh : dy, 0, fromTop ? dy : dy + dh);
+    fg.addColorStop(0, 'rgba(1,27,100,0)'); fg.addColorStop(Math.min(.9, (h * .18) / dh), 'rgba(1,27,100,0)'); fg.addColorStop(1, 'rgba(1,27,100,1)'); g.fillStyle = fg; g.fillRect(x, dy, w, dh); };
+  const Fe = S.feather || { t: .16, b: .16, l: .16, r: .16 };   // ext runs under the feathered band too, so the fade has the right colour beneath
+  if (y > 0) ext(0, 0, y + h * Fe.t + 1, true); if (y + h < H) ext(ih * .994, y + h * (1 - Fe.b) - 1, H - y - h * (1 - Fe.b) + 1, false);
+  off.width = W; off.height = H; const o = off.getContext('2d'); o.globalCompositeOperation = 'source-over'; o.drawImage(im, x, y, w, h); o.globalCompositeOperation = 'destination-in';
+  const fx = (k, edgeIn) => edgeIn ? Fe[k] : 0;
+  { const l = fx('l', x > 0), r = fx('r', x + w < W); if (l || r) { const gr = o.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, l ? 'rgba(0,0,0,0)' : '#000'); gr.addColorStop(Math.max(l, .001), '#000'); gr.addColorStop(1 - Math.max(r, .001), '#000'); gr.addColorStop(1, r ? 'rgba(0,0,0,0)' : '#000'); o.fillStyle = gr; o.fillRect(0, 0, W, H); } }
+  { const t = fx('t', y > 0), b = fx('b', y + h < H); if (t || b) { const gr = o.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, t ? 'rgba(0,0,0,0)' : '#000'); gr.addColorStop(Math.max(t, .001), '#000'); gr.addColorStop(1 - Math.max(b, .001), '#000'); gr.addColorStop(1, b ? 'rgba(0,0,0,0)' : '#000'); o.fillStyle = gr; o.fillRect(0, 0, W, H); } }
+  g.drawImage(off, 0, 0);
+}
+
+// ---------- ingredient labels ----------
+const LBL = LABELS.map((L, k) => { const e = document.createElement('div'); e.className = `lb glass ${L.side}`; e.innerHTML = `<span class="n num">${k + 1}</span><b>${L.t}</b><small>${L.s}</small>`; $('#labels').appendChild(e); return e; });
+$('#lines').innerHTML = LABELS.map(() => `<g><line stroke="#FFD200" stroke-width="1.6" stroke-dasharray="3 4"/><circle r="5" fill="#FFD200" stroke="#06225E" stroke-width="2"/><circle r="11" fill="none" stroke="rgba(255,210,0,.45)" stroke-width="1.5"/></g>`).join('');
+const LG = [...$('#lines').children];
+function labels(p) {
+  const r = SCENES.explode.rect, vw = document.documentElement.clientWidth, vh = innerHeight; if (!r) return;
+  const wide = vw >= 900, C = { x0: .27, x1: .73 }, top = 84, gap = 8;
+  const slotY = {}, bh0 = LBL[0].offsetHeight, cTop = r.y + SCENES.explode.content.y0 * r.h, cBot = r.y + SCENES.explode.content.y1 * r.h;
+  slotY.t1 = top; slotY.t2 = top + bh0 + gap; slotY.b1 = Math.min(vh - 2 * bh0 - gap - 16, cBot + 6); slotY.b2 = slotY.b1 + bh0 + gap;
+  LABELS.forEach((L, k) => {
+    const a = sm(.34 + k * .012, .40 + k * .012, p) * (1 - sm(.58 + k * .004, .62 + k * .004, p));
+    const e = LBL[k], g = LG[k], ax = r.x + L.x * r.w, ay = r.y + L.y * r.h, bw = e.offsetWidth, bh = e.offsetHeight, R = L.side === 'R';
+    let bx, by, ex, ey;
+    if (wide) { bx = R ? Math.min(vw - 12 - bw, r.x + C.x1 * r.w + 34) : Math.max(12, r.x + C.x0 * r.w - 34 - bw); by = cl(ay - bh / 2, top, vh - bh - 16); ex = R ? bx : bx + bw; ey = by + bh / 2; }
+    else { bx = R ? vw - 12 - bw : 12; by = slotY[L.m]; ex = R ? bx + 18 : bx + bw - 18; ey = L.m[0] === 't' ? by + bh : by; }
+    const slide = (1 - a) * (R ? 40 : -40);
+    e.style.transform = `translate(${bx + slide}px,${by}px)`; e.style.opacity = a;
+    const [ln, c1, c2] = g.children; g.style.opacity = a;
+    const tx = lerp(ax, ex + slide, a), ty = lerp(ay, ey, a);
+    ln.setAttribute('x1', ax); ln.setAttribute('y1', ay); ln.setAttribute('x2', tx); ln.setAttribute('y2', ty);
+    c1.setAttribute('cx', ax); c1.setAttribute('cy', ay); c2.setAttribute('cx', ax); c2.setAttribute('cy', ay); c2.setAttribute('r', 6 + 8 * a);
+  });
+}
+
+// ---------- the scroll loop ----------
+const prog = el => { const r = el.getBoundingClientRect(); return cl(-r.top / Math.max(1, r.height - innerHeight)); };
+const viewProg = el => { const r = el.getBoundingClientRect(); return (innerHeight - r.top) / (innerHeight + r.height); }; // 0 entering .. 1 leaving
+let smooth = { rotate: 0, explode: 0 }, LIVE = true, CLOCK = null;
+const MX = $$('[data-mx]'), PY = $$('[data-py]'), HX = $$('[data-hx]'), ROT = $$('[data-rot]');
+function update(snap) {
+  const vh = innerHeight, vw = document.documentElement.clientWidth;
+  for (const k in SCENES) { const t = prog(SCENES[k].el); smooth[k] = snap ? t : lerp(smooth[k], t, .16); if (Math.abs(smooth[k] - t) < 1e-4) smooth[k] = t; }
+  const hp = smooth.rotate, xp = smooth.explode, clock = CLOCK != null ? CLOCK : performance.now() / 1000;
+  const vis = el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < vh; };
+  { const S = SCENES.rotate, m = S.fr.length - 1; // loop: last frame == first, so cycle over 0..n-2 — idle spin + one full turn per hero scroll
+    if (m > 0 && vis(S.el)) draw(S, ((Math.round(clock * SPIN_FPS + hp * m) % m) + m) % m); }
+  { const S = SCENES.explode, m = S.fr.length - 1, E = EXPLODE; // forward, hold apart, backward
+    const f = xp < E.back[0] ? cl((xp - E.out[0]) / (E.out[1] - E.out[0])) : 1 - cl((xp - E.back[0]) / (E.back[1] - E.back[0]));
+    if (m > 0 && vis(S.el)) draw(S, f * m); }
+  // hero: headline lines drift apart, the outline word slides, CTA block lifts away
+  HX.forEach(e => e.style.transform = `translateX(${e.dataset.hx * hp * vw * .22}px)`);
+  $('#hero .h').style.opacity = 1 - sm(.55, .95, hp);
+  $('#hero .f').style.transform = `translateY(${hp * 60}px)`; $('#hero .f').style.opacity = 1 - sm(.35, .75, hp);
+  $('#heroGhost').style.transform = `translateX(${(hp - .2) * vw * 1.1}px)`;
+  // explode: intro out, labels in/out, outro in
+  $('#exIntro').style.opacity = 1 - sm(.06, .16, xp); $('#exIntro').style.transform = `translateY(${-sm(.05, .18, xp) * 80}px)`;
+  $('#exOutro').style.opacity = sm(.86, .94, xp); $('#exOutro').style.transform = `translateY(${(1 - sm(.84, .96, xp)) * 60}px) scale(${.92 + .08 * sm(.84, .96, xp)})`;
+  $('#exGhost').style.transform = `translateX(${(xp - .5) * -vw * 1.2}px)`;
+  labels(xp);
+  // kinetic strips + parallax (only things on screen)
+  MX.forEach(e => { const q = viewProg(e); if (q < -.1 || q > 1.1) return; e.style.transform = `translateX(${(q - .5) * e.dataset.mx * vw * .55}px)`; });
+  PY.forEach(e => { const q = viewProg(e.parentElement); if (q < -.1 || q > 1.1) return; e.style.transform = `translateY(${(q - .5) * e.dataset.py}px)`; });
+  ROT.forEach(e => { const q = viewProg(e); e.style.transform = `rotate(${(q - .5) * 90}deg)`; });
+  // top bar: dark glass over blue, light glass over cream/yellow
+  const under = document.elementFromPoint(vw / 2, 90); document.body.classList.toggle('lt', !!(under && under.closest('#story,#menu,#find')));
+}
+function loop() { if (LIVE) update(false); requestAnimationFrame(loop); }
+const clientW = () => document.documentElement.clientWidth;
+const refit = () => { S_LIST.forEach(S => { fit(S.cv); S.key = ''; }); update(true); };
+addEventListener('resize', refit);
+$$('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = a.getAttribute('href'); if (t.length > 1) { e.preventDefault(); $(t).scrollIntoView({ behavior: 'smooth' }); } }));
+
+// ---------- boot ----------
+window.READY = false;
+S_LIST.forEach(S => fit(S.cv)); update(true); requestAnimationFrame(loop);
+(async () => {
+  const man = await manifest(), seqs = await Promise.all(['rotate', 'explode'].map(n => resolveSeq(n, man)));
+  window.FRAME_SOURCES = seqs; console.log('[bluebus] frames', seqs.map(s => `${s.dir}: ${s.n}${s.real ? '' : ' (placeholder)'}`).join(' · '));
+  await Promise.all(seqs.map((s, i) => loadSeq([SCENES.rotate, SCENES.explode][i], s)));
+  try { await document.fonts.ready; } catch (e) { }
+  update(true); window.READY = true;
+})();
+
+// ---------- recording hook: deterministic phone-scroll timeline ----------
+// renderAt(t) puts the page exactly where a smooth thumb-scroll would be at t seconds (no smoothing lag).
+function timeline() {
+  const vh = innerHeight, top = s => $(s).offsetTop, end = s => $(s).offsetTop + $(s).offsetHeight - vh, max = document.documentElement.scrollHeight - vh;
+  // [seconds to travel, target scrollY, seconds to hold there]
+  const steps = [[0, 0, 1.4], [4.6, end('#hero'), .2], [3.0, top('#story') + $('#story').offsetHeight * .55 - vh * .5, .3], [1.6, top('#explode'), .3],
+    [9.0, end('#explode'), .5], [1.5, top('#menu') + 40, .3], [3.0, top('#menu') + $('#menu').offsetHeight - vh, .3], [1.5, top('#hours'), 1.0], [1.5, top('#find'), 1.0], [1.4, max, 1.6]];
+  const P = []; let t = 0;
+  for (const [d, y, h] of steps) { t += d; const yy = cl(y, 0, max); P.push([t, yy]); if (h) { t += h; P.push([t, yy]); } }
+  return { P, T: t };
+}
+// monotone cubic (Fritsch–Carlson): continuous thumb-like velocity between keyframes, no overshoot, true stops on holds
+function mono(P, t) {
+  if (t <= P[0][0]) return P[0][1]; if (t >= P[P.length - 1][0]) return P[P.length - 1][1];
+  const n = P.length, dl = [], m = [];
+  for (let i = 0; i < n - 1; i++) dl[i] = (P[i + 1][1] - P[i][1]) / (P[i + 1][0] - P[i][0]);
+  m[0] = dl[0]; m[n - 1] = dl[n - 2]; for (let i = 1; i < n - 1; i++) m[i] = dl[i - 1] * dl[i] <= 0 ? 0 : (dl[i - 1] + dl[i]) / 2;
+  for (let i = 0; i < n - 1; i++) { if (dl[i] === 0) { m[i] = m[i + 1] = 0; continue; } const a = m[i] / dl[i], b = m[i + 1] / dl[i], q = a * a + b * b; if (q > 9) { const r = 3 / Math.sqrt(q); m[i] = r * a * dl[i]; m[i + 1] = r * b * dl[i]; } }
+  let i = 0; while (t > P[i + 1][0]) i++;
+  const h = P[i + 1][0] - P[i][0], u = (t - P[i][0]) / h, u2 = u * u, u3 = u2 * u;
+  return (2 * u3 - 3 * u2 + 1) * P[i][1] + (u3 - 2 * u2 + u) * h * m[i] + (-2 * u3 + 3 * u2) * P[i + 1][1] + (u3 - u2) * h * m[i + 1];
+}
+Object.defineProperty(window, 'T_END', { get: () => timeline().T });
+window.renderAt = t => {
+  LIVE = false; CLOCK = t; const { P } = timeline(), y = mono(P, t);
+  document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, y); update(true); return y;
+};
+window.resumeLive = () => { LIVE = true; CLOCK = null; };
+</script></body></html>
