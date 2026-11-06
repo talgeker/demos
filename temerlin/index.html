@@ -165,6 +165,19 @@ footer .giant{font-size:clamp(90px,26vw,380px);line-height:.8;color:transparent;
 footer .row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--mut);font-size:13px}
 footer img{width:70px;height:70px}
 .demo{font-size:11px;letter-spacing:2px;padding:6px 12px;border:1px solid var(--line);border-radius:14px}
+/* whatsapp preview (demo: shows the message instead of sending it to the real shop) */
+#wa{position:fixed;inset:0;z-index:97;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+#wa.on{opacity:1;pointer-events:auto}
+#wa .ph{width:min(360px,100%);border-radius:28px;overflow:hidden;background:#0b141a;box-shadow:0 40px 90px rgba(0,0,0,.7);transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#wa.on .ph{transform:none}
+#wa .hd{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#202c33;color:#e9edef}
+#wa .hd img{width:38px;height:38px;border-radius:19px}
+#wa .hd b{display:block;font-size:15px}#wa .hd small{font-size:12px;color:#8696a0}
+#wa .bd{padding:22px 14px 26px;min-height:230px;background:#0b141a radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/14px 14px;display:flex;flex-direction:column;align-items:flex-start}
+#wa .msg{max-width:88%;background:#005c4b;color:#e9edef;border-radius:12px 0 12px 12px;padding:10px 12px 18px;font-size:14.5px;line-height:1.55;white-space:pre-line;position:relative;align-self:flex-start}
+#wa .msg i{position:absolute;bottom:4px;left:10px;font-style:normal;font-size:11px;color:rgba(233,237,239,.6)}
+#wa .ft{padding:14px 16px 18px;background:#0b141a;color:#8696a0;font-size:12.5px;text-align:center;line-height:1.5}
+#wa .ft .btn{width:100%;margin-top:12px;height:48px;background:#25d366;color:#0b141a}
 #toast{position:fixed;z-index:95;top:90px;left:50%;transform:translate(-50%,-20px);opacity:0;transition:.4s;background:var(--cream);color:#0b0b0b;padding:12px 22px;border-radius:22px;font-weight:700;font-size:14px;pointer-events:none}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 #cur{position:fixed;z-index:96;top:0;left:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(239,227,200,.6);pointer-events:none;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference}
@@ -182,7 +195,7 @@ footer img{width:70px;height:70px}
 </header>
 
 <!-- 01 · fire: the steak on the grill, the camera orbits it -->
-<section class="scene" id="hero" data-scene="orbit" data-fit="contain" style="height:420vh"><div class="stick">
+<section class="scene" id="hero" data-scene="orbit" data-fit="contain" style="height:270vh"><div class="stick">
  <canvas></canvas><div class="vig"></div>
  <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">01 / 04 — האש</span><span class="m tr">NAHALAL · 32.68°N</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
  <div class="temp" id="temp"><div class="v" id="tv">4<small>°C</small></div><div class="m l">CORE TEMP</div></div>
@@ -194,7 +207,7 @@ footer img{width:70px;height:70px}
 <div class="mq"><div>ריבאיי מיושן<em>✦</em>אטליז<em>✦</em>בוקר קפה<em>✦</em>מסעדת בשרים<em>✦</em>נהלל<em>✦</em>ריבאיי מיושן<em>✦</em>אטליז<em>✦</em>בוקר קפה<em>✦</em>מסעדת בשרים<em>✦</em>נהלל<em>✦</em></div></div>
 
 <!-- 02 · the cut: the steak levitates, spec callouts around it -->
-<section class="scene" id="float" data-scene="float" data-fit="contain" style="height:360vh"><div class="stick">
+<section class="scene" id="float" data-scene="float" data-fit="contain" style="height:240vh"><div class="stick">
  <canvas></canvas><div class="vig"></div>
  <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">02 / 04 — הנתח</span><span class="m tr">RIBEYE · DRY AGED</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
  <div class="tx head" id="fh"><div class="big d">הנתח.</div></div>
@@ -205,7 +218,7 @@ footer img{width:70px;height:70px}
 </div></section>
 
 <!-- 03 · the farm: drone over the valley -->
-<section class="scene" id="farm" data-scene="farm" data-fit="cover" style="height:340vh"><div class="stick">
+<section class="scene" id="farm" data-scene="farm" data-fit="cover" style="height:225vh"><div class="stick">
  <canvas></canvas><div class="vig"></div>
  <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">03 / 04 — החווה</span><span class="m tr">EMEK YIZRE'EL · SUNRISE</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
  <div class="tx t1" id="ft1"><div class="big d num" id="yrs">0</div><div class="m" style="margin-top:14px;color:var(--cream)">YEARS OF CATTLE</div></div>
@@ -213,7 +226,7 @@ footer img{width:70px;height:70px}
 </div></section>
 
 <!-- 04 · the butcher: the knife through the ribeye -->
-<section class="scene" id="cut" data-scene="cut" data-fit="contain" style="height:320vh"><div class="stick">
+<section class="scene" id="cut" data-scene="cut" data-fit="contain" style="height:215vh"><div class="stick">
  <canvas></canvas><div class="vig"></div>
  <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 04 — האטליז</span><span class="m tr">CUT TO ORDER</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
  <div class="tx t1" id="ct1"><div class="m k">// 04 · BUTCHER</div><div class="big d">נחתך<br>מול העיניים.</div></div>
@@ -233,7 +246,7 @@ footer img{width:70px;height:70px}
    <input type="range" id="th" min="2" max="6" step=".5" value="3">
    <div class="row"><span>כמות</span><div class="qty"><button id="qm">−</button><b class="num" id="qV">2</b><button id="qp">+</button></div></div>
    <div class="row"><span>משקל משוער</span><span class="tot num" id="wV">0.9 ק"ג</span></div>
-   <button class="btn c" id="send">שליחת הזמנה לקצב</button>
+   <button class="btn c" id="send">שליחת הזמנה בוואטסאפ</button>
    <div class="note">איסוף מהאטליז בנהלל · המחיר לפי שקילה במקום</div>
   </div>
  </div>
@@ -266,6 +279,7 @@ footer img{width:70px;height:70px}
  <div class="giant d">תמרלין</div>
 </footer>
 <div id="toast"></div>
+<div id="wa"><div class="ph"><div class="hd"><img src="img/logo.png" alt=""><div><b>האטליז · תמרלין</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft">כך ההזמנה תגיע לוואטסאפ של האטליז. הקצב מכין, והלקוח משלם באיסוף לפי שקילה.<button class="btn" id="waOk">הבנתי</button></div></div></div>
 
 <script type="module">
 import Lenis from 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs';
@@ -304,7 +318,7 @@ function draw(s, idx) {
 const resize = () => scenes.forEach(fit); addEventListener('resize', resize); resize();
 
 /* ---------- smooth scroll ---------- */
-const lenis = new Lenis({ lerp: .09, smoothWheel: true });
+const lenis = new Lenis({ lerp: .12, smoothWheel: true });
 function raf(t) { lenis.raf(t); tick(); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.6 }); }));
@@ -313,7 +327,7 @@ const show = (el, o, y = 0) => { el.style.opacity = o; el.style.transform = `tra
 function tick() {
   const vh = innerHeight;
   scenes.forEach((s) => {
-    const r = s.el.getBoundingClientRect(); s.p = cl(-r.top / Math.max(1, r.height - vh)); s.sp = lerp(s.sp, s.p, .2);
+    const r = s.el.getBoundingClientRect(); s.p = cl(-r.top / Math.max(1, r.height - vh)); s.sp = lerp(s.sp, s.p, .28);
     if (r.bottom < -vh || r.top > vh * 1.5 || !s.n) return;
     const idx = Math.round(s.sp * (s.n - 1));
     if (idx !== s.last || Math.abs(s.sp - s.p) > .0005) { if (draw(s, idx)) s.last = idx; }
@@ -364,7 +378,11 @@ $('#cuts').addEventListener('click', (e) => { const b = e.target.closest('.cut')
 $('#th').addEventListener('input', calc); $('#qm').onclick = () => { qty = Math.max(1, qty - 1); calc(); }; $('#qp').onclick = () => { qty = Math.min(12, qty + 1); calc(); };
 calc();
 const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 2400); };
-$('#send').onclick = () => toast('בדמו: ההזמנה נשלחת לקצב בוואטסאפ');
+// live site: location.href = 'https://wa.me/<shop number>?text=' + encodeURIComponent(text). The demo only previews it.
+function orderText() { const th = (+$('#th').value).toFixed(1), now = new Date(); return `שלום, הזמנה לאיסוף מהאטליז 🥩\n${CUTS[sel][0]} · ${qty} ${qty === 1 ? 'סטייק' : 'סטייקים'} · עובי ${th} ס"מ\nמשקל משוער: ${$('#wV').textContent}\nשם: \nמתי אאסוף: `; }
+$('#send').onclick = () => { const n = new Date(); $('#waMsg').innerHTML = orderText().replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(n.getHours()).padStart(2, '0')}:${String(n.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on'); };
+$('#waOk').onclick = () => $('#wa').classList.remove('on');
+$('#wa').addEventListener('click', (e) => { if (e.target.id === 'wa') $('#wa').classList.remove('on'); });
 
 /* ---------- menu with hover peek ---------- */
 const MENU = [['ריבאיי 400 גרם', 'מהחווה המשפחתית, מיושן מעל 30 יום', 'float', .45], ['אמפנדס אסאדו מעושן', 'שלוש יחידות, הפתיחה של הבית', 'orbit', .2], ['קרפצ\'יו בקר', 'פרוס דק מהאטליז', 'cut', .8], ['שווארמה תמרלין', 'השווארמה של הבית', 'orbit', .6], ['כריך בשרים מעושנים', 'קורנדביף, בייקון טלה ואיולי חזרת', 'cut', .4], ['סינטה', 'עם תפוחי אדמה וצ\'ימיצ\'ורי', 'float', .8]];
