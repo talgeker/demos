@@ -67,7 +67,7 @@ a{color:inherit;text-decoration:none}img,canvas{display:block}
 .tx .spec b{display:block;font-family:'Frank Ruhl Libre';font-weight:500;font-size:clamp(22px,2.4vw,30px)}
 .tx .spec span{font-size:13px;color:var(--mut)}
 
-#hero{height:240vh}
+#hero{height:165vh}
 #hero .ttl{opacity:1}
 #hero h1{font-size:clamp(78px,16vw,230px);line-height:.85}
 #hero .ct{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;pointer-events:auto}
@@ -266,7 +266,7 @@ const ss = (a, b, t) => { t = cl((t - a) / (b - a)); return t * t * (3 - 2 * t);
 const prog = (el) => { const r = el.getBoundingClientRect(); return cl(-r.top / Math.max(1, r.height - innerHeight)); };
 const portrait = innerWidth / innerHeight < 1, set = portrait ? 'm' : 'd';
 
-const lenis = new Lenis({ lerp: .1, smoothWheel: true });
+const lenis = new Lenis({ lerp: .14, smoothWheel: true, wheelMultiplier: 1.25 });
 $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.6 }); }));
 
 /* hero frames 004–075 (the first frames of the AI clip are the soft source photo, so they are skipped) */
@@ -283,7 +283,7 @@ size(); addEventListener('resize', size);
 const MOVES = [[1.02, 1.16, 0, -2.5], [1.16, 1.02, 2, 0], [1.03, 1.15, -2.5, 1], [1.04, 1.14, 0, 2]];
 const scenes = $$('.sc').map((s) => {
   const ids = s.dataset.imgs.split(','), stick = s.querySelector('.stick');
-  s.style.height = `${ids.length * 85 + 100}vh`;
+  s.style.height = `${ids.length * 45 + 70}vh`;
   const layers = ids.map((id, i) => { const d = document.createElement('div'); d.className = 'ly'; d.innerHTML = `<img src="sc/${set}/${id}.jpg" alt="" decoding="async"${i ? ' loading="lazy"' : ''}>`; return d; });
   layers.forEach((l) => stick.insertBefore(l, stick.querySelector('.shade')));
   return { s, ids, layers, imgs: layers.map((l) => l.firstElementChild), txs: $$('.tx', s), fc: s.querySelector('.fc') };
