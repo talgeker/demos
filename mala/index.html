@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060606">
+<link rel="icon" href="img/mark.png">
+<title>Mala Rooftop · רמת ישי</title>
+<!--
+  Pitch demo for Mala Rooftop, Ramat Yishai. Four cinematic AI clips (Seedance 2.5 on vmake.ai, made from the
+  restaurant's own photos) are cut into JPG sequences (frames/<scene>/000.jpg…, counts in frames/manifest.js)
+  and scrubbed by scroll on sticky canvases. Bookings stay on Tabit, delivery stays on Wolt.
+  Recording hook for the scroll video: window.READY.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="frames/manifest.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#060606;--ivory:#F1EADB;--ivory2:#CFC4AE;--red:#E4472C;--pool:#5FD6E3;--mut:rgba(241,234,219,.55);--line:rgba(241,234,219,.12);--pad:clamp(18px,4vw,56px)}
+html{background:var(--bg)}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:Heebo,system-ui,sans-serif;color:var(--ivory);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.d{font-family:'Frank Ruhl Libre',serif;font-weight:900;letter-spacing:-.02em}
+.en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:0;direction:ltr;unicode-bidi:isolate}
+.m{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;direction:ltr;unicode-bidi:isolate}
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.btn{height:56px;border-radius:28px;padding:0 26px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 15px Heebo;border:0;cursor:pointer;white-space:nowrap;transition:transform .25s,background .25s,color .25s,border-color .25s}
+.btn:active{transform:scale(.96)}
+.btn.c{background:var(--ivory);color:#0a0a0a}
+.btn.c:hover{background:#fff}
+.btn.o{background:transparent;color:var(--ivory);border:1px solid rgba(241,234,219,.28)}
+.btn.o:hover{background:var(--ivory);color:#0a0a0a}
+.btn svg{width:18px;height:18px;flex:none}
+#grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
+/* loader */
+#ld{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;transition:clip-path 1.3s cubic-bezier(.77,0,.18,1)}
+#ld img{width:min(320px,62vw);opacity:0;transform:translateY(14px);animation:lin 1.4s .2s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes lin{to{opacity:1;transform:none}}
+#ld .bar{width:200px;height:1px;background:var(--line);position:relative;overflow:hidden}
+#ld .bar b{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--ivory);transition:transform .3s}
+#ld.out{clip-path:inset(0 0 100% 0)}
+/* header */
+#top{position:fixed;z-index:60;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 14px) var(--pad) 14px;display:flex;align-items:center;gap:16px;transition:background .5s}
+#top.solid{background:linear-gradient(180deg,rgba(6,6,6,.88),rgba(6,6,6,0))}
+#top .lg{height:44px;width:auto}
+#top nav{margin-inline-start:auto;display:flex;gap:26px}
+#top nav a{font-size:14px;color:var(--mut);position:relative}
+#top nav a:after{content:"";position:absolute;bottom:-6px;right:0;width:0;height:1px;background:var(--red);transition:width .4s}
+#top nav a:hover{color:var(--ivory)}#top nav a:hover:after{width:100%}
+#top .btn{height:44px;padding:0 20px;font-size:14px}
+@media(max-width:900px){#top nav{display:none}#top .btn{margin-inline-start:auto}#top .lg{height:36px}}
+/* scroll scenes */
+.scene{position:relative}
+.scene .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.scene canvas{position:absolute;inset:0;width:100%;height:100%}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 45%,rgba(6,6,6,.78) 100%),linear-gradient(180deg,rgba(6,6,6,.6),transparent 24%,transparent 66%,rgba(6,6,6,.96))}
+.hud{position:absolute;inset:calc(env(safe-area-inset-top) + 84px) var(--pad) calc(env(safe-area-inset-bottom) + 26px);pointer-events:none}
+.hud i{position:absolute;width:18px;height:18px;border-color:rgba(241,234,219,.32);border-style:solid}
+.hud i:nth-child(1){top:0;right:0;border-width:1px 1px 0 0}.hud i:nth-child(2){top:0;left:0;border-width:1px 0 0 1px}
+.hud i:nth-child(3){bottom:0;right:0;border-width:0 1px 1px 0}.hud i:nth-child(4){bottom:0;left:0;border-width:0 0 1px 1px}
+.hud .tl{position:absolute;top:2px;right:30px;color:var(--mut)}
+.hud .tr{position:absolute;top:2px;left:30px;color:var(--mut)}
+.hud .bl{position:absolute;bottom:2px;left:30px;color:var(--mut)}
+.hud .prog{position:absolute;bottom:8px;right:30px;width:120px;height:1px;background:var(--line)}
+.hud .prog b{position:absolute;inset:0;background:var(--red);transform-origin:right;transform:scaleX(0)}
+.tx{position:absolute;left:var(--pad);right:var(--pad);pointer-events:none;will-change:opacity,transform}
+.reveal span{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+.reveal span>em{display:inline-block;font-style:normal;transform:translateY(110%);transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.reveal.on span>em{transform:none}
+.k{color:var(--red);display:block;margin-bottom:14px}
+/* hero */
+#hero .title{bottom:calc(env(safe-area-inset-bottom) + 64px);text-align:center}
+#hero .title img{width:min(560px,78vw);filter:drop-shadow(0 18px 50px rgba(0,0,0,.65))}
+#hero .title p{margin:18px auto 0;font-size:clamp(15px,1.6vw,19px);color:var(--ivory2);font-weight:300;max-width:460px}
+#hero .t2{top:40%;text-align:right}
+#hero .t2 .big,#hero .t3 .big{font-size:clamp(40px,7vw,100px);line-height:.95}
+#hero .t3{top:40%;text-align:left}
+#hero .t3 .en{font-size:clamp(26px,3vw,40px);color:var(--ivory2);display:block;margin-top:10px}
+.clock{position:absolute;top:50%;left:var(--pad);transform:translateY(-50%);text-align:left;pointer-events:none}
+.clock .v{font-family:'JetBrains Mono';font-size:clamp(34px,5vw,64px);font-weight:600;line-height:1;direction:ltr}
+.clock .l{margin-top:8px;color:var(--mut)}
+.clock .sky{margin-top:14px;width:clamp(120px,14vw,200px);height:3px;border-radius:2px;background:linear-gradient(90deg,#F6A04D,#C2473A,#3B2A5A,#0B1A33)}
+.clock .sky i{display:block;width:9px;height:9px;border-radius:50%;background:var(--ivory);margin-top:-3px;box-shadow:0 0 12px #fff}
+@media(max-width:700px){.clock{top:calc(env(safe-area-inset-top) + 104px);transform:none}.clock .v{font-size:26px}.clock .sky{width:96px}#hero .t2,#hero .t3{top:30%}.hud .tr{display:none}}
+/* exploded roll callouts */
+.call{position:absolute;pointer-events:none;opacity:0;transform:translateY(16px);transition:opacity .7s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.call.on{opacity:1;transform:none}
+.call .ln{height:1px;background:linear-gradient(90deg,var(--red),rgba(241,234,219,.3));width:clamp(40px,8vw,120px);margin:10px 0}
+.call b{display:block;font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(24px,3.2vw,42px);line-height:1}
+.call .m{color:var(--mut)}
+.call small{display:block;margin-top:6px;font-size:13px;color:var(--mut);font-weight:300}
+#c1{top:24%;right:var(--pad)}#c2{top:30%;left:var(--pad);text-align:left}#c3{bottom:22%;right:var(--pad)}#c4{bottom:16%;left:var(--pad);text-align:left}
+#c2 .ln,#c4 .ln{margin-left:0}
+#roll .head{top:calc(env(safe-area-inset-top) + 110px);text-align:center}
+#roll .head .big{font-size:clamp(46px,9vw,130px);line-height:.9}
+#roll .head .en{font-size:clamp(22px,2.6vw,34px);color:var(--ivory2);display:block;margin-top:8px}
+@media(max-width:700px){#c1{top:19%}#c2{top:19%}#c3{bottom:14%}#c4{bottom:14%}.call b{font-size:22px}.call small{display:none}#roll .head{top:calc(env(safe-area-inset-top) + 92px)}}
+/* rooftop (night drone) */
+#roof .big{font-size:clamp(110px,26vw,380px);line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(241,234,219,.85)}
+#roof .t1{top:50%;transform:translateY(-50%);text-align:center}
+#roof .t2{bottom:calc(env(safe-area-inset-bottom) + 70px);text-align:right;max-width:600px;right:var(--pad);left:auto}
+#roof .t2 p{font-size:clamp(16px,1.8vw,21px);line-height:1.75;font-weight:300}
+/* chef (crispy rice) */
+#chef .t1{top:calc(env(safe-area-inset-top) + 110px);text-align:right}
+#chef .t1 .big{font-size:clamp(46px,9vw,130px);line-height:.9}
+#chef .t2{bottom:calc(env(safe-area-inset-bottom) + 70px);text-align:left}
+#chef .t2 p{font-size:clamp(15px,1.7vw,19px);color:var(--ivory2);max-width:400px;margin-left:0;line-height:1.75;font-weight:300}
+#chef .dish{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 74px);right:var(--pad);text-align:right;pointer-events:none;opacity:0}
+#chef .dish b{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(24px,2.6vw,34px);display:block}
+#chef .dish .num{font-family:'JetBrains Mono';color:var(--red);font-size:15px;margin-top:6px}
+@media(max-width:700px){#chef .t2{bottom:calc(env(safe-area-inset-bottom) + 150px)}#chef .dish{bottom:calc(env(safe-area-inset-bottom) + 50px)}}
+/* sections */
+.sec{padding:clamp(90px,14vw,180px) var(--pad);position:relative}
+.h2{font-size:clamp(46px,8vw,124px);line-height:.92}
+.lead{font-size:clamp(16px,1.8vw,20px);line-height:1.75;color:var(--mut);font-weight:300;max-width:560px}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+/* marquee */
+.mq{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;white-space:nowrap;direction:ltr}
+.mq div{display:inline-block;font-family:'Cormorant Garamond';font-style:italic;font-weight:500;font-size:clamp(36px,5.4vw,70px);animation:mq 34s linear infinite;padding-right:40px}
+.mq em{font-style:normal;color:var(--red);margin:0 28px;font-size:.6em;vertical-align:middle}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* sunset (real photo, depth parallax) */
+#sunset{height:180vh;position:relative}
+#sunset .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+#sunset .ph{position:absolute;inset:-8%;background:url(img/sunset.jpg) center/cover;will-change:transform}
+#sunset .ph:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,6,.75),rgba(6,6,6,.1) 30%,rgba(6,6,6,.15) 60%,rgba(6,6,6,.95))}
+#sunset .tx{top:calc(env(safe-area-inset-top) + 120px);text-align:center}
+#sunset .tx .big{font-size:clamp(50px,10vw,150px);line-height:.9}
+#sunset .tx .en{font-size:clamp(24px,3vw,40px);color:var(--ivory);display:block;margin-top:10px}
+#sunset .facts{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 50px);left:var(--pad);right:var(--pad);display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fact{border-top:1px solid rgba(241,234,219,.3);padding-top:14px}
+.fact b{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(22px,2.6vw,36px);display:block}
+.fact span{font-size:13px;color:var(--ivory2)}
+@media(max-width:700px){#sunset .facts{grid-template-columns:1fr 1fr;gap:16px 12px}}
+/* menu */
+#menu .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:44px}
+#menu .tab{height:42px;padding:0 18px;border-radius:21px;border:1px solid rgba(241,234,219,.22);background:none;color:var(--mut);font:500 14px Heebo;cursor:pointer;transition:.25s}
+#menu .tab.on{background:var(--ivory);color:#0a0a0a;border-color:var(--ivory)}
+#menu .tab .en{font-size:15px}
+#menu .list{margin-top:34px;border-top:1px solid var(--line);min-height:300px}
+.mi{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:18px;padding:clamp(18px,2.6vw,28px) 0;border-bottom:1px solid var(--line);position:relative;animation:mi .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes mi{from{opacity:0;transform:translateY(18px)}}
+.mi .m{color:var(--mut)}
+.mi h5{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(24px,3.4vw,44px);line-height:1.05;transition:color .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.mi h5 .en{font-weight:500}
+.mi p{font-size:14px;color:var(--mut);font-weight:300;margin-top:8px;max-width:620px;line-height:1.6}
+.mi .pr{font-family:'JetBrains Mono';font-size:clamp(16px,1.6vw,20px);color:var(--ivory);direction:ltr}
+.mi:hover h5{color:var(--red);transform:translateX(-12px)}
+@media(max-width:700px){.mi{grid-template-columns:34px 1fr auto;gap:12px}}
+#peek{position:fixed;z-index:50;width:230px;height:290px;border-radius:18px;overflow:hidden;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.8) rotate(-4deg);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 30px 70px rgba(0,0,0,.6)}
+#peek.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-4deg)}
+#peek img{width:100%;height:100%;object-fit:cover}
+/* gallery strip (horizontal on scroll) */
+#gal{height:300vh;position:relative}
+#gal .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+#gal .hd{padding:0 var(--pad);margin-bottom:34px}
+#gal .row{display:flex;gap:clamp(14px,2vw,26px);padding:0 var(--pad);will-change:transform;direction:ltr}
+#gal figure{flex:none;width:clamp(240px,30vw,420px);aspect-ratio:3/4;border-radius:24px;overflow:hidden;position:relative;background:#111}
+#gal figure.w{width:clamp(320px,46vw,640px);aspect-ratio:4/3}
+#gal figure img{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;will-change:transform}
+#gal figcaption{position:absolute;bottom:16px;right:18px;left:18px;direction:rtl;font-size:14px;color:var(--ivory);text-shadow:0 2px 12px rgba(0,0,0,.8)}
+#gal figcaption .m{display:block;color:var(--ivory2);margin-bottom:4px;font-size:10px;text-align:right}
+/* cocktails */
+#bar{background:radial-gradient(110% 80% at 15% 0%,#0f3d45 0%,#08191d 45%,var(--bg) 100%)}
+#bar .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,80px);align-items:center;margin-top:50px}
+#bar .shot{border-radius:28px;overflow:hidden;aspect-ratio:3/4;position:relative}
+#bar .shot img{width:100%;height:115%;object-fit:cover;will-change:transform}
+.ck{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.ck b{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-size:clamp(26px,3vw,38px);direction:ltr}
+.ck p{font-size:13px;color:var(--mut);font-weight:300;margin-top:4px}
+.ck .num{font-family:'JetBrains Mono';font-size:15px;color:var(--pool)}
+@media(max-width:860px){#bar .grid{grid-template-columns:1fr}#bar .shot{aspect-ratio:4/5}}
+/* visit */
+#visit .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.box{border-radius:26px;padding:clamp(24px,3vw,38px);background:linear-gradient(160deg,#141414,#0a0a0a);border:1px solid var(--line)}
+.box h3{font-family:'Frank Ruhl Libre';font-weight:900;font-size:32px;margin-bottom:20px}
+.hrs div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hrs div span:last-child{color:var(--mut);font-family:'JetBrains Mono';font-size:13px;direction:ltr;unicode-bidi:isolate}
+.hrs div.today,.hrs div.today span:last-child{color:var(--red)}
+.box .act{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.box .act .btn{width:100%}
+.box .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){#visit .grid{grid-template-columns:1fr}}
+footer{padding:80px var(--pad) calc(env(safe-area-inset-bottom) + 60px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
+footer .giant{font-family:'Cormorant Garamond';font-style:italic;font-weight:500;font-size:clamp(120px,30vw,460px);line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(241,234,219,.22);margin-top:30px;direction:ltr}
+footer .row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--mut);font-size:13px}
+footer .row img{height:56px}
+.demo{font-size:11px;letter-spacing:2px;padding:6px 12px;border:1px solid var(--line);border-radius:14px}
+#cur{position:fixed;z-index:96;top:0;left:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(241,234,219,.6);pointer-events:none;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference}
+#cur.big{width:70px;height:70px;background:rgba(241,234,219,.9)}
+@media(hover:none){#cur{display:none}}
+</style></head>
+<body>
+<div id="grain"></div><div id="cur"></div>
+<div id="ld"><img src="img/logo.png" alt="Mala Rooftop"><div class="bar"><b id="ldb"></b></div><div class="m" id="ldn" style="color:var(--mut)">000</div></div>
+
+<header id="top">
+ <img class="lg" src="img/logo.png" alt="Mala Rooftop">
+ <nav><a href="#roll">הרול</a><a href="#roof">הגג</a><a href="#chef">המטבח</a><a href="#menu">תפריט</a><a href="#bar">קוקטיילים</a><a href="#visit">ביקור</a></nav>
+ <a class="btn c js-book" href="#" target="_blank" rel="noopener">הזמנת מקום</a>
+</header>
+
+<!-- 01 · the roll: the camera orbits the signature salmon roll -->
+<section class="scene" id="hero" data-scene="orbit" data-fit="obj" data-fx=".42" style="height:270vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">01 / 04 — JAPANESE KITCHEN</span><span class="m tr">RAMAT YISHAY · 32.70°N</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="clock" id="clock"><div class="v" id="cv">17:30</div><div class="m l" id="cl">GOLDEN HOUR</div><div class="sky"><i id="sun"></i></div></div>
+ <div class="tx title" id="h1"><div class="reveal"><span><em><img src="img/logo.png" alt="Mala Rooftop"></em></span></div><p class="rv">מטבח יפני על הגג, מעל עמק יזרעאל. סושי, שקיעות וקוקטיילים עד אמצע הלילה.</p></div>
+ <div class="tx t2" id="h2" style="opacity:0"><div class="m k">// 01 · THE KITCHEN</div><div class="big d">דג טרי.<br>יד של שף.</div></div>
+ <div class="tx t3" id="h3" style="opacity:0"><div class="big d">כל ביס.<br>כל פרט.</div><span class="en">Japanese kitchen, valley sunsets.</span></div>
+</div></section>
+
+<div class="mq"><div>Sushi<em>✦</em>Sashimi<em>✦</em>Robata grill<em>✦</em>Cocktails<em>✦</em>Valley sunsets<em>✦</em>Slow house beats<em>✦</em>Sushi<em>✦</em>Sashimi<em>✦</em>Robata grill<em>✦</em>Cocktails<em>✦</em>Valley sunsets<em>✦</em>Slow house beats<em>✦</em></div></div>
+
+<!-- 02 · the roll comes apart: every layer gets a name -->
+<section class="scene" id="roll" data-scene="explode" data-fit="obj" data-fx=".42" style="height:250vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">02 / 04 — הרול</span><span class="m tr">SIGNATURE ROLL</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="tx head" id="rh"><div class="big d">הרול.</div><span class="en">built slowly, eaten quickly</span></div>
+ <div class="call" id="c1"><span class="m">TOP</span><div class="ln"></div><b>סלמון צרוב</b><small>איקורה ועלי זהב מעל</small></div>
+ <div class="call" id="c2"><span class="m">RICE</span><div class="ln"></div><b>אורז סושי</b><small>מתובל ביד, בטמפרטורת גוף</small></div>
+ <div class="call" id="c3"><span class="m">CORE</span><div class="ln"></div><b>סלמון ואבוקדו</b><small>מהדגה הטרייה של היום</small></div>
+ <div class="call" id="c4"><span class="m">3 SOY SAUCES</span><div class="ln"></div><b>יאמסה · יוזו · פונזו</b><small>שלושה סוגי סויה לבחירה</small></div>
+</div></section>
+
+<!-- 03 · the rooftop: night drone over the pool -->
+<section class="scene" id="roof" data-scene="roof" data-fit="cover" data-fx=".5" style="height:240vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">03 / 04 — הגג</span><span class="m tr">FLOOR 04 · AFTER DARK</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="tx t1" id="rt1"><div class="big d num" id="flr">00</div><div class="m" style="margin-top:14px;color:var(--ivory)">FLOOR · UP TO THE ROOF</div></div>
+ <div class="tx t2" id="rt2" style="opacity:0"><div class="m k">// 03 · THE ROOF</div><p>שלושה יזמים מהצפון, אלה שהביאו את "אולטרסאונד" ו"המרפסת", בנו כמעט שנתיים גג אחד: בריכה, בר ענק, במה של די־ג'יי ומטבח זכוכית. סטנדרט של חו"ל, באמצע עמק יזרעאל.</p></div>
+</div></section>
+
+<!-- the view, from their own photo -->
+<section id="sunset"><div class="stick">
+ <div class="ph" id="sph"></div>
+ <div class="tx" id="stx"><div class="big d">שקיעות<br>מעל העמק.</div><span class="en">Valley sunsets, from the fourth floor.</span></div>
+ <div class="facts">
+  <div class="fact rv"><b class="num">4.4 ★</b><span>1,054 ביקורות בגוגל</span></div>
+  <div class="fact rv"><b>מ־12:00</b><span>עכשיו גם בצהריים</span></div>
+  <div class="fact rv"><b>DJ</b><span>Slow house beats</span></div>
+  <div class="fact rv"><b>קומה 4</b><span>חורש האלונים 18</span></div>
+ </div>
+</div></section>
+
+<!-- 04 · the chef: crispy rice tuna -->
+<section class="scene" id="chef" data-scene="chef" data-fit="obj" data-fx=".5" data-still="img/crispy.jpg" style="height:230vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 04 — המטבח</span><span class="m tr">CHEF LEV YOSEF</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="tx t1" id="cht1"><div class="m k">// 04 · CHEF</div><div class="big d">היד<br>של השף.</div></div>
+ <div class="tx t2" id="cht2" style="opacity:0"><p>השף לב יוסף, מ"יאוזה" ומ"משחקי השף", מוביל מטבח זכוכית שבו רואים כל חיתוך. תפריט ממוקד, דגים מהדגה של אותו היום, ובלי להעמיס רטבים: נותנים לדג לדבר.</p></div>
+ <div class="dish" id="dish"><b>קריספי רייס טונה</b><span class="num">₪88</span></div>
+</div></section>
+
+<section class="sec" id="menu">
+ <span class="m k rv">// THE MENU</span>
+ <h2 class="h2 d rv">מה מגיע<br>לשולחן.</h2>
+ <p class="lead rv" style="margin-top:22px">התפריט המלא, עם המחירים. כל רול מתובל בידי השף.</p>
+ <div class="tabs rv" id="tabs"></div>
+ <div class="list" id="menuList"></div>
+</section>
+<div id="peek"><img alt=""></div>
+
+<!-- gallery: horizontal on scroll -->
+<section id="gal"><div class="stick">
+ <div class="hd"><span class="m k">// THE NIGHT</span><h2 class="h2 d">ערב שלם<br>על הגג.</h2></div>
+ <div class="row" id="grow">
+  <figure class="w"><img src="img/night.jpg" alt="הגג בלילה מלמעלה"><figcaption><span class="m">AFTER DARK</span>הגג, הבריכה והפרגולות בלילה</figcaption></figure>
+  <figure><img src="img/table.jpg" alt="שולחן מלא מנות"><figcaption><span class="m">SHARING</span>שולחן מלא, באמצע</figcaption></figure>
+  <figure><img src="img/sashimi.jpg" alt="סשימי"><figcaption><span class="m">SASHIMI</span>סשימי טונה בלופין</figcaption></figure>
+  <figure class="w"><img src="img/lounge.jpg" alt="הלאונג' בלילה"><figcaption><span class="m">THE LOUNGE</span>הבר והלאונג' תחת הקשת</figcaption></figure>
+  <figure><img src="img/crispy.jpg" alt="קריספי רייס"><figcaption><span class="m">CRISPY RICE</span>קריספי רייס טונה</figcaption></figure>
+  <figure class="w"><img src="img/sushibox.jpg" alt="מארז סושי"><figcaption><span class="m">SUSHI BOX</span>גם הביתה, במשלוח</figcaption></figure>
+ </div>
+</div></section>
+
+<section class="sec" id="bar">
+ <span class="m k rv">// THE BAR</span>
+ <h2 class="h2 d rv">קוקטיילים<br>עם שואו.</h2>
+ <div class="grid">
+  <div class="shot rv"><img src="img/cocktails.jpg" alt="קוקטיילים ליד הבריכה" id="barImg"></div>
+  <div id="cks"></div>
+ </div>
+</section>
+
+<section class="sec" id="visit">
+ <span class="m k rv">// VISIT</span>
+ <h2 class="h2 d rv">נתראה<br>על הגג.</h2>
+ <div class="grid">
+  <div class="box rv"><h3>שעות פתיחה</h3><div class="hrs" id="hrs"></div><p class="lead" style="font-size:13px;margin-top:14px">עכשיו גם בצהריים, עם תפריט החורף.</p></div>
+  <div class="box rv"><h3>מגיעים אלינו</h3><p class="lead" style="font-size:16px">חורש האלונים 18, רמת ישי · קומה 4<br>טלפון ווואטסאפ: <span class="num">050-288-2418</span></p>
+   <div class="act">
+    <a class="btn c js-book" href="#" target="_blank" rel="noopener">הזמנת מקום</a>
+    <a class="btn o js-wolt" href="#" target="_blank" rel="noopener">משלוח בוולט</a>
+    <div class="two">
+     <a class="btn o" href="https://waze.com/ul?q=%D7%97%D7%95%D7%A8%D7%A9%20%D7%94%D7%90%D7%9C%D7%95%D7%A0%D7%99%D7%9D%2018%20%D7%A8%D7%9E%D7%AA%20%D7%99%D7%A9%D7%99&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a>
+     <a class="btn o" href="https://wa.me/972502882418" target="_blank" rel="noopener">וואטסאפ</a>
+    </div>
+    <div class="two">
+     <a class="btn o" href="tel:0502882418">התקשרו</a>
+     <a class="btn o" href="https://www.instagram.com/mala.rooftop/" target="_blank" rel="noopener">אינסטגרם</a>
+    </div>
+   </div></div>
+ </div>
+</section>
+
+<footer>
+ <div class="row"><img src="img/logo.png" alt=""><span>Mala Rooftop · Japanese Kitchen · רמת ישי</span><span class="demo">דמו לאתר · הוכן כהצעה</span></div>
+ <div class="giant">mala</div>
+</footer>
+
+<script type="module">
+import Lenis from 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), lerp = (a, b, t) => a + (b - a) * t;
+const ss = (a, b, t) => { t = cl((t - a) / (b - a)); return t * t * (3 - 2 * t); };
+const M = window.FRAMES || {};
+// their existing systems stay: tables on Tabit, delivery on Wolt
+const BOOK = 'https://tabitisrael.co.il/site/mala-%D7%A8%D7%9E%D7%AA-%D7%99%D7%A9%D7%99';
+const WOLT = 'https://wolt.com/he/search?q=Mala%20Rooftop';
+$$('.js-book').forEach((a) => a.href = BOOK); $$('.js-wolt').forEach((a) => a.href = WOLT);
+
+/* ---------- frames ---------- */
+const scenes = $$('.scene').map((el) => {
+  const name = el.dataset.scene, n = (M[name] && M[name].n) || 0, ext = (M[name] && M[name].ext) || 'jpg';
+  const imgs = [...Array(n).keys()].map((i) => { const im = new Image(); im.decoding = 'async'; im.dataset.src = `frames/${name}/${String(i).padStart(3, '0')}.${ext}`; return im; });
+  // no clip yet: a real photo stands in, pushed in slowly by the scroll
+  if (!n && el.dataset.still) { const im = new Image(); im.dataset.src = el.dataset.still; return { el, name, n: 1, still: true, imgs: [im], cv: $('canvas', el), fit: el.dataset.fit, fx: +(el.dataset.fx || .5), p: 0, sp: 0, last: -1 }; }
+  return { el, name, n, imgs, cv: $('canvas', el), fit: el.dataset.fit, fx: +(el.dataset.fx || .5), p: 0, sp: 0, last: -1 };
+});
+let loaded = 0; const first = scenes[0].imgs, total = first.length || 1;
+const bump = () => { loaded++; const f = Math.min(1, loaded / total); $('#ldb').style.transform = `scaleX(${f})`; $('#ldn').textContent = String(Math.round(f * 100)).padStart(3, '0'); if (loaded >= total) done(); };
+function load(list) { list.forEach((im) => { im.onload = im.onerror = () => { if (list === first) bump(); }; im.src = im.dataset.src; }); }
+let started = false;
+function done() { if (started) return; started = true; setTimeout(() => { $('#ld').classList.add('out'); $('#h1 .reveal').classList.add('on'); $('#h1 .rv').classList.add('in'); window.READY = true; }, 600); scenes.slice(1).forEach((s) => load(s.imgs)); }
+if (!first.length) { $('#ldn').textContent = '100'; done(); } else load(first);
+setTimeout(done, 9000); // never hold the page hostage on a slow network
+
+function fit(s) { const r = s.cv.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2); s.cv.width = r.width * d; s.cv.height = r.height * d; s.last = -1; }
+function draw(s, idx) {
+  const im = s.imgs[idx]; if (!im || !im.complete || !im.naturalWidth) return false;
+  const g = s.cv.getContext('2d'), W = s.cv.width, H = s.cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
+  const cover = Math.max(W / iw, H / ih), contain = Math.min(W / iw, H / ih);
+  // obj = dark-background food clips: on wide screens a generous contain that melts into the page,
+  // on phones zoom in around the subject (fx) instead of a thin letterbox
+  let k = s.fit === 'cover' ? cover : W / H < 1 ? Math.min(cover, contain * 2.15) : Math.max(contain * 1.1, Math.min(cover, contain * 1.45));
+  k *= 1 + s.sp * (s.still ? .22 : .06);
+  const w = iw * k, h = ih * k;
+  let x = W / 2 - w * s.fx; x = Math.min(0 > W - w ? 0 : (W - w) / 2, Math.max(W - w, x)); if (w <= W) x = (W - w) / 2;
+  const y = (H - h) / 2;
+  g.fillStyle = '#060606'; g.fillRect(0, 0, W, H); g.drawImage(im, x, y, w, h);
+  // feather any edge of the frame that sits inside the screen
+  const fe = (x0, y0, x1, y1, rx, ry, rw, rh) => { const gr = g.createLinearGradient(x0, y0, x1, y1); gr.addColorStop(0, '#060606'); gr.addColorStop(1, 'rgba(6,6,6,0)'); g.fillStyle = gr; g.fillRect(rx, ry, rw, rh); };
+  const fw = Math.min(w, W) * .14, fh = Math.min(h, H) * .16;
+  if (x > 0) fe(x, 0, x + fw, 0, x - 1, 0, fw + 1, H);
+  if (x + w < W) fe(x + w, 0, x + w - fw, 0, x + w - fw, 0, fw + 1, H);
+  if (y > 0) fe(0, y, 0, y + fh, 0, y - 1, W, fh + 1);
+  if (y + h < H) fe(0, y + h, 0, y + h - fh, 0, y + h - fh, W, fh + 1);
+  if (x > 0) { g.fillStyle = '#060606'; g.fillRect(0, 0, x, H); } if (x + w < W) { g.fillStyle = '#060606'; g.fillRect(x + w, 0, W - x - w, H); }
+  if (y > 0) { g.fillStyle = '#060606'; g.fillRect(0, 0, W, y); } if (y + h < H) { g.fillStyle = '#060606'; g.fillRect(0, y + h, W, H - y - h); }
+  return true;
+}
+const resize = () => scenes.forEach(fit); addEventListener('resize', resize); resize();
+
+/* ---------- smooth scroll ---------- */
+const lenis = new Lenis({ lerp: .12, smoothWheel: true });
+function raf(t) { lenis.raf(t); tick(); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+$$('a[href^="#"]').forEach((a) => a.getAttribute('href').length > 1 && a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.6 }); }));
+
+const show = (el, o, y = 0) => { el.style.opacity = o; el.style.transform = `translateY(${y}px)`; };
+const sec = (el) => { const r = el.getBoundingClientRect(); return cl(-r.top / Math.max(1, r.height - innerHeight)); };
+const hhmm = (m) => { m = ((Math.round(m) % 1440) + 1440) % 1440; return String(m / 60 | 0).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+function tick() {
+  scenes.forEach((s) => {
+    const vh = innerHeight, r = s.el.getBoundingClientRect(); s.p = cl(-r.top / Math.max(1, r.height - vh)); s.sp = lerp(s.sp, s.p, .28);
+    if (r.bottom < -vh || r.top > vh * 1.5 || !s.n) return;
+    const idx = Math.round(s.sp * (s.n - 1));
+    if (s.still || idx !== s.last || Math.abs(s.sp - s.p) > .0005) { if (draw(s, idx)) s.last = idx; }
+    $('[data-frame]', s.el).textContent = 'FRAME ' + String(idx).padStart(3, '0');
+    $('.prog b', s.el).style.transform = `scaleX(${s.sp})`;
+  });
+  const [h, r, f, c] = scenes.map((s) => s.sp);
+  // 01 hero: the clock runs from golden hour into the night
+  show($('#h1'), 1 - ss(.1, .22, h), -h * 160);
+  show($('#h2'), ss(.26, .36, h) * (1 - ss(.55, .63, h)), (1 - ss(.26, .4, h)) * 40);
+  show($('#h3'), ss(.7, .8, h), (1 - ss(.7, .84, h)) * 40);
+  const mins = lerp(17 * 60 + 30, 24 * 60 + 30, ss(.04, .96, h));
+  $('#clock').style.opacity = 1 - ss(.62, .7, h);
+  $('#cv').textContent = hhmm(mins); $('#cl').textContent = mins < 18 * 60 + 40 ? 'GOLDEN HOUR' : mins < 20 * 60 ? 'SUNSET · DJ ON' : 'AFTER DARK';
+  $('#sun').style.marginLeft = `calc(${ss(.04, .96, h) * 100}% - 9px)`;
+  // 02 the roll
+  show($('#rh'), ss(.02, .12, r) * (1 - ss(.3, .4, r)), -r * 80);
+  ['#c1', '#c2', '#c3', '#c4'].forEach((id, i) => $(id).classList.toggle('on', r > .34 + i * .09 && r < .95));
+  // 03 roof
+  $('#flr').textContent = String(Math.round(lerp(0, 4, ss(.05, .4, f)))).padStart(2, '0');
+  show($('#rt1'), ss(0, .08, f) * (1 - ss(.48, .58, f)));
+  show($('#rt2'), ss(.6, .7, f), (1 - ss(.6, .74, f)) * 40);
+  // sunset photo
+  const sp = sec($('#sunset')); $('#sph').style.transform = `scale(${1.12 - sp * .1}) translateY(${(sp - .5) * -60}px)`;
+  show($('#stx'), ss(.0, .15, sp) * (1 - ss(.7, .85, sp)), (1 - ss(0, .3, sp)) * 50);
+  // 04 chef
+  show($('#cht1'), ss(.02, .12, c) * (1 - ss(.45, .55, c)), -c * 60);
+  show($('#cht2'), ss(.58, .68, c), (1 - ss(.58, .72, c)) * 40);
+  show($('#dish'), ss(.3, .42, c) * (1 - ss(.5, .58, c)));
+  // gallery: vertical scroll drives the strip sideways
+  const g = sec($('#gal')), row = $('#grow'), max = row.scrollWidth - innerWidth;
+  row.style.transform = `translateX(${-g * Math.max(0, max)}px)`;
+  $$('#grow img').forEach((im, i) => im.style.transform = `translateX(${(g - .5) * 40 * (i % 2 ? 1 : -1)}px)`);
+  const bi = $('#barImg'), br = bi.parentElement.getBoundingClientRect(); bi.style.transform = `translateY(${cl((innerHeight - br.top) / (innerHeight + br.height)) * -13}%)`;
+  $('#top').classList.toggle('solid', scrollY > 40);
+}
+
+/* ---------- reveal, cursor ---------- */
+const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('in')), { threshold: .12 });
+$$('.rv').forEach((el) => el !== $('#h1 .rv') && io.observe(el));
+const cur = $('#cur'); let cx = 0, cy = 0, tx = 0, ty = 0;
+addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; });
+(function mv() { cx = lerp(cx, tx, .2); cy = lerp(cy, ty, .2); cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; requestAnimationFrame(mv); })();
+document.addEventListener('pointerover', (e) => cur.classList.toggle('big', !!e.target.closest('a,button,.mi')));
+
+/* ---------- menu (from menu.hopa.tech/mala-rooftop, winter) ---------- */
+const MENU = {
+  'פתיחים': ['APPETIZERS', 'img/crispy.jpg', [
+    ['קריספי רייס טונה', 'ריבועי אורז סושי צרובים בחמאה, טרטר טונה בתיבול חריף, בצל ירוק, צ׳ילי ופוריקקה', 88],
+    ['ניגירי אינטיאס מקומי', 'טרטר טונה כחולה, וואסאבי מרמת הגולן, צ׳יפס כרישה', 65],
+    ['סשימי המאצ׳י', 'תפוח סמית, עלה בזיל, קפיר ליים, ויניגרט צ׳ילי מותסס עם תות', 78],
+    ['סשימי טונה בלופין', 'צ׳ימיצ׳ורי עגבניות שרופות, פונזו, שמן זית, פוריקקה ועירית', 73],
+    ['האנד רול טונה', 'ויניגרט חלפיניו מותסס, שיסו בטמפורה, פוריקקה, עירית', 78],
+    ['סטייק טרטר', 'פילה בקר קצוץ על הסכין, צ׳ימיצ׳ורי עגבניות שרופות ואיולי חרדל, לחם קלוי על פחם', 78],
+    ['ברוסקטה דג מלוח', 'לחם שיפון, חמאת שמיר, קרם פרש, בצל מוחמץ וכוסברה', 72],
+    ['סשימי פריסטייל · 250 גר׳', 'פרוסות דג נא מהדגה הטרייה והמובחרת ביותר', 168],
+    ['ניגירי פריסטייל', '6 יחידות ניגירי משלל סוגי הדגים', 99]]],
+  'רולים': ['SIGNATURE ROLLS', 'img/roll.jpg', [
+    ['ספיישל דג ים משתנה', 'אבוקדו, קנפיו, עטוף במיקס דגים, איולי יוזו, בצל ירוק וסויה קוג׳י', 89],
+    ['טרטר ספייסי טונה', 'מלפפון, קנפיו, עטוף בטונה, איולי צ׳ילי ומסאגו אררה', 89],
+    ['סלמון קרים', 'אבוקדו, עירית, עטוף סלמון על קרם פרש יוזו', 86],
+    ['גרין רול', 'טונה בלופין, אבוקדו, מלפפון, עירית, לקט עלים בפונזו ואיולי נענע', 86],
+    ['סלמון אפוי במרינדה', 'אבוקדו, בצל ירוק, עטוף בסלמון צרוב, איולי מיסו ושקדים קלויים', 84],
+    ['סשימאקי', 'סלמון, טונה, יילו טייל, אבוקדו וסלנובה עטופים בנורי ומלפפון מגולף', 79],
+    ['פוטומאקי סלמון ואיקורה', 'אבוקדו, מלפפון, לקט עלים ואיולי וואסאבי', 77],
+    ['פוטומאקי זוקיני בטמפורה', 'אבוקדו, עירית, סלנובה וקמפיו עם איולי נענע וטריאקי', 67]]],
+  'חמים וסלטים': ['HOT & SALADS', 'img/table.jpg', [
+    ['מרק ראמן', 'ציר עצמות בבישול 20 שעות, מיסו אדום, ביצה, שיטאקי, באקצ׳וי ואטריות. עם שיפוד סינטה', 82],
+    ['גיוזה פטריות', 'קציפת תירס, גבינת מנצ׳גו ושמן בזיל', 73],
+    ['מרק טום יאם', 'ציר דגים חריף עם למון גראס וקפיר ליים, פטריות יער וליים', 58],
+    ['ענבים על החצי', 'גבינת מנצ׳גו, בצל סגול, צנונית, כוסברה, לקט עלים ויוזו', 65],
+    ['קיסר יפני', 'חסה לאליק, פירורי פנקו בטוגראשי, רוטב קיסר דאשי ופרמזן', 65],
+    ['סלט חורף', 'אפונת גינה ושלג, צנונית אבטיח, פומלה, אצות נורי, סויה קוג׳י ויוזו', 67]]],
+  'מהים ומהגריל': ['SEA & GRILL', 'img/sashimi.jpg', [
+    ['פילה בר ים', 'עגבניות שרי, ירקות ירוקים, קרם תפו״א, ציר דגים, חמאה ולימון כבוש', 166],
+    ['מוסר ים', 'קרם בטטה לבנה, חמאה חומה, צ׳יפס כרישה, קוויאר אדום ופוריקקה', 138],
+    ['סטייק סינטה · 180 גר׳', 'קרם ארטישוק ירושלמי, באק צ׳וי, פטריית מלך היער וציר בקר מצומצם', 136],
+    ['נאם טוק', 'אנטריקוט על פחם בתיבול נאם חריף, אבקת אורז קלוי לצד סטיקי רייס', 97],
+    ['אנטריקוט ריו פלטנסה', 'תפוחי אדמה בתנור. המחיר ל־100 גרם', 76]]],
+  'קינוחים': ['DESSERTS', 'img/table.jpg', [
+    ['שוקולד קפה', 'פייטה פקאן, מוס שוקולד אוורירי, קציפת קפה ושבבי שוקולד קריספיים', 65],
+    ['עוגת חלב', 'טורט מוקצפת בחלב, שכבת טופי, קרם שנטילי וניל ורוטב פירות יער', 65],
+    ['טבעת יוזו', 'מצע קדאיף פיסטוק, מרנג ופירות העונה', 65]]],
+};
+const CATS = Object.keys(MENU);
+$('#tabs').innerHTML = CATS.map((c, i) => `<button class="tab${i ? '' : ' on'}" data-c="${c}">${c}</button>`).join('');
+function renderMenu(c) {
+  const [, , items] = MENU[c];
+  $('#menuList').innerHTML = items.map(([n, d, p], i) => `<div class="mi" style="animation-delay:${i * .05}s" data-c="${c}"><span class="m">${String(i + 1).padStart(2, '0')}</span><div><h5>${n}</h5><p>${d}</p></div><span class="pr">₪${p}</span></div>`).join('');
+  bindPeek();
+}
+$('#tabs').addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (!b) return; $$('.tab').forEach((x) => x.classList.toggle('on', x === b)); renderMenu(b.dataset.c); });
+const peek = $('#peek'), pimg = $('img', peek);
+function bindPeek() {
+  $$('#menuList .mi').forEach((row) => {
+    row.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; pimg.src = MENU[row.dataset.c][1]; peek.classList.add('on'); });
+    row.addEventListener('pointermove', (e) => { peek.style.left = e.clientX + 'px'; peek.style.top = e.clientY + 'px'; });
+    row.addEventListener('pointerleave', () => peek.classList.remove('on'));
+  });
+}
+renderMenu(CATS[0]);
+
+/* ---------- cocktails ---------- */
+const CK = [['Yuzo Margarita', 'טקילה 1800 סילבר, סאקה יוזו, קוואנטרו, לימון, מלח', 63], ['CoCo Shiro', 'טקילה 1800 קוקוס, סאקה ניגורי, סירופ יוזו וקוקוס', 63], ['Kamikaza Spicy', 'טקילה, רום לבן, אננס, מנגו, פלפל קייאן וטוגראשי', 63], ['Lemonsan', 'ג׳ין למונגראס ג׳ינג׳ר, יין לבן, יוזו, אבטיח ונענע', 63], ['Ya Who', 'רום לבן, סאקה יוזו, פסיפלורה, מלפפון ונורי', 63], ['Tokyo Sunrise', 'בקבוקון וודקה סטולי וליקר מלון, מוגש עם שואו', 65]];
+$('#cks').innerHTML = CK.map(([n, d, p]) => `<div class="ck rv"><div><b>${n}</b><p>${d}</p></div><span class="num">₪${p}</span></div>`).join('');
+$$('#cks .rv').forEach((el) => io.observe(el));
+
+/* ---------- hours (lunch since 02.11; Sunday closed per Google) ---------- */
+const HOURS = [['ראשון', 'סגור'], ['שני', '12:00–01:00'], ['שלישי', '12:00–01:00'], ['רביעי', '12:00–01:00'], ['חמישי', '12:00–01:00'], ['שישי', '12:00–01:00'], ['שבת', '12:00–01:00']];
+const today = new Date().getDay();
+$('#hrs').innerHTML = HOURS.map(([d, t], i) => `<div class="${i === today ? 'today' : ''}"><span>${d}</span><span>${t}</span></div>`).join('');
+</script>
+</body></html>
