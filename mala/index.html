@@ -274,11 +274,14 @@ footer .row img{height:56px}
  <div class="hd"><span class="m k">// THE NIGHT</span><h2 class="h2 d">ערב שלם<br>על הגג.</h2></div>
  <div class="row" id="grow">
   <figure class="w"><img src="img/night.jpg" alt="הגג בלילה מלמעלה"><figcaption><span class="m">AFTER DARK</span>הגג, הבריכה והפרגולות בלילה</figcaption></figure>
-  <figure><img src="img/table.jpg" alt="שולחן מלא מנות"><figcaption><span class="m">SHARING</span>שולחן מלא, באמצע</figcaption></figure>
-  <figure><img src="img/sashimi.jpg" alt="סשימי"><figcaption><span class="m">SASHIMI</span>סשימי טונה בלופין</figcaption></figure>
+  <figure><img src="img/chefs.jpg" alt="צוות המטבח בעבודה"><figcaption><span class="m">THE KITCHEN</span>מטבח הזכוכית, בזמן שירות</figcaption></figure>
+  <figure><img src="img/torch.jpg" alt="רול נצרב בלהבה"><figcaption><span class="m">FLAME</span>צריבה רגע לפני ההגשה</figcaption></figure>
   <figure class="w"><img src="img/lounge.jpg" alt="הלאונג' בלילה"><figcaption><span class="m">THE LOUNGE</span>הבר והלאונג' תחת הקשת</figcaption></figure>
-  <figure><img src="img/crispy.jpg" alt="קריספי רייס"><figcaption><span class="m">CRISPY RICE</span>קריספי רייס טונה</figcaption></figure>
-  <figure class="w"><img src="img/sushibox.jpg" alt="מארז סושי"><figcaption><span class="m">SUSHI BOX</span>גם הביתה, במשלוח</figcaption></figure>
+  <figure><img src="img/sashimi.jpg" alt="קרפצ'יו דג"><figcaption><span class="m">SASHIMI</span>סשימי המאצ׳י</figcaption></figure>
+  <figure><img src="img/view.jpg" alt="הנוף מהגג בשקיעה"><figcaption><span class="m">THE VIEW</span>שקיעה מעל הגלבוע</figcaption></figure>
+  <figure class="w"><img src="img/sushibar.jpg" alt="פס הסושי"><figcaption><span class="m">SUSHI BAR</span>פס הסושי, מול העיניים</figcaption></figure>
+  <figure><img src="img/pool.jpg" alt="ליד הבריכה"><figcaption><span class="m">POOLSIDE</span>קוקטייל ליד הבריכה</figcaption></figure>
+  <figure><img src="img/dining.jpg" alt="חדר האוכל מלא"><figcaption><span class="m">FULL HOUSE</span>ערב מלא על הגג</figcaption></figure>
  </div>
 </div></section>
 
@@ -347,7 +350,7 @@ setTimeout(done, 9000); // never hold the page hostage on a slow network
 function fit(s) { const r = s.cv.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2); s.cv.width = r.width * d; s.cv.height = r.height * d; s.last = -1; }
 function draw(s, idx) {
   const im = s.imgs[idx]; if (!im || !im.complete || !im.naturalWidth) return false;
-  const g = s.cv.getContext('2d'), W = s.cv.width, H = s.cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
+  const g = s.cv.getContext('2d'); g.imageSmoothingQuality = 'high'; const W = s.cv.width, H = s.cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
   const cover = Math.max(W / iw, H / ih), contain = Math.min(W / iw, H / ih);
   // obj = dark-background food clips: on wide screens a generous contain that melts into the page,
   // on phones zoom in around the subject (fx) instead of a thin letterbox
@@ -439,7 +442,7 @@ const MENU = {
     ['ברוסקטה דג מלוח', 'לחם שיפון, חמאת שמיר, קרם פרש, בצל מוחמץ וכוסברה', 72],
     ['סשימי פריסטייל · 250 גר׳', 'פרוסות דג נא מהדגה הטרייה והמובחרת ביותר', 168],
     ['ניגירי פריסטייל', '6 יחידות ניגירי משלל סוגי הדגים', 99]]],
-  'רולים': ['SIGNATURE ROLLS', 'img/roll.jpg', [
+  'רולים': ['SIGNATURE ROLLS', 'img/zucchini.jpg', [
     ['ספיישל דג ים משתנה', 'אבוקדו, קנפיו, עטוף במיקס דגים, איולי יוזו, בצל ירוק וסויה קוג׳י', 89],
     ['טרטר ספייסי טונה', 'מלפפון, קנפיו, עטוף בטונה, איולי צ׳ילי ומסאגו אררה', 89],
     ['סלמון קרים', 'אבוקדו, עירית, עטוף סלמון על קרם פרש יוזו', 86],
@@ -455,13 +458,13 @@ const MENU = {
     ['ענבים על החצי', 'גבינת מנצ׳גו, בצל סגול, צנונית, כוסברה, לקט עלים ויוזו', 65],
     ['קיסר יפני', 'חסה לאליק, פירורי פנקו בטוגראשי, רוטב קיסר דאשי ופרמזן', 65],
     ['סלט חורף', 'אפונת גינה ושלג, צנונית אבטיח, פומלה, אצות נורי, סויה קוג׳י ויוזו', 67]]],
-  'מהים ומהגריל': ['SEA & GRILL', 'img/sashimi.jpg', [
+  'מהים ומהגריל': ['SEA & GRILL', 'img/tuna.jpg', [
     ['פילה בר ים', 'עגבניות שרי, ירקות ירוקים, קרם תפו״א, ציר דגים, חמאה ולימון כבוש', 166],
     ['מוסר ים', 'קרם בטטה לבנה, חמאה חומה, צ׳יפס כרישה, קוויאר אדום ופוריקקה', 138],
     ['סטייק סינטה · 180 גר׳', 'קרם ארטישוק ירושלמי, באק צ׳וי, פטריית מלך היער וציר בקר מצומצם', 136],
     ['נאם טוק', 'אנטריקוט על פחם בתיבול נאם חריף, אבקת אורז קלוי לצד סטיקי רייס', 97],
     ['אנטריקוט ריו פלטנסה', 'תפוחי אדמה בתנור. המחיר ל־100 גרם', 76]]],
-  'קינוחים': ['DESSERTS', 'img/table.jpg', [
+  'קינוחים': ['DESSERTS', 'img/view.jpg', [
     ['שוקולד קפה', 'פייטה פקאן, מוס שוקולד אוורירי, קציפת קפה ושבבי שוקולד קריספיים', 65],
     ['עוגת חלב', 'טורט מוקצפת בחלב, שכבת טופי, קרם שנטילי וניל ורוטב פירות יער', 65],
     ['טבעת יוזו', 'מצע קדאיף פיסטוק, מרנג ופירות העונה', 65]]],
