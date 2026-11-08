@@ -1,187 +1,143 @@
 <!doctype html>
 <html lang="he" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#14170F">
-<title>ירוק זית · סוויטות בוטיק עם בריכה פרטית · כפר יחזקאל</title>
+<meta name="theme-color" content="#080907">
+<title>ירוק זית · סוויטות בוטיק · כפר יחזקאל</title>
 <!--
-  Pitch demo for "Yarok Zait" suites (Kfar Yehezkel). Motion language of the Temerlin / Mala demos:
-  canvas frame-scrub hero (AI clip of the owners' own pool photo, upscaled 4x with Real-ESRGAN),
-  a window that opens to full screen, stacked pool cards, clip reveals and parallax.
-  All photos are the owners' own, upscaled 4x; never stretched beyond ~1.5x. Colours follow the photos: ivory + olive.
-  Recording hook: window.READY.
+  Pitch demo for "Yarok Zait" suites, Kfar Yehezkel. Built in the Temerlin language: dark, cinematic, sticky scroll scenes.
+  Hero = AI clip of the owners' pool photo (CapCut, Seedance 2.0 Mini), upscaled 4x with Real-ESRGAN and scrubbed on a canvas
+  (frames/d = landscape, frames/m = portrait crop for phones). Every other scene is a scroll-driven camera move through the owners' photos,
+  upscaled 4x (sc/d 2880w, sc/m portrait crops at native resolution), so nothing is ever stretched. Recording hook: window.READY.
 -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314170F'/%3E%3Cpath d='M32 54C32 36 40 21 52 12 47 29 41 42 32 54Z' fill='%23A9B86A'/%3E%3Cpath d='M32 54C32 40 25 29 14 22 18 36 24 46 32 54Z' fill='%23F5F1E8'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080907'/%3E%3Cpath d='M32 54C32 36 40 21 52 12 47 29 41 42 32 54Z' fill='%23B9C97E'/%3E%3Cpath d='M32 54C32 40 25 29 14 22 18 36 24 46 32 54Z' fill='%23EDE7D8'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--ivory:#F5F1E8;--paper:#ECE6D8;--ink:#1D2216;--soft:rgba(29,34,22,.66);--dim:rgba(29,34,22,.45);--olive:#4F5D2C;--olive2:#8A9A4E;--night:#14170F;--line:rgba(29,34,22,.13);--pad:clamp(20px,5vw,84px);--serif:'Frank Ruhl Libre',Georgia,serif}
-html{background:var(--ivory);overflow-x:clip}
+:root{--bg:#080907;--cream:#EDE7D8;--mut:rgba(237,231,216,.6);--olive:#B9C97E;--olive2:#8FA057;--line:rgba(237,231,216,.13);--pad:clamp(18px,4vw,56px)}
+html{background:var(--bg);overflow-x:clip}
 html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
-body{font-family:Heebo,system-ui,sans-serif;color:var(--ink);background:var(--ivory);overflow-x:clip;-webkit-font-smoothing:antialiased}
+body{font-family:Heebo,system-ui,sans-serif;color:var(--cream);background:var(--bg);overflow-x:clip;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}img,canvas{display:block}
-.k{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:.18em;color:var(--olive);margin-bottom:18px}
-.k:before{content:"";width:26px;height:1px;background:currentColor}
-.h{font-family:var(--serif);font-weight:300;font-size:clamp(38px,5.4vw,78px);line-height:1.06;letter-spacing:-.01em}
-.h em{font-style:normal;color:var(--olive)}
-.p{font-size:clamp(16px,1.4vw,18.5px);line-height:1.85;color:var(--soft);font-weight:300}
-.btn{height:54px;border-radius:999px;padding:0 30px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:500 15.5px Heebo;border:0;cursor:pointer;white-space:nowrap;transition:transform .25s,background .3s}
-.btn:active{transform:scale(.97)}
-.btn.a{background:var(--olive);color:#fff}.btn.a:hover{background:#5d6d35}
-.btn.w{background:#fff;color:var(--ink)}
-.btn.g{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.rv{opacity:0;transform:translateY(36px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
-.rv.in{opacity:1;transform:none}
-.fr{position:relative;overflow:hidden;border-radius:18px;background:var(--paper);clip-path:inset(100% 0 0 0 round 18px);transition:clip-path 1.4s cubic-bezier(.7,0,.2,1)}
-.fr.in{clip-path:inset(0 0 0 0 round 18px)}
-.fr img{width:100%;height:118%;object-fit:cover;will-change:transform;margin-top:-9%}
-.fr figcaption{position:absolute;bottom:14px;right:14px;background:rgba(245,241,232,.92);color:var(--ink);font-size:13px;padding:7px 13px;border-radius:999px;backdrop-filter:blur(6px)}
+.d{font-family:'Frank Ruhl Libre',serif;font-weight:700;letter-spacing:-.02em}
+.m{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;direction:ltr;unicode-bidi:isolate}
+.btn{height:56px;border-radius:28px;padding:0 26px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 15px Heebo;border:0;cursor:pointer;white-space:nowrap;transition:transform .25s,background .25s,color .25s}
+.btn:active{transform:scale(.96)}
+.btn.c{background:var(--cream);color:#0b0b0b}
+.btn.o{background:rgba(8,9,7,.25);color:var(--cream);border:1px solid rgba(237,231,216,.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.btn.o:hover{background:var(--cream);color:#0b0b0b}
+#grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
 
-#top{position:fixed;z-index:60;top:0;left:0;right:0;height:74px;padding:env(safe-area-inset-top) var(--pad) 0;display:flex;align-items:center;gap:30px;color:#fff;transition:background .5s,color .5s,box-shadow .5s}
-#top.solid{background:rgba(245,241,232,.86);color:var(--ink);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line)}
+#top{position:fixed;z-index:60;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 14px) var(--pad) 14px;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,rgba(8,9,7,.7),rgba(8,9,7,0))}
 .logo{display:flex;align-items:center;gap:10px}
-.logo svg{width:30px;height:30px}
-.logo b{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1;display:block}
-.logo small{display:block;font-size:10.5px;letter-spacing:.3em;opacity:.7;margin-top:3px}
-#top nav{display:flex;gap:28px}
-#top nav a{font-size:15px;opacity:.82;transition:opacity .3s}#top nav a:hover{opacity:1}
-#top .end{margin-inline-start:auto;display:flex;align-items:center;gap:18px}
-#top .tel{font-size:15px;direction:ltr;opacity:.85}
-#top .btn{height:44px;padding:0 22px;font-size:14.5px}
-#top:not(.solid) .btn.a{background:#fff;color:var(--ink)}
-@media(max-width:980px){#top nav,#top .tel{display:none}}
+.logo svg{width:34px;height:34px;color:var(--olive)}
+.logo b{font-family:'Frank Ruhl Libre';font-weight:700;font-size:21px;line-height:1;display:block}
+.logo small{display:block;font-size:10px;letter-spacing:.32em;color:var(--mut);margin-top:4px}
+#top nav{margin-inline-start:auto;display:flex;gap:26px}
+#top nav a{font-size:14px;color:var(--mut);position:relative;transition:color .3s}
+#top nav a:after{content:"";position:absolute;bottom:-6px;right:0;width:0;height:1px;background:var(--olive);transition:width .4s}
+#top nav a:hover{color:var(--cream)}#top nav a:hover:after{width:100%}
+#top .btn{height:44px;padding:0 20px;font-size:14px}
+@media(max-width:860px){#top nav{display:none}#top .btn{margin-inline-start:auto}}
 
-#hero{height:210vh;position:relative;background:var(--night)}
-#hero .st{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-#cv{position:absolute;inset:0;width:100%;height:100%}
-#hero .grad{position:absolute;left:0;right:0;bottom:0;height:52%;background:linear-gradient(0deg,rgba(12,14,9,.72),rgba(12,14,9,.3) 55%,transparent)}
-#hero .cp{position:absolute;right:var(--pad);left:var(--pad);bottom:calc(env(safe-area-inset-bottom) + clamp(40px,9vh,90px));color:#fff;will-change:transform,opacity}
-#hero .cp .k{color:#E3EBC4}
-#hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(54px,9vw,140px);line-height:.98;letter-spacing:-.02em;text-shadow:0 2px 30px rgba(0,0,0,.25)}
-#hero .cp p{margin-top:16px;max-width:520px;font-size:clamp(16px,1.5vw,19px);line-height:1.7;font-weight:300;color:rgba(255,255,255,.92)}
-#hero .ct{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
-#hero .cue{position:absolute;left:var(--pad);bottom:calc(env(safe-area-inset-bottom) + clamp(44px,9vh,96px));color:rgba(255,255,255,.85);font-size:13px;letter-spacing:.2em;display:flex;align-items:center;gap:10px}
-#hero .cue i{display:block;width:1px;height:46px;background:rgba(255,255,255,.7);transform-origin:top;animation:cue 2s ease-in-out infinite}
-@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media(max-width:700px){#hero .cue{display:none}}
-#hero .ld{position:absolute;inset:0;background:var(--night) url(media/hero.jpg) center/cover;transition:opacity .8s}
+.scene{position:relative}
+.scene .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--bg)}
+.scene canvas{position:absolute;inset:0;width:100%;height:100%}
+.ly{position:absolute;inset:0;opacity:0;will-change:opacity}
+.ly img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;transform-origin:50% 50%}
+.shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,9,7,.5),transparent 20%,transparent 46%,rgba(8,9,7,.88))}
+.hud{position:absolute;inset:calc(env(safe-area-inset-top) + 84px) var(--pad) calc(env(safe-area-inset-bottom) + 26px);pointer-events:none}
+.hud i{position:absolute;width:18px;height:18px;border-color:rgba(237,231,216,.45);border-style:solid}
+.hud i:nth-child(1){top:0;right:0;border-width:1px 1px 0 0}.hud i:nth-child(2){top:0;left:0;border-width:1px 0 0 1px}
+.hud i:nth-child(3){bottom:0;right:0;border-width:0 1px 1px 0}.hud i:nth-child(4){bottom:0;left:0;border-width:0 0 1px 1px}
+.hud .tl{position:absolute;top:2px;right:30px;color:rgba(237,231,216,.8)}
+.hud .tr{position:absolute;top:2px;left:30px;color:rgba(237,231,216,.8)}
+.hud .bl{position:absolute;bottom:2px;left:30px;color:rgba(237,231,216,.8)}
+.tx{position:absolute;left:var(--pad);right:var(--pad);pointer-events:none;opacity:0;will-change:opacity,transform;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.tx.b{bottom:calc(env(safe-area-inset-bottom) + 64px)}
+@media(max-width:700px){.hud .tr{display:none}.tx{text-shadow:0 2px 18px rgba(0,0,0,.7),0 0 2px rgba(0,0,0,.4)}}
+.tx.t{top:calc(env(safe-area-inset-top) + 120px)}
+.tx .k{color:var(--olive);margin-bottom:14px;display:block}
+.tx .big{font-size:clamp(44px,7.5vw,108px);line-height:.95}
+.tx p{margin-top:14px;font-size:clamp(16px,1.7vw,20px);line-height:1.7;font-weight:300;max-width:520px;color:rgba(237,231,216,.92)}
+.tx.l{text-align:left}.tx.l p{margin-left:0;margin-right:auto}
+.tx .spec{margin-top:18px;display:flex;gap:26px;flex-wrap:wrap}
+.tx .spec div{border-top:1px solid rgba(237,231,216,.35);padding-top:10px;min-width:110px}
+.tx .spec b{display:block;font-family:'Frank Ruhl Libre';font-weight:500;font-size:clamp(22px,2.4vw,30px)}
+.tx .spec span{font-size:13px;color:var(--mut)}
 
-.sec{padding:clamp(100px,13vw,180px) var(--pad);position:relative}
-#intro .say{font-family:var(--serif);font-weight:300;font-size:clamp(30px,4.3vw,62px);line-height:1.28;max-width:1150px}
-#intro .say span{opacity:.14;transition:opacity .25s}
-#intro .say span.on{opacity:1}
-#intro .facts{margin-top:clamp(50px,7vw,90px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
-#intro .facts div{padding:26px 0 0}
-#intro .facts b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(38px,4vw,58px);color:var(--olive);line-height:1}
-#intro .facts span{display:block;margin-top:8px;font-size:15px;color:var(--soft)}
-@media(max-width:760px){#intro .facts{grid-template-columns:1fr 1fr;gap:10px 20px}}
+#hero{height:240vh}
+#hero .ttl{opacity:1}
+#hero h1{font-size:clamp(78px,16vw,230px);line-height:.85}
+#hero .ct{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;pointer-events:auto}
+#hero .poster{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .6s}
 
-#win{height:230vh;position:relative;background:var(--ivory)}
-#win .st{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-#win .fw{position:absolute;inset:0;will-change:clip-path;clip-path:inset(20% 24% 20% 24% round 26px)}
-#win .fw img{width:100%;height:100%;object-fit:cover;will-change:transform}
-#win .fw .grad{position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(0deg,rgba(12,14,9,.6),transparent);opacity:0}
-#win .tt{position:absolute;right:var(--pad);left:var(--pad);bottom:calc(env(safe-area-inset-bottom) + clamp(40px,8vh,80px));color:#fff;opacity:0;will-change:opacity,transform}
-#win .tt .h{font-size:clamp(36px,5vw,72px)}
-#win .tt p{margin-top:12px;font-size:clamp(16px,1.4vw,18px);font-weight:300;max-width:520px;line-height:1.75;color:rgba(255,255,255,.92)}
-@media(max-width:700px){#win .fw{clip-path:inset(26% 10% 26% 10% round 22px)}}
+.mq{overflow:hidden;border-block:1px solid var(--line);padding:22px 0;background:var(--bg)}
+.mq div{display:flex;gap:40px;white-space:nowrap;width:max-content;animation:mq 34s linear infinite;font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(26px,3.4vw,46px)}
+.mq em{font-style:normal;color:var(--olive)}
+@keyframes mq{to{transform:translateX(50%)}}
 
-#suites{background:var(--ivory)}
-.st2{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,6vw,100px);align-items:start;margin-top:clamp(60px,8vw,110px)}
-.st2 .txt{position:sticky;top:120px}
-.st2 .num{font-family:var(--serif);font-size:15px;color:var(--olive);letter-spacing:.12em;display:block}
-.st2 h3{font-family:var(--serif);font-weight:300;font-size:clamp(40px,4.6vw,66px);line-height:1.05;margin:10px 0 18px}
-.st2 ul{list-style:none;margin-top:26px;border-top:1px solid var(--line)}
-.st2 li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;font-size:15.5px}
-.st2 li span{color:var(--soft);text-align:left}
-.st2 .pics{display:grid;gap:16px}
-.st2 .pics>.fr{aspect-ratio:16/10}
-.st2 .pics .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.st2 .pics .two .fr{aspect-ratio:4/3.4}
-@media(max-width:900px){.st2{grid-template-columns:1fr}.st2 .txt{position:relative;top:0}.st2 .pics .two{gap:10px}.st2 .pics{gap:10px}}
+.sec{padding:clamp(90px,13vw,170px) var(--pad);position:relative}
+.sec .k{color:var(--olive);display:block;margin-bottom:18px}
+.h2{font-size:clamp(46px,7.5vw,112px);line-height:.95}
+.lead{font-size:clamp(16px,1.8vw,20px);line-height:1.75;color:var(--mut);font-weight:300;max-width:560px}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
 
-#deck{height:260vh;position:relative;background:var(--night);color:#fff}
-#deck .st{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad)}
-#deck .hd{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:clamp(20px,3vh,34px);max-width:1280px;width:100%;margin-inline:auto}
-#deck .hd .k{color:#C9D69A;margin-bottom:10px}
-#deck .hd .h{font-size:clamp(32px,4vw,58px)}
-#deck .cnt{direction:ltr;font-family:var(--serif);font-size:18px;color:rgba(255,255,255,.7);white-space:nowrap}
-#deck .stage{position:relative;width:100%;max-width:1280px;margin:0 auto;aspect-ratio:16/8.4;max-height:66vh}
-#deck .card{position:absolute;inset:0;border-radius:22px;overflow:hidden;will-change:transform;box-shadow:0 -20px 60px rgba(0,0,0,.35)}
-#deck .card img{width:100%;height:100%;object-fit:cover}
-#deck .card figcaption{position:absolute;bottom:16px;right:16px;background:rgba(245,241,232,.94);color:var(--ink);font-size:14px;padding:8px 15px;border-radius:999px}
-@media(max-width:700px){#deck .stage{aspect-ratio:auto;height:58svh;max-height:none}#deck .hd{flex-direction:column;align-items:flex-start}}
-
-.mo{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(30px,6vw,96px);align-items:center;margin-top:clamp(70px,9vw,130px)}
-.mo.r{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
-.mo.r .fr{order:2}
-.mo .fr{aspect-ratio:16/11}
-.mo h3{font-family:var(--serif);font-weight:300;font-size:clamp(34px,3.8vw,54px);line-height:1.1;margin-bottom:16px}
-@media(max-width:860px){.mo,.mo.r{grid-template-columns:1fr;gap:26px}.mo.r .fr{order:0}}
-
-#garden{background:var(--paper);overflow:hidden}
-#garden .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:clamp(50px,7vw,90px)}
-#garden .col{display:grid;gap:16px;will-change:transform;align-content:start}
-#garden .fr{aspect-ratio:4/3.3}
-#garden .col:nth-child(2) .fr{aspect-ratio:4/4.6}
-@media(max-width:760px){#garden .cols{grid-template-columns:1fr 1fr;gap:10px}#garden .col{gap:10px}#garden .col:nth-child(3){display:none}}
-
+#rev{background:radial-gradient(120% 80% at 80% 0%,#1d2412 0%,#11150b 45%,var(--bg) 100%)}
 #rev .top{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
-#rev .score{display:flex;align-items:center;gap:16px}
-#rev .score b{font-family:var(--serif);font-weight:300;font-size:clamp(70px,8vw,120px);line-height:.9;color:var(--olive)}
-#rev .score span{font-size:15px;color:var(--soft);line-height:1.6}
-#rev .score i{font-style:normal;color:var(--olive);letter-spacing:3px;font-size:16px}
-#rev .qs{margin-top:clamp(40px,6vw,80px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px)}
-#rev blockquote{border-top:1px solid var(--ink);padding-top:22px}
-#rev blockquote p{font-family:var(--serif);font-weight:300;font-size:clamp(21px,1.9vw,26px);line-height:1.5}
-#rev blockquote cite{display:block;margin-top:16px;font-style:normal;font-size:14px;color:var(--dim)}
+#rev .score b{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(90px,12vw,170px);line-height:.85;color:var(--olive);direction:ltr;display:block}
+#rev .score span{font-size:14px;color:var(--mut)}
+#rev .qs{margin-top:clamp(40px,6vw,80px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,36px)}
+#rev blockquote{border:1px solid var(--line);border-radius:22px;padding:28px;background:rgba(8,9,7,.35)}
+#rev blockquote .m{color:var(--olive)}
+#rev blockquote p{margin-top:16px;font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(20px,1.8vw,24px);line-height:1.5}
+#rev blockquote cite{display:block;margin-top:18px;font-style:normal;font-size:14px;color:var(--mut)}
 @media(max-width:860px){#rev .qs{grid-template-columns:1fr}}
 
-#area{background:var(--night);color:#fff}
-#area .k{color:#C9D69A}
-#area .p{color:rgba(255,255,255,.7)}
-#area .ls{margin-top:50px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.16)}
-#area .ls div{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.16);display:flex;justify-content:space-between;gap:12px;padding-inline:0 26px}
+#area .ls{margin-top:50px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+#area .ls div{padding:22px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;padding-inline:0 26px}
 #area .ls b{font-weight:400;font-size:17px}
-#area .ls span{color:rgba(255,255,255,.6);font-size:15px;white-space:nowrap}
+#area .ls span{color:var(--mut)}
 @media(max-width:860px){#area .ls{grid-template-columns:1fr}#area .ls div{padding-inline:0}}
 
-#book{background:var(--ivory)}
-.bk{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(26px,5vw,70px);align-items:start;margin-top:clamp(40px,6vw,70px)}
-.form{background:#fff;border-radius:24px;padding:clamp(22px,3vw,38px);box-shadow:0 30px 80px rgba(29,34,22,.08)}
-.form label{display:block;font-size:13px;font-weight:500;letter-spacing:.1em;color:var(--olive);margin:22px 0 10px}
+#book{background:linear-gradient(180deg,var(--bg),#10130b)}
+.bk{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,60px);margin-top:56px;align-items:start}
+.form{border:1px solid var(--line);border-radius:26px;padding:clamp(22px,3vw,36px);background:rgba(237,231,216,.03)}
+.form label{display:block;margin:22px 0 10px;color:var(--olive)}
 .form label:first-child{margin-top:0}
 .seg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
-.opt{border:1px solid var(--line);border-radius:14px;padding:14px;background:none;color:var(--ink);font:inherit;text-align:right;cursor:pointer;transition:.25s}
-.opt b{display:block;font-family:var(--serif);font-weight:400;font-size:20px}
-.opt span{font-size:13px;color:var(--dim)}
-.opt.on{border-color:var(--olive);background:rgba(79,93,44,.07)}
+.opt{border:1px solid rgba(237,231,216,.18);border-radius:18px;padding:16px;background:none;color:var(--cream);font:inherit;text-align:right;cursor:pointer;transition:.25s}
+.opt b{display:block;font-family:'Frank Ruhl Libre';font-weight:700;font-size:21px}
+.opt span{font-size:13px;color:var(--mut)}
+.opt.on{border-color:var(--cream);background:rgba(237,231,216,.07)}
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.two>*{min-width:0}
-.f{width:100%;min-width:0;height:52px;border-radius:12px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);font:400 16px Heebo;padding:0 14px;outline:none}
+.f{width:100%;min-width:0;height:52px;border-radius:14px;border:1px solid rgba(237,231,216,.18);background:rgba(8,9,7,.5);color:var(--cream);font:400 16px Heebo;padding:0 14px;outline:none;color-scheme:dark}
 .f:focus{border-color:var(--olive)}
-.cnt2{min-width:0;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;height:52px;padding:0 8px 0 12px;font-size:15px;background:var(--ivory)}
-.cnt2 button{width:32px;height:32px;border-radius:16px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:16px;cursor:pointer}
-.cnt2 b{min-width:22px;text-align:center;font-weight:500}
-.chk{display:flex!important;align-items:center;gap:10px;color:var(--ink)!important;font-weight:400!important;letter-spacing:0!important;font-size:15.5px!important;cursor:pointer}
+.cnt{min-width:0;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(237,231,216,.18);border-radius:14px;height:52px;padding:0 8px 0 12px;font-size:15px}
+.cnt button{width:32px;height:32px;border-radius:16px;border:1px solid rgba(237,231,216,.3);background:none;color:var(--cream);font-size:16px;cursor:pointer}
+.cnt b{min-width:22px;text-align:center}
+.chk{display:flex!important;align-items:center;gap:10px;color:var(--cream)!important;font:400 15.5px Heebo!important;letter-spacing:0!important;text-transform:none!important;direction:rtl!important;cursor:pointer}
 .chk input{width:19px;height:19px;accent-color:var(--olive)}
 .form .btn{width:100%;margin-top:24px}
-.form .note{font-size:13px;color:var(--dim);text-align:center;margin-top:12px}
-.side .fr{aspect-ratio:4/3}
-.side .info{margin-top:22px;font-size:15.5px;line-height:1.9;color:var(--soft)}
-.side .info b{color:var(--ink);font-weight:500;font-family:var(--serif);font-size:22px;display:block;margin-bottom:6px}
-.side .info a{color:var(--olive);font-weight:500}
+.form .note{font-size:13px;color:var(--mut);text-align:center;margin-top:12px}
+.side{border-radius:26px;overflow:hidden;border:1px solid var(--line)}
+.side img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.side div{padding:24px 26px;font-size:15.5px;line-height:1.9;color:var(--mut)}
+.side div b{display:block;font-family:'Frank Ruhl Libre';font-weight:700;font-size:23px;color:var(--cream);margin-bottom:6px}
+.side a{color:var(--olive)}
 @media(max-width:900px){.bk{grid-template-columns:1fr}}
-footer{background:var(--night);color:rgba(255,255,255,.7);padding:46px var(--pad) calc(env(safe-area-inset-bottom) + 40px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:14px}
-footer .logo{color:#fff}
-footer .demo{font-size:12px;letter-spacing:.1em;padding:6px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px}
+footer{padding:46px var(--pad) calc(env(safe-area-inset-bottom) + 40px);border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--mut);font-size:14px}
+footer .demo{font-size:12px;letter-spacing:.1em;padding:6px 12px;border:1px solid var(--line);border-radius:999px}
 
-#wa{position:fixed;inset:0;z-index:97;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,23,15,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+#wa{position:fixed;inset:0;z-index:97;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
 #wa.on{opacity:1;pointer-events:auto}
-#wa .ph{width:min(370px,100%);border-radius:24px;overflow:hidden;background:#0b141a;box-shadow:0 40px 90px rgba(0,0,0,.5);transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#wa .ph{width:min(370px,100%);border-radius:24px;overflow:hidden;background:#0b141a;box-shadow:0 40px 90px rgba(0,0,0,.6);transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 #wa.on .ph{transform:none}
 #wa .hd{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#202c33;color:#e9edef}
-#wa .av{width:38px;height:38px;border-radius:19px;background:#2b3320;display:grid;place-items:center}
-#wa .av svg{width:22px;height:22px}
+#wa .av{width:38px;height:38px;border-radius:19px;background:#232a17;display:grid;place-items:center}
+#wa .av svg{width:22px;height:22px;color:var(--olive)}
 #wa .hd b{display:block;font-size:15px}#wa .hd small{font-size:12px;color:#8696a0}
 #wa .bd{padding:22px 14px 26px;min-height:230px;display:flex;flex-direction:column;align-items:flex-start}
 #wa .msg{max-width:90%;background:#005c4b;color:#e9edef;border-radius:12px 0 12px 12px;padding:10px 12px 18px;font:15px/1.55 Heebo;white-space:pre-line;position:relative}
@@ -190,126 +146,86 @@ footer .demo{font-size:12px;letter-spacing:.1em;padding:6px 12px;border:1px soli
 #wa .ft .btn{width:100%;margin-top:12px;height:46px;background:#25d366;color:#0b141a}
 </style></head>
 <body>
+<div id="grain"></div>
 <svg width="0" height="0" style="position:absolute"><defs><symbol id="leaf" viewBox="0 0 64 64"><path d="M32 54C32 36 40 21 52 12 47 29 41 42 32 54Z" fill="currentColor"/><path d="M32 54C32 40 25 29 14 22 18 36 24 46 32 54Z" fill="currentColor" opacity=".5"/></symbol></defs></svg>
 
 <header id="top">
- <a class="logo" href="#hero"><svg style="color:#A9B86A"><use href="#leaf"/></svg><div><b>ירוק זית</b><small>סוויטות בוטיק</small></div></a>
- <nav><a href="#suites">הסוויטות</a><a href="#deck">הבריכות</a><a href="#moments">האירוח</a><a href="#rev">ביקורות</a><a href="#book">הזמנה</a></nav>
- <div class="end"><a class="tel" href="tel:0523504451">052-350-4451</a><a class="btn a" href="#book">לבדיקת זמינות</a></div>
+ <a class="logo" href="#hero"><svg><use href="#leaf"/></svg><div><b>ירוק זית</b><small>סוויטות בוטיק</small></div></a>
+ <nav><a href="#s1">כרם זית</a><a href="#s2">משעול הכרם</a><a href="#s3">הבריכות</a><a href="#rev">ביקורות</a><a href="#book">הזמנה</a></nav>
+ <a class="btn c" href="#book">לבדיקת זמינות</a>
 </header>
 
-<section id="hero"><div class="st">
- <canvas id="cv"></canvas>
- <div class="ld" id="ld"></div>
- <div class="grad"></div>
- <div class="cp" id="hc">
-  <span class="k">כפר יחזקאל · למרגלות הגלבוע</span>
-  <h1>ירוק זית</h1>
-  <p>שתי סוויטות בוטיק, ולכל אחת בריכה פרטית משלה. בלב כרם זיתים, עם שקט של מושב ומארחת שזוכרת כל פרט.</p>
-  <div class="ct"><a class="btn w" href="#book">לבדיקת זמינות</a><a class="btn g" href="#suites">לגלות את הסוויטות</a></div>
- </div>
- <div class="cue"><i></i>גללו</div>
+<!-- 01 · hero: the pool clip, scrubbed -->
+<section class="scene" id="hero"><div class="stick">
+ <canvas id="cv"></canvas><div class="poster" id="poster"></div><div class="shade"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">01 / 06 — הבית</span><span class="m tr">KFAR YEHEZKEL · 32.57°N</span><span class="m bl" id="fc">FRAME 000</span></div>
+ <div class="tx b ttl" id="h1"><span class="m k">BOUTIQUE SUITES · EST. BY RAVIT</span><h1 class="d">ירוק זית</h1><p>שתי סוויטות בוטיק, ולכל אחת בריכה פרטית משלה. בלב כרם זיתים בכפר יחזקאל, למרגלות הגלבוע.</p><div class="ct"><a class="btn c" href="#book">לבדיקת זמינות</a><a class="btn o" href="#s1">לגלות את הסוויטות</a></div></div>
+ <div class="tx t" id="h2" data-a=".62" data-b="1.1"><span class="m k">// 01 · THE HOUSE</span><div class="big d">לא מלון.<br>לא רשת.</div><p>שתי סוויטות בלבד, כל אחת עם כביש גישה משלה. פרטיות מלאה.</p></div>
 </div></section>
 
-<section class="sec" id="intro">
- <span class="k rv">ברוכים הבאים</span>
- <p class="say" id="say">לא מלון ולא רשת. שתי סוויטות בלבד, כל אחת עם כביש גישה משלה, בריכה פרטית מחוממת וג'קוזי זוגי. מקום שבו מישהו דואג לכל פרט, ואתם רק נחים.</p>
- <div class="facts">
-  <div class="rv"><b>5.0</b><span>45 ביקורות בגוגל</span></div>
-  <div class="rv"><b>2</b><span>סוויטות בלבד</span></div>
-  <div class="rv"><b>365</b><span>ימי בריכה מחוממת</span></div>
-  <div class="rv"><b>15'</b><span>מהגלבוע ומעיין חרוד</span></div>
- </div>
-</section>
+<div class="mq"><div>בריכה פרטית<em>✦</em>ג'קוזי זוגי<em>✦</em>ארוחת בוקר כשרה<em>✦</em>כרם זיתים<em>✦</em>כפר יחזקאל<em>✦</em>בריכה פרטית<em>✦</em>ג'קוזי זוגי<em>✦</em>ארוחת בוקר כשרה<em>✦</em>כרם זיתים<em>✦</em>כפר יחזקאל<em>✦</em></div></div>
 
-<section id="win"><div class="st">
- <div class="fw" id="fw"><img src="img/05x.jpg" alt="הבריכה והבית בשעת ערב"><div class="grad" id="wg"></div></div>
- <div class="tt" id="wt"><span class="k" style="color:#E3EBC4">ירוק זית</span><div class="h">ערב אחד כאן,<br>ושוכחים את השעון.</div><p>האורות נדלקים בין העצים, המים חמימים, והשקט של המושב עוטף את הכל.</p></div>
+<!-- 02 · suite one -->
+<section class="scene sc" id="s1" data-imgs="12,07,08,10"><div class="stick">
+ <div class="shade"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">02 / 06 — כרם זית</span><span class="m tr">SUITE 01 · COUPLES</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 02 · SUITE KEREM ZAIT</span><div class="big d">כרם זית.</div><p>חלל פתוח ומואר בתוך כרם הזיתים, לזוג או לזוג עם שני ילדים.</p></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">ג'קוזי ענק<br>עם מפל.</div><div class="spec" style="justify-content:flex-end"><div><b>זוג + 2</b><span>אורחים</span></div><div><b>אורתופדי</b><span>מזרן זוגי</span></div></div></div>
+ <div class="tx b" data-a="2" data-b="2.95"><div class="big d">נרות,<br>חלוקים, שקט.</div><p>כשאתם נכנסים הכל כבר מוכן.</p></div>
+ <div class="tx b l" data-a="3" data-b="4.2"><span class="m k">PRIVATE POOL</span><div class="big d">והבריכה<br>רק שלכם.</div></div>
 </div></section>
 
-<section class="sec" id="suites">
- <span class="k rv">הסוויטות</span>
- <h2 class="h rv">שתי סוויטות.<br><em>כל אחת עולם משלה.</em></h2>
-
- <div class="st2">
-  <div class="txt">
-   <span class="num rv">01</span>
-   <h3 class="rv">כרם זית</h3>
-   <p class="p rv">חלל פתוח ומואר בתוך כרם הזיתים, לזוג או לזוג עם שני ילדים. מיטה זוגית עם מזרן אורתופדי, ג'קוזי ענק עם מפל, ובחוץ דק עץ ובריכה פרטית רק לכם.</p>
-   <ul class="rv"><li>אורחים<span>זוג + 2</span></li><li>בריכה פרטית<span>מחוממת ומקורה בחורף</span></li><li>ג'קוזי<span>זוגי עם מפל</span></li><li>בפנים<span>מטבחון, אספרסו, מסך גדול</span></li></ul>
-  </div>
-  <div class="pics">
-   <figure class="fr"><img src="img/12.jpg" alt="סוויטת כרם זית"></figure>
-   <div class="two"><figure class="fr"><img src="img/02.jpg" alt="פינת ישיבה"></figure><figure class="fr"><img src="img/07.jpg" alt="חדר שינה וג'קוזי"></figure></div>
-   <figure class="fr"><img src="img/10.jpg" alt="ערב ליד הבריכה"><figcaption>הבריכה של כרם זית</figcaption></figure>
-  </div>
- </div>
-
- <div class="st2">
-  <div class="txt">
-   <span class="num rv">02</span>
-   <h3 class="rv">משעול הכרם</h3>
-   <p class="p rv">שני חדרי שינה וסלון מרכזי, למשפחה עם עד ארבעה ילדים. מסביב דשא פרטי גדול, עמדת מנגל מאובזרת, נדנדה כפרית וטרמפולינה, והבריכה ממש מחוץ לדלת.</p>
-   <ul class="rv"><li>אורחים<span>זוג + 4</span></li><li>חדרים<span>2 חדרי שינה + סלון</span></li><li>בחוץ<span>דשא, מנגל, נדנדה, טרמפולינה</span></li><li>בריכה פרטית<span>מוקפת צמחייה</span></li></ul>
-  </div>
-  <div class="pics">
-   <figure class="fr"><img src="img/20.jpg" alt="סוויטת משעול הכרם"></figure>
-   <div class="two"><figure class="fr"><img src="img/31.jpg" alt="חדר שינה"></figure><figure class="fr"><img src="img/28.jpg" alt="סלון ומטבח"></figure></div>
-   <figure class="fr"><img src="img/22.jpg" alt="הבריכה בתוך הירוק"><figcaption>הבריכה של משעול הכרם</figcaption></figure>
-  </div>
- </div>
-</section>
-
-<section id="deck"><div class="st">
- <div class="hd"><div><span class="k">הבריכות</span><div class="h">בריכה פרטית לכל סוויטה.</div></div><div class="cnt" id="dc">01 / 03</div></div>
- <div class="stage">
-  <figure class="card" style="z-index:1"><img src="img/13x.jpg" alt=""><figcaption>מחוממת ומקורה בחורף</figcaption></figure>
-  <figure class="card" style="z-index:2"><img src="img/23x.jpg" alt=""><figcaption>דק עץ וכיסאות שיזוף</figcaption></figure>
-  <figure class="card" style="z-index:3"><img src="img/06x.jpg" alt=""><figcaption>פירות טריים מחכים בהגעה</figcaption></figure>
- </div>
+<!-- 03 · suite two -->
+<section class="scene sc" id="s2" data-imgs="20,31,28,29"><div class="stick">
+ <div class="shade"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">03 / 06 — משעול הכרם</span><span class="m tr">SUITE 02 · FAMILIES</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 03 · SUITE MISHOL HAKEREM</span><div class="big d">משעול הכרם.</div><p>שני חדרי שינה וסלון מרכזי, למשפחה עם עד ארבעה ילדים.</p></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">שני חדרי<br>שינה.</div><div class="spec" style="justify-content:flex-end"><div><b>זוג + 4</b><span>אורחים</span></div><div><b>2 + סלון</b><span>חדרים</span></div></div></div>
+ <div class="tx b" data-a="2" data-b="2.95"><div class="big d">מטבחון<br>מאובזר.</div><p>אספרסו, מסך גדול, מיזוג ו־Wi-Fi.</p></div>
+ <div class="tx b l" data-a="3" data-b="4.2"><span class="m k">THE LAWN</span><div class="big d">דשא, מנגל<br>וטרמפולינה.</div></div>
 </div></section>
 
-<section class="sec" id="moments">
- <span class="k rv">האירוח</span>
- <h2 class="h rv">הפרטים הקטנים<br><em>שעושים את החופשה.</em></h2>
- <div class="mo">
-  <figure class="fr"><img src="img/08.jpg" alt="ג'קוזי עם נרות"></figure>
-  <div><span class="k rv">בערב</span><h3 class="rv">ג'קוזי, נרות<br>ומגבות מקופלות.</h3><p class="p rv">כשאתם נכנסים הכל כבר מוכן: הנרות דולקים, החלוקים מחכים והג'קוזי הזוגי מתמלא.</p></div>
- </div>
- <div class="mo r">
-  <figure class="fr"><img src="img/09.jpg" alt="מכונת אספרסו ופינוקים"></figure>
-  <div><span class="k rv">בהגעה</span><h3 class="rv">פינוקים<br>על השולחן.</h3><p class="p rv">פירות טריים, עוגיות, שוקולדים ובקבוק יין איכותי. מכונת אספרסו עם קפסולות לבוקר.</p></div>
- </div>
- <div class="mo">
-  <figure class="fr"><img src="img/14.jpg" alt="ארוחת בוקר כשרה"></figure>
-  <div><span class="k rv">בבוקר</span><h3 class="rv">ארוחת בוקר<br>עד הסוויטה.</h3><p class="p rv">ארוחה כשרה ועשירה: גבינות, סלטים, מאפים ופירות. בתיאום מראש, מוגשת אליכם.</p></div>
- </div>
-</section>
+<!-- 04 · pools -->
+<section class="scene sc" id="s3" data-imgs="13,23,06"><div class="stick">
+ <div class="shade"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 06 — הבריכות</span><span class="m tr">HEATED · COVERED IN WINTER</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="tx t" data-a="0" data-b=".95"><span class="m k">// 04 · PRIVATE POOLS</span><div class="big d">בריכה פרטית<br>לכל סוויטה.</div></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">מחוממת<br>כל השנה.</div><p>מקורה ומחוממת בחורף, מוקפת דק עץ וצמחייה.</p></div>
+ <div class="tx b" data-a="2" data-b="3.2"><span class="m k">ON ARRIVAL</span><div class="big d">פירות טריים<br>מחכים לכם.</div></div>
+</div></section>
 
-<section class="sec" id="garden">
- <span class="k rv">הגינה</span>
- <h2 class="h rv">נדנדות בין הפרחים,<br><em>וכרם זיתים מסביב.</em></h2>
- <div class="cols" id="gcols">
-  <div class="col"><figure class="fr"><img src="img/26.jpg" alt=""></figure><figure class="fr"><img src="img/38.jpg" alt=""></figure><figure class="fr"><img src="img/30.jpg" alt=""></figure></div>
-  <div class="col"><figure class="fr"><img src="img/32.jpg" alt=""></figure><figure class="fr"><img src="img/29.jpg" alt=""></figure><figure class="fr"><img src="img/36.jpg" alt=""></figure></div>
-  <div class="col"><figure class="fr"><img src="img/37.jpg" alt=""></figure><figure class="fr"><img src="img/33.jpg" alt=""></figure><figure class="fr"><img src="img/34.jpg" alt=""></figure></div>
- </div>
-</section>
+<!-- 05 · hospitality -->
+<section class="scene sc" id="s4" data-imgs="15,14,11"><div class="stick">
+ <div class="shade"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">05 / 06 — האירוח</span><span class="m tr">KOSHER BREAKFAST</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 05 · THE DETAILS</span><div class="big d">פינוקים<br>על השולחן.</div><p>פירות, עוגיות, שוקולדים ובקבוק יין איכותי, באהבה מרוית.</p></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">ארוחת בוקר<br>עד הסוויטה.</div><p>כשרה ועשירה: גבינות, סלטים ופירות, בתיאום מראש.</p></div>
+ <div class="tx b" data-a="2" data-b="3.2"><div class="big d">ולא ממהרים<br>לשום מקום.</div></div>
+</div></section>
+
+<!-- 06 · garden and evening -->
+<section class="scene sc" id="s5" data-imgs="26,32,38,05"><div class="stick">
+ <div class="shade"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">06 / 06 — הגינה</span><span class="m tr">MT. GILBOA · 15 MIN</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 06 · THE GARDEN</span><div class="big d">נדנדות<br>בין העצים.</div></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">פרחים<br>בכל פינה.</div></div>
+ <div class="tx b" data-a="2" data-b="2.95"><div class="big d">כרם זיתים<br>מסביב.</div><p>דקות מהגלבוע, מעיין חרוד וגן השלושה.</p></div>
+ <div class="tx b" data-a="3" data-b="4.2"><span class="m k">GOOD NIGHT</span><div class="big d">ערב אחד כאן,<br>ושוכחים את השעון.</div></div>
+</div></section>
 
 <section class="sec" id="rev">
- <div class="top"><div><span class="k rv">ביקורות</span><h2 class="h rv">מה אומרים<br><em>מי שכבר היו.</em></h2></div>
-  <div class="score rv"><b>5.0</b><span><i>★★★★★</i><br>45 ביקורות בגוגל<br>8.9 ב־EASY · 5.0 בבורדו</span></div></div>
+ <div class="top"><div><span class="m k rv">// REVIEWS</span><h2 class="h2 d rv">מה אומרים<br>האורחים.</h2></div><div class="score rv"><b>5.0</b><span>★★★★★ · 45 ביקורות בגוגל · 8.9 ב־EASY</span></div></div>
  <div class="qs">
-  <blockquote class="rv"><p>״הייתי בהרבה צימרים, זה היה הטוב ביותר עד כה. בריכה פרטית מחוממת, ג'קוזי מעולה, וצימר עטוף בירוק.״</p><cite>אלעד ש. · מדריך מקומי בגוגל</cite></blockquote>
-  <blockquote class="rv"><p>״רוית המקסימה עושה הכל, אבל באמת הכל, כדי שהחופשה תהיה חלומית. אין ספק שנחזור.״</p><cite>אנה ב. · גוגל</cite></blockquote>
-  <blockquote class="rv"><p>״גן עדן של ממש. השקט, הפרטיות, הניקיון והיחס האכפתי. לא מצאנו חסרונות.״</p><cite>דקלה · אוגוסט 2025</cite></blockquote>
+  <blockquote class="rv"><span class="m">GOOGLE · LOCAL GUIDE</span><p>״הייתי בהרבה צימרים, זה היה הטוב ביותר עד כה. בריכה פרטית מחוממת, ג'קוזי מעולה, וצימר עטוף בירוק.״</p><cite>אלעד ש.</cite></blockquote>
+  <blockquote class="rv"><span class="m">GOOGLE</span><p>״רוית המקסימה עושה הכל, אבל באמת הכל, כדי שהחופשה תהיה חלומית. אין ספק שנחזור.״</p><cite>אנה ב.</cite></blockquote>
+  <blockquote class="rv"><span class="m">AUG 2025</span><p>״גן עדן של ממש. השקט, הפרטיות, הניקיון והיחס האכפתי. לא מצאנו חסרונות.״</p><cite>דקלה</cite></blockquote>
  </div>
 </section>
 
 <section class="sec" id="area">
- <span class="k rv">הסביבה</span>
- <h2 class="h rv">בלב עמק יזרעאל.</h2>
- <p class="p rv" style="max-width:600px;margin-top:16px">מסלולי אופניים, מעיינות ונופי הגלבוע. לרוכבים יש מתקן לאופניים, ברז שטיפה וכלים לתיקון פנצ'ר.</p>
+ <span class="m k rv">// THE VALLEY</span>
+ <h2 class="h2 d rv">בלב עמק יזרעאל.</h2>
+ <p class="lead rv" style="margin-top:18px">מסלולי אופניים, מעיינות ונופי הגלבוע. לרוכבים יש מתקן לאופניים, ברז שטיפה וכלים לתיקון פנצ'ר.</p>
  <div class="ls">
   <div class="rv"><b>מעיין חרוד</b><span>12 דק'</span></div><div class="rv"><b>הר הגלבוע</b><span>15 דק'</span></div><div class="rv"><b>גן השלושה (סחנה)</b><span>25 דק'</span></div>
   <div class="rv"><b>גן גורו</b><span>20 דק'</span></div><div class="rv"><b>עפולה</b><span>15 דק'</span></div><div class="rv"><b>בית שאן העתיקה</b><span>30 דק'</span></div>
@@ -317,30 +233,30 @@ footer .demo{font-size:12px;letter-spacing:.1em;padding:6px 12px;border:1px soli
 </section>
 
 <section class="sec" id="book">
- <span class="k rv">הזמנה ישירה</span>
- <h2 class="h rv">מזמינים ישירות<br><em>מרוית.</em></h2>
- <p class="p rv" style="max-width:580px;margin-top:16px">בלי אתרי תיווך ובלי עמלות. שולחים בקשה, ורוית חוזרת עם זמינות ומחיר.</p>
+ <span class="m k rv">// BOOK DIRECT</span>
+ <h2 class="h2 d rv">מזמינים<br>ישירות מרוית.</h2>
+ <p class="lead rv" style="margin-top:18px">בלי אתרי תיווך ובלי עמלות. שולחים בקשה, ורוית חוזרת עם זמינות ומחיר.</p>
  <div class="bk">
   <div class="form rv">
-   <label>בחירת סוויטה</label>
+   <label class="m">SUITE · סוויטה</label>
    <div class="seg" id="suiteSel"><button class="opt on" data-v="כרם זית"><b>כרם זית</b><span>לזוג או זוג + 2</span></button><button class="opt" data-v="משעול הכרם"><b>משעול הכרם</b><span>למשפחה, עד 6</span></button></div>
-   <label>תאריכים</label>
+   <label class="m">DATES · תאריכים</label>
    <div class="two"><input class="f" type="date" id="din" aria-label="הגעה"><input class="f" type="date" id="dout" aria-label="עזיבה"></div>
-   <label>אורחים</label>
-   <div class="two"><div class="cnt2"><span>מבוגרים</span><div style="display:flex;align-items:center;gap:6px"><button data-c="ad" data-d="-1">−</button><b id="ad">2</b><button data-c="ad" data-d="1">+</button></div></div><div class="cnt2"><span>ילדים</span><div style="display:flex;align-items:center;gap:6px"><button data-c="kd" data-d="-1">−</button><b id="kd">0</b><button data-c="kd" data-d="1">+</button></div></div></div>
+   <label class="m">GUESTS · אורחים</label>
+   <div class="two"><div class="cnt"><span>מבוגרים</span><div style="display:flex;align-items:center;gap:6px"><button data-c="ad" data-d="-1">−</button><b id="ad">2</b><button data-c="ad" data-d="1">+</button></div></div><div class="cnt"><span>ילדים</span><div style="display:flex;align-items:center;gap:6px"><button data-c="kd" data-d="-1">−</button><b id="kd">0</b><button data-c="kd" data-d="1">+</button></div></div></div>
    <label class="chk"><input type="checkbox" id="bfk" checked> להוסיף ארוחת בוקר כשרה</label>
-   <label>פרטים</label>
+   <label class="m">DETAILS · פרטים</label>
    <div class="two"><input class="f" id="nm" placeholder="שם מלא"><input class="f" id="tel" placeholder="טלפון" inputmode="tel"></div>
-   <button class="btn a" id="go">שליחת בקשה לרוית בוואטסאפ</button>
+   <button class="btn c" id="go">שליחת בקשה לרוית בוואטסאפ</button>
    <p class="note">אמצע שבוע 1,000–1,500 ₪ · סוף שבוע 1,200–1,500 ₪ ללילה</p>
   </div>
-  <div class="side rv"><figure class="fr"><img src="img/04.jpg" alt=""></figure><div class="info"><b>ירוק זית · כפר יחזקאל</b>הרחבה 50, כפר יחזקאל, עמק יזרעאל<br>רוית · <a href="tel:0523504451">052-350-4451</a><br><a href="https://waze.com/ul?ll=32.5664367,35.3541984&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a> · <a href="https://wa.me/972523504451" target="_blank" rel="noopener">וואטסאפ</a></div></div>
+  <div class="side rv"><img src="sc/d/04.jpg" alt=""><div><b>ירוק זית · כפר יחזקאל</b>הרחבה 50, כפר יחזקאל, עמק יזרעאל<br>רוית · <a href="tel:0523504451">052-350-4451</a><br><a href="https://waze.com/ul?ll=32.5664367,35.3541984&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a> · <a href="https://wa.me/972523504451" target="_blank" rel="noopener">וואטסאפ</a></div></div>
  </div>
 </section>
 
-<footer><a class="logo" href="#hero"><svg style="color:#A9B86A"><use href="#leaf"/></svg><div><b>ירוק זית</b><small>סוויטות בוטיק</small></div></a><span>הרחבה 50, כפר יחזקאל · 052-350-4451</span><span class="demo">דמו לאתר · הוכן כהצעה</span></footer>
+<footer><a class="logo" href="#hero"><svg><use href="#leaf"/></svg><div><b>ירוק זית</b><small>סוויטות בוטיק</small></div></a><span>הרחבה 50, כפר יחזקאל · 052-350-4451</span><span class="demo">דמו לאתר · הוכן כהצעה</span></footer>
 
-<div id="wa"><div class="ph"><div class="hd"><div class="av"><svg style="color:#A9B86A"><use href="#leaf"/></svg></div><div><b>רוית · ירוק זית</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft">כך הבקשה תגיע לוואטסאפ של רוית. היא חוזרת עם זמינות ומחיר, בלי עמלות תיווך.<button class="btn" id="waOk">הבנתי</button></div></div></div>
+<div id="wa"><div class="ph"><div class="hd"><div class="av"><svg><use href="#leaf"/></svg></div><div><b>רוית · ירוק זית</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft">כך הבקשה תגיע לוואטסאפ של רוית. היא חוזרת עם זמינות ומחיר, בלי עמלות תיווך.<button class="btn" id="waOk">הבנתי</button></div></div></div>
 
 <script type="module">
 import Lenis from 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs';
@@ -348,58 +264,63 @@ const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [..
 const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const ss = (a, b, t) => { t = cl((t - a) / (b - a)); return t * t * (3 - 2 * t); };
 const prog = (el) => { const r = el.getBoundingClientRect(); return cl(-r.top / Math.max(1, r.height - innerHeight)); };
-const mob = () => innerWidth < 700;
+const portrait = innerWidth / innerHeight < 1, set = portrait ? 'm' : 'd';
 
 const lenis = new Lenis({ lerp: .1, smoothWheel: true });
 $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.6 }); }));
 
-/* hero frames: portrait set on phones (pre-cropped, sharp), landscape on desktop */
-const N = window.FRN || 76, set = innerWidth / innerHeight < 1 ? 'm' : 'd';
-const cv = $('#cv'), cx = cv.getContext('2d'), fr = new Array(N); let cur = 0;
-const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { fr[i] = im; res(); }; im.onerror = res; im.src = `frames/${set}/${String(i).padStart(3, '0')}.jpg`; });
-function size() { const d = Math.min(devicePixelRatio || 1, 2); cv.width = innerWidth * d; cv.height = innerHeight * d; draw(Math.round(cur)); }
-function draw(i) { let im = fr[i]; for (let k = 1; !im && k < N; k++) im = fr[i - k] || fr[i + k]; if (!im) return; const s = Math.max(cv.width / im.width, cv.height / im.height), w = im.width * s, h = im.height * s; cx.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h); }
-(async () => { await load(0); size(); $('#ld').style.opacity = 0; const order = []; for (let st = 8; st >= 1; st = st >> 1) for (let i = 0; i < N; i += st) if (!order.includes(i)) order.push(i); for (let i = 0; i < order.length; i += 6) await Promise.all(order.slice(i, i + 6).map(load)); })();
-addEventListener('resize', size);
+/* hero frames 004–075 (the first frames of the AI clip are the soft source photo, so they are skipped) */
+const F0 = 4, F1 = 75, N = F1 - F0 + 1, pad3 = (i) => String(i).padStart(3, '0');
+const cv = $('#cv'), cx = cv.getContext('2d'), fr = new Array(N); let cur = 0, lastF = -1;
+$('#poster').style.backgroundImage = `url(frames/${set}/${pad3(F0)}.jpg)`;
+const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { fr[i] = im; res(); }; im.onerror = res; im.src = `frames/${set}/${pad3(F0 + i)}.jpg`; });
+function size() { const d = Math.min(devicePixelRatio || 1, 2); cv.width = innerWidth * d; cv.height = innerHeight * d; lastF = -1; }
+function draw(i) { let im = fr[i]; for (let k = 1; !im && k < N; k++) im = fr[i - k] || fr[i + k]; if (!im) return; const s = Math.max(cv.width / im.width, cv.height / im.height), w = im.width * s, h = im.height * s; cx.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h); $('#poster').style.opacity = 0; }
+size(); addEventListener('resize', size);
+(async () => { await load(0); lastF = -1; const order = []; for (let st = 8; st >= 1; st = st >> 1) for (let i = 0; i < N; i += st) if (!order.includes(i)) order.push(i); for (let i = 0; i < order.length; i += 6) await Promise.all(order.slice(i, i + 6).map(load)); })();
 
-const say = $('#say'); say.innerHTML = say.textContent.split(' ').map((w) => `<span>${w}</span>`).join(' ');
-const words = $$('#say span');
+/* photo scenes: each shot drifts like a slow camera move, then dissolves forward into the next */
+const MOVES = [[1.02, 1.16, 0, -2.5], [1.16, 1.02, 2, 0], [1.03, 1.15, -2.5, 1], [1.04, 1.14, 0, 2]];
+const scenes = $$('.sc').map((s) => {
+  const ids = s.dataset.imgs.split(','), stick = s.querySelector('.stick');
+  s.style.height = `${ids.length * 85 + 100}vh`;
+  const layers = ids.map((id, i) => { const d = document.createElement('div'); d.className = 'ly'; d.innerHTML = `<img src="sc/${set}/${id}.jpg" alt="" decoding="async"${i ? ' loading="lazy"' : ''}>`; return d; });
+  layers.forEach((l) => stick.insertBefore(l, stick.querySelector('.shade')));
+  return { s, ids, layers, imgs: layers.map((l) => l.firstElementChild), txs: $$('.tx', s), fc: s.querySelector('.fc') };
+});
 
-const cards = $$('#deck .card'), cols = $$('#gcols .col'), pfr = $$('.fr');
-let lastF = -1;
+const heroTx = $('#h2');
 function tick() {
-  const vh = innerHeight;
   const hp = prog($('#hero'));
-  cur += (hp * (N - 1) - cur) * .22; const f = Math.round(cur); if (f !== lastF) { draw(f); lastF = f; }
-  $('#hc').style.opacity = 1 - ss(.55, .9, hp); $('#hc').style.transform = `translateY(${-hp * 60}px)`;
-  const sr = say.getBoundingClientRect(), sp = cl((vh * .85 - sr.top) / (sr.height + vh * .35));
-  const on = Math.round(sp * words.length); words.forEach((w, i) => w.classList.toggle('on', i < on));
-  const wp = prog($('#win')), o = ss(0, .6, wp), iv = mob() ? [26, 10] : [20, 24];
-  $('#fw').style.clipPath = `inset(${iv[0] * (1 - o)}% ${iv[1] * (1 - o)}% ${iv[0] * (1 - o)}% ${iv[1] * (1 - o)}% round ${26 * (1 - o)}px)`;
-  $('#fw img').style.transform = `scale(${1.18 - o * .18})`;
-  $('#wg').style.opacity = ss(.55, .75, wp);
-  $('#wt').style.opacity = ss(.6, .78, wp); $('#wt').style.transform = `translateY(${(1 - ss(.6, .82, wp)) * 30}px)`;
-  const dp = prog($('#deck')), seg = dp * 2.4;
-  cards.forEach((c, i) => {
-    const inn = i === 0 ? 1 : ss(i - 1, i - .15, seg), out = i < cards.length - 1 ? ss(i, i + 1, seg) : 0;
-    c.style.transform = `translateY(${(1 - inn) * 112}%) scale(${1 - out * .06})`; c.style.filter = `brightness(${1 - out * .3})`;
+  cur += (hp * (N - 1) - cur) * .22; const f = Math.round(cur);
+  if (f !== lastF) { draw(f); lastF = f; $('#fc').textContent = `FRAME ${pad3(F0 + f)}`; }
+  const h1 = $('#h1'); h1.style.opacity = 1 - ss(.3, .52, hp); h1.style.transform = `translateY(${-ss(.3, .52, hp) * 40}px)`;
+  heroTx.style.opacity = ss(.58, .7, hp); heroTx.style.transform = `translateY(${(1 - ss(.58, .74, hp)) * 30}px)`;
+  const mob = portrait;
+  scenes.forEach((sc) => {
+    const r = sc.s.getBoundingClientRect(); if (r.bottom < -innerHeight || r.top > innerHeight * 2) return;
+    const n = sc.ids.length, seg = prog(sc.s) * (n - .001);
+    sc.layers.forEach((l, i) => {
+      const t = seg - i, mv = MOVES[i % MOVES.length], k = cl((t + .25) / 1.25);
+      l.style.opacity = i === 0 ? 1 : ss(-.28, 0, t);
+      const sc0 = mob ? 1 + (mv[0] - 1) * .6 : mv[0], sc1 = mob ? 1 + (mv[1] - 1) * .6 : mv[1];
+      const z = sc0 + (sc1 - sc0) * k + (i < n - 1 ? ss(.72, 1, t) * .06 : 0);
+      sc.imgs[i].style.transform = `scale(${z}) translate(${mv[2] * (k - .5) * (mob ? 3 : 1)}%, ${mv[3] * (k - .5)}%)`;
+    });
+    sc.txs.forEach((x) => { const a = +x.dataset.a, b = +x.dataset.b; const o = (a === 0 ? 1 : ss(a - .08, a + .12, seg)) * (1 - ss(b - .15, b, seg)); x.style.opacity = o; x.style.transform = `translateY(${(1 - ss(a - .08, a + .2, seg)) * (a === 0 ? 0 : 30)}px)`; });
+    if (sc.fc) sc.fc.textContent = `SHOT 0${1 + Math.min(n - 1, Math.floor(seg + .1))} / 0${n}`;
   });
-  $('#dc').textContent = `0${1 + Math.min(2, Math.floor(cl(seg + .15, 0, 2.99)))} / 03`;
-  pfr.forEach((el) => { const r = el.getBoundingClientRect(); if (r.top < vh * .92 && r.bottom > 0) el.classList.add('in'); if (r.bottom < 0 || r.top > vh) return; const t = (r.top + r.height / 2 - vh / 2) / vh; el.firstElementChild.style.transform = `translateY(${t * -7}%)`; });
-  const gr = $('#garden').getBoundingClientRect(), gp = (vh - gr.top) / (vh + gr.height);
-  cols.forEach((c, i) => c.style.transform = `translateY(${(gp - .5) * (i === 1 ? -110 : 70)}px)`);
-  $('#top').classList.toggle('solid', scrollY > innerHeight * 1.6);
 }
 function raf(t) { lenis.raf(t); tick(); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
-const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('in')), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('in')), { threshold: .15 });
 $$('.rv').forEach((el) => io.observe(el));
 setTimeout(() => { window.READY = true; }, 1500);
 
 let suite = 'כרם זית', ad = 2, kd = 0;
 $('#suiteSel').addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; suite = b.dataset.v; $$('#suiteSel .opt').forEach((x) => x.classList.toggle('on', x === b)); });
-$$('.cnt2 button').forEach((b) => b.onclick = () => { if (b.dataset.c === 'ad') { ad = cl(ad + +b.dataset.d, 1, 6); $('#ad').textContent = ad; } else { kd = cl(kd + +b.dataset.d, 0, 4); $('#kd').textContent = kd; } });
+$$('.cnt button').forEach((b) => b.onclick = () => { if (b.dataset.c === 'ad') { ad = cl(ad + +b.dataset.d, 1, 6); $('#ad').textContent = ad; } else { kd = cl(kd + +b.dataset.d, 0, 4); $('#kd').textContent = kd; } });
 const iso = (d) => d.toISOString().slice(0, 10), now = new Date(), d1 = new Date(now); d1.setDate(now.getDate() + 14); const d2 = new Date(d1); d2.setDate(d1.getDate() + 2);
 $('#din').value = iso(d1); $('#dout').value = iso(d2); $('#din').min = iso(now);
 const heb = (s) => { const [, mm, dd] = s.split('-'); return `${+dd}.${+mm}`; };
