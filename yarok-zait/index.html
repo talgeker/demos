@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c0e0a">
+<title>ירוק זית · סוויטות עם בריכה פרטית בכפר יחזקאל</title>
+<!--
+  Pitch demo for "Yarok Zait" suites, Kfar Yehezkel. Hero = AI clip (Seedance 2.0 Mini, CapCut) made from the owners'
+  own photo, cut into frames/pool/*.jpg and scrubbed by scroll. Everything else = the owners' photos (img/NN.jpg)
+  with scroll-driven depth: zoom-through camera, clip-path wipes, macro push-in, horizontal gallery.
+  Booking: direct request to the host on WhatsApp (demo shows a preview only). Recording hook: window.READY.
+-->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c0e0a'/%3E%3Cpath d='M32 52C32 34 40 20 52 12 46 28 40 40 32 52Z' fill='%23A9B57F'/%3E%3Cpath d='M32 52C32 38 25 27 14 20 18 34 24 44 32 52Z' fill='%23D9DFC4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="frames/manifest.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0c0e0a;--bg2:#12150f;--ivory:#F3EEE3;--ivory2:#D6CFBF;--sage:#A9B57F;--sage2:#7E8B57;--warm:#E9C893;--mut:rgba(243,238,227,.58);--line:rgba(243,238,227,.13);--pad:clamp(18px,4.2vw,64px)}
+html{background:var(--bg);overflow-x:clip}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:Heebo,system-ui,sans-serif;color:var(--ivory);background:var(--bg);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block}
+.d{font-family:'Frank Ruhl Libre',serif;font-weight:400;letter-spacing:-.015em}
+.en{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;direction:ltr;unicode-bidi:isolate}
+.m{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;direction:ltr;unicode-bidi:isolate}
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.btn{height:54px;border-radius:27px;padding:0 28px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:500 15px Heebo;border:0;cursor:pointer;white-space:nowrap;transition:transform .25s,background .3s,color .3s,border-color .3s}
+.btn:active{transform:scale(.96)}
+.btn.c{background:var(--ivory);color:#0c0e0a}.btn.c:hover{background:#fff}
+.btn.o{background:transparent;color:var(--ivory);border:1px solid rgba(243,238,227,.3)}.btn.o:hover{background:var(--ivory);color:#0c0e0a}
+.btn.s{background:var(--sage);color:#0c0e0a}.btn.s:hover{background:#bcc791}
+#grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
+.k{color:var(--sage);display:block;margin-bottom:16px}
+.rv{opacity:0;transform:translateY(36px);transition:opacity 1.2s cubic-bezier(.2,.8,.2,1),transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.reveal span{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em}
+.reveal span>em{display:inline-block;font-style:normal;transform:translateY(110%);transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.reveal.on span>em{transform:none}
+/* loader */
+#ld{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:clip-path 1.4s cubic-bezier(.77,0,.18,1)}
+#ld svg{width:74px;height:74px}
+#ld svg path{stroke:var(--sage);stroke-width:1.4;fill:none;stroke-dasharray:160;stroke-dashoffset:160;animation:draw 1.8s .2s cubic-bezier(.6,.1,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+#ld .w{font-family:'Frank Ruhl Libre';font-size:30px;letter-spacing:.02em;opacity:0;animation:fin 1.2s .7s forwards}
+@keyframes fin{to{opacity:1}}
+#ld .bar{width:160px;height:1px;background:var(--line);overflow:hidden}
+#ld .bar b{display:block;height:100%;background:var(--ivory);transform-origin:right;transform:scaleX(0);transition:transform .3s}
+#ld.out{clip-path:inset(0 0 100% 0)}
+/* header */
+#top{position:fixed;z-index:60;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 16px) var(--pad) 16px;display:flex;align-items:center;gap:18px;transition:background .5s}
+#top.solid{background:linear-gradient(180deg,rgba(12,14,10,.9),rgba(12,14,10,0))}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:30px;height:30px}
+.brand b{font-family:'Frank Ruhl Libre';font-weight:500;font-size:21px;letter-spacing:.01em}
+.brand small{display:block;font-size:10px;color:var(--mut);letter-spacing:.18em;font-family:'JetBrains Mono';direction:ltr;text-align:right}
+#top nav{margin-inline-start:auto;display:flex;gap:28px}
+#top nav a{font-size:14px;color:var(--mut);transition:color .3s}#top nav a:hover{color:var(--ivory)}
+#top .btn{height:44px;padding:0 22px;font-size:14px}
+@media(max-width:900px){#top nav{display:none}#top .btn{margin-inline-start:auto}}
+/* hero: scroll-scrubbed AI clip */
+.scene{position:relative}
+.stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.scene canvas{position:absolute;inset:0;width:100%;height:100%}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 95% at 50% 55%,transparent 40%,rgba(12,14,10,.72) 100%),linear-gradient(180deg,rgba(12,14,10,.55),transparent 26%,transparent 58%,rgba(12,14,10,.95))}
+.tx{position:absolute;left:var(--pad);right:var(--pad);pointer-events:none;will-change:opacity,transform;text-shadow:0 2px 6px rgba(0,0,0,.45),0 10px 40px rgba(0,0,0,.6)}
+#h1{bottom:calc(env(safe-area-inset-bottom) + 72px);text-align:center}
+#h1 .eyebrow{color:var(--ivory2);margin-bottom:18px}
+#h1 h1{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(72px,15vw,220px);line-height:.88;letter-spacing:-.03em}
+#h1 p{margin:20px auto 0;max-width:520px;font-size:clamp(15px,1.5vw,19px);font-weight:300;color:#F6F1E7;line-height:1.6}
+#h1 .row{margin-top:26px;display:flex;gap:12px;justify-content:center;pointer-events:auto}
+#h2{top:40%;text-align:center}
+#h2 .big{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(40px,6.6vw,96px);line-height:1}
+#h2 .en{display:block;margin-top:12px;font-size:clamp(22px,2.6vw,34px);color:var(--ivory2)}
+.hint{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 22px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--mut)}
+.hint i{width:1px;height:38px;background:linear-gradient(var(--ivory),transparent);animation:hint 2s ease-in-out infinite}
+@keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.hud{position:absolute;inset:calc(env(safe-area-inset-top) + 86px) var(--pad) calc(env(safe-area-inset-bottom) + 24px);pointer-events:none}
+.hud i{position:absolute;width:16px;height:16px;border-color:rgba(243,238,227,.3);border-style:solid}
+.hud i:nth-child(1){top:0;right:0;border-width:1px 1px 0 0}.hud i:nth-child(2){top:0;left:0;border-width:1px 0 0 1px}.hud i:nth-child(3){bottom:0;right:0;border-width:0 1px 1px 0}.hud i:nth-child(4){bottom:0;left:0;border-width:0 0 1px 1px}
+.hud .tl{position:absolute;top:2px;right:28px;color:var(--mut)}.hud .tr{position:absolute;top:2px;left:28px;color:var(--mut)}
+@media(max-width:700px){.hud .tr{display:none}}
+/* sections */
+.sec{padding:clamp(100px,14vw,190px) var(--pad);position:relative}
+.h2{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(44px,7.4vw,112px);line-height:.98;letter-spacing:-.02em}
+.h2 em{font-style:normal;color:var(--sage)}
+.lead{font-size:clamp(16px,1.7vw,20px);line-height:1.8;color:var(--mut);font-weight:300;max-width:600px}
+/* manifesto + stats (timeline-like, as in the reference) */
+#about{text-align:center}
+#about .h2{max-width:1100px;margin:0 auto}
+#about .lead{margin:28px auto 0;text-align:center}
+.stats{margin:64px auto 0;max-width:1000px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.stat{padding:30px 18px;border-left:1px solid var(--line);text-align:center}
+.stat:last-child{border-left:0}
+.stat b{display:block;font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(36px,4.6vw,58px);line-height:1}
+.stat span{display:block;margin-top:10px;font-size:13px;color:var(--mut)}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-left:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+/* fly-through: the camera dives from frame to frame */
+#fly{height:520vh}
+#fly .layer{position:absolute;inset:0;overflow:hidden;will-change:transform,opacity}
+#fly .layer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#fly .cap{position:absolute;z-index:10;opacity:0;right:var(--pad);bottom:calc(env(safe-area-inset-bottom) + 70px);max-width:560px;text-shadow:0 2px 8px rgba(0,0,0,.5),0 10px 40px rgba(0,0,0,.6);will-change:opacity,transform}
+#fly .cap .m{color:var(--ivory2);display:block;margin-bottom:14px}
+#fly .cap h3{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(38px,5.8vw,84px);line-height:1}
+#fly .cap p{margin-top:14px;font-size:clamp(15px,1.6vw,19px);font-weight:300;line-height:1.7;color:#F1ECE1}
+#fly .count{position:absolute;z-index:10;left:var(--pad);bottom:calc(env(safe-area-inset-bottom) + 74px);font-family:'Cormorant Garamond';font-style:italic;font-size:clamp(40px,5vw,70px);color:rgba(243,238,227,.85);direction:ltr}
+#fly .count small{font-size:.4em;color:var(--mut)}
+#fly .shade{position:absolute;inset:0;pointer-events:none;z-index:8;background:linear-gradient(180deg,rgba(12,14,10,.45),transparent 30%,transparent 50%,rgba(12,14,10,.9))}
+/* suites: split, sticky image with clip-path wipe */
+#suites .head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
+.split{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,80px);margin-top:70px}
+.split .media{position:sticky;top:12vh;height:76vh;border-radius:26px;overflow:hidden;background:#151812}
+.split .media .pic{position:absolute;inset:0;will-change:clip-path}
+.split .media .pic img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.split .media .tag{position:absolute;bottom:18px;right:18px;padding:8px 14px;border-radius:16px;background:rgba(12,14,10,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:13px}
+.suite{min-height:96vh;display:flex;flex-direction:column;justify-content:center;padding:6vh 0}
+.suite .m{color:var(--sage)}
+.suite h3{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(46px,6vw,88px);line-height:1;margin:16px 0 18px}
+.suite p{font-size:17px;line-height:1.85;color:var(--mut);font-weight:300}
+.specs{margin-top:28px;border-top:1px solid var(--line)}
+.specs div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.specs div span:last-child{color:var(--ivory2)}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+.thumbs img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;opacity:.9}
+@media(max-width:900px){.split{grid-template-columns:1fr}.split .media{position:relative;top:0;height:60vh;display:none}.suite{min-height:auto;padding:30px 0 60px}.suite .mob{display:block!important;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;margin-bottom:24px}}
+/* macro: details */
+#macro{height:300vh}
+#macro .pic{position:absolute;inset:0;will-change:transform}
+#macro .pic img{width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+#macro .shade{position:absolute;inset:0;background:radial-gradient(70% 70% at 50% 50%,transparent 30%,rgba(12,14,10,.82) 100%),linear-gradient(0deg,rgba(12,14,10,.85),transparent 45%)}
+#macro .t1{top:calc(env(safe-area-inset-top) + 120px);text-align:center}
+#macro .t1 .big{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(44px,8vw,120px);line-height:.95}
+#macro .list{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 56px);left:var(--pad);right:var(--pad);display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+#macro .it{border-top:1px solid rgba(243,238,227,.35);padding-top:14px;opacity:0;transform:translateY(20px);transition:opacity .8s,transform .9s cubic-bezier(.2,.8,.2,1);text-shadow:0 2px 12px rgba(0,0,0,.7)}
+#macro .it.on{opacity:1;transform:none}
+#macro .it b{display:block;font-family:'Frank Ruhl Libre';font-weight:400;font-size:clamp(20px,2.2vw,28px)}
+#macro .it span{font-size:13px;color:var(--ivory2)}
+@media(max-width:700px){#macro .list{grid-template-columns:1fr 1fr}}
+/* breakfast */
+#bf .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,70px);align-items:center;margin-top:10px}
+#bf .ph{border-radius:26px;overflow:hidden;aspect-ratio:4/5;position:relative}
+#bf .ph img{width:100%;height:118%;object-fit:cover;will-change:transform}
+#bf .ph2{position:absolute;width:44%;aspect-ratio:1;bottom:-8%;left:-6%;border-radius:20px;overflow:hidden;border:6px solid var(--bg);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+#bf .ph2 img{width:100%;height:100%;object-fit:cover}
+@media(max-width:860px){#bf .grid{grid-template-columns:1fr}#bf .ph{aspect-ratio:4/4.4}}
+/* garden: horizontal gallery */
+#garden{height:320vh}
+#garden .stick{display:flex;flex-direction:column;justify-content:center}
+#garden .hd{padding:0 var(--pad);margin-bottom:34px;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+#garden .row{display:flex;gap:clamp(14px,2vw,24px);padding:0 var(--pad);will-change:transform;direction:ltr}
+#garden figure{flex:none;width:clamp(250px,30vw,440px);aspect-ratio:3/4;border-radius:22px;overflow:hidden;position:relative}
+#garden figure.w{width:clamp(330px,48vw,700px);aspect-ratio:16/10}
+#garden figure img{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;will-change:transform}
+#garden figcaption{position:absolute;bottom:16px;right:18px;left:18px;direction:rtl;font-size:14px;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+/* reviews */
+#reviews{background:linear-gradient(180deg,var(--bg),var(--bg2) 30%,var(--bg))}
+#reviews .top{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
+.score{display:flex;align-items:center;gap:18px}
+.score b{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(70px,9vw,120px);line-height:.9}
+.score .st{color:var(--warm);letter-spacing:4px;font-size:18px}
+.score small{display:block;color:var(--mut);font-size:13px;margin-top:6px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.card{border:1px solid var(--line);border-radius:22px;padding:28px;background:rgba(243,238,227,.02)}
+.card .st{color:var(--warm);letter-spacing:3px;font-size:13px}
+.card p{margin:16px 0 20px;font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(19px,1.7vw,23px);line-height:1.55}
+.card .who{font-size:13px;color:var(--mut)}
+@media(max-width:900px){.cards{grid-template-columns:1fr}}
+/* area */
+#area .list{margin-top:56px;border-top:1px solid var(--line)}
+.ar{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:20px;padding:clamp(18px,2.6vw,28px) 0;border-bottom:1px solid var(--line);transition:padding .5s}
+.ar .m{color:var(--mut)}
+.ar h5{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(26px,3.6vw,48px);line-height:1.05;transition:color .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.ar:hover h5{color:var(--sage);transform:translateX(-10px)}
+.ar span.d{font-family:'JetBrains Mono';font-size:13px;color:var(--ivory2);direction:ltr}
+@media(max-width:700px){.ar{grid-template-columns:34px 1fr auto;gap:12px}}
+/* booking */
+#book{background:radial-gradient(110% 80% at 85% 0%,#1d2416 0%,#12160e 45%,var(--bg) 100%)}
+#book .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);margin-top:56px;align-items:start}
+.form{border:1px solid var(--line);border-radius:26px;padding:clamp(22px,3vw,34px);background:rgba(12,14,10,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.form label{display:block;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.2em;color:var(--mut);margin:20px 0 10px;direction:ltr;text-align:right}
+.form label:first-child{margin-top:0}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1px solid rgba(243,238,227,.2);border-radius:16px;padding:14px;background:none;color:var(--ivory);font:inherit;text-align:right;cursor:pointer;transition:.25s}
+.opt b{display:block;font-family:'Frank Ruhl Libre';font-weight:400;font-size:20px}
+.opt span{font-size:12.5px;color:var(--mut)}
+.opt.on{border-color:var(--sage);background:rgba(169,181,127,.1)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.two>*{min-width:0}
+.f{width:100%;min-width:0;height:52px;border-radius:14px;border:1px solid rgba(243,238,227,.2);background:#0e110c;color:var(--ivory);font:400 16px Heebo;padding:0 16px;outline:none;color-scheme:dark}
+.f:focus{border-color:var(--sage)}
+.cnt{min-width:0;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(243,238,227,.2);border-radius:14px;height:52px;padding:0 8px 0 14px}
+.cnt button{width:34px;height:34px;border-radius:17px;border:1px solid rgba(243,238,227,.3);background:none;color:var(--ivory);font-size:17px;cursor:pointer}
+.cnt b{min-width:24px;text-align:center}
+.chk{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:15px;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--sage)}
+.form .btn{width:100%;margin-top:22px}
+.form .note{font-size:12.5px;color:var(--mut);text-align:center;margin-top:12px}
+.why div{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.why div:first-child{border-top:1px solid var(--line)}
+.why i{font-style:normal;font-family:'Cormorant Garamond';font-size:30px;color:var(--sage);line-height:1;min-width:30px}
+.why b{display:block;font-weight:500;font-size:17px;margin-bottom:4px}
+.why span{font-size:14.5px;color:var(--mut);line-height:1.6}
+@media(max-width:900px){#book .grid{grid-template-columns:1fr}}
+footer{padding:80px var(--pad) calc(env(safe-area-inset-bottom) + 60px);border-top:1px solid var(--line);position:relative;overflow:hidden}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px;font-size:14px;color:var(--mut);line-height:1.9}
+footer .cols b{color:var(--ivory);font-weight:500;display:block;margin-bottom:6px}
+footer .giant{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(90px,22vw,330px);line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(243,238,227,.2);text-align:center;margin-top:50px}
+footer .demo{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:2px;padding:6px 12px;border:1px solid var(--line);border-radius:14px}
+@media(max-width:800px){footer .cols{grid-template-columns:1fr}}
+/* WhatsApp preview (demo) */
+#wa{position:fixed;inset:0;z-index:97;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+#wa.on{opacity:1;pointer-events:auto}
+#wa .ph{width:min(370px,100%);border-radius:28px;overflow:hidden;background:#0b141a;box-shadow:0 40px 90px rgba(0,0,0,.7);transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#wa.on .ph{transform:none}
+#wa .hd{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#202c33;color:#e9edef}
+#wa .av{width:38px;height:38px;border-radius:19px;background:#2a3a20;display:grid;place-items:center}
+#wa .av svg{width:22px;height:22px}
+#wa .hd b{display:block;font-size:15px}#wa .hd small{font-size:12px;color:#8696a0}
+#wa .bd{padding:22px 14px 26px;min-height:230px;background:#0b141a radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/14px 14px;display:flex;flex-direction:column;align-items:flex-start}
+#wa .msg{max-width:90%;background:#005c4b;color:#e9edef;border-radius:12px 0 12px 12px;padding:10px 12px 18px;font-size:14.5px;line-height:1.55;white-space:pre-line;position:relative}
+#wa .msg i{position:absolute;bottom:4px;left:10px;font-style:normal;font-size:11px;color:rgba(233,237,239,.6)}
+#wa .ft{padding:14px 16px 18px;background:#0b141a;color:#8696a0;font-size:12.5px;text-align:center;line-height:1.5}
+#wa .ft .btn{width:100%;margin-top:12px;height:48px;background:#25d366;color:#0b141a}
+#cur{position:fixed;z-index:96;top:0;left:0;width:36px;height:36px;border-radius:50%;border:1px solid rgba(243,238,227,.6);pointer-events:none;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference}
+#cur.big{width:68px;height:68px;background:rgba(243,238,227,.9)}
+@media(hover:none){#cur{display:none}}
+</style></head>
+<body>
+<div id="grain"></div><div id="cur"></div>
+<svg width="0" height="0" style="position:absolute"><defs><symbol id="leaf" viewBox="0 0 64 64"><path d="M32 56C32 36 41 20 55 10 49 29 42 43 32 56Z" fill="currentColor" opacity=".95"/><path d="M32 56C32 40 24 28 11 20 15 36 22 47 32 56Z" fill="currentColor" opacity=".55"/><path d="M32 56V30" stroke="currentColor" stroke-width="1.4" fill="none"/></symbol></defs></svg>
+
+<div id="ld">
+ <svg viewBox="0 0 64 64"><path d="M32 56C32 36 41 20 55 10 49 29 42 43 32 56ZM32 56C32 40 24 28 11 20 15 36 22 47 32 56ZM32 56V30"/></svg>
+ <div class="w">ירוק זית</div>
+ <div class="bar"><b id="ldb"></b></div>
+</div>
+
+<header id="top">
+ <a class="brand" href="#hero"><svg style="color:var(--sage)"><use href="#leaf"/></svg><div><b>ירוק זית</b><small>KFAR YEHEZKEL</small></div></a>
+ <nav><a href="#fly">החוויה</a><a href="#suites">הסוויטות</a><a href="#macro">הפינוקים</a><a href="#reviews">אורחים</a><a href="#area">הסביבה</a></nav>
+ <a class="btn c" href="#book">הזמנה ישירה</a>
+</header>
+
+<!-- 01 · hero: the camera glides over the deck to the private pool at blue hour -->
+<section class="scene" id="hero" data-scene="pool" style="height:250vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">כפר יחזקאל · למרגלות הגלבוע</span><span class="m tr">32.566°N · 35.354°E</span></div>
+ <div class="tx" id="h1">
+  <div class="m eyebrow">BOUTIQUE SUITES · PRIVATE POOLS</div>
+  <h1 class="reveal"><span><em>ירוק זית</em></span></h1>
+  <p class="rv">שתי סוויטות, ולכל אחת בריכה פרטית משלה. בלב כרם זיתים, עם שקט של מושב ונוף של גלבוע.</p>
+  <div class="row rv"><a class="btn c" href="#book">לבדוק תאריכים</a><a class="btn o" href="#suites">לגלות את הסוויטות</a></div>
+ </div>
+ <div class="tx" id="h2" style="opacity:0"><div class="big">רק אתם, הבריכה<br>והשקט.</div><span class="en">a private pool for every suite</span></div>
+ <div class="hint" id="hint"><span class="m">גללו</span><i></i></div>
+</div></section>
+
+<section class="sec" id="about">
+ <span class="m k rv">// NOT A HOTEL</span>
+ <h2 class="h2 rv">לא מלון. לא רשת.<br>שתי סוויטות, <em>ומארחת אחת</em><br>שזוכרת כל פרט.</h2>
+ <p class="lead rv">רוית בנתה את ירוק זית במגע אישי ובהרבה אהבה. לכל סוויטה כיוון אחר וכביש גישה נפרד, כדי שהפרטיות תהיה מלאה. מה שנשאר לכם זה לנוח.</p>
+ <div class="stats rv">
+  <div class="stat"><b class="num" data-to="5.0">0.0</b><span>דירוג בגוגל · 45 ביקורות</span></div>
+  <div class="stat"><b class="num" data-to="2">0</b><span>סוויטות בלבד</span></div>
+  <div class="stat"><b class="num" data-to="2">0</b><span>בריכות פרטיות, מחוממות בחורף</span></div>
+  <div class="stat"><b class="num" data-to="10">0</b><span>אורחים לכל היותר במתחם</span></div>
+ </div>
+</section>
+
+<!-- 02 · the fly-through: the camera dives from the pool into the suite -->
+<section class="scene" id="fly"><div class="stick">
+ <div class="layer" data-i="0"><img src="img/06.jpg" alt="בריכה פרטית עם פירות"></div>
+ <div class="layer" data-i="1"><img src="img/10.jpg" alt="ערב ליד הבריכה"></div>
+ <div class="layer" data-i="2"><img src="img/08.jpg" alt="ג'קוזי עם נרות"></div>
+ <div class="layer" data-i="3"><img src="img/07.jpg" alt="חדר שינה עם ג'קוזי"></div>
+ <div class="shade"></div>
+ <div class="cap" data-i="0"><span class="m">01 · THE POOL</span><h3>בריכה פרטית.<br>רק שלכם.</h3><p>מוקפת דק עץ, צמחייה ומיטות שיזוף. אף אחד לא חולק אותה איתכם.</p></div>
+ <div class="cap" data-i="1"><span class="m">02 · THE EVENING</span><h3>כוס יין<br>מול המים.</h3><p>בקיץ קרירה, ובחורף מחוממת ומקורה. הבריכה עובדת כל השנה.</p></div>
+ <div class="cap" data-i="2"><span class="m">03 · THE JACUZZI</span><h3>ג'קוזי זוגי<br>ענק.</h3><p>עם מפל מים, נרות ומגבות מקופלות. הערב מתחיל כאן.</p></div>
+ <div class="cap" data-i="3"><span class="m">04 · THE SUITE</span><h3>ונרדמים<br>בשקט של הכפר.</h3><p>מיטה זוגית עם מזרן אורתופדי, לבן נקי ואור רך של בוקר.</p></div>
+ <div class="count"><span id="cnum">01</span><small> / 04</small></div>
+</div></section>
+
+<section class="sec" id="suites">
+ <div class="head"><div><span class="m k rv">// THE SUITES</span><h2 class="h2 rv">שתי סוויטות.<br><em>שני עולמות.</em></h2></div><p class="lead rv" style="max-width:440px">לכל סוויטה בריכה פרטית, ג'קוזי, מטבחון מאובזר עם מכונת אספרסו, וחצר משלה.</p></div>
+ <div class="split">
+  <div class="media" id="smedia">
+   <div class="pic" data-s="0"><img src="img/12.jpg" alt="סוויטת כרם זית"><span class="tag">סוויטת כרם זית</span></div>
+   <div class="pic" data-s="1"><img src="img/20.jpg" alt="סוויטת משעול הכרם"><span class="tag">סוויטת משעול הכרם</span></div>
+  </div>
+  <div>
+   <article class="suite" data-s="0">
+    <img class="mob" src="img/12.jpg" alt="" style="display:none">
+    <span class="m">SUITE 01 · FOR TWO</span>
+    <h3>כרם זית</h3>
+    <p>חלל פתוח ומואר בלב כרם הזיתים. מיטה זוגית, ג'קוזי ענק עם מפל מים, ובחוץ בריכה פרטית ודק עץ רק לשניכם.</p>
+    <div class="specs"><div><span>מתאים ל</span><span>זוג או זוג + 2</span></div><div><span>חלל</span><span>פתוח, כ־40 מ״ר</span></div><div><span>בריכה</span><span>פרטית, מחוממת בחורף</span></div><div><span>בפנים</span><span>ג'קוזי עם מפל, אספרסו, LCD</span></div></div>
+    <div class="thumbs"><img src="img/02.jpg" alt=""><img src="img/03.jpg" alt=""><img src="img/11.jpg" alt=""></div>
+   </article>
+   <article class="suite" data-s="1">
+    <img class="mob" src="img/20.jpg" alt="" style="display:none">
+    <span class="m">SUITE 02 · FAMILY</span>
+    <h3>משעול הכרם</h3>
+    <p>שני חדרי שינה וחלל מרכזי, למשפחה עם עד 4 ילדים. בחוץ דשא פרטי רחב, עמדת מנגל מאובזרת, נדנדה כפרית וטרמפולינה.</p>
+    <div class="specs"><div><span>מתאים ל</span><span>זוג + עד 4 ילדים</span></div><div><span>חלל</span><span>2 חדרי שינה + סלון, עד 80 מ״ר</span></div><div><span>בריכה</span><span>פרטית, מחוממת ומקורה בחורף</span></div><div><span>בחוץ</span><span>דשא, מנגל, נדנדה, טרמפולינה</span></div></div>
+    <div class="thumbs"><img src="img/18.jpg" alt=""><img src="img/28.jpg" alt=""><img src="img/29.jpg" alt=""></div>
+   </article>
+  </div>
+ </div>
+</section>
+
+<!-- 03 · macro: the small details (push-in, like the reference's hinge close-up) -->
+<section class="scene" id="macro"><div class="stick">
+ <div class="pic" id="mpic"><img src="img/09.jpg" alt="מכונת אספרסו ופינוקים"></div>
+ <div class="shade"></div>
+ <div class="tx t1" id="mt1"><span class="m k">// THE DETAILS</span><div class="big">הפרטים<br>הקטנים.</div></div>
+ <div class="list">
+  <div class="it"><b>פירות ועוגיות</b><span>מחכים לכם בהגעה</span></div>
+  <div class="it"><b>שוקולדים</b><span>ופינוק מתוק לערב</span></div>
+  <div class="it"><b>בקבוק יין</b><span>איכותי, באהבה מהמארחים</span></div>
+  <div class="it"><b>מכונת אספרסו</b><span>קפה טוב, בלי לצאת</span></div>
+ </div>
+</div></section>
+
+<section class="sec" id="bf">
+ <div class="grid">
+  <div class="ph rv"><img src="img/14.jpg" alt="ארוחת בוקר כשרה" id="bfimg"><div class="ph2"><img src="img/27.jpg" alt=""></div></div>
+  <div>
+   <span class="m k rv">// MORNING</span>
+   <h2 class="h2 rv">ארוחת בוקר<br><em>שמגיעה אליכם.</em></h2>
+   <p class="lead rv" style="margin-top:24px">גבינות, סלטים טריים, פירות ולחם טוב. ארוחה כשרה ועשירה שמגיעה ישר לסוויטה, בתיאום מראש. האורחים כותבים שזה החלק שהם הכי מתגעגעים אליו.</p>
+   <p class="rv" style="margin-top:22px;font-family:'Frank Ruhl Libre';font-weight:300;font-size:22px;line-height:1.5">״ארוחות בוקר מדהימות, מארחים מקסימים.״<br><span class="m" style="color:var(--mut)">ברק ו׳ · GOOGLE</span></p>
+  </div>
+ </div>
+</section>
+
+<section id="garden"><div class="stick">
+ <div class="hd"><div><span class="m k">// OUTSIDE</span><h2 class="h2">גינה, נדנדה<br><em>ושמיים פתוחים.</em></h2></div><p class="lead" style="max-width:380px">חצר מטופחת, ערסלים ונדנדות בין הפרחים, עצי פרי וכרם זיתים מסביב.</p></div>
+ <div class="row" id="grow">
+  <figure class="w"><img src="img/26.jpg" alt=""><figcaption>הנדנדה מתחת לעצים</figcaption></figure>
+  <figure><img src="img/32.jpg" alt=""><figcaption>ספסל נדנדה בין הפרחים</figcaption></figure>
+  <figure class="w"><img src="img/22.jpg" alt=""><figcaption>בריכה בתוך הירוק</figcaption></figure>
+  <figure><img src="img/29.jpg" alt=""><figcaption>מנגל על הדשא</figcaption></figure>
+  <figure class="w"><img src="img/30.jpg" alt=""><figcaption>הדק והפרגולה</figcaption></figure>
+  <figure><img src="img/38.jpg" alt=""><figcaption>החצר בפריחה</figcaption></figure>
+  <figure class="w"><img src="img/37.jpg" alt=""><figcaption>פינת ישיבה בצל</figcaption></figure>
+ </div>
+</div></section>
+
+<section class="sec" id="reviews">
+ <div class="top">
+  <div><span class="m k rv">// GUESTS</span><h2 class="h2 rv">ככה נשמע<br><em>אירוח בעמק.</em></h2></div>
+  <div class="score rv"><b class="num">5.0</b><div><div class="st">★★★★★</div><small>45 ביקורות בגוגל · 5.0 בבורדו · 1.1K עוקבים</small></div></div>
+ </div>
+ <div class="cards">
+  <div class="card rv"><div class="st">★★★★★</div><p>״הייתי בהרבה צימרים, זה היה הטוב ביותר עד כה. בריכה פרטית מחוממת, ג'קוזי מעולה, צימר עטוף בירוק מהמם.״</p><div class="who">אלעד ש. · Local Guide בגוגל</div></div>
+  <div class="card rv"><div class="st">★★★★★</div><p>״רוית המקסימה עושה הכל, אבל באמת הכל, כדי שהחופשה תהיה חלומית. אין ספק שנחזור.״</p><div class="who">אנה ב. · גוגל</div></div>
+  <div class="card rv"><div class="st">★★★★★</div><p>״גן עדן של ממש. השקט, הפרטיות, הניקיון והיחס האכפתי. לא מצאנו חסרונות.״</p><div class="who">דקלה · 08/2025</div></div>
+ </div>
+</section>
+
+<section class="sec" id="area">
+ <span class="m k rv">// AROUND</span>
+ <h2 class="h2 rv">יוצאים לעמק,<br><em>חוזרים לבריכה.</em></h2>
+ <div class="list">
+  <div class="ar rv"><span class="m">01</span><h5>הר הגלבוע וסקי בגלבוע</h5><span class="d">~10 MIN</span></div>
+  <div class="ar rv"><span class="m">02</span><h5>מעיין חרוד</h5><span class="d">~10 MIN</span></div>
+  <div class="ar rv"><span class="m">03</span><h5>גן השלושה (הסחנה)</h5><span class="d">~20 MIN</span></div>
+  <div class="ar rv"><span class="m">04</span><h5>גן גורו, הגן האוסטרלי</h5><span class="d">~20 MIN</span></div>
+  <div class="ar rv"><span class="m">05</span><h5>הגן הלאומי בית שאן</h5><span class="d">~25 MIN</span></div>
+  <div class="ar rv"><span class="m">06</span><h5>מחלבת ברקנית, במושב עצמו</h5><span class="d">2 MIN</span></div>
+ </div>
+</section>
+
+<section class="sec" id="book">
+ <span class="m k rv">// BOOK DIRECT</span>
+ <h2 class="h2 rv">מזמינים ישירות<br><em>מרוית.</em></h2>
+ <div class="grid">
+  <div class="form rv">
+   <label>SUITE</label>
+   <div class="seg" id="suiteSel"><button class="opt on" data-v="כרם זית"><b>כרם זית</b><span>לזוג או זוג + 2</span></button><button class="opt" data-v="משעול הכרם"><b>משעול הכרם</b><span>למשפחה, עד 6</span></button></div>
+   <label>DATES</label>
+   <div class="two"><input class="f" type="date" id="din" aria-label="תאריך הגעה"><input class="f" type="date" id="dout" aria-label="תאריך עזיבה"></div>
+   <label>GUESTS</label>
+   <div class="two"><div class="cnt"><span>מבוגרים</span><div style="display:flex;align-items:center;gap:8px"><button data-c="ad" data-d="-1">−</button><b id="ad">2</b><button data-c="ad" data-d="1">+</button></div></div><div class="cnt"><span>ילדים</span><div style="display:flex;align-items:center;gap:8px"><button data-c="kd" data-d="-1">−</button><b id="kd">0</b><button data-c="kd" data-d="1">+</button></div></div></div>
+   <label class="chk"><input type="checkbox" id="bfk" checked> להוסיף ארוחת בוקר כשרה</label>
+   <label>YOUR DETAILS</label>
+   <div class="two"><input class="f" id="nm" placeholder="שם מלא"><input class="f" id="tel" placeholder="טלפון" inputmode="tel"></div>
+   <button class="btn s" id="go">שליחת בקשה לרוית בוואטסאפ</button>
+   <p class="note">מחירים: אמצע שבוע 1,000–1,500 ₪ · סוף שבוע 1,200–1,500 ₪ ללילה</p>
+  </div>
+  <div class="why">
+   <div class="rv"><i>01</i><p><b>המחיר הכי טוב, בלי עמלות</b><span>בלי אתרי תיווך באמצע. מה שחוסכים בעמלה נשאר אצלכם.</span></p></div>
+   <div class="rv"><i>02</i><p><b>מדברים ישר עם המארחת</b><span>רוית עונה בעצמה, מתאימה את הסוויטה ומכינה את הפינוקים.</span></p></div>
+   <div class="rv"><i>03</i><p><b>בקשות מיוחדות</b><span>יום הולדת, הצעת נישואין או ארוחת בוקר מיוחדת. מסדרים מראש.</span></p></div>
+   <div class="rv"><i>04</i><p><b>מגיעים בקלות</b><span>הרחבה 50, כפר יחזקאל · 15 דקות מעפולה · <span class="num">052-350-4451</span></span></p></div>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="cols">
+  <div><a class="brand" href="#hero"><svg style="color:var(--sage)"><use href="#leaf"/></svg><div><b>ירוק זית</b><small>KFAR YEHEZKEL</small></div></a><span class="demo">דמו לאתר · הוכן כהצעה</span></div>
+  <div><b>מגיעים</b>הרחבה 50, כפר יחזקאל<br>עמק יזרעאל, למרגלות הגלבוע<br><a href="https://waze.com/ul?ll=32.5664367,35.3541984&navigate=yes" target="_blank" rel="noopener" style="color:var(--sage)">ניווט בוויז ←</a></div>
+  <div><b>מדברים</b>רוית · <span class="num">052-350-4451</span><br><a href="tel:0523504451">התקשרו</a> · <a href="https://wa.me/972523504451" target="_blank" rel="noopener">וואטסאפ</a></div>
+ </div>
+ <div class="giant">ירוק זית</div>
+</footer>
+
+<div id="wa"><div class="ph"><div class="hd"><div class="av"><svg style="color:#A9B57F"><use href="#leaf"/></svg></div><div><b>רוית · ירוק זית</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft">כך הבקשה תגיע לוואטסאפ של רוית. היא חוזרת עם זמינות ומחיר, בלי עמלות תיווך.<button class="btn" id="waOk">הבנתי</button></div></div></div>
+
+<script type="module">
+import Lenis from 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), lerp = (a, b, t) => a + (b - a) * t;
+const ss = (a, b, t) => { t = cl((t - a) / (b - a)); return t * t * (3 - 2 * t); };
+const prog = (el) => { const r = el.getBoundingClientRect(); return cl(-r.top / Math.max(1, r.height - innerHeight)); };
+const M = window.FRAMES || {};
+
+/* ---------- hero frames ---------- */
+const hero = $('#hero'), cv = $('canvas', hero), N = (M.pool && M.pool.n) || 0;
+const frames = [...Array(N).keys()].map((i) => { const im = new Image(); im.decoding = 'async'; im.src = `frames/pool/${String(i).padStart(3, '0')}.jpg`; return im; });
+let loaded = 0, started = false;
+const done = () => { if (started) return; started = true; setTimeout(() => { $('#ld').classList.add('out'); $('#h1 .reveal').classList.add('on'); $$('#h1 .rv').forEach((e) => e.classList.add('in')); window.READY = true; }, 700); };
+frames.forEach((im) => { im.onload = im.onerror = () => { loaded++; $('#ldb').style.transform = `scaleX(${loaded / N})`; if (loaded >= N) done(); }; });
+if (!N) done(); setTimeout(done, 9000);
+const fit = () => { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2); cv.width = r.width * d; cv.height = r.height * d; last = -1; };
+let last = -1, sp = 0;
+function drawFrame(i, zoom) {
+  const im = frames[i]; if (!im || !im.complete || !im.naturalWidth) return false;
+  const g = cv.getContext('2d'); g.imageSmoothingQuality = 'high';
+  const W = cv.width, H = cv.height, k = Math.max(W / im.naturalWidth, H / im.naturalHeight) * zoom, w = im.naturalWidth * k, h = im.naturalHeight * k;
+  // on portrait screens keep the pool (left-center of the frame) in view
+  const fx = W < H ? .42 : .5; let x = W / 2 - w * fx; x = Math.min(0, Math.max(W - w, x));
+  g.drawImage(im, x, (H - h) / 2, w, h); return true;
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- smooth scroll ---------- */
+const lenis = new Lenis({ lerp: .1, smoothWheel: true });
+function raf(t) { lenis.raf(t); tick(); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+$$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.8 }); }));
+
+const show = (el, o, y = 0) => { el.style.opacity = o; el.style.transform = `translateY(${y}px)`; };
+const layers = $$('#fly .layer'), caps = $$('#fly .cap'), spics = $$('#smedia .pic'), suites = $$('.suite');
+function tick() {
+  // hero
+  const hp = prog(hero); sp = lerp(sp, hp, .22);
+  if (N) { const idx = Math.round(sp * (N - 1)); if (idx !== last || Math.abs(sp - hp) > .0005) { if (drawFrame(idx, 1 + sp * .05)) last = idx; } }
+  show($('#h1'), 1 - ss(.12, .26, sp), -sp * 140); $('#hint').style.opacity = 1 - ss(.02, .1, sp);
+  show($('#h2'), ss(.42, .55, sp) * (1 - ss(.86, .97, sp)), (1 - ss(.42, .6, sp)) * 40);
+  // fly-through: each frame zooms toward the camera and dissolves into the next
+  const fp = prog($('#fly')), n = layers.length, seg = fp * n;
+  layers.forEach((L, i) => {
+    const t = seg - i; // <0 not yet, 0..1 active, >1 passed
+    let op = i === 0 ? 1 : ss(-.28, 0, t), sc = t < 0 ? 1.18 - ss(-.28, 0, t) * .18 : 1 + ss(0, 1, t) * .55;
+    if (t > .78 && i < n - 1) op *= 1 - ss(.78, 1, t);
+    L.style.opacity = op; L.style.transform = `scale(${sc}) translateZ(0)`; L.style.zIndex = i;
+  });
+  caps.forEach((c, i) => { const t = seg - i, o = ss(.06, .22, t) * (1 - ss(.7, .86, t)); c.style.opacity = i === n - 1 ? ss(.06, .22, t) : o; c.style.transform = `translateY(${(1 - ss(.06, .3, t)) * 40}px)`; });
+  $('#cnum').textContent = String(Math.min(n, Math.floor(seg) + 1)).padStart(2, '0');
+  // suites: sticky image wipes from one suite to the other
+  if (innerWidth > 900) {
+    const r1 = suites[1].getBoundingClientRect(), w = ss(innerHeight * .95, innerHeight * .25, r1.top) ;
+    spics[1].style.clipPath = `inset(${(1 - w) * 100}% 0 0 0)`;
+    spics[0].querySelector('img').style.transform = `scale(${1.08 - w * .06})`; spics[1].querySelector('img').style.transform = `scale(${1.14 - w * .1})`;
+  }
+  // macro push-in
+  const mp = prog($('#macro'));
+  const mz = innerWidth < 700 ? .35 : .75; $('#mpic').style.transform = `scale(${1 + ss(0, .9, mp) * mz}) translate(${ss(0, .9, mp) * -4}%, ${ss(0, .9, mp) * 3}%)`;
+  show($('#mt1'), ss(.02, .14, mp) * (1 - ss(.55, .68, mp)), -mp * 60);
+  $$('#macro .it').forEach((e, i) => e.classList.toggle('on', mp > .5 + i * .07));
+  // breakfast parallax
+  const bi = $('#bfimg'), br = bi.parentElement.getBoundingClientRect(); bi.style.transform = `translateY(${cl((innerHeight - br.top) / (innerHeight + br.height)) * -14}%)`;
+  // garden: vertical scroll drives the strip sideways
+  const gp = prog($('#garden')), row = $('#grow'); row.style.transform = `translateX(${-gp * Math.max(0, row.scrollWidth - innerWidth)}px)`;
+  $$('#grow img').forEach((im, i) => im.style.transform = `translateX(${(gp - .5) * 40 * (i % 2 ? 1 : -1)}px)`);
+  $('#top').classList.toggle('solid', scrollY > 40);
+}
+
+/* ---------- reveal, counters, cursor ---------- */
+const io = new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting) return; e.target.classList.add('in'); $$('[data-to]', e.target).forEach(count); }), { threshold: .15 });
+$$('.rv').forEach((el) => !el.closest('#h1') && io.observe(el));
+function count(el) { if (el._d) return; el._d = 1; const to = +el.dataset.to, dec = el.dataset.to.includes('.') ? 1 : 0, t0 = performance.now(); (function f(t) { const k = cl((t - t0) / 1400), e = 1 - Math.pow(1 - k, 3); el.textContent = (to * e).toFixed(dec); if (k < 1) requestAnimationFrame(f); })(t0); }
+const cur = $('#cur'); let cx = 0, cy = 0, tx = 0, ty = 0;
+addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; });
+(function mv() { cx = lerp(cx, tx, .2); cy = lerp(cy, ty, .2); cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; requestAnimationFrame(mv); })();
+document.addEventListener('pointerover', (e) => cur.classList.toggle('big', !!e.target.closest('a,button,.ar,.opt')));
+
+/* ---------- direct booking → WhatsApp to Ravit (demo: preview only; live: https://wa.me/972523504451?text=) ---------- */
+let suite = 'כרם זית', ad = 2, kd = 0;
+$('#suiteSel').addEventListener('click', (e) => { const b = e.target.closest('.opt'); if (!b) return; suite = b.dataset.v; $$('#suiteSel .opt').forEach((x) => x.classList.toggle('on', x === b)); });
+$$('.cnt button').forEach((b) => b.onclick = () => { if (b.dataset.c === 'ad') { ad = cl(ad + +b.dataset.d, 1, 6); $('#ad').textContent = ad; } else { kd = cl(kd + +b.dataset.d, 0, 4); $('#kd').textContent = kd; } });
+const iso = (d) => d.toISOString().slice(0, 10), now = new Date(), d1 = new Date(now); d1.setDate(now.getDate() + 14); const d2 = new Date(d1); d2.setDate(d1.getDate() + 2);
+$('#din').value = iso(d1); $('#dout').value = iso(d2); $('#din').min = iso(now);
+const heb = (s) => { const [y, m, d] = s.split('-'); return `${+d}.${+m}`; };
+$('#go').onclick = () => {
+  const a = $('#din').value, b = $('#dout').value, nights = Math.max(1, Math.round((new Date(b) - new Date(a)) / 864e5));
+  const txt = `היי רוית, הגעתי מהאתר 🌿\nאשמח לבדוק זמינות בסוויטת ${suite}\n${heb(a)}–${heb(b)} · ${nights} ${nights === 1 ? 'לילה' : 'לילות'}\n${ad} מבוגרים${kd ? ` + ${kd} ילדים` : ''}${$('#bfk').checked ? '\nעם ארוחת בוקר כשרה' : ''}\nשם: ${$('#nm').value.trim() || '—'}\nטלפון: ${$('#tel').value.trim() || '—'}`;
+  const t = new Date(); $('#waMsg').innerHTML = txt.replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on');
+};
+$('#waOk').onclick = () => $('#wa').classList.remove('on'); $('#wa').addEventListener('click', (e) => { if (e.target.id === 'wa') $('#wa').classList.remove('on'); });
+</script>
+</body></html>
