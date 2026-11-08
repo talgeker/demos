@@ -58,9 +58,9 @@ h2{font:900 clamp(40px,6.6vw,104px)/.95 var(--serif);letter-spacing:-.01em}
 #hero{height:190vh}
 #hero .obj{left:40%;top:50%;height:min(104vh,1180px);aspect-ratio:3/4;transform:translate(-50%,-50%)}
 #hero .ghost{position:absolute;inset:auto 0 6vh;text-align:center;font:900 clamp(120px,24vw,420px)/.8 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(214,178,106,.22);white-space:nowrap;pointer-events:none;will-change:transform}
-#hero .ttl{position:absolute;right:clamp(20px,6vw,110px);top:46%;transform:translateY(-50%);max-width:460px;z-index:3}
+#hero .ttl{position:absolute;right:clamp(20px,6vw,110px);top:46%;transform:translateY(-50%);max-width:540px;z-index:3}
 #hero .ttl img{width:118px;height:118px;margin-bottom:22px;filter:drop-shadow(0 10px 30px rgba(214,178,106,.25))}
-#hero h1{font:900 clamp(46px,5.6vw,92px)/.92 var(--serif);margin-bottom:20px}
+#hero h1{font:900 clamp(44px,4.8vw,80px)/1 var(--serif);margin-bottom:20px}#hero h1 b{display:block}
 #hero h1 span{display:block;font-size:.42em;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-top:14px}
 #hero .tg{font-size:19px;color:#d9ccb6;text-shadow:0 2px 18px #000;line-height:1.6;margin-bottom:26px}
 #hero .side{position:absolute;right:clamp(20px,6vw,110px);bottom:7vh;z-index:3;display:flex;gap:34px}
@@ -75,7 +75,7 @@ h2{font:900 clamp(40px,6.6vw,104px)/.95 var(--serif);letter-spacing:-.01em}
  #hero .feather{-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
  #hero .ttl{right:20px;left:20px;top:auto;bottom:calc(30px + env(safe-area-inset-bottom));transform:none;max-width:none}
  #hero .ttl img{width:74px;height:74px;margin-bottom:12px}
- #hero h1{font-size:46px;margin-bottom:12px}
+ #hero h1{font-size:44px;margin-bottom:12px}
  #hero .tg{font-size:16px;margin-bottom:18px}
  #hero .side,.cue{display:none}
  #hero .ghost{bottom:auto;top:58vw;font-size:44vw}
@@ -131,6 +131,7 @@ h2{font:900 clamp(40px,6.6vw,104px)/.95 var(--serif);letter-spacing:-.01em}
 .fb .cap .lead{color:#eadfcc;text-shadow:0 2px 20px rgba(0,0,0,.7)}
 .fb .grad{position:absolute;inset:auto 0 0;height:55%;background:linear-gradient(transparent,rgba(10,8,6,.85));z-index:2;pointer-events:none}
 #layali{height:200vh}
+@media(min-width:901px){#layali .cap{right:auto;left:clamp(20px,5vw,90px);max-width:440px}}
 .quote{font:500 clamp(18px,1.6vw,22px)/1.5 var(--serif);color:var(--gold2);margin-top:18px}
 .quote small{display:block;font:400 13px var(--sans);color:var(--mut);margin-top:6px;letter-spacing:.1em}
 
@@ -144,7 +145,9 @@ h2{font:900 clamp(40px,6.6vw,104px)/.95 var(--serif);letter-spacing:-.01em}
 .pill{border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:14px;color:var(--ink)}
 @media(max-width:900px){
  .split .obj{inset:0;width:100%;height:100%;left:0;aspect-ratio:auto}
- .split .cap,.fb .cap{right:20px;left:20px;width:auto;top:auto;bottom:calc(36px + env(safe-area-inset-bottom));transform:none}
+ .split .cap,.fb .cap{right:16px;left:16px;width:auto;top:auto;bottom:calc(104px + env(safe-area-inset-bottom));transform:none}
+ #layali .cap{padding:16px 18px;border-radius:20px;background:rgba(10,8,6,.5)}
+ #layali .cap h2{font-size:38px}#layali .cap h2 br{display:none}#layali .cap .quote{display:none}#layali .cap .lead{font-size:14px;margin-top:8px!important}
  .split .grad{position:absolute;inset:auto 0 0;height:60%;background:linear-gradient(transparent,rgba(10,8,6,.88));z-index:2}
  .split .cap .n{font-size:80px;margin-bottom:-18px}
  .fb h2,.split h2{font-size:44px}
@@ -285,7 +288,7 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
 <canvas id="fx"></canvas>
 
 <header class="hd" id="hd">
- <a class="brand" href="#top"><img src="img/logo-s.png" alt="ממתקי דלית אל כרמל"><span><b>ממתקי דלית</b><small>DALIYAT AL-KARMEL</small></span></a>
+ <a class="brand" href="#top"><img src="img/logo-s.png" alt="ממתקי דלית אל כרמל"><span><b>ממתקי דלית אל כרמל</b><small>DALIYAT AL-KARMEL SWEETS</small></span></a>
  <nav><a href="#anat">הכנאפה</a><a href="#build">הרכיבו מנה</a><a href="#menu">התפריט</a><a href="#sig">רק אצלנו</a><a href="#gifts">מגשי אירוח</a><a href="#visit">הגעה ושעות</a></nav>
  <a class="btn gd js-book" href="#" target="_blank" rel="noopener">הזמנת מקום</a>
 </header>
@@ -298,7 +301,7 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
   <div class="obj feather" id="heroObj"><canvas></canvas></div>
   <div class="ttl">
    <img src="img/logo.png" alt="">
-   <h1><b class="g">ממתקי דלית</b><span>אל כרמל · منذ قلب الكرمل</span></h1>
+   <h1><b class="g">ממתקי</b><b class="g">דלית אל כרמל</b><span>حلويات دالية الكرمل</span></h1>
    <p class="tg">הכנאפה הכי טעימה בארץ. חמה מהתנור, עם גלידה שעושים במקום, מול הנוף של הכרמל.</p>
    <div class="chips"><a class="btn gd js-book" href="#" target="_blank" rel="noopener">הזמנת מקום</a><a class="btn ol" href="#menu">לתפריט</a></div>
   </div>
@@ -342,7 +345,7 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
 <section class="scene fb" id="layali" data-clip="2-layali" data-n="61" data-fit="cover" data-fx="petal">
  <div class="stick">
   <div class="obj"><canvas></canvas></div><div class="grad"></div>
-  <div class="cap" data-a><span class="kick">המנה השנייה הכי מבוקשת</span><h2>לילות<br><span class="g">ביירות</span></h2><p class="lead" style="margin-top:16px">קרם חלב קר ומשי, שכבת פיסטוק עבה ועלי ורדים. מגיע גם בגרסת שייק.</p><p class="quote">״הלילות ביירות קרם שניט היה לא מהעולם״<small>Asaf Alon · Google ★★★★★</small></p></div>
+  <div class="cap" data-a><span class="kick">המנה השנייה הכי מבוקשת</span><h2>לילות <br><span class="g">ביירות</span></h2><p class="lead" style="margin-top:16px">קרם חלב קר ומשי, שכבת פיסטוק עבה ועלי ורדים. מגיע גם בגרסת שייק.</p><p class="quote">״הלילות ביירות קרם שניט היה לא מהעולם״<small>Asaf Alon · Google ★★★★★</small></p></div>
  </div>
 </section>
 
