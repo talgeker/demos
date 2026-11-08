@@ -165,6 +165,33 @@ footer .giant{font-size:clamp(90px,26vw,380px);line-height:.8;color:transparent;
 footer .row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--mut);font-size:13px}
 footer img{width:70px;height:70px}
 .demo{font-size:11px;letter-spacing:2px;padding:6px 12px;border:1px solid var(--line);border-radius:14px}
+/* table reservation (on our site; the request lands in the restaurant's WhatsApp) */
+#rs{position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .35s}
+#rs.on{opacity:1;pointer-events:auto}
+#rs .card{width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;border-radius:28px;padding:clamp(22px,4vw,34px);background:linear-gradient(160deg,#161616,#0b0b0b);border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.7);transform:translateY(24px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1);position:relative}
+#rs.on .card{transform:none}
+#rs h3{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(30px,5vw,40px);line-height:1;margin-top:8px}
+#rs .sub{color:var(--mut);font-size:14px;margin:8px 0 6px}
+#rs .x{position:absolute;top:16px;left:16px;width:38px;height:38px;border-radius:19px;border:1px solid var(--line);background:none;color:var(--cream);font-size:16px;cursor:pointer}
+#rs label.l{display:block;font-family:'JetBrains Mono';font-size:11px;letter-spacing:2px;color:var(--mut);margin:22px 0 10px}
+#rs .row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+#rs .row::-webkit-scrollbar{display:none}
+#rs .ch{flex:0 0 auto;min-width:64px;height:62px;border-radius:16px;border:1px solid rgba(239,227,200,.2);background:none;color:var(--cream);font:500 13px Heebo;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:background .2s,color .2s,border-color .2s}
+#rs .ch b{font-size:17px;font-weight:700}
+#rs .ch.t{height:44px;min-width:72px;font-family:'JetBrains Mono';font-size:14px;direction:ltr}
+#rs .ch.on{background:var(--cream);color:#0b0b0b;border-color:var(--cream)}
+#rs .ch:disabled{opacity:.28;cursor:default}
+#rs .times{flex-wrap:wrap;overflow:visible}
+#rs .ppl{display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(239,227,200,.2);border-radius:16px;padding:8px 10px 8px 8px}
+#rs .ppl span{font-size:16px;padding-right:6px}
+#rs .ppl .qty b{min-width:26px;text-align:center;font-size:18px}
+#rs .f{width:100%;height:50px;border-radius:14px;border:1px solid rgba(239,227,200,.2);background:#0d0d0d;color:var(--cream);font:400 16px Heebo;padding:0 16px;outline:none;transition:border-color .2s}
+#rs textarea.f{height:76px;padding:12px 16px;resize:none;margin-top:10px}
+#rs .f:focus{border-color:var(--ember)}
+#rs .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#rs .go{width:100%;margin-top:24px;background:var(--ember);color:#0b0b0b}
+#rs .go:disabled{opacity:.4;cursor:default}
+#rs .note{font-size:12px;color:var(--mut);text-align:center;margin-top:12px}
 /* whatsapp preview (demo: shows the message instead of sending it to the real shop) */
 #wa{position:fixed;inset:0;z-index:97;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
 #wa.on{opacity:1;pointer-events:auto}
@@ -191,7 +218,7 @@ footer img{width:70px;height:70px}
 <header id="top">
  <img class="lg" src="img/logo.png" alt="תמרלין"><span class="nm">תמרלין</span>
  <nav><a href="#float">הנתח</a><a href="#farm">החווה</a><a href="#cut">האטליז</a><a href="#menu">תפריט</a><a href="#visit">ביקור</a></nav>
- <a class="btn c" href="https://ontopo.com/temerlindeli" target="_blank" rel="noopener">הזמנת שולחן</a>
+ <button class="btn c" data-rs>הזמנת שולחן</button>
 </header>
 
 <!-- 01 · fire: the steak on the grill, the camera orbits it -->
@@ -267,7 +294,7 @@ footer img{width:70px;height:70px}
   <div class="box rv"><h3>שעות פתיחה</h3><div class="hrs" id="hrs"></div><p class="lead" style="font-size:13px;margin-top:14px">בוקר קפה: ב׳–שבת 7:30–12:00 · האטליז פתוח עם המסעדה</p></div>
   <div class="box rv"><h3>מגיעים אלינו</h3><p class="lead" style="font-size:16px">מושב נהלל, עמק יזרעאל<br>טלפון ווואטסאפ: <span class="num">077-724-2042</span></p>
    <div class="act">
-    <a class="btn c" href="https://ontopo.com/temerlindeli" target="_blank" rel="noopener">הזמנת שולחן</a>
+    <button class="btn c" data-rs>הזמנת שולחן</button>
     <a class="btn o" href="https://waze.com/ul?ll=32.6821269,35.2013936&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a>
     <a class="btn o" href="tel:0777242042">התקשרו אלינו</a>
    </div></div>
@@ -279,7 +306,21 @@ footer img{width:70px;height:70px}
  <div class="giant d">תמרלין</div>
 </footer>
 <div id="toast"></div>
-<div id="wa"><div class="ph"><div class="hd"><img src="img/logo.png" alt=""><div><b>האטליז · תמרלין</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft">כך ההזמנה תגיע לוואטסאפ של האטליז. הקצב מכין, והלקוח משלם באיסוף לפי שקילה.<button class="btn" id="waOk">הבנתי</button></div></div></div>
+<div id="rs" data-lenis-prevent><div class="card">
+ <button class="x" id="rsX" aria-label="סגירה">✕</button>
+ <span class="m k" style="color:var(--ember)">// RESERVE</span>
+ <h3>הזמנת שולחן</h3><p class="sub">מסעדת תמרלין · נהלל</p>
+ <label class="l">כמה סועדים</label>
+ <div class="ppl"><span id="rsP">2 סועדים</span><div class="qty"><button id="rsM">−</button><b id="rsN">2</b><button id="rsPl">+</button></div></div>
+ <label class="l">באיזה יום</label><div class="row" id="rsD"></div>
+ <label class="l">באיזו שעה</label><div class="row times" id="rsT"></div>
+ <label class="l">פרטים</label>
+ <div class="two"><input class="f" id="rsName" placeholder="שם מלא" autocomplete="name"><input class="f" id="rsTel" placeholder="טלפון" inputmode="tel" autocomplete="tel"></div>
+ <textarea class="f" id="rsNote" placeholder="הערות: יום הולדת, כיסא תינוק, אלרגיות…"></textarea>
+ <button class="btn go" id="rsGo" disabled>שליחת בקשת הזמנה</button>
+ <p class="note">הבקשה נשלחת ישירות למסעדה, והמסעדה חוזרת אליך לאישור.</p>
+</div></div>
+<div id="wa"><div class="ph"><div class="hd"><img src="img/logo.png" alt=""><div><b id="waTo">האטליז · תמרלין</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft"><span id="waFt">כך ההזמנה תגיע לוואטסאפ של האטליז. הקצב מכין, והלקוח משלם באיסוף לפי שקילה.</span><button class="btn" id="waOk">הבנתי</button></div></div></div>
 
 <script type="module">
 import Lenis from 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs';
@@ -380,7 +421,21 @@ calc();
 const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 2400); };
 // live site: location.href = 'https://wa.me/<shop number>?text=' + encodeURIComponent(text). The demo only previews it.
 function orderText() { const th = (+$('#th').value).toFixed(1), now = new Date(); return `שלום, הזמנה לאיסוף מהאטליז 🥩\n${CUTS[sel][0]} · ${qty} ${qty === 1 ? 'סטייק' : 'סטייקים'} · עובי ${th} ס"מ\nמשקל משוער: ${$('#wV').textContent}\nשם: \nמתי אאסוף: `; }
-$('#send').onclick = () => { const n = new Date(); $('#waMsg').innerHTML = orderText().replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(n.getHours()).padStart(2, '0')}:${String(n.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on'); };
+function showWa(text, to, ft) { const n = new Date(); $('#waTo').textContent = to; $('#waFt').textContent = ft; $('#waMsg').innerHTML = text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(n.getHours()).padStart(2, '0')}:${String(n.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on'); }
+$('#send').onclick = () => showWa(orderText(), 'האטליז · תמרלין', 'כך ההזמנה תגיע לוואטסאפ של האטליז. הקצב מכין, והלקוח משלם באיסוף לפי שקילה.');
+/* table reservation: lunch/dinner slots, Friday = breakfast only. Live site: the same text goes to https://wa.me/<restaurant number>?text= */
+const DAYN = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+const slots = (wd) => { const out = [], add = (a, b) => { for (let m = a; m <= b; m += 30) out.push(`${String(m / 60 | 0).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`); }; if (wd === 5) add(8 * 60, 11 * 60); else add(12 * 60, wd === 4 ? 21 * 60 + 30 : 21 * 60); return out; };
+const rs = { n: 2, d: null, t: null };
+function rsTimes() { const now = new Date(), today = rs.d.toDateString() === now.toDateString(), cut = now.getHours() * 60 + now.getMinutes() + 60; $('#rsT').innerHTML = slots(rs.d.getDay()).map((t) => { const [h, m] = t.split(':').map(Number); return `<button class="ch t" ${today && h * 60 + m < cut ? 'disabled' : ''}>${t}</button>`; }).join(''); $$('#rsT .ch').forEach((b) => b.onclick = () => { rs.t = b.textContent; $$('#rsT .ch').forEach((x) => x.classList.toggle('on', x === b)); rsCheck(); }); rsCheck(); }
+function rsDays() { const now = new Date(); $('#rsD').innerHTML = Array.from({ length: 14 }, (_, i) => { const d = new Date(now); d.setDate(now.getDate() + i); const lab = i === 0 ? 'היום' : i === 1 ? 'מחר' : DAYN[d.getDay()]; return `<button class="ch" data-i="${i}">${lab}<b>${d.getDate()}.${d.getMonth() + 1}</b></button>`; }).join(''); $$('#rsD .ch').forEach((b) => b.onclick = () => { const d = new Date(); d.setDate(d.getDate() + +b.dataset.i); rs.d = d; rs.t = null; $$('#rsD .ch').forEach((x) => x.classList.toggle('on', x === b)); rsTimes(); }); $('#rsD .ch').click(); }
+function rsCheck() { $('#rsGo').disabled = !(rs.d && rs.t && $('#rsName').value.trim().length > 1 && $('#rsTel').value.replace(/\D/g, '').length >= 9); }
+function rsN() { $('#rsN').textContent = rs.n; $('#rsP').textContent = rs.n === 1 ? 'סועד אחד' : rs.n + ' סועדים'; }
+$('#rsM').onclick = () => { rs.n = Math.max(1, rs.n - 1); rsN(); }; $('#rsPl').onclick = () => { rs.n = Math.min(20, rs.n + 1); rsN(); };
+['#rsName', '#rsTel'].forEach((q) => $(q).addEventListener('input', rsCheck));
+const rsOpen = () => { rsDays(); $('#rs').classList.add('on'); lenis.stop(); }, rsClose = () => { $('#rs').classList.remove('on'); lenis.start(); };
+$$('[data-rs]').forEach((b) => b.onclick = rsOpen); $('#rsX').onclick = rsClose; $('#rs').addEventListener('click', (e) => { if (e.target.id === 'rs') rsClose(); });
+$('#rsGo').onclick = () => { const d = rs.d, note = $('#rsNote').value.trim(); const txt = `שלום, אשמח להזמין שולחן 🍷\nיום ${DAYN[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1} · ${rs.t}\n${rs.n === 1 ? 'סועד אחד' : rs.n + ' סועדים'}\nשם: ${$('#rsName').value.trim()}\nטלפון: ${$('#rsTel').value.trim()}${note ? '\nהערות: ' + note : ''}`; rsClose(); showWa(txt, 'המסעדה · תמרלין', 'כך הבקשה תגיע לוואטסאפ של המסעדה. המסעדה מאשרת ללקוח בחזרה בהודעה.'); };
 $('#waOk').onclick = () => $('#wa').classList.remove('on');
 $('#wa').addEventListener('click', (e) => { if (e.target.id === 'wa') $('#wa').classList.remove('on'); });
 
