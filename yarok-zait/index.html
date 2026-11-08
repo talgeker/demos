@@ -85,6 +85,47 @@ a{color:inherit;text-decoration:none}img,canvas{display:block}
 .rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
 
+
+.k1{--acc:#B9C97E}.k2{--acc:#E8A57F}
+.pill{position:absolute;top:calc(env(safe-area-inset-top) + 112px);left:50%;transform:translateX(-50%);z-index:5;background:rgba(8,9,7,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--acc,rgba(237,231,216,.3));color:var(--cream);font-size:14px;padding:8px 18px;border-radius:999px;white-space:nowrap}
+.pill b{color:var(--acc,var(--olive));font-weight:600}
+.sc .tx .k{color:var(--acc,var(--olive))}
+.tag{display:inline-block;color:var(--acc);border:1px solid var(--acc);border-radius:999px;font-size:13px;font-weight:500;padding:5px 13px;margin-bottom:16px}
+#pick .pk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(14px,2.4vw,30px);margin-top:clamp(40px,6vw,70px)}
+.card{display:block;border-radius:26px;overflow:hidden;border:1px solid var(--line);border-top:3px solid var(--acc);background:#0f110b;transition:transform .4s,border-color .4s}
+.card:hover{transform:translateY(-4px)}
+.card .ph{aspect-ratio:16/10;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.card:hover .ph img{transform:scale(1.05)}
+.card .in{padding:clamp(20px,2.6vw,32px)}
+.card h3{font-size:clamp(40px,4.4vw,62px);line-height:1}
+.card p{margin-top:12px;color:var(--mut);font-size:16px;line-height:1.7;font-weight:300}
+.card ul,.sp{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.card li,.sp li{font-size:13px;color:var(--mut)}
+.card li b,.sp li b{display:block;font-family:'Frank Ruhl Libre';font-weight:500;font-size:clamp(19px,1.9vw,24px);color:var(--cream)}
+.card .go{display:inline-block;margin-top:22px;color:var(--acc);font-weight:600;font-size:15.5px}
+@media(max-width:800px){#pick .pk{grid-template-columns:1fr}.card ul,.sp{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:16px}}
+.gal{padding-top:clamp(70px,9vw,120px);padding-bottom:clamp(70px,9vw,120px)}
+.gal .gh{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
+.gal .sp{min-width:min(100%,520px);border-top:0;padding-top:0}
+.gal .sp li b{color:var(--acc)}
+.gg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:clamp(30px,4vw,50px)}
+.gi{position:relative;border:0;padding:0;border-radius:16px;overflow:hidden;cursor:zoom-in;aspect-ratio:4/3;background:#151810}
+
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.gi:hover img{transform:scale(1.06)}
+.gi span{position:absolute;bottom:10px;right:10px;font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(8,9,7,.6);color:var(--cream);backdrop-filter:blur(6px);direction:ltr}
+@media(max-width:800px){.gg{grid-template-columns:1fr 1fr;gap:8px}}
+.bk-go{margin-top:30px}
+#lb{position:fixed;inset:0;z-index:98;background:rgba(5,6,4,.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+#lb.on{opacity:1;pointer-events:auto}
+#lb img{max-width:94vw;max-height:78vh;border-radius:12px;object-fit:contain}
+#lb .x,#lb .pv,#lb .nx{position:absolute;width:48px;height:48px;border-radius:24px;border:1px solid rgba(237,231,216,.3);background:rgba(8,9,7,.6);color:var(--cream);font-size:22px;cursor:pointer}
+#lb .x{top:calc(env(safe-area-inset-top) + 18px);left:18px}
+#lb .pv{right:18px;top:50%;margin-top:-24px}#lb .nx{left:18px;top:50%;margin-top:-24px}
+#lb .ct{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 26px);left:0;right:0;text-align:center;font-size:15px;color:var(--mut)}
+#lb .ct b{color:var(--acc,var(--cream))}
+@media(max-width:700px){#lb .pv,#lb .nx{top:auto;bottom:calc(env(safe-area-inset-bottom) + 64px);margin:0}}
 #rev{background:radial-gradient(120% 80% at 80% 0%,#1d2412 0%,#11150b 45%,var(--bg) 100%)}
 #rev .top{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
 #rev .score b{font-family:'Frank Ruhl Libre';font-weight:300;font-size:clamp(90px,12vw,170px);line-height:.85;color:var(--olive);direction:ltr;display:block}
@@ -151,66 +192,78 @@ footer .demo{font-size:12px;letter-spacing:.1em;padding:6px 12px;border:1px soli
 
 <header id="top">
  <a class="logo" href="#hero"><svg><use href="#leaf"/></svg><div><b>ירוק זית</b><small>סוויטות בוטיק</small></div></a>
- <nav><a href="#s1">כרם זית</a><a href="#s2">משעול הכרם</a><a href="#s3">הבריכות</a><a href="#rev">ביקורות</a><a href="#book">הזמנה</a></nav>
+ <nav><a href="#pick">הסוויטות</a><a href="#s1">כרם זית</a><a href="#s2">משעול הכרם</a><a href="#rev">ביקורות</a><a href="#book">הזמנה</a></nav>
  <a class="btn c" href="#book">לבדיקת זמינות</a>
 </header>
 
 <!-- 01 · hero: the pool clip, scrubbed -->
 <section class="scene" id="hero"><div class="stick">
  <canvas id="cv"></canvas><div class="poster" id="poster"></div><div class="shade"></div>
- <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">01 / 06 — הבית</span><span class="m tr">KFAR YEHEZKEL · 32.57°N</span><span class="m bl" id="fc">FRAME 000</span></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">01 / 05 — הבית</span><span class="m tr">KFAR YEHEZKEL · 32.57°N</span><span class="m bl" id="fc">FRAME 000</span></div>
  <div class="tx b ttl" id="h1"><span class="m k">BOUTIQUE SUITES · EST. BY RAVIT</span><h1 class="d">ירוק זית</h1><p>שתי סוויטות בוטיק, ולכל אחת בריכה פרטית משלה. בלב כרם זיתים בכפר יחזקאל, למרגלות הגלבוע.</p><div class="ct"><a class="btn c" href="#book">לבדיקת זמינות</a><a class="btn o" href="#s1">לגלות את הסוויטות</a></div></div>
  <div class="tx t" id="h2" data-a=".62" data-b="1.1"><span class="m k">// 01 · THE HOUSE</span><div class="big d">לא מלון.<br>לא רשת.</div><p>שתי סוויטות בלבד, כל אחת עם כביש גישה משלה. פרטיות מלאה.</p></div>
 </div></section>
 
 <div class="mq"><div>בריכה פרטית<em>✦</em>ג'קוזי זוגי<em>✦</em>ארוחת בוקר כשרה<em>✦</em>כרם זיתים<em>✦</em>כפר יחזקאל<em>✦</em>בריכה פרטית<em>✦</em>ג'קוזי זוגי<em>✦</em>ארוחת בוקר כשרה<em>✦</em>כרם זיתים<em>✦</em>כפר יחזקאל<em>✦</em></div></div>
 
-<!-- 02 · suite one -->
-<section class="scene sc" id="s1" data-imgs="12,07,08,10"><div class="stick">
+<!-- 02 · pick a suite: the two suites side by side -->
+<section class="sec" id="pick">
+ <span class="m k rv">// 02 · TWO SUITES</span>
+ <h2 class="h2 d rv">שתי סוויטות.<br>בחרו את שלכם.</h2>
+ <p class="lead rv" style="margin-top:18px">לכל סוויטה בריכה פרטית משלה, כביש גישה נפרד וכיוון אחר. אין שכנים, אין שיתוף.</p>
+ <div class="pk">
+  <a class="card k1 rv" href="#s1"><div class="ph"><img src="g/12.jpg" alt="סוויטת כרם זית" loading="lazy"></div><div class="in"><span class="tag">סוויטה 01 · לזוגות</span><h3 class="d">כרם זית</h3><p>חלל פתוח ורומנטי בתוך כרם הזיתים, עם ג'קוזי ענק ובריכה פרטית.</p><ul><li><b>40</b>מ"ר</li><li><b>1</b>חדר</li><li><b>עד 4</b>אורחים</li><li><b>₪1,000</b>מ־ ללילה</li></ul><span class="go">לגלות את כרם זית ←</span></div></a>
+  <a class="card k2 rv" href="#s2"><div class="ph"><img src="g/25.jpg" alt="סוויטת משעול הכרם" loading="lazy"></div><div class="in"><span class="tag">סוויטה 02 · למשפחות</span><h3 class="d">משעול הכרם</h3><p>סוויטה משפחתית גדולה: שני חדרי שינה, סלון, מטבח, בריכה וגינה עם דשא.</p><ul><li><b>80</b>מ"ר</li><li><b>2</b>חדרי שינה</li><li><b>עד 6</b>אורחים</li><li><b>₪1,500</b>מ־ ללילה</li></ul><span class="go">לגלות את משעול הכרם ←</span></div></a>
+ </div>
+</section>
+
+<!-- 03 · suite one: Kerem Zait -->
+<section class="scene sc k1" id="s1" data-imgs="05,12,07,08,06"><div class="stick">
  <div class="shade"></div>
- <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">02 / 06 — כרם זית</span><span class="m tr">SUITE 01 · COUPLES</span><span class="m bl fc">SHOT 01</span></div>
- <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 02 · SUITE KEREM ZAIT</span><div class="big d">כרם זית.</div><p>חלל פתוח ומואר בתוך כרם הזיתים, לזוג או לזוג עם שני ילדים.</p></div>
- <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">ג'קוזי ענק<br>עם מפל.</div><div class="spec" style="justify-content:flex-end"><div><b>זוג + 2</b><span>אורחים</span></div><div><b>אורתופדי</b><span>מזרן זוגי</span></div></div></div>
- <div class="tx b" data-a="2" data-b="2.95"><div class="big d">נרות,<br>חלוקים, שקט.</div><p>כשאתם נכנסים הכל כבר מוכן.</p></div>
- <div class="tx b l" data-a="3" data-b="4.2"><span class="m k">PRIVATE POOL</span><div class="big d">והבריכה<br>רק שלכם.</div></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">03 / 05 — SUITE 01</span><span class="m tr">COUPLES · 40 M²</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="pill">סוויטה 01 · <b>כרם זית</b></div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// SUITE 01 · FOR COUPLES</span><div class="big d">כרם זית.</div><p>הסוויטה הרומנטית, לזוגות או לזוג עם שני ילדים. דק עץ שנושק לעצי הזית ומשקיף לגלבוע.</p></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">מיטה מלכותית.</div><p>מזרן אורתופדי של עמינח, מצעי כותנה וסאטן וכריות רכות.</p></div>
+ <div class="tx b" data-a="2" data-b="2.95"><div class="big d">ג'קוזי ענק<br>עם מפל.</div><p>ותאורה פנימית מתחלפת, ממש ליד המיטה.</p></div>
+ <div class="tx b l" data-a="3" data-b="3.95"><div class="big d">נרות, חלוקים<br>ושקט.</div></div>
+ <div class="tx b" data-a="4" data-b="5.2"><span class="m k">PRIVATE POOL</span><div class="big d">והבריכה של<br>כרם זית.</div><p>פרטית, מחוממת ומקורה בחורף.</p></div>
 </div></section>
 
-<!-- 03 · suite two -->
-<section class="scene sc" id="s2" data-imgs="20,31,28,29"><div class="stick">
+<section class="sec gal k1" id="g1">
+ <div class="gh"><div><span class="tag rv">סוויטה 01 · לזוגות</span><h2 class="h2 d rv">כל התמונות של<br>כרם זית.</h2></div>
+  <ul class="sp rv"><li><b>40 מ"ר</b>חדר אחד</li><li><b>עד 4</b>זוג + 2 ילדים</li><li><b>ג'קוזי ענק</b>עם מפל</li><li><b>₪1,000–1,500</b>ללילה</li></ul></div>
+ <div class="gg" data-set="12,05,07,08,06,02,16,04,03,09"></div>
+ <button class="btn c bk-go rv" data-suite="כרם זית">להזמנת כרם זית</button>
+</section>
+
+<!-- 04 · suite two: Mishol HaKerem -->
+<section class="scene sc k2" id="s2" data-imgs="23,18,28,21,29"><div class="stick">
  <div class="shade"></div>
- <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">03 / 06 — משעול הכרם</span><span class="m tr">SUITE 02 · FAMILIES</span><span class="m bl fc">SHOT 01</span></div>
- <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 03 · SUITE MISHOL HAKEREM</span><div class="big d">משעול הכרם.</div><p>שני חדרי שינה וסלון מרכזי, למשפחה עם עד ארבעה ילדים.</p></div>
- <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">שני חדרי<br>שינה.</div><div class="spec" style="justify-content:flex-end"><div><b>זוג + 4</b><span>אורחים</span></div><div><b>2 + סלון</b><span>חדרים</span></div></div></div>
- <div class="tx b" data-a="2" data-b="2.95"><div class="big d">מטבחון<br>מאובזר.</div><p>אספרסו, מסך גדול, מיזוג ו־Wi-Fi.</p></div>
- <div class="tx b l" data-a="3" data-b="4.2"><span class="m k">THE LAWN</span><div class="big d">דשא, מנגל<br>וטרמפולינה.</div></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 05 — SUITE 02</span><span class="m tr">FAMILIES · 80 M²</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="pill">סוויטה 02 · <b>משעול הכרם</b></div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// SUITE 02 · FOR FAMILIES</span><div class="big d">משעול הכרם.</div><p>הסוויטה המשפחתית, עד ארבעה ילדים. בריכה פרטית בתוך חצר פטיו מוצלת וירוקה.</p></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">סלון גדול,<br>תקרה גבוהה.</div><p>קורות עץ, צוהר לאור ומסך גדול.</p></div>
+ <div class="tx b" data-a="2" data-b="2.95"><div class="big d">מטבח מאובזר<br>ושולחן גדול.</div><p>וגם שני חדרי שינה נפרדים, עם דלת.</p></div>
+ <div class="tx b l" data-a="3" data-b="3.95"><div class="big d">ג'קוזי זוגי.</div><p>ואמבטיה ומקלחון.</p></div>
+ <div class="tx b" data-a="4" data-b="5.2"><span class="m k">THE GARDEN</span><div class="big d">דשא, מנגל<br>ונדנדה.</div><p>גינה פרטית גדולה לילדים, ממש מחוץ לדלת.</p></div>
 </div></section>
 
-<!-- 04 · pools -->
-<section class="scene sc" id="s3" data-imgs="13,23,06"><div class="stick">
- <div class="shade"></div>
- <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 06 — הבריכות</span><span class="m tr">HEATED · COVERED IN WINTER</span><span class="m bl fc">SHOT 01</span></div>
- <div class="tx t" data-a="0" data-b=".95"><span class="m k">// 04 · PRIVATE POOLS</span><div class="big d">בריכה פרטית<br>לכל סוויטה.</div></div>
- <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">מחוממת<br>כל השנה.</div><p>מקורה ומחוממת בחורף, מוקפת דק עץ וצמחייה.</p></div>
- <div class="tx b" data-a="2" data-b="3.2"><span class="m k">ON ARRIVAL</span><div class="big d">פירות טריים<br>מחכים לכם.</div></div>
-</div></section>
+<section class="sec gal k2" id="g2">
+ <div class="gh"><div><span class="tag rv">סוויטה 02 · למשפחות</span><h2 class="h2 d rv">כל התמונות של<br>משעול הכרם.</h2></div>
+  <ul class="sp rv"><li><b>80 מ"ר</b>2 חדרי שינה + סלון</li><li><b>עד 6</b>זוג + 4 ילדים</li><li><b>גינה פרטית</b>דשא, מנגל, נדנדה</li><li><b>₪1,500</b>ללילה</li></ul></div>
+ <div class="gg" data-set="23,18,25,28,21,22,30,29,26,09"></div>
+ <button class="btn c bk-go rv" data-suite="משעול הכרם">להזמנת משעול הכרם</button>
+</section>
 
-<!-- 05 · hospitality -->
-<section class="scene sc" id="s4" data-imgs="15,14,11"><div class="stick">
+<!-- 05 · in both suites -->
+<section class="scene sc" id="s3" data-imgs="14,15,32,38"><div class="stick">
  <div class="shade"></div>
- <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">05 / 06 — האירוח</span><span class="m tr">KOSHER BREAKFAST</span><span class="m bl fc">SHOT 01</span></div>
- <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 05 · THE DETAILS</span><div class="big d">פינוקים<br>על השולחן.</div><p>פירות, עוגיות, שוקולדים ובקבוק יין איכותי, באהבה מרוית.</p></div>
- <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">ארוחת בוקר<br>עד הסוויטה.</div><p>כשרה ועשירה: גבינות, סלטים ופירות, בתיאום מראש.</p></div>
- <div class="tx b" data-a="2" data-b="3.2"><div class="big d">ולא ממהרים<br>לשום מקום.</div></div>
-</div></section>
-
-<!-- 06 · garden and evening -->
-<section class="scene sc" id="s5" data-imgs="26,32,38,05"><div class="stick">
- <div class="shade"></div>
- <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">06 / 06 — הגינה</span><span class="m tr">MT. GILBOA · 15 MIN</span><span class="m bl fc">SHOT 01</span></div>
- <div class="tx b" data-a="0" data-b=".95"><span class="m k">// 06 · THE GARDEN</span><div class="big d">נדנדות<br>בין העצים.</div></div>
- <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">פרחים<br>בכל פינה.</div></div>
- <div class="tx b" data-a="2" data-b="2.95"><div class="big d">כרם זיתים<br>מסביב.</div><p>דקות מהגלבוע, מעיין חרוד וגן השלושה.</p></div>
- <div class="tx b" data-a="3" data-b="4.2"><span class="m k">GOOD NIGHT</span><div class="big d">ערב אחד כאן,<br>ושוכחים את השעון.</div></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">05 / 05 — בשתי הסוויטות</span><span class="m tr">MT. GILBOA · 15 MIN</span><span class="m bl fc">SHOT 01</span></div>
+ <div class="pill">בשתי הסוויטות</div>
+ <div class="tx b" data-a="0" data-b=".95"><span class="m k">// IN BOTH SUITES</span><div class="big d">ארוחת בוקר<br>עד הסוויטה.</div><p>כשרה ועשירה, בתיאום מראש.</p></div>
+ <div class="tx b l" data-a="1" data-b="1.95"><div class="big d">פינוקים<br>על השולחן.</div><p>פירות, עוגיות, שוקולדים ויין איכותי, באהבה מרוית.</p></div>
+ <div class="tx b" data-a="2" data-b="2.95"><div class="big d">נדנדות<br>בין הפרחים.</div></div>
+ <div class="tx b l" data-a="3" data-b="4.2"><span class="m k">GOOD NIGHT</span><div class="big d">ושוכחים<br>את השעון.</div><p>דקות מהגלבוע, מעיין חרוד וגן השלושה.</p></div>
 </div></section>
 
 <section class="sec" id="rev">
@@ -248,14 +301,15 @@ footer .demo{font-size:12px;letter-spacing:.1em;padding:6px 12px;border:1px soli
    <label class="m">DETAILS · פרטים</label>
    <div class="two"><input class="f" id="nm" placeholder="שם מלא"><input class="f" id="tel" placeholder="טלפון" inputmode="tel"></div>
    <button class="btn c" id="go">שליחת בקשה לרוית בוואטסאפ</button>
-   <p class="note">אמצע שבוע 1,000–1,500 ₪ · סוף שבוע 1,200–1,500 ₪ ללילה</p>
+   <p class="note">כרם זית 1,000–1,500 ₪ · משעול הכרם 1,500 ₪ ללילה לזוג · תוספת ילד 100 ₪, מבוגר 200 ₪</p>
   </div>
-  <div class="side rv"><img src="sc/d/04.jpg" alt=""><div><b>ירוק זית · כפר יחזקאל</b>הרחבה 50, כפר יחזקאל, עמק יזרעאל<br>רוית · <a href="tel:0523504451">052-350-4451</a><br><a href="https://waze.com/ul?ll=32.5664367,35.3541984&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a> · <a href="https://wa.me/972523504451" target="_blank" rel="noopener">וואטסאפ</a></div></div>
+  <div class="side rv"><img src="sc/d/04.jpg" alt=""><div><b>ירוק זית · כפר יחזקאל</b>הרחבה 50, כפר יחזקאל, עמק יזרעאל<br>רוית · <a href="tel:0523504451">052-350-4451</a><br><a href="https://waze.com/ul?ll=32.5664367,35.3541984&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a> · <a href="https://wa.me/972523504451" target="_blank" rel="noopener">וואטסאפ</a><br>צ'ק אין 15:00 · צ'ק אאוט 11:00</div></div>
  </div>
 </section>
 
 <footer><a class="logo" href="#hero"><svg><use href="#leaf"/></svg><div><b>ירוק זית</b><small>סוויטות בוטיק</small></div></a><span>הרחבה 50, כפר יחזקאל · 052-350-4451</span><span class="demo">דמו לאתר · הוכן כהצעה</span></footer>
 
+<div id="lb"><button class="x" aria-label="סגירה">✕</button><button class="pv" aria-label="הקודמת">›</button><img alt=""><button class="nx" aria-label="הבאה">‹</button><div class="ct"></div></div>
 <div id="wa"><div class="ph"><div class="hd"><div class="av"><svg><use href="#leaf"/></svg></div><div><b>רוית · ירוק זית</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft">כך הבקשה תגיע לוואטסאפ של רוית. היא חוזרת עם זמינות ומחיר, בלי עמלות תיווך.<button class="btn" id="waOk">הבנתי</button></div></div></div>
 
 <script type="module">
@@ -329,6 +383,23 @@ $('#go').onclick = () => {
   const txt = `היי רוית, הגעתי מהאתר 🌿\nאשמח לבדוק זמינות בסוויטת ${suite}\n${heb(a)}–${heb(b)} · ${nights} ${nights === 1 ? 'לילה' : 'לילות'}\n${ad} מבוגרים${kd ? ` + ${kd} ילדים` : ''}${$('#bfk').checked ? '\nעם ארוחת בוקר כשרה' : ''}\nשם: ${$('#nm').value.trim() || '—'}\nטלפון: ${$('#tel').value.trim() || '—'}`;
   const t = new Date(); $('#waMsg').innerHTML = txt.replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on');
 };
+
+/* suite galleries + lightbox */
+const lb = $('#lb'), lbImg = $('#lb img'); let lbList = [], lbI = 0, lbName = '';
+function lbShow() { lbImg.src = `g/${lbList[lbI]}.jpg`; $('#lb .ct').innerHTML = `<b>${lbName}</b> · ${lbI + 1} / ${lbList.length}`; }
+$$('.gg').forEach((g) => {
+  const ids = g.dataset.set.split(','), sec = g.closest('.gal'), k1 = sec.classList.contains('k1'), name = k1 ? 'כרם זית' : 'משעול הכרם';
+  g.innerHTML = ids.map((id, i) => `<button class="gi" data-i="${i}"><img src="g/${id}.jpg" alt="${name}" loading="lazy" decoding="async"><span>${i + 1} / ${ids.length}</span></button>`).join('');
+  g.addEventListener('click', (e) => { const b = e.target.closest('.gi'); if (!b) return; lbList = ids; lbI = +b.dataset.i; lbName = name; lb.className = 'on ' + (k1 ? 'k1' : 'k2'); lbShow(); lenis.stop(); });
+});
+const lbClose = () => { lb.className = ''; lenis.start(); };
+$('#lb .x').onclick = lbClose; lb.addEventListener('click', (e) => { if (e.target === lb) lbClose(); });
+$('#lb .nx').onclick = () => { lbI = (lbI + 1) % lbList.length; lbShow(); };
+$('#lb .pv').onclick = () => { lbI = (lbI - 1 + lbList.length) % lbList.length; lbShow(); };
+let tx0 = null; lb.addEventListener('touchstart', (e) => { tx0 = e.touches[0].clientX; }, { passive: true });
+lb.addEventListener('touchend', (e) => { if (tx0 === null) return; const dx = e.changedTouches[0].clientX - tx0; if (Math.abs(dx) > 40) { lbI = (lbI + (dx > 0 ? 1 : -1) + lbList.length) % lbList.length; lbShow(); } tx0 = null; });
+addEventListener('keydown', (e) => { if (!lb.classList.contains('on')) return; if (e.key === 'Escape') lbClose(); if (e.key === 'ArrowLeft') $('#lb .nx').click(); if (e.key === 'ArrowRight') $('#lb .pv').click(); });
+$$('.bk-go').forEach((b) => b.onclick = () => { const v = b.dataset.suite; suite = v; $$('#suiteSel .opt').forEach((x) => x.classList.toggle('on', x.dataset.v === v)); lenis.scrollTo('#book', { duration: 1.6 }); });
 $('#waOk').onclick = () => $('#wa').classList.remove('on'); $('#wa').addEventListener('click', (e) => { if (e.target.id === 'wa') $('#wa').classList.remove('on'); });
 </script>
 </body></html>
