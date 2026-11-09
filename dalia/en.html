@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daliyat al-Karmel Sweets · The Best Knafeh in the Country</title>
+<meta name="description" content="Daliyat al-Karmel Sweets: hot knafeh with ice cream, Layali Beirut, baklava and party trays. Made fresh on site, 10 Dalia St., Daliyat al-Karmel.">
+<meta name="theme-color" content="#0a0806">
+<meta property="og:title" content="Daliyat al-Karmel Sweets">
+<meta property="og:description" content="The best knafeh in the country. Made fresh on site, every day.">
+<meta property="og:image" content="img/02-knafeh-icecream-HERO.webp">
+<link rel="icon" href="img/logo-s.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0806;--bg2:#120e0a;--ink:#f6eee1;--mut:#b4a690;--gold:#d6b26a;--gold2:#f6e2a8;--gold3:#a9823e;--pis:#a9c25a;--rose:#e57aa0;--line:rgba(214,178,106,.28);--serif:'Frank Ruhl Libre',serif;--sans:'Heebo',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.g{background:linear-gradient(100deg,var(--gold3) 0%,var(--gold2) 35%,var(--gold) 55%,#fff6d6 70%,var(--gold3) 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7s linear infinite}
+@keyframes sheen{to{background-position:-220% 0}}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+.kick{font:500 12px/1 var(--sans);letter-spacing:.32em;color:var(--gold);text-transform:uppercase;display:inline-flex;align-items:center;gap:12px}
+.kick:before{content:"";width:34px;height:1px;background:var(--gold)}
+h2{font:900 clamp(40px,6.6vw,104px)/.95 var(--serif);letter-spacing:-.01em}
+.lead{font-size:clamp(17px,1.5vw,21px);line-height:1.65;color:var(--mut);max-width:34em}
+
+/* header */
+.hd{position:fixed;inset:0 0 auto;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,3vw,40px);transition:background .4s,backdrop-filter .4s}
+.hd.s{background:rgba(10,8,6,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(214,178,106,.12)}
+.hd .brand{display:flex;align-items:center;gap:12px}.hd .brand img{width:44px;height:44px}
+.hd .brand b{font:700 18px/1.1 var(--serif)}.hd .brand small{display:block;font-size:11px;letter-spacing:.2em;color:var(--gold)}
+.hd nav{display:flex;gap:28px;font-size:15px}.hd nav a{opacity:.8;transition:opacity .2s}.hd nav a:hover{opacity:1;color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 24px;border-radius:999px;font:500 15px var(--sans);transition:transform .25s,box-shadow .25s,background .25s}
+.btn.gd{background:linear-gradient(135deg,#f6e2a8,#d6b26a 45%,#a9823e);color:#1a1208;box-shadow:0 8px 30px -8px rgba(214,178,106,.55)}
+.btn.gd:hover{transform:translateY(-2px);box-shadow:0 14px 40px -8px rgba(214,178,106,.8)}
+.btn.ol{border:1px solid var(--line);color:var(--ink)}.btn.ol:hover{border-color:var(--gold);color:var(--gold2)}
+.btn svg{width:18px;height:18px}
+@media(max-width:900px){.hd nav{display:none}.hd .btn{height:42px;padding:0 16px;font-size:14px}.hd .brand b{font-size:15px}.hd .brand img{width:38px;height:38px}}
+
+/* fx canvas */
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+
+/* scroll scenes */
+.scene{position:relative}
+.stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.obj{position:absolute;overflow:hidden}
+.obj canvas{width:100%;height:100%;display:block}
+.feather{-webkit-mask-image:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent),linear-gradient(transparent,#000 12%,#000 86%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent),linear-gradient(transparent,#000 12%,#000 86%,transparent);mask-composite:intersect}
+.fade-x{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+[data-a]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+[data-a].on{opacity:1;transform:none}
+
+/* HERO */
+#hero{height:190vh}
+#hero .obj{left:40%;top:50%;height:min(104vh,1180px);aspect-ratio:3/4;transform:translate(-50%,-50%)}
+#hero .ghost{position:absolute;inset:auto 0 6vh;text-align:center;font:900 clamp(120px,24vw,420px)/.8 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(214,178,106,.22);white-space:nowrap;pointer-events:none;will-change:transform}
+#hero .ttl{position:absolute;right:clamp(20px,6vw,110px);top:46%;transform:translateY(-50%);max-width:540px;z-index:3}
+#hero .ttl img{width:118px;height:118px;margin-bottom:22px;filter:drop-shadow(0 10px 30px rgba(214,178,106,.25))}
+#hero h1{font:900 clamp(44px,4.8vw,80px)/1 var(--serif);margin-bottom:20px}#hero h1 b{display:block}
+#hero h1 span{display:block;font-size:.42em;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-top:14px}
+#hero .tg{font-size:19px;color:#d9ccb6;text-shadow:0 2px 18px #000;line-height:1.6;margin-bottom:26px}
+#hero .side{position:absolute;right:clamp(20px,6vw,110px);bottom:7vh;z-index:3;display:flex;gap:34px}
+.stat b{display:block;font:700 38px/1 var(--serif);color:var(--gold2)}.stat small{font-size:13px;color:var(--mut);letter-spacing:.08em}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;font-size:12px;letter-spacing:.3em;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:10px}
+.cue i{width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:cue 1.8s infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:900px){
+ #hero{height:175vh}
+ #hero .obj{top:0;left:0;transform:none;width:100%;height:auto;aspect-ratio:3/4}
+ #hero .feather{-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+ #hero .ttl{right:20px;left:20px;top:auto;bottom:calc(30px + env(safe-area-inset-bottom));transform:none;max-width:none}
+ #hero .ttl img{width:74px;height:74px;margin-bottom:12px}
+ #hero h1{font-size:44px;margin-bottom:12px}
+ #hero .tg{font-size:16px;margin-bottom:18px}
+ #hero .side,.cue{display:none}
+ #hero .ghost{bottom:auto;top:58vw;font-size:44vw}
+}
+
+/* marquee */
+.mq{position:relative;z-index:5;border-block:1px solid var(--line);background:var(--bg);overflow:hidden;padding:22px 0}
+.mq div{display:flex;gap:46px;width:max-content;animation:mq 38s linear infinite;font:500 clamp(22px,2.6vw,36px) var(--serif);color:var(--gold2)}
+.mq span:nth-child(even){color:var(--gold3)}
+@keyframes mq{to{transform:translateX(50%)}}
+
+/* intro statement */
+.intro{padding:clamp(110px,16vw,220px) 0 clamp(80px,10vw,140px);text-align:center;position:relative}
+.intro p.big{font:500 clamp(30px,4.4vw,66px)/1.18 var(--serif);max-width:20em;margin:28px auto 0}
+.intro p.big em{font-style:normal;color:var(--gold2)}
+.words .w{opacity:.14;transition:opacity .4s}.words .w.on{opacity:1}
+
+/* anatomy */
+#anat{height:240vh}
+#anat .obj{left:50%;top:50%;height:min(100vh,1100px);aspect-ratio:3/4;transform:translate(-50%,-50%)}
+#anat .hud{position:absolute;left:50%;top:50%;height:min(100vh,1100px);aspect-ratio:3/4;transform:translate(-50%,-50%);z-index:3;pointer-events:none}
+#anat svg.ln{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#anat svg.ln path{fill:none;stroke:var(--gold);stroke-width:1.2;stroke-dasharray:1;stroke-dashoffset:1;vector-effect:non-scaling-stroke}
+#anat svg.ln circle{fill:var(--gold2);opacity:0;transition:opacity .3s}
+.co{position:absolute;width:250px;opacity:0;transition:opacity .5s,transform .6s;transform:translateY(10px)}
+.co.on{opacity:1;transform:none}
+.co small{font:500 11px var(--sans);letter-spacing:.28em;color:var(--gold)}
+.co b{display:block;font:700 25px/1.15 var(--serif);margin:6px 0 4px}
+.co p{font-size:14px;color:var(--mut);line-height:1.5}
+.co.r{right:-280px}.co.l{left:-280px;text-align:left}
+#anat .head{position:absolute;top:14vh;left:clamp(20px,4vw,70px);z-index:3;max-width:330px}
+#anat .head h2{font-size:clamp(40px,5vw,78px)}
+.gauge{display:flex;align-items:center;gap:18px;margin-top:26px}
+.gauge svg{width:118px;height:118px;transform:rotate(-90deg)}
+.gauge circle{fill:none;stroke-width:3}.gauge .bgc{stroke:rgba(214,178,106,.18)}.gauge .fgc{stroke:var(--gold2);stroke-dasharray:1;stroke-dashoffset:1;stroke-linecap:round}
+.gauge .v{font:700 44px/1 var(--serif);color:var(--gold2)}.gauge .v small{font-size:14px;color:var(--mut);display:block;font-family:var(--sans);font-weight:400;letter-spacing:.14em;margin-top:6px}
+@media(max-width:1200px){.co{width:190px}.co.r{right:-200px}.co.l{left:-200px}.co b{font-size:20px}}
+@media(max-width:900px){
+ #anat{height:230vh}
+ #anat .obj,#anat .hud{width:100vw;height:auto;top:52%}
+ #anat .head{top:calc(70px + env(safe-area-inset-top));right:20px;left:20px}
+ #anat .head h2{font-size:40px}#anat .head .lead{display:none}
+ .co{width:46%;}.co.r{right:3%}.co.l{left:3%}
+ .co b{font-size:17px}.co p{display:none}.co small{font-size:9px;letter-spacing:.18em}
+ .co{background:rgba(10,8,6,.62);padding:8px 10px;border:1px solid var(--line);border-radius:10px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+ .gauge{margin-top:12px}.gauge svg{width:56px;height:56px}.gauge .v{font-size:24px}
+}
+
+/* full-bleed scenes */
+.fb .obj{inset:0}
+.fb .cap{position:absolute;z-index:3;right:clamp(20px,6vw,110px);bottom:clamp(40px,10vh,120px);max-width:540px;background:rgba(10,8,6,.62);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:26px;padding:clamp(22px,2.6vw,36px)}
+.fb .cap h2{text-shadow:0 4px 40px rgba(0,0,0,.55)}
+.fb .cap .lead{color:#eadfcc;text-shadow:0 2px 20px rgba(0,0,0,.7)}
+.fb .grad{position:absolute;inset:auto 0 0;height:55%;background:linear-gradient(transparent,rgba(10,8,6,.85));z-index:2;pointer-events:none}
+#layali{height:200vh}
+@media(min-width:901px){#layali .cap{right:auto;left:clamp(20px,5vw,90px);max-width:440px}}
+.quote{font:500 clamp(18px,1.6vw,22px)/1.5 var(--serif);color:var(--gold2);margin-top:18px}
+.quote small{display:block;font:400 13px var(--sans);color:var(--mut);margin-top:6px;letter-spacing:.1em}
+
+/* split scenes (portrait clip + text) */
+.split .obj{top:0;left:clamp(0px,6vw,110px);height:100%;aspect-ratio:var(--ar,3/4)}
+.split .cap{position:absolute;right:clamp(20px,7vw,130px);top:50%;transform:translateY(-50%);width:min(520px,42vw);z-index:3}
+.split .cap .n{font:900 140px/1 var(--serif);color:transparent;-webkit-text-stroke:1px var(--line);display:block;margin-bottom:-30px}
+#trays{height:190vh}#trays .obj{--ar:9/16}
+#aww{height:180vh}
+.pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:14px;color:var(--ink)}
+@media(max-width:900px){
+ .split .obj{inset:0;width:100%;height:100%;left:0;aspect-ratio:auto}
+ .split .cap,.fb .cap{right:16px;left:16px;width:auto;top:auto;bottom:calc(104px + env(safe-area-inset-bottom));transform:none}
+ #layali .cap{padding:16px 18px;border-radius:20px;background:rgba(10,8,6,.5)}
+ #layali .cap h2{font-size:38px}#layali .cap h2 br{display:none}#layali .cap .quote{display:none}#layali .cap .lead{font-size:14px;margin-top:8px!important}
+ .split .grad{position:absolute;inset:auto 0 0;height:60%;background:linear-gradient(transparent,rgba(10,8,6,.88));z-index:2}
+ .split .cap .n{font-size:80px;margin-bottom:-18px}
+ .fb h2,.split h2{font-size:44px}
+ .lead{font-size:16px}
+}
+@media(min-width:901px){.split .grad{display:none}}
+
+/* builder */
+.sec{padding:clamp(100px,13vw,190px) 0;position:relative}
+.build{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,6vw,90px);align-items:center;margin-top:60px}
+.stage{position:relative;aspect-ratio:4/5;perspective:1200px}
+.stage .ring{position:absolute;inset:auto 8% -2% 8%;height:18%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(246,226,168,.42),rgba(214,178,106,.12) 45%,transparent 70%);filter:blur(2px)}
+.stage .card{position:absolute;inset:0;border-radius:28px;overflow:hidden;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1);box-shadow:0 50px 100px -30px rgba(0,0,0,.9),0 0 0 1px rgba(214,178,106,.2)}
+.stage .card img{width:100%;height:100%;object-fit:cover;transition:opacity .45s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.stage .card img.out{opacity:0;transform:scale(1.08)}
+.stage .flash{position:absolute;inset:0;border-radius:28px;pointer-events:none;background:radial-gradient(circle at 50% 40%,rgba(255,236,180,.55),transparent 60%);opacity:0;mix-blend-mode:screen}
+.stage .flash.go{animation:flash .8s}
+@keyframes flash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+.stage .tagx{position:absolute;top:22px;right:22px;z-index:2;background:rgba(10,8,6,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--gold2)}
+.opt h4{font:500 12px var(--sans);letter-spacing:.28em;color:var(--gold);margin:30px 0 14px}
+.seg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.seg button{border:1px solid var(--line);border-radius:16px;padding:14px 16px;text-align:right;transition:.25s;background:rgba(255,255,255,.015)}
+.seg button b{display:block;font:700 19px var(--serif)}.seg button small{font-size:13px;color:var(--mut)}
+.seg button.on{border-color:var(--gold);background:linear-gradient(135deg,rgba(214,178,106,.18),rgba(214,178,106,.04));box-shadow:0 0 0 1px var(--gold) inset}
+.tg2{display:flex;flex-wrap:wrap;gap:10px}
+.tg2 button{border:1px solid var(--line);border-radius:999px;padding:10px 18px;font-size:15px;transition:.25s}
+.tg2 button.on{background:var(--gold);color:#1a1208;border-color:var(--gold)}
+.qty{display:flex;align-items:center;gap:16px}
+.qty button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);font-size:22px}
+.qty output{font:700 34px var(--serif);min-width:40px;text-align:center}
+.sum{margin-top:30px;padding:20px 22px;border:1px dashed var(--line);border-radius:18px;font-size:15px;color:var(--mut);line-height:1.6}
+.sum b{color:var(--ink);font-weight:500}
+@media(max-width:900px){.build{grid-template-columns:1fr}.stage{max-width:460px;width:100%;margin:0 auto}}
+
+/* menu */
+.mhead{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:40px}
+.filters button{border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:14px;transition:.25s}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,34px);margin-top:44px}
+.dish{position:relative;transition:opacity .4s,transform .4s}
+.dish.hide{display:none}
+.dish .ph{position:relative;aspect-ratio:4/5;border-radius:22px;overflow:hidden;background:var(--bg2);transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.dish .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.dish:hover .ph img{transform:scale(1.06)}
+.dish:hover .ph{box-shadow:0 40px 80px -30px rgba(0,0,0,.95),0 0 0 1px rgba(214,178,106,.4)}
+.dish .rk{position:absolute;top:14px;right:16px;font:900 46px/1 var(--serif);color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.6);z-index:2}
+.dish .hot{position:absolute;top:18px;left:16px;z-index:2;background:var(--gold);color:#1a1208;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px}
+.dish h3{font:700 25px/1.2 var(--serif);margin:18px 0 6px}
+.dish p{font-size:15px;color:var(--mut);line-height:1.55}
+.dish.big{grid-column:span 2}.dish.big .ph{aspect-ratio:16/10}
+@media(max-width:900px){.menu{grid-template-columns:1fr 1fr;gap:16px 12px}.dish.big{grid-column:span 2}.dish h3{font-size:18px;margin-top:12px}.dish p{font-size:13px}.dish .rk{font-size:30px}.dish .hot{font-size:10px;padding:4px 9px}}
+
+/* signature fruit */
+.sig{position:relative;padding:clamp(110px,14vw,200px) 0;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 55%,#24120f 0%,var(--bg) 70%)}
+.sig .center{text-align:center;position:relative;z-index:3}
+.sig h2{font-size:clamp(46px,8vw,140px)}
+.fly{position:relative;height:min(78vh,760px);margin-top:20px}
+.fly .f{position:absolute;width:clamp(170px,24vw,360px);aspect-ratio:4/5;border-radius:26px;overflow:hidden;box-shadow:0 50px 90px -30px rgba(0,0,0,.95);will-change:transform}
+.fly .f img{width:100%;height:100%;object-fit:cover}
+.fly .f1{left:6%;top:4%}.fly .f2{left:50%;top:14%;margin-left:calc(clamp(170px,24vw,360px)/-2);z-index:2;width:clamp(200px,28vw,420px);margin-left:calc(clamp(200px,28vw,420px)/-2)}.fly .f3{right:6%;top:2%}
+.fly .lab{position:absolute;z-index:4;font:500 13px var(--sans);letter-spacing:.2em;color:var(--gold2);background:rgba(10,8,6,.7);border:1px solid var(--line);border-radius:999px;padding:8px 14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.inv{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:70px}
+.inv .i{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(255,255,255,.015)}
+.inv .i img{aspect-ratio:1;object-fit:cover;width:100%}
+.inv .i div{padding:16px 18px}.inv .i b{font:700 20px var(--serif);display:block}.inv .i small{color:var(--mut);font-size:14px;line-height:1.5;display:block;margin-top:4px}
+@media(max-width:900px){.fly{height:120vw}.fly .f{width:44vw}.fly .f1{left:2%;top:0}.fly .f2{width:52vw;margin-left:-26vw;top:24vw}.fly .f3{right:2%;top:46vw}.inv{grid-template-columns:1fr 1fr;gap:12px}.inv .i b{font-size:17px}.inv .i small{font-size:12px}}
+
+/* counters */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
+.nums div{padding:clamp(30px,4vw,56px) 20px;text-align:center;border-left:1px solid var(--line)}
+.nums div:last-child{border-left:0}
+.nums b{display:block;font:900 clamp(40px,5vw,78px)/1 var(--serif)}
+.nums small{color:var(--mut);font-size:14px;letter-spacing:.1em;display:block;margin-top:10px}
+@media(max-width:900px){.nums{grid-template-columns:1fr 1fr}.nums div:nth-child(2){border-left:0}.nums div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* gifts */
+.gift{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
+.gift .pics{position:relative;aspect-ratio:1}
+.gift .pics img{position:absolute;border-radius:24px;object-fit:cover;box-shadow:0 40px 90px -30px rgba(0,0,0,.95)}
+.gift .pics .a{width:66%;height:84%;top:0;right:0}
+.gift .pics .b{width:52%;height:62%;bottom:0;left:0;border:6px solid var(--bg)}
+.gift ul{list-style:none;margin:26px 0 34px;display:grid;gap:14px}
+.gift li{display:flex;gap:14px;align-items:baseline;font-size:17px}
+.gift li:before{content:"✦";color:var(--gold)}
+@media(max-width:900px){.gift{grid-template-columns:1fr}}
+
+/* reviews */
+.revs{overflow:hidden;margin-top:60px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.revs .tr{display:flex;gap:22px;width:max-content;animation:mq 70s linear infinite}
+.revs:hover .tr{animation-play-state:paused}
+.rv{width:min(420px,80vw);flex:none;border:1px solid var(--line);border-radius:22px;padding:28px;background:linear-gradient(160deg,rgba(214,178,106,.07),rgba(255,255,255,.01))}
+.rv .st{color:var(--gold2);letter-spacing:4px;font-size:15px}
+.rv p{font:400 20px/1.5 var(--serif);margin:14px 0 18px}
+.rv small{color:var(--mut);font-size:14px}
+.gscore{display:flex;align-items:center;gap:18px;margin-top:26px}
+.gscore b{font:900 64px/1 var(--serif)}
+.gscore span{color:var(--mut);font-size:15px;line-height:1.5}
+
+/* visit */
+#visit{height:200vh}
+.vcard{position:absolute;z-index:4;right:clamp(16px,6vw,110px);top:50%;transform:translateY(-50%);width:min(500px,calc(100% - 32px));background:rgba(12,9,7,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:28px;padding:clamp(26px,3vw,40px)}
+.vcard h2{font-size:clamp(38px,4.4vw,64px);margin:14px 0 18px}
+.open{display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:7px 14px;border-radius:999px;border:1px solid var(--line)}
+.open i{width:8px;height:8px;border-radius:50%;background:#6ad07a;box-shadow:0 0 0 4px rgba(106,208,122,.18)}
+.open.c i{background:#d36a5a;box-shadow:0 0 0 4px rgba(211,106,90,.18)}
+.hrs{margin:18px 0 22px;display:grid;gap:8px;font-size:15px}
+.hrs div{display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,178,106,.12);padding-bottom:8px}
+.hrs div.t{color:var(--gold2);font-weight:500}
+.addr{font-size:16px;line-height:1.6;color:var(--mut);margin-bottom:22px}.addr b{color:var(--ink);font-weight:500}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acts .btn{height:50px;padding:0 14px}
+.acts .full{grid-column:span 2}
+@media(max-width:900px){#visit{height:auto}#visit .stick{position:relative;height:auto;overflow:visible}#visit .obj{position:relative;inset:auto;height:72vh}.vcard{position:relative;transform:none;right:auto;top:auto;margin:-120px auto 0;width:calc(100% - 32px)}}
+
+footer{padding:70px 0 calc(40px + env(safe-area-inset-bottom));border-top:1px solid var(--line);text-align:center;color:var(--mut);font-size:14px}
+footer img{width:90px;margin:0 auto 18px}
+footer .soc{display:flex;justify-content:center;gap:12px;margin:18px 0}
+footer .soc a{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
+
+/* mobile sticky bar */
+.mbar{display:none}
+@media(max-width:900px){.mbar{display:grid;grid-template-columns:1fr 1fr 1fr;position:fixed;inset:auto 10px calc(10px + env(safe-area-inset-bottom));z-index:70;background:rgba(14,11,8,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:6px;transform:translateY(140%);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.mbar.on{transform:none}.mbar a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;padding:8px 0;border-radius:14px}.mbar a.gd{background:linear-gradient(135deg,#f6e2a8,#d6b26a 45%,#a9823e);color:#1a1208;font-weight:700}.mbar svg{width:20px;height:20px}}
+
+/* loader */
+#ld{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity .7s,visibility .7s}
+#ld.done{opacity:0;visibility:hidden}
+#ld img{width:120px;animation:pulse 1.6s ease-in-out infinite}
+#ld .bar{width:140px;height:1px;background:rgba(214,178,106,.2);margin:22px auto 0;overflow:hidden}#ld .bar i{display:block;height:100%;width:0;background:var(--gold2);transition:width .3s}
+@keyframes pulse{50%{transform:scale(1.05);filter:drop-shadow(0 0 30px rgba(214,178,106,.45))}}
+@media(prefers-reduced-motion:reduce){.g,.mq div,.revs .tr{animation:none}}
+</style>
+<!--LANG--><style>
+.lng{display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:rgba(10,8,6,.55);backdrop-filter:blur(8px);margin-inline-start:auto;margin-inline-end:12px}
+.lng a{min-width:34px;height:30px;padding:0 9px;display:grid;place-items:center;border-radius:999px;font:500 13px/1 var(--sans);color:var(--mut);letter-spacing:0!important;transition:background .2s,color .2s}
+.lng a:hover{color:var(--gold2)}
+.lng a.on{background:linear-gradient(135deg,#f6e2a8,#d6b26a 45%,#a9823e);color:#1a1208}
+@media(max-width:900px){.lng{margin-inline-end:8px}.lng a{min-width:30px;height:28px;padding:0 7px;font-size:12px}}
+@media(max-width:380px){.hd .brand small{display:none}}
+</style><!--/LANG-->
+</head>
+<body>
+<div id="ld"><div><img src="img/logo.png" alt=""><div class="bar"><i></i></div></div></div>
+<canvas id="fx"></canvas>
+
+<header class="hd" id="hd">
+ <a class="brand" href="#top"><img src="img/logo-s.png" alt="Daliyat al-Karmel Sweets"><span><b>Daliyat al-Karmel Sweets</b><small>حلويات دالية الكرمل</small></span></a>
+ <nav><a href="#anat">The knafeh</a><a href="#build">Build a Dish</a><a href="#menu">Menu</a><a href="#sig">Only here</a><a href="#gifts">Party trays</a><a href="#visit">Visit & Hours</a></nav>
+ <!--LANG--><div class="lng" aria-label="Language"><a href="index-preview.html" hreflang="he">עב</a><a href="ar.html" hreflang="ar">ع</a><a href="en.html" hreflang="en" class="on">EN</a></div><!--/LANG--><a class="btn gd js-book" href="#" target="_blank" rel="noopener">Book a Table</a>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="scene" id="hero" data-clip="1-hero" data-n="61" data-fx="gold">
+ <div class="stick">
+  <div class="ghost" id="ghost">Knafeh</div>
+  <div class="obj feather" id="heroObj"><canvas></canvas></div>
+  <div class="ttl">
+   <img src="img/logo.png" alt="">
+   <h1><b class="g">Daliyat al-Karmel</b><b class="g">Sweets</b><span>حلويات دالية الكرمل</span></h1>
+   <p class="tg">The best knafeh in the country. Hot from the oven, with ice cream made on site, overlooking the Carmel.</p>
+   <div class="chips"><a class="btn gd js-book" href="#" target="_blank" rel="noopener">Book a Table</a><a class="btn ol" href="#menu">See the Menu</a></div>
+  </div>
+  <div class="side">
+   <div class="stat"><b data-count="4.5" data-dec="1">0</b><small>★ on Google</small></div>
+   <div class="stat"><b data-count="1368">0</b><small>reviews</small></div>
+   <div class="stat"><b data-count="30.2" data-dec="1" data-suf="K">0</b><small>Instagram followers</small></div>
+  </div>
+  <div class="cue"><i></i>Scroll</div>
+ </div>
+</section>
+
+<div class="mq" aria-hidden="true"><div id="mq"></div></div>
+
+<section class="intro wrap">
+ <span class="kick">10 Dalia St. · Daliyat al-Karmel</span>
+ <p class="big words" id="words">Our way <em>Taste before you buy.</em> The knafeh is baked fresh every day, the baklava is cut right in front of you, and Asila and Abu Hassan welcome everyone like a guest at home.</p>
+</section>
+
+<!-- ANATOMY -->
+<section class="scene" id="anat" data-clip="3-anatomy" data-n="61" data-fx="pis">
+ <div class="stick">
+  <div class="head" data-a><span class="kick">Anatomy of a Knafeh</span><h2>What's<br><span class="g">inside?</span></h2><p class="lead" style="margin-top:14px">Scroll slowly and watch the cheese stretch.</p><div class="gauge"><svg viewBox="0 0 40 40"><circle class="bgc" cx="20" cy="20" r="18"/><circle class="fgc" id="gf" cx="20" cy="20" r="18" pathLength="1"/></svg><div class="v"><span id="gv">0</span>%<small>cheese stretch</small></div></div></div>
+  <div class="obj feather"><canvas></canvas></div>
+  <div class="hud">
+   <svg class="ln" viewBox="0 0 300 400" preserveAspectRatio="none">
+    <path id="l1" pathLength="1" d="M150 96 L232 70 L300 70"/><circle id="c1" cx="150" cy="96" r="3"/>
+    <path id="l2" pathLength="1" d="M190 200 L250 186 L300 186"/><circle id="c2" cx="120" cy="190" r="3"/>
+    <path id="l3" pathLength="1" d="M262 300 L282 330 L300 330"/><circle id="c3" cx="262" cy="300" r="3"/>
+    <path id="l4" pathLength="1" d="M110 312 L50 350 L0 350"/><circle id="c4" cx="110" cy="312" r="3"/>
+   </svg>
+   <div class="co r" id="k1" style="top:12%"><small>01 · Top</small><b>Ground pistachio</b><p>A generous layer of green pistachio over golden, crispy kadaif.</p></div>
+   <div class="co r" id="k2" style="top:44%"><small>02 · The heart</small><b>Stretchy cheese</b><p>Soft white cheese that melts in the oven heat and stretches with every bite.</p></div>
+   <div class="co r" id="k3" style="top:77%"><small>03 · The gold</small><b>Sugar syrup</b><p>Poured hot just before serving, soaking into the kadaif.</p></div>
+   <div class="co l" id="k4" style="top:82%"><small>04 · The base</small><b>Baked kadaif</b><p>Fine pastry threads baked to an amber glow.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- LAYALI -->
+<section class="scene fb" id="layali" data-clip="2-layali" data-n="61" data-fit="cover" data-fx="petal">
+ <div class="stick">
+  <div class="obj"><canvas></canvas></div><div class="grad"></div>
+  <div class="cap" data-a><span class="kick">Our second most-ordered dish</span><h2>Layali <br><span class="g">Beirut</span></h2><p class="lead" style="margin-top:16px">Cold, silky milk cream, a thick pistachio layer and rose petals. Also comes as a shake.</p><p class="quote">“The Layali Beirut cream schnitt was out of this world”<small>Asaf Alon · Google ★★★★★</small></p></div>
+ </div>
+</section>
+
+<!-- BUILDER -->
+<section class="sec" id="build">
+ <div class="wrap">
+  <span class="kick">Build your own dish</span>
+  <h2 style="margin-top:20px">The knafeh <span class="g">your way.</span></h2>
+  <div class="build">
+   <div class="stage" id="stage"><div class="ring"></div><div class="card" id="card"><img id="bimg" src="img/02-knafeh-icecream-HERO.webp" alt=""><span class="tagx" id="btag">The house dish</span><div class="flash" id="flash"></div></div></div>
+   <div class="opt">
+    <h4>Choose your knafeh</h4>
+    <div class="seg" id="bases">
+     <button class="on" data-img="02-knafeh-icecream-HERO" data-t="The house dish"><b>Knafeh with ice cream</b><small>The dish everyone comes for</small></button>
+     <button data-img="knafeh-shamit" data-t="Personal & round"><b>Shami knafeh</b><small>Round, personal, from the grill</small></button>
+     <button data-img="knafeh-nablusi" data-t="The classic"><b>Nabulsi knafeh</b><small>Stretchy cheese, fine kadaif</small></button>
+     <button data-img="knafeh-pizza" data-t="For the whole table"><b>Knafeh “pizza” tray</b><small>Round, cut into triangles</small></button>
+    </div>
+    <h4>Toppings</h4>
+    <div class="tg2" id="adds"><button>Vanilla ice cream</button><button>Pistachio ice cream</button><button>Extra pistachio</button><button>Pistachio cream</button><button>Syrup on the side</button></div>
+    <h4>How many?</h4>
+    <div class="qty"><button id="qm" aria-label="Less">−</button><output id="qv">2</output><button id="qp" aria-label="More">+</button></div>
+    <h4>How?</h4><div class="tg2" id="mode"><button class="on">Eat in</button><button>Take away</button></div>
+    <div class="sum" id="sum"></div>
+    <div class="chips" style="margin-top:20px"><a class="btn gd" id="bwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.7-.2 1.4Z"/></svg>Send on WhatsApp</a><a class="btn ol js-book" href="#" target="_blank" rel="noopener">Or book a table</a></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- TRAYS -->
+<section class="scene split" id="trays" data-clip="5-trays" data-n="61" data-fx="gold">
+ <div class="stick">
+  <div class="obj fade-x"><canvas></canvas></div><div class="grad"></div>
+  <div class="cap" data-a><span class="n">01</span><span class="kick">The display</span><h2 style="margin-top:14px">Every morning,<br><span class="g">fresh trays.</span></h2><p class="lead" style="margin-top:16px">Dozens of kinds of baklava, fingers, nests and kadaif. Baked in butter and cut in front of you, by weight or by the tray.</p><p class="quote">“The best baklava I know. You can tell they use real butter, not substitutes”<small>Shachar Gal · Google</small></p></div>
+ </div>
+</section>
+
+<!-- MENU -->
+<section class="sec" id="menu">
+ <div class="wrap">
+  <div class="mhead"><div><span class="kick">Menu</span><h2 style="margin-top:20px">Ranked by <span class="g">what people order.</span></h2></div><p class="lead">Based on 300+ Google reviews: what customers mention most, in this order.</p></div>
+  <div class="filters" id="filters"><button class="on" data-f="all">All</button><button data-f="k">Knafeh</button><button data-f="b">Baklava</button><button data-f="c">Cold desserts</button><button data-f="d">Hot drinks</button></div>
+  <div class="menu" id="mlist"></div>
+ </div>
+</section>
+
+<!-- AWWAMEH -->
+<section class="scene split" id="aww" data-clip="4-awwameh" data-n="49" data-fx="syrup">
+ <div class="stick">
+  <div class="obj fade-x"><canvas></canvas></div><div class="grad"></div>
+  <div class="cap" data-a><span class="n">02</span><span class="kick">Awwameh</span><h2 style="margin-top:14px">Balls of<br><span class="g">love.</span></h2><p class="lead" style="margin-top:16px">Crispy outside, airy inside, dipped in golden syrup. This is what it looks like right by the door.</p><div class="pills"><span class="pill">Fresh from the pot</span><span class="pill">By weight</span><span class="pill">Also by the tray</span></div></div>
+ </div>
+</section>
+
+<!-- SIGNATURE -->
+<section class="sig" id="sig" data-fx="petal">
+ <div class="wrap center">
+  <span class="kick">Only here</span>
+  <h2 style="margin-top:22px">Looks like fruit.<br><span class="g">Cuts like dessert.</span></h2>
+  <p class="lead" style="margin:22px auto 0;text-align:center">Mango, strawberry and raspberry that look freshly picked, but inside there is mousse, cream and a fruit heart. One of the things people travel here for.</p>
+ </div>
+ <div class="fly wrap" id="fly">
+  <div class="f f1" data-d="-1.2"><img src="img/mango-fruit.webp" alt="Mango dessert"></div>
+  <div class="f f2" data-d="1"><img src="img/fruit-cut-strawberry.webp" alt="Strawberry dessert, cut open"></div>
+  <div class="f f3" data-d="-.7"><img src="img/raspberry-fruit.webp" alt="Raspberry dessert"></div>
+ </div>
+ <div class="wrap">
+  <div class="inv">
+   <div class="i" data-a><img src="img/kadaif-cone.webp" alt="" loading="lazy"><div><b>Kadaif cone</b><small>A crispy kadaif cone with vanilla and pistachio ice cream</small></div></div>
+   <div class="i" data-a><img src="img/dubai-cake.webp" alt="" loading="lazy"><div><b>Dubai dessert</b><small>Toasted kadaif, pistachio cream and layers of cream</small></div></div>
+   <div class="i" data-a><img src="img/baklava-knafeh-ramzor.webp" alt="" loading="lazy"><div><b>“Traffic light” baklava</b><small>Red, green and gold on one plate</small></div></div>
+   <div class="i" data-a><img src="img/kos-simcha.webp" alt="" loading="lazy"><div><b>The Joy Cup</b><small>Cream, chocolate and pistachio in a cup</small></div></div>
+  </div>
+ </div>
+</section>
+
+<div class="nums">
+ <div><b class="g" data-count="4.5" data-dec="1">0</b><small>Google rating</small></div>
+ <div><b class="g" data-count="1368">0</b><small>reviews</small></div>
+ <div><b class="g" data-count="30.2" data-dec="1" data-suf="K">0</b><small>followers</small></div>
+ <div><b class="g" data-count="849">0</b><small>kitchen videos</small></div>
+</div>
+
+<!-- GIFTS -->
+<section class="sec" id="gifts">
+ <div class="wrap gift">
+  <div class="pics"><img class="a" src="img/gift-box.webp" alt="Gift tray" loading="lazy"><img class="b" src="img/04-trays-knafeh-rolls-baklava.webp" alt="" loading="lazy"></div>
+  <div data-a>
+   <span class="kick">Hosting & gifts</span>
+   <h2 style="margin-top:20px">The joy <span class="g">tray.</span></h2>
+   <p class="lead" style="margin-top:18px">For an event, for the team, or just because. Beautifully packed gold trays, made up the way you like.</p>
+   <ul><li>Mixed baklava trays in every size</li><li>Knafeh in a metal tray you can reheat at home</li><li>Branded gift boxes</li><li>Pre-orders for events and holidays</li></ul>
+   <a class="btn gd" href="https://wa.me/972525986266?text=Hi%2C%20I%20would%20like%20to%20order%20a%20party%20tray" target="_blank" rel="noopener">Order a tray on WhatsApp</a>
+  </div>
+ </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="sec" id="reviews" style="padding-top:40px">
+ <div class="wrap"><span class="kick">What people say</span><h2 style="margin-top:20px">1,368 reviews.<br><span class="g">Here's how it sounds.</span></h2>
+  <div class="gscore"><b class="g">4.5</b><span>★★★★★ average Google rating<br>Daliyat al-Karmel Sweets</span></div></div>
+ <div class="revs"><div class="tr" id="revs"></div></div>
+</section>
+
+<!-- VISIT -->
+<section class="scene fb" id="visit" data-clip="6-entrance" data-n="0" data-fit="cover" data-fx="gold">
+ <div class="stick">
+  <div class="obj" id="vobj"><canvas></canvas></div>
+  <div class="vcard" data-a>
+   <span class="open" id="open"><i></i><span id="openT">Open now</span></span>
+   <h2>Come <span class="g">taste.</span></h2>
+   <div class="hrs" id="hrs"></div>
+   <p class="addr"><b>10 Dalia St., Daliyat al-Karmel</b><br>On the main road. Seating inside and on the terrace facing the Carmel. Parking on the street and in the lot next door.</p>
+   <div class="acts">
+    <a class="btn gd full js-book" href="#" target="_blank" rel="noopener">Book a Table</a>
+    <a class="btn ol" href="https://waze.com/ul?ll=32.6909377,35.0510802&navigate=yes" target="_blank" rel="noopener">Waze</a>
+    <a class="btn ol" href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%9E%D7%AA%D7%A7%D7%99%20%D7%93%D7%9C%D7%99%D7%AA%20%D7%90%D7%9C%20%D7%9B%D7%A8%D7%9E%D7%9C" target="_blank" rel="noopener">Google Maps</a>
+    <a class="btn ol" href="tel:+972525986266">Call</a>
+    <a class="btn ol" href="https://wa.me/972525986266" target="_blank" rel="noopener">WhatsApp</a>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <img src="img/logo.png" alt="">
+ <div>Daliyat al-Karmel Sweets · 10 Dalia St., Daliyat al-Karmel</div>
+ <div style="margin-top:6px"><a href="tel:+972525986266">052-598-6266</a> · <a href="tel:+97246263309">04-626-3309</a></div>
+ <div class="soc">
+  <a href="https://www.instagram.com/mamtaki_dalia/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7.2A4.8 4.8 0 1 0 12 16.8 4.8 4.8 0 0 0 12 7.2Zm0 7.9a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2ZM17 5.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2ZM21.9 8c0-1.5-.5-2.9-1.6-3.9-1-1-2.4-1.6-3.9-1.6C14.9 2.4 9.1 2.4 7.6 2.5c-1.5 0-2.9.5-3.9 1.6-1 1-1.6 2.4-1.6 3.9-.1 1.5-.1 6.4 0 7.9 0 1.5.5 2.9 1.6 3.9 1 1 2.4 1.6 3.9 1.6 1.5.1 6.4.1 7.9 0 1.5 0 2.9-.5 3.9-1.6 1-1 1.6-2.4 1.6-3.9.1-1.5.1-6.4 0-7.9Zm-2 9.6a3.2 3.2 0 0 1-1.8 1.8c-1.3.5-4.2.4-5.6.4s-4.3.1-5.6-.4a3.2 3.2 0 0 1-1.8-1.8c-.5-1.3-.4-4.2-.4-5.6s-.1-4.3.4-5.6A3.2 3.2 0 0 1 6.4 4.6c1.3-.5 4.2-.4 5.6-.4s4.3-.1 5.6.4a3.2 3.2 0 0 1 1.8 1.8c.5 1.3.4 4.2.4 5.6s.1 4.3-.4 5.6Z"/></svg></a>
+  <a href="https://www.tiktok.com/@mamtaki.dalia" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 5 5.7V9.2a7.4 7.4 0 0 0 4.3 1.4V7.5a4.3 4.3 0 0 1-3.3-1.7Z"/></svg></a>
+  <a href="https://wa.me/972525986266" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.7-.2 1.4Z"/></svg></a>
+ </div>
+ <div style="opacity:.6">© Daliyat al-Karmel Sweets</div>
+</footer>
+
+<nav class="mbar" id="mbar">
+ <a href="tel:+972525986266"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+ <a class="gd js-book" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>Book a Table</a>
+ <a href="https://waze.com/ul?ll=32.6909377,35.0510802&navigate=yes" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>Directions</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(()=>{
+const TABIT='https://tabitisrael.co.il';
+const WA='972525986266';
+document.querySelectorAll('.js-book').forEach(a=>a.href=TABIT);
+const isM=matchMedia('(max-width:900px)').matches;
+const dpr=Math.min(devicePixelRatio||1,2);
+const $=s=>document.querySelector(s);
+const vh=()=>innerHeight;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+
+/* ---------- menu data (ranked by demand, no prices) ---------- */
+const M=[
+['Knafeh with ice cream','02-knafeh-icecream-HERO','k','The house dish. Hot knafeh, pistachio, a pistachio-cream zigzag and a scoop of ice cream on the side.',1,1],
+['Shami knafeh','knafeh-shamit','k','Round and personal, grilled until the edges are crisp and the cheese stretches.',1],
+['Layali Beirut','03-layali-beirut','c','Cold milk cream, pistachio and rose petals. One of the things people mention most.',1],
+['Nabulsi knafeh','knafeh-nablusi','k','Fine kadaif over a thick layer of melted white cheese.'],
+['“Traffic light” baklava','baklava-knafeh-ramzor','b','Red, green and gold: a selection of knafeh baklava on one plate.'],
+['Hot baklava with ice cream','08-baklava-hot-pistachio-icecream','b','Hot pistachio baklava topped with cold ice cream.'],
+['Cream schnitt','kream-schnitt','c','Layers of puff pastry and soft vanilla cream, with a cream drizzle on top.'],
+['Aleppo pistachio baklava','baklava-pistachio','b','The green baklava: packed with pistachio to the edge.'],
+['Knafeh pizza tray','knafeh-pizza','k','A round tray cut into triangles. For the whole table.'],
+['Trabzon','trabzon','b','Crispy rolls filled with pistachio and butter.'],
+['Awwameh','06-awwameh-balls','b','Crispy dough balls dipped in syrup.'],
+['Cashew baklava','cashew-baklava','b','A thick roll filled with cashew, coated in caramel.'],
+['Kadaif cone with ice cream','kadaif-cone','c','A crispy kadaif cone, vanilla and pistachio.'],
+['Mango dessert','mango-fruit','c','Looks like a real mango, with mousse and cream inside.'],
+['Strawberry dessert','strawberry-fruit','c','A giant mousse strawberry with a fruit heart.'],
+['Raspberry & berries','raspberry-fruit','c','Berry mousse with cream on the side.'],
+['Dubai dessert','dubai-cake','c','Toasted kadaif, pistachio cream and layers of cream.'],
+['Popsicles & macarons','07-showcase-popsicles-macaron','c','Lotus, pistachio and chocolate. From the cold display.'],
+['Fatir','fatir','b','Round layered pastry, cut into triangles.'],
+['Harisa','harisa','b','Soft semolina cake in syrup that melts in your mouth.'],
+['Trilece','trilece','c','Three-milk cake, also as a drink.'],
+['Tiramisu','tiramisu','c','Coffee, mascarpone and cocoa.'],
+['The Joy Cup','kos-simcha','c','Cream, chocolate and pistachio in a cup.'],
+['Druze coffee with cardamom','druze-coffee','d','In a copper finjan, just like home.'],
+['Hot sahlab','sahlab','d','Thick sahlab with pistachio and coconut.'],
+];
+$('#mlist').innerHTML=M.map((m,i)=>`<figure class="dish${m[5]?' big':''}" data-c="${m[2]}" data-a><div class="ph"><img src="img/${m[1]}.webp" alt="${m[0]}" loading="lazy"><span class="rk">${String(i+1).padStart(2,'0')}</span>${m[4]?'<span class="hot">Most ordered</span>':''}</div><h3>${m[0]}</h3><p>${m[3]}</p></figure>`).join('');
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));const f=b.dataset.f;document.querySelectorAll('.dish').forEach(d=>{d.classList.toggle('hide',f!=='all'&&d.dataset.c!==f);d.classList.toggle('big',f==='all'&&d===document.querySelector('.dish'))});});
+
+/* marquee */
+const W=['Knafeh','Baklava','Layali Beirut','Awwameh','Cream schnitt','Trabzon','Harisa','Fatir','Ice cream','Druze coffee','Sahlab','Party trays'];
+const mqh=W.map(w=>`<span>${w}</span><span>✦</span>`).join('');$('#mq').innerHTML=mqh+mqh;
+
+/* reviews */
+const R=[
+['The best knafeh we have had in the country. The Layali Beirut cream schnitt was out of this world, and the mango dessert was crazy.','Asaf Alon'],
+['Honestly one of the best knafehs I have eaten, and the ice cream on top is unreal! There is outdoor seating with a beautiful view of the Carmel.','Gal Wilmosh'],
+['Perfect knafeh! Made fresh on site. They packed it in a metal tray so we could reheat it at home.','Michal Abulafia'],
+['The best knafeh I have ever eaten. Simply unreal.','Barak Zoref'],
+['Asila makes every single sweet with love. Perfect knafeh. Highly recommended.','Limor Ozery'],
+['A must stop! Fast, friendly service. I especially recommend the “traffic light” knafeh baklava.','Alex apps'],
+['Insanely good! We had a dish called “Layali Beirut”. The place is clean and air-conditioned, perfect!!','Keren Shahar'],
+['I drive here especially for the best dishes. Try the Layali Beirut, the cream schnitt and of course their homemade ice cream.','Eli Yehezkel'],
+['At Abu Hassan’s everything is delicious. My favorites were the Layali Beirut and the knafeh.','Haim Goobi'],
+];
+const rh=R.map(r=>`<div class="rv"><div class="st">★★★★★</div><p>“${r[0]}”</p><small>${r[1]} · Google</small></div>`).join('');$('#revs').innerHTML=rh+rh;
+
+/* hours + open now */
+const H=[[8,22],[10,22],[10,22],[10,22],[10,22],[10,20],[10,20]];
+const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jerusalem'}));const d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+$('#hrs').innerHTML=[['Sunday',0,0],['Mon–Thu',1,4],['Fri–Sat',5,6]].map(([n,a,b])=>`<div class="${d>=a&&d<=b?'t':''}"><span>${n}</span><span>${String(H[a][0]).padStart(2,'0')}:00–${H[a][1]}:00</span></div>`).join('');
+const op=h>=H[d][0]&&h<H[d][1];if(!op){$('#open').classList.add('c');const nd=h<H[d][0]?d:(d+1)%7;$('#openT').textContent=`Closed now · opens ${nd===d?'today':'on '+DN[nd]} at ${String(H[nd][0]).padStart(2,'0')}:00`}else $('#openT').textContent=`Open now · until ${H[d][1]}:00`;
+
+/* builder */
+let base=$('#bases .on'),qty=2;
+const upd=()=>{const ad=[...document.querySelectorAll('#adds .on')].map(b=>b.textContent);const md=$('#mode .on').textContent;
+ const txt=`${qty} × ${base.querySelector('b').textContent}${ad.length?' + '+ad.join(', '):''} (${md})`;
+ $('#sum').innerHTML=`<b>Your order:</b> ${txt}`;$('#qv').textContent=qty;
+ $('#bwa').href=`https://wa.me/${WA}?text=${encodeURIComponent('Hi, I saw your website and would like to order: '+txt)}`};
+$('#bases').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b===base)return;base.classList.remove('on');b.classList.add('on');base=b;
+ const im=$('#bimg');im.classList.add('out');const n=new Image();n.src=`img/${b.dataset.img}.webp`;n.onload=()=>setTimeout(()=>{im.src=n.src;im.classList.remove('out');$('#btag').textContent=b.dataset.t;const f=$('#flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');burst()},200);upd()});
+$('#adds').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;b.classList.toggle('on');if(b.classList.contains('on'))burst(.4);upd()});
+$('#mode').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));upd()});
+$('#qm').onclick=()=>{qty=Math.max(1,qty-1);upd()};$('#qp').onclick=()=>{qty=Math.min(30,qty+1);upd()};upd();
+const stage=$('#stage'),card=$('#card');
+if(!isM){stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`rotateY(${x*14}deg) rotateX(${-y*12}deg) translateZ(20px)`});stage.addEventListener('mouseleave',()=>card.style.transform='')}
+
+/* ---------- frame scenes ---------- */
+const scenes=[...document.querySelectorAll('.scene[data-clip]')].map(el=>{
+ const c=el.querySelector('canvas');return{el,c,ctx:c.getContext('2d'),clip:el.dataset.clip,n:+el.dataset.n,fit:el.dataset.fit||'contain',imgs:[],loaded:0,started:false,last:-1,p:0}});
+function size(s){const r=s.c.getBoundingClientRect();s.c.width=Math.round(r.width*dpr);s.c.height=Math.round(r.height*dpr);s.last=-1}
+function load(s,cb){if(s.started||!s.n)return;s.started=true;const set=isM?'m':'d';const order=[];
+ order.push(0);for(let st=8;st>=1;st=st>>1)for(let i=0;i<s.n;i+=st)if(!order.includes(i))order.push(i);
+ let k=0;const next=()=>{if(k>=order.length)return;const i=order[k++];const im=new Image();im.decoding='async';im.onload=()=>{s.imgs[i]=im;s.loaded++;if(i===0){s.last=-1;cb&&cb()}next()};im.onerror=next;im.src=`f/${s.clip}/${set}/${String(i).padStart(3,'0')}.webp`};
+ for(let j=0;j<4;j++)next()}
+function draw(s){if(!s.n)return;let i=Math.round(s.p*(s.n-1));let im=s.imgs[i];
+ if(!im){for(let o=1;o<s.n;o++){if(s.imgs[i-o]){im=s.imgs[i-o];i-=o;break}if(s.imgs[i+o]){im=s.imgs[i+o];i+=o;break}}}
+ if(!im||i===s.last)return;s.last=i;const W=s.c.width,H=s.c.height,iw=im.naturalWidth,ih=im.naturalHeight;
+ const sc=s.fit==='cover'?Math.max(W/iw,H/ih):Math.min(W/iw,H/ih);const w=iw*sc,h=ih*sc;s.ctx.clearRect(0,0,W,H);s.ctx.drawImage(im,(W-w)/2,(H-h)/2,w,h)}
+const ld=$('#ld'),bar=$('#ld .bar i');
+load(scenes[0],()=>{});
+let ldDone=false;const ldTick=()=>{const s=scenes[0];bar.style.width=Math.min(100,s.loaded/Math.min(16,s.n)*100)+'%';if(s.loaded>=Math.min(16,s.n)||performance.now()>6000){ldDone=true;ld.classList.add('done');document.querySelectorAll('#hero [data-a]').forEach(e=>e.classList.add('on'))}else requestAnimationFrame(ldTick)};ldTick();
+addEventListener('resize',()=>scenes.forEach(size));scenes.forEach(size);
+
+/* visit scene: if no clip, use still photo */
+const vs=scenes.find(s=>s.clip==='6-entrance');
+if(vs&&!vs.n){const im=new Image();im.src='img/01-entrance.webp';im.onload=()=>{vs.imgs[0]=im;vs.n=1;vs.started=true;vs.last=-1}}
+
+/* ---------- particles ---------- */
+const fx=$('#fx'),fc=fx.getContext('2d');let FW,FH;
+const fxSize=()=>{FW=fx.width=Math.round(innerWidth*dpr);FH=fx.height=Math.round(innerHeight*dpr)};fxSize();addEventListener('resize',fxSize);
+const PAL={gold:['#f6e2a8','#d6b26a','#fff3cf'],pis:['#a9c25a','#c7d97a','#7f9a3a','#f6e2a8'],petal:['#e57aa0','#f3a6c0','#c9547d'],syrup:['#e9a440','#f6c66a','#fff0c0']};
+let mode='gold';const P=[];const NP=isM?34:80;
+const mk=(burstP)=>({x:Math.random()*FW,y:burstP?FH*(.4+Math.random()*.3):Math.random()*FH,z:.4+Math.random()*1.6,r:0,s:Math.random(),rot:Math.random()*6.28,vr:(Math.random()-.5)*.04,vx:(Math.random()-.5)*.3,vy:-(.15+Math.random()*.45),c:0,life:burstP?1:0});
+for(let i=0;i<NP;i++)P.push(mk());
+function burst(k=1){const n=Math.round((isM?18:40)*k);for(let i=0;i<n;i++){const p=mk(true);p.x=FW*(isM?.5:.3)+(Math.random()-.5)*FW*.3;p.vx=(Math.random()-.5)*6;p.vy=-(2+Math.random()*6);p.life=1;p.tmp=1;P.push(p)}}
+let vel=0;
+function drawFx(){fc.clearRect(0,0,FW,FH);const pal=PAL[mode];
+ for(let i=P.length-1;i>=0;i--){const p=P[i];
+  p.x+=p.vx*p.z*dpr;p.y+=(p.vy*p.z-vel*.5*p.z)*dpr;p.rot+=p.vr;
+  if(p.tmp){p.vy+=.12;p.life-=.012;if(p.life<=0){P.splice(i,1);continue}}
+  if(p.y<-40)p.y=FH+40;if(p.y>FH+40)p.y=-40;if(p.x<-40)p.x=FW+40;if(p.x>FW+40)p.x=-40;
+  const col=pal[Math.floor(p.s*pal.length)%pal.length];fc.save();fc.translate(p.x,p.y);fc.rotate(p.rot);fc.globalAlpha=(p.tmp?p.life:1)*(.35+.55*(p.z/2));fc.fillStyle=col;
+  const sz=p.z*dpr;
+  if(mode==='petal'){if(p.s>.45&&!p.tmp){fc.restore();continue}fc.beginPath();fc.ellipse(0,0,5*sz,3*sz,0,0,6.28);fc.fill()}
+  else if(mode==='pis'){fc.beginPath();fc.moveTo(-2.6*sz,-1.5*sz);fc.lineTo(2.4*sz,-2*sz);fc.lineTo(2*sz,2.2*sz);fc.lineTo(-2*sz,1.6*sz);fc.closePath();fc.fill()}
+  else if(mode==='syrup'){fc.beginPath();fc.arc(0,0,2.2*sz,0,6.28);fc.fill();fc.globalAlpha*=.5;fc.beginPath();fc.arc(-.6*sz,-.6*sz,.8*sz,0,6.28);fc.fillStyle='#fff';fc.fill()}
+  else{fc.shadowColor=col;fc.shadowBlur=8*sz;fc.beginPath();fc.arc(0,0,1.3*sz,0,6.28);fc.fill()}
+  fc.restore()}}
+
+/* ---------- scroll driver ---------- */
+const lenis=window.Lenis?new Lenis({lerp:.14,wheelMultiplier:1.25,smoothWheel:true}):null;
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(h.length<2)return;const t=document.querySelector(h);if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:0}):t.scrollIntoView({behavior:'smooth'})}));
+const reveal=[...document.querySelectorAll('[data-a]')].filter(e=>!e.closest('#hero'));
+const counts=[...document.querySelectorAll('[data-count]')];
+const words=$('#words');words.innerHTML=words.innerHTML.replace(/(<em>)|(<\/em>)|([^\s<>]+)/g,(m,a,b,w)=>w?`<span class="w">${w}</span>`:m);const ws=[...words.querySelectorAll('.w')];
+const hd=$('#hd'),mbar=$('#mbar'),ghost=$('#ghost'),heroObj=$('#heroObj');
+const anat=scenes.find(s=>s.clip==='3-anatomy');
+const L=[1,2,3,4].map(i=>({l:$('#l'+i),c:$('#c'+i),k:$('#k'+i),a:[.12,.32,.52,.68][i-1]}));
+const gf=$('#gf'),gv=$('#gv');
+const fly=[...document.querySelectorAll('#fly .f')];
+const fxSecs=[...document.querySelectorAll('[data-fx]')];
+let lastY=scrollY;
+function tick(t){
+ lenis&&lenis.raf(t);
+ const y=scrollY,H=vh();vel=vel*.85+(y-lastY)*.15;lastY=y;
+ hd.classList.toggle('s',y>40);mbar.classList.toggle('on',y>H*.6);
+ for(const s of scenes){const r=s.el.getBoundingClientRect();
+  if(r.top<H*2.5&&r.bottom>-H)load(s);
+  if(r.bottom<0||r.top>H)continue;
+  s.p=clamp(-r.top/(r.height-H));draw(s)}
+ // hero object push + ghost parallax
+ const hp=scenes[0].p;heroObj.style.transform=isM?`scale(${1+hp*.12})`:`translate(-50%,-50%) scale(${1+hp*.18})`;ghost.style.transform=`translateX(${(hp-.5)*-30}%)`;
+ // anatomy HUD
+ if(anat){const p=anat.p;for(const o of L){const lp=clamp((p-o.a)/.12);o.l.style.strokeDashoffset=1-lp;o.c.style.opacity=lp>0?1:0;o.k.classList.toggle('on',lp>.85)}
+  const g=clamp((p-.1)/.75);gf.style.strokeDashoffset=1-g;gv.textContent=Math.round(g*100)}
+ // reveals
+ for(const e of reveal){const r=e.getBoundingClientRect();const sc=e.closest('.scene');let on;
+  if(sc&&!sc.contains(e.closest('.stick')?null:e)){const sr=sc.getBoundingClientRect();on=sr.top<H*.35&&sr.bottom>H*.6}else on=r.top<H*.88;
+  if(e.closest('.scene'))e.classList.toggle('on',on);else if(on)e.classList.add('on')}
+ // words
+ const wr=words.getBoundingClientRect();const wp=clamp((H*.85-wr.top)/(wr.height+H*.35));const nOn=Math.round(wp*ws.length);ws.forEach((w,i)=>w.classList.toggle('on',i<nOn));
+ // counters
+ for(const c of counts){if(c.dataset.done)continue;const r=c.getBoundingClientRect();if(r.top<H*.9&&r.bottom>0&&ldDone){c.dataset.done=1;const to=+c.dataset.count,dec=+(c.dataset.dec||0),suf=c.dataset.suf||'';const t0=performance.now();const step=n=>{const k=clamp((n-t0)/1600);const e=1-Math.pow(1-k,3);c.textContent=(to*e).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)}}
+ // fly parallax
+ const fr=$('#fly').getBoundingClientRect();if(fr.bottom>0&&fr.top<H){const k=(fr.top+fr.height/2-H/2)/H;fly.forEach((f,i)=>{const d=+f.dataset.d;f.style.transform=`translateY(${k*d*160}px) rotate(${k*d*-8}deg) scale(${1-Math.abs(k)*.08})`})}
+ // particle palette by section in view center
+ mode='gold';for(const s of fxSecs){const r=s.getBoundingClientRect();if(r.top<H*.5&&r.bottom>H*.5){mode=s.dataset.fx;break}}
+ drawFx();
+ requestAnimationFrame(tick)}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
