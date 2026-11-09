@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070707">
+<link rel="icon" href="img/logo.png">
+<title>אטליז פרץ · עמק יזרעאל</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="frames/manifest.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#070707;--cream:#EFE3C8;--cream2:#CDBB96;--ember:#FF6A2B;--navy:#0F2C47;--mut:rgba(239,227,200,.56);--line:rgba(239,227,200,.13);--pad:clamp(18px,4vw,56px)}
+html{background:var(--bg)}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:Heebo,system-ui,sans-serif;color:var(--cream);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.d{font-family:'Frank Ruhl Libre',serif;font-weight:900;letter-spacing:-.02em}
+.m{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;direction:ltr;unicode-bidi:isolate}
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.btn{height:56px;border-radius:28px;padding:0 26px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 15px Heebo;border:0;cursor:pointer;white-space:nowrap;transition:transform .25s,background .25s,color .25s}
+.btn:active{transform:scale(.96)}
+.btn.c{background:var(--cream);color:#0b0b0b}
+.btn.o{background:transparent;color:var(--cream);border:1px solid rgba(239,227,200,.28)}
+.btn.o:hover{background:var(--cream);color:#0b0b0b}
+#grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.08;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
+/* loader */
+#ld{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:clip-path 1.2s cubic-bezier(.77,0,.18,1)}
+#ld img{width:120px;height:120px;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.04);filter:drop-shadow(0 0 30px rgba(255,106,43,.25))}}
+#ld .bar{width:180px;height:1px;background:var(--line);position:relative;overflow:hidden}
+#ld .bar b{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--cream)}
+#ld.out{clip-path:inset(0 0 100% 0)}
+/* header */
+#top{position:fixed;z-index:60;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 14px) var(--pad) 14px;display:flex;align-items:center;gap:14px;transition:background .5s,backdrop-filter .5s}
+#top.solid{background:linear-gradient(180deg,rgba(7,7,7,.85),rgba(7,7,7,0))}
+#top .lg{width:44px;height:44px}
+#top .nm{font-family:'Frank Ruhl Libre';font-weight:700;font-size:20px;line-height:1}
+#top nav{margin-inline-start:auto;display:flex;gap:26px}
+#top nav a{font-size:14px;color:var(--mut);position:relative}
+#top nav a:after{content:"";position:absolute;bottom:-6px;right:0;width:0;height:1px;background:var(--ember);transition:width .4s}
+#top nav a:hover{color:var(--cream)}#top nav a:hover:after{width:100%}
+#top .btn{height:44px;padding:0 20px;font-size:14px}
+@media(max-width:860px){#top nav{display:none}#top .btn{margin-inline-start:auto}}
+/* scroll scenes */
+.scene{position:relative}
+.scene .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.scene canvas{position:absolute;inset:0;width:100%;height:100%}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 45%,rgba(7,7,7,.75) 100%),linear-gradient(180deg,rgba(7,7,7,.55),transparent 22%,transparent 70%,rgba(7,7,7,.95))}
+.hud{position:absolute;inset:calc(env(safe-area-inset-top) + 84px) var(--pad) calc(env(safe-area-inset-bottom) + 26px);pointer-events:none}
+.hud i{position:absolute;width:18px;height:18px;border-color:rgba(239,227,200,.35);border-style:solid}
+.hud i:nth-child(1){top:0;right:0;border-width:1px 1px 0 0}.hud i:nth-child(2){top:0;left:0;border-width:1px 0 0 1px}
+.hud i:nth-child(3){bottom:0;right:0;border-width:0 1px 1px 0}.hud i:nth-child(4){bottom:0;left:0;border-width:0 0 1px 1px}
+.hud .tl{position:absolute;top:2px;right:30px;color:var(--mut)}
+.hud .tr{position:absolute;top:2px;left:30px;color:var(--mut)}
+.hud .bl{position:absolute;bottom:2px;left:30px;color:var(--mut)}
+.hud .prog{position:absolute;bottom:8px;right:30px;width:120px;height:1px;background:var(--line)}
+.hud .prog b{position:absolute;inset:0;background:var(--ember);transform-origin:right;transform:scaleX(0)}
+.tx{position:absolute;left:var(--pad);right:var(--pad);pointer-events:none;will-change:opacity,transform}
+.reveal span{display:inline-block;overflow:hidden;vertical-align:bottom}
+.reveal span>em{display:inline-block;font-style:normal;transform:translateY(105%);transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.reveal.on span>em{transform:none}
+/* hero */
+#hero .title{bottom:calc(env(safe-area-inset-bottom) + 70px);text-align:right}
+#hero .title h1{font-size:clamp(84px,19vw,260px);line-height:.82}
+#hero .title p{margin-top:16px;font-size:clamp(15px,1.6vw,19px);color:var(--mut);font-weight:300;max-width:420px}
+#hero .t2{top:42%;text-align:right}
+#hero .t2 .big{font-size:clamp(40px,7vw,96px);line-height:.95}
+#hero .t2 .k{color:var(--ember);margin-bottom:14px}
+#hero .t3{top:42%;text-align:left}
+#hero .t3 .big{font-size:clamp(40px,7vw,96px);line-height:.95}
+.temp{position:absolute;top:50%;left:var(--pad);transform:translateY(-50%);text-align:left;pointer-events:none}
+.temp .v{font-family:'JetBrains Mono';font-size:clamp(34px,5vw,64px);font-weight:600;color:var(--cream);line-height:1;direction:ltr}
+.temp .v small{font-size:.45em;color:var(--ember)}
+.temp .l{margin-top:8px;color:var(--mut)}
+@media(max-width:700px){.temp{top:auto;bottom:calc(env(safe-area-inset-bottom) + 210px);transform:none}}
+/* float scene callouts */
+.call{position:absolute;pointer-events:none;opacity:0;transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.call.on{opacity:1}
+.call .ln{height:1px;background:linear-gradient(90deg,var(--ember),rgba(239,227,200,.3));width:clamp(40px,8vw,120px);margin:10px 0}
+.call b{display:block;font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(26px,3.6vw,46px);line-height:1}
+.call .m{color:var(--mut)}
+#c1{top:24%;right:var(--pad)}#c2{top:36%;left:var(--pad);text-align:left}#c3{bottom:24%;right:var(--pad)}#c4{bottom:16%;left:var(--pad);text-align:left}
+#c2 .ln,#c4 .ln{margin-left:0}
+@media(max-width:700px){#c1{top:20%}#c2{top:20%}#c3{bottom:15%}#c4{bottom:15%}.call b{font-size:24px}#float .head{top:calc(env(safe-area-inset-top) + 96px)}}
+#float .head{top:calc(env(safe-area-inset-top) + 110px);text-align:center}
+#float .head .big{font-size:clamp(46px,9vw,130px);line-height:.9}
+/* farm */
+#farm .big{font-size:clamp(120px,30vw,420px);line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(239,227,200,.85)}
+#farm .t1{top:50%;transform:translateY(-50%);text-align:center}
+#farm .t2{bottom:calc(env(safe-area-inset-bottom) + 70px);text-align:right;max-width:560px;right:var(--pad);left:auto}
+#farm .t2 p{font-size:clamp(16px,1.8vw,21px);line-height:1.7;font-weight:300}
+#farm .t2 .k{color:var(--ember);margin-bottom:14px}
+/* cut */
+#cut .t1{top:calc(env(safe-area-inset-top) + 110px);text-align:right}
+#cut .t1 .big{font-size:clamp(46px,9vw,130px);line-height:.9}
+#cut .t1 .k{color:var(--ember);margin-bottom:14px}
+#cut .t2{bottom:calc(env(safe-area-inset-bottom) + 70px);text-align:left}
+#cut .t2 p{font-size:clamp(15px,1.7vw,19px);color:var(--mut);max-width:380px;margin-left:0;line-height:1.7;font-weight:300}
+/* sections */
+.sec{padding:clamp(90px,14vw,180px) var(--pad);position:relative}
+.sec .k{color:var(--ember);display:block;margin-bottom:18px}
+.h2{font-size:clamp(46px,8vw,120px);line-height:.92}
+.lead{font-size:clamp(16px,1.8vw,20px);line-height:1.75;color:var(--mut);font-weight:300;max-width:560px}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+/* shop configurator */
+#shop{background:radial-gradient(120% 80% at 80% 0%,#173b5e 0%,var(--navy) 40%,#081a2b 100%)}
+#shop .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(24px,4vw,60px);margin-top:56px;align-items:start}
+.cuts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cut{position:relative;border-radius:22px;padding:22px;border:1px solid rgba(239,227,200,.16);background:rgba(7,7,7,.22);cursor:pointer;transition:border-color .3s,background .3s,transform .3s;text-align:right;color:inherit;font:inherit}
+.cut:hover{transform:translateY(-3px)}
+.cut.on{border-color:var(--cream);background:rgba(239,227,200,.07)}
+.cut .m{color:var(--cream2)}
+.cut h4{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(24px,2.6vw,32px);margin:10px 0 6px}
+.cut p{font-size:14px;color:var(--mut);line-height:1.55;font-weight:300}
+.cut .ck{position:absolute;top:18px;left:18px;width:22px;height:22px;border-radius:11px;border:1px solid rgba(239,227,200,.4);display:grid;place-items:center}
+.cut.on .ck{background:var(--cream);border-color:var(--cream)}
+.cut.on .ck:after{content:"";width:8px;height:8px;border-radius:4px;background:var(--navy)}
+.panel{position:sticky;top:110px;border-radius:26px;padding:28px;background:rgba(7,7,7,.45);border:1px solid rgba(239,227,200,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.panel h3{font-family:'Frank Ruhl Libre';font-weight:900;font-size:34px;line-height:1}
+.panel .row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.panel input[type=range]{width:100%;accent-color:var(--ember);margin-top:12px}
+.panel .tot{font-family:'JetBrains Mono';font-size:28px;font-weight:600}
+.panel .btn{width:100%;margin-top:20px}
+.panel .note{font-size:12px;color:var(--mut);margin-top:12px;text-align:center}
+.qty{display:flex;align-items:center;gap:12px}
+.qty button{width:36px;height:36px;border-radius:18px;border:1px solid rgba(239,227,200,.3);background:none;color:var(--cream);font-size:18px;cursor:pointer}
+@media(max-width:900px){#shop .grid{grid-template-columns:1fr}.panel{position:relative;top:0}}
+@media(max-width:520px){.cuts{grid-template-columns:1fr}}
+/* menu */
+#menu .list{margin-top:60px;border-top:1px solid var(--line)}
+.mi{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:20px;padding:clamp(20px,3vw,34px) 0;border-bottom:1px solid var(--line);position:relative;transition:padding .5s cubic-bezier(.2,.8,.2,1)}
+.mi .m{color:var(--mut)}
+.mi h5{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(28px,4.4vw,58px);line-height:1;transition:color .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.mi p{font-size:14px;color:var(--mut);font-weight:300;max-width:300px;text-align:left}
+.mi:hover h5{color:var(--ember);transform:translateX(-14px)}
+@media(max-width:700px){.mi{grid-template-columns:44px 1fr}.mi p{grid-column:2;text-align:right}}
+#peek{position:fixed;z-index:50;width:220px;height:280px;border-radius:18px;overflow:hidden;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.8) rotate(-4deg);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 30px 70px rgba(0,0,0,.6)}
+#peek.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-4deg)}
+#peek img{width:100%;height:100%;object-fit:cover}
+/* marquee */
+.mq{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;white-space:nowrap}
+.mq div{display:inline-block;font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(34px,5vw,64px);animation:mq 28s linear infinite;padding-left:40px}
+.mq em{font-style:normal;color:var(--ember);margin:0 28px}
+@keyframes mq{to{transform:translateX(50%)}}
+/* visit */
+#visit .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.box{border-radius:26px;padding:clamp(24px,3vw,38px);background:linear-gradient(160deg,#141414,#0b0b0b);border:1px solid var(--line)}
+.box h3{font-family:'Frank Ruhl Libre';font-weight:900;font-size:32px;margin-bottom:20px}
+.hrs div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hrs div span:last-child{color:var(--mut);font-family:'JetBrains Mono';font-size:13px}
+.hrs div span:last-child{direction:ltr;unicode-bidi:isolate}
+.hrs div.today,.hrs div.today span:last-child{color:var(--ember)}
+.box .act{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.box .act .btn{width:100%}
+@media(max-width:820px){#visit .grid{grid-template-columns:1fr}}
+footer{padding:80px var(--pad) calc(env(safe-area-inset-bottom) + 60px);border-top:1px solid var(--line);position:relative;overflow:hidden}
+footer .giant{font-size:clamp(90px,26vw,380px);line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(239,227,200,.25);text-align:center;margin-top:40px}
+footer .row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--mut);font-size:13px}
+footer img{width:70px;height:70px}
+.demo{font-size:11px;letter-spacing:2px;padding:6px 12px;border:1px solid var(--line);border-radius:14px}
+/* table reservation (on our site; the request lands in the restaurant's WhatsApp) */
+#rs{position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .35s}
+#rs.on{opacity:1;pointer-events:auto}
+#rs .card{width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;border-radius:28px;padding:clamp(22px,4vw,34px);background:linear-gradient(160deg,#161616,#0b0b0b);border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.7);transform:translateY(24px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1);position:relative}
+#rs.on .card{transform:none}
+#rs h3{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(30px,5vw,40px);line-height:1;margin-top:8px}
+#rs .sub{color:var(--mut);font-size:14px;margin:8px 0 6px}
+#rs .x{position:absolute;top:16px;left:16px;width:38px;height:38px;border-radius:19px;border:1px solid var(--line);background:none;color:var(--cream);font-size:16px;cursor:pointer}
+#rs label.l{display:block;font-family:'JetBrains Mono';font-size:11px;letter-spacing:2px;color:var(--mut);margin:22px 0 10px}
+#rs .row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+#rs .row::-webkit-scrollbar{display:none}
+#rs .ch{flex:0 0 auto;min-width:64px;height:62px;border-radius:16px;border:1px solid rgba(239,227,200,.2);background:none;color:var(--cream);font:500 13px Heebo;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:background .2s,color .2s,border-color .2s}
+#rs .ch b{font-size:17px;font-weight:700}
+#rs .ch.t{height:44px;min-width:72px;font-family:'JetBrains Mono';font-size:14px;direction:ltr}
+#rs .ch.on{background:var(--cream);color:#0b0b0b;border-color:var(--cream)}
+#rs .ch:disabled{opacity:.28;cursor:default}
+#rs .times{flex-wrap:wrap;overflow:visible}
+#rs .ppl{display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(239,227,200,.2);border-radius:16px;padding:8px 10px 8px 8px}
+#rs .ppl span{font-size:16px;padding-right:6px}
+#rs .ppl .qty b{min-width:26px;text-align:center;font-size:18px}
+#rs .f{width:100%;height:50px;border-radius:14px;border:1px solid rgba(239,227,200,.2);background:#0d0d0d;color:var(--cream);font:400 16px Heebo;padding:0 16px;outline:none;transition:border-color .2s}
+#rs textarea.f{height:76px;padding:12px 16px;resize:none;margin-top:10px}
+#rs .f:focus{border-color:var(--ember)}
+#rs .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#rs .go{width:100%;margin-top:24px;background:var(--ember);color:#0b0b0b}
+#rs .go:disabled{opacity:.4;cursor:default}
+#rs .note{font-size:12px;color:var(--mut);text-align:center;margin-top:12px}
+/* whatsapp preview (demo: shows the message instead of sending it to the real shop) */
+#wa{position:fixed;inset:0;z-index:97;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+#wa.on{opacity:1;pointer-events:auto}
+#wa .ph{width:min(360px,100%);border-radius:28px;overflow:hidden;background:#0b141a;box-shadow:0 40px 90px rgba(0,0,0,.7);transform:translateY(20px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#wa.on .ph{transform:none}
+#wa .hd{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#202c33;color:#e9edef}
+#wa .hd img{width:38px;height:38px;border-radius:19px}
+#wa .hd b{display:block;font-size:15px}#wa .hd small{font-size:12px;color:#8696a0}
+#wa .bd{padding:22px 14px 26px;min-height:230px;background:#0b141a radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/14px 14px;display:flex;flex-direction:column;align-items:flex-start}
+#wa .msg{max-width:88%;background:#005c4b;color:#e9edef;border-radius:12px 0 12px 12px;padding:10px 12px 18px;font-size:14.5px;line-height:1.55;white-space:pre-line;position:relative;align-self:flex-start}
+#wa .msg i{position:absolute;bottom:4px;left:10px;font-style:normal;font-size:11px;color:rgba(233,237,239,.6)}
+#wa .ft{padding:14px 16px 18px;background:#0b141a;color:#8696a0;font-size:12.5px;text-align:center;line-height:1.5}
+#wa .ft .btn{width:100%;margin-top:12px;height:48px;background:#25d366;color:#0b141a}
+#toast{position:fixed;z-index:95;top:90px;left:50%;transform:translate(-50%,-20px);opacity:0;transition:.4s;background:var(--cream);color:#0b0b0b;padding:12px 22px;border-radius:22px;font-weight:700;font-size:14px;pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#cur{position:fixed;z-index:96;top:0;left:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(239,227,200,.6);pointer-events:none;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference}
+#cur.big{width:70px;height:70px;background:rgba(239,227,200,.9)}
+@media(hover:none){#cur{display:none}}
+</style></head>
+<body>
+<div id="grain"></div><div id="cur"></div>
+<div id="ld"><img src="img/logo.png" alt=""><div class="bar"><b id="ldb"></b></div><div class="m" id="ldn" style="color:var(--mut)">000</div></div>
+
+<header id="top">
+ <img class="lg" src="img/logo.png" alt="אטליז פרץ"><span class="nm">אטליז פרץ</span>
+ <nav><a href="#float">הנתח</a><a href="#farm">החווה</a><a href="#cut">האטליז</a><a href="#menu">תפריט</a><a href="#visit">ביקור</a></nav>
+ <a class="btn c" href="#">הזמנת שולחן</a>
+</header>
+
+<!-- 01 · fire: the steak on the grill, the camera orbits it -->
+<section class="scene" id="hero" data-scene="orbit" data-fit="contain" style="height:270vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">01 / 04 — האש</span><span class="m tr">EMEK YIZRE'EL · 32.6°N</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="temp" id="temp"><div class="v" id="tv">4<small>°C</small></div><div class="m l">CORE TEMP</div></div>
+ <div class="tx title" id="h1"><h1 class="d reveal"><span><em>אטליז פרץ</em></span></h1><p class="rv">בית יזרעאלי בעמק. בוקר קפה, אטליז ומסעדת בשרים, עם בקר מהחווה של המשפחה.</p></div>
+ <div class="tx t2" id="h2" style="opacity:0"><div class="m k">// 01 · FIRE</div><div class="big d">פחמים לוהטים.<br>שום קיצורי דרך.</div></div>
+ <div class="tx t3" id="h3" style="opacity:0"><div class="big d">כל צד.<br>כל פרט.</div></div>
+</div></section>
+
+<div class="mq"><div>ריבאיי מיושן<em>✦</em>אטליז<em>✦</em>בוקר קפה<em>✦</em>מסעדת בשרים<em>✦</em>עמק יזרעאל<em>✦</em>ריבאיי מיושן<em>✦</em>אטליז<em>✦</em>בוקר קפה<em>✦</em>מסעדת בשרים<em>✦</em>עמק יזרעאל<em>✦</em></div></div>
+
+<!-- 02 · the cut: the steak levitates, spec callouts around it -->
+<section class="scene" id="float" data-scene="float" data-fit="contain" style="height:240vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">02 / 04 — הנתח</span><span class="m tr">RIBEYE · DRY AGED</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="tx head" id="fh"><div class="big d">הנתח.</div></div>
+ <div class="call" id="c1"><span class="m">CUT</span><div class="ln"></div><b>ריבאיי</b></div>
+ <div class="call" id="c2"><span class="m">DRY AGED</span><div class="ln"></div><b class="num">30+ יום</b></div>
+ <div class="call" id="c3"><span class="m">WEIGHT</span><div class="ln"></div><b class="num">400 גרם</b></div>
+ <div class="call" id="c4"><span class="m">ORIGIN</span><div class="ln"></div><b>החווה בעמק</b></div>
+</div></section>
+
+<!-- 03 · the farm: drone over the valley -->
+<section class="scene" id="farm" data-scene="farm" data-fit="cover" style="height:225vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">03 / 04 — החווה</span><span class="m tr">EMEK YIZRE'EL · SUNRISE</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="tx t1" id="ft1"><div class="big d num" id="yrs">0</div><div class="m" style="margin-top:14px;color:var(--cream)">YEARS OF CATTLE</div></div>
+ <div class="tx t2" id="ft2" style="opacity:0"><div class="m k">// 03 · THE FARM</div><p>כמעט מאה שנה המשפחה מגדלת בקר בעמק. שלושה דורות של חקלאים, מרעה פתוח ובקר שגדל לאט. מהחווה שלנו, ישר לאש.</p></div>
+</div></section>
+
+<!-- 04 · the butcher: the knife through the ribeye -->
+<section class="scene" id="cut" data-scene="cut" data-fit="contain" style="height:215vh"><div class="stick">
+ <canvas></canvas><div class="vig"></div>
+ <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 04 — האטליז</span><span class="m tr">CUT TO ORDER</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
+ <div class="tx t1" id="ct1"><div class="m k">// 04 · BUTCHER</div><div class="big d">נחתך<br>מול העיניים.</div></div>
+ <div class="tx t2" id="ct2" style="opacity:0"><p>הקצבים שלנו פורסים לפי הבקשה שלכם: עובי, משקל וניקוי. לוקחים הביתה, או מזמינים ישר לשולחן במסעדה.</p></div>
+</div></section>
+
+<section class="sec" id="shop">
+ <span class="m k rv">// ORDER ONLINE</span>
+ <h2 class="h2 d rv">האטליז,<br>בטלפון שלכם.</h2>
+ <p class="lead rv" style="margin-top:22px">בוחרים נתח ועובי, הקצב מכין, ואוספים מוכן מהאטליז.</p>
+ <div class="grid">
+  <div class="cuts" id="cuts"></div>
+  <div class="panel rv">
+   <span class="m" style="color:var(--cream2)">YOUR ORDER</span>
+   <h3 id="pName" style="margin-top:10px">ריבאיי</h3>
+   <div class="row"><span>עובי הסטייק</span><b class="num" id="thV">3.0 ס"מ</b></div>
+   <input type="range" id="th" min="2" max="6" step=".5" value="3">
+   <div class="row"><span>כמות</span><div class="qty"><button id="qm">−</button><b class="num" id="qV">2</b><button id="qp">+</button></div></div>
+   <div class="row"><span>משקל משוער</span><span class="tot num" id="wV">0.9 ק"ג</span></div>
+   <button class="btn c" id="send">שליחת הזמנה בוואטסאפ</button>
+   <div class="note">איסוף מהאטליז · המחיר לפי שקילה במקום</div>
+  </div>
+ </div>
+</section>
+
+<section class="sec" id="menu">
+ <span class="m k rv">// FROM THE MENU</span>
+ <h2 class="h2 d rv">מה עולה<br>על האש.</h2>
+ <div class="list" id="menuList"></div>
+ <p class="lead rv" style="margin-top:28px;font-size:14px">מבחר מהתפריט. התפריט המלא מתעדכן במסעדה.</p>
+</section>
+<div id="peek"><img alt=""></div>
+
+<section class="sec" id="visit">
+ <span class="m k rv">// VISIT</span>
+ <h2 class="h2 d rv">נתראה<br>בעמק.</h2>
+ <div class="grid">
+  <div class="box rv"><h3>שעות פתיחה</h3><div class="hrs" id="hrs"></div><p class="lead" style="font-size:13px;margin-top:14px">בוקר קפה: ב׳–שבת 7:30–12:00 · האטליז פתוח עם המסעדה</p></div>
+  <div class="box rv"><h3>מגיעים אלינו</h3><p class="lead" style="font-size:16px">עמק יזרעאל<br>טלפון ווואטסאפ: <span class="num">050-000-0000</span></p>
+   <div class="act">
+    <a class="btn c" href="#">הזמנת שולחן</a>
+    <a class="btn o" href="#" target="_blank" rel="noopener">ניווט בוויז</a>
+    <a class="btn o" href="tel:+972500000000">התקשרו אלינו</a>
+   </div></div>
+ </div>
+</section>
+
+<footer>
+ <div class="row"><img src="img/logo.png" alt=""><span>אטליז פרץ · בית יזרעאלי · עמק יזרעאל</span><span class="demo">דמו לאתר · הוכן כהצעה</span></div>
+ <div class="giant d">אטליז פרץ</div>
+</footer>
+<div id="toast"></div>
+<div id="rs" data-lenis-prevent><div class="card">
+ <button class="x" id="rsX" aria-label="סגירה">✕</button>
+ <span class="m k" style="color:var(--ember)">// RESERVE</span>
+ <h3>הזמנת שולחן</h3><p class="sub">המסעדה של אטליז פרץ · עמק יזרעאל</p>
+ <label class="l">כמה סועדים</label>
+ <div class="ppl"><span id="rsP">2 סועדים</span><div class="qty"><button id="rsM">−</button><b id="rsN">2</b><button id="rsPl">+</button></div></div>
+ <label class="l">באיזה יום</label><div class="row" id="rsD"></div>
+ <label class="l">באיזו שעה</label><div class="row times" id="rsT"></div>
+ <label class="l">פרטים</label>
+ <div class="two"><input class="f" id="rsName" placeholder="שם מלא" autocomplete="name"><input class="f" id="rsTel" placeholder="טלפון" inputmode="tel" autocomplete="tel"></div>
+ <textarea class="f" id="rsNote" placeholder="הערות: יום הולדת, כיסא תינוק, אלרגיות…"></textarea>
+ <button class="btn go" id="rsGo" disabled>שליחת בקשת הזמנה</button>
+ <p class="note">הבקשה נשלחת ישירות למסעדה, והמסעדה חוזרת אליך לאישור.</p>
+</div></div>
+<div id="wa"><div class="ph"><div class="hd"><img src="img/logo.png" alt=""><div><b id="waTo">אטליז פרץ · האטליז</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft"><span id="waFt">כך ההזמנה תגיע לוואטסאפ של האטליז. הקצב מכין, והלקוח משלם באיסוף לפי שקילה.</span><button class="btn" id="waOk">הבנתי</button></div></div></div>
+
+<script type="module">
+import Lenis from 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.mjs';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), lerp = (a, b, t) => a + (b - a) * t;
+const ss = (a, b, t) => { t = cl((t - a) / (b - a)); return t * t * (3 - 2 * t); };
+const M = window.FRAMES || {};
+
+/* ---------- frames ---------- */
+const scenes = $$('.scene').map((el) => {
+  const name = el.dataset.scene, n = (M[name] && M[name].n) || 0, ext = (M[name] && M[name].ext) || 'jpg';
+  const imgs = [...Array(n).keys()].map((i) => { const im = new Image(); im.decoding = 'async'; im.dataset.src = `frames/${name}/${String(i).padStart(3, '0')}.${ext}`; return im; });
+  return { el, name, n, imgs, cv: $('canvas', el), fit: el.dataset.fit, p: 0, sp: 0, last: -1 };
+});
+// load the hero first (the loader waits for it), the rest right after
+let loaded = 0; const first = scenes[0].imgs, total = first.length || 1;
+const bump = () => { loaded++; const f = Math.min(1, loaded / total); $('#ldb').style.transform = `scaleX(${f})`; $('#ldn').textContent = String(Math.round(f * 100)).padStart(3, '0'); if (loaded >= total) done(); };
+function load(list) { list.forEach((im) => { im.onload = im.onerror = () => { if (list === first) bump(); }; im.src = im.dataset.src; }); }
+let started = false;
+function done() { if (started) return; started = true; setTimeout(() => { $('#ld').classList.add('out'); $('#h1 .reveal').classList.add('on'); $('#h1 .rv').classList.add('in'); window.READY = true; }, 350); scenes.slice(1).forEach((s) => load(s.imgs)); }
+if (!first.length) { $('#ldn').textContent = '100'; done(); } else load(first);
+setTimeout(done, 9000); // never hold the page hostage on a slow network
+
+function fit(s) { const r = s.cv.getBoundingClientRect(), d = Math.min(devicePixelRatio, 2); s.cv.width = r.width * d; s.cv.height = r.height * d; s.last = -1; }
+function draw(s, idx) {
+  const im = s.imgs[idx]; if (!im || !im.complete || !im.naturalWidth) return false;
+  const g = s.cv.getContext('2d'), W = s.cv.width, H = s.cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
+  // contain on wide screens (black-background clips blend into the page), cover on phones / for full scenes
+  const cover = Math.max(W / iw, H / ih), contain = Math.min(W / iw, H / ih);
+  let k = s.fit === 'cover' || W / H < iw / ih * 1.15 ? cover : Math.max(contain * 1.12, Math.min(cover, contain * 1.5));
+  k *= 1 + s.sp * .06;
+  const w = iw * k, h = ih * k; g.fillStyle = '#070707'; g.fillRect(0, 0, W, H); g.drawImage(im, (W - w) / 2, (H - h) / 2, w, h);
+  if (w < W) { const e = (W - w) / 2 + 2, gr1 = g.createLinearGradient((W - w) / 2, 0, (W - w) / 2 + w * .12, 0); gr1.addColorStop(0, '#070707'); gr1.addColorStop(1, 'rgba(7,7,7,0)'); g.fillStyle = gr1; g.fillRect((W - w) / 2, 0, w * .12, H); const gr2 = g.createLinearGradient(W - e, 0, W - e - w * .12, 0); gr2.addColorStop(0, '#070707'); gr2.addColorStop(1, 'rgba(7,7,7,0)'); g.fillStyle = gr2; g.fillRect(W - e - w * .12, 0, w * .12 + 2, H); }
+  return true;
+}
+const resize = () => scenes.forEach(fit); addEventListener('resize', resize); resize();
+
+/* ---------- smooth scroll ---------- */
+const lenis = new Lenis({ lerp: .12, smoothWheel: true });
+function raf(t) { lenis.raf(t); tick(); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+$$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.6 }); }));
+
+const show = (el, o, y = 0) => { el.style.opacity = o; el.style.transform = `translateY(${y}px)`; };
+function tick() {
+  const vh = innerHeight;
+  scenes.forEach((s) => {
+    const r = s.el.getBoundingClientRect(); s.p = cl(-r.top / Math.max(1, r.height - vh)); s.sp = lerp(s.sp, s.p, .28);
+    if (r.bottom < -vh || r.top > vh * 1.5 || !s.n) return;
+    const idx = Math.round(s.sp * (s.n - 1));
+    if (idx !== s.last || Math.abs(s.sp - s.p) > .0005) { if (draw(s, idx)) s.last = idx; }
+    $('[data-frame]', s.el).textContent = 'FRAME ' + String(idx).padStart(3, '0');
+    $('.prog b', s.el).style.transform = `scaleX(${s.sp})`;
+  });
+  const [h, f, fa, c] = scenes.map((s) => s.sp);
+  // 01 hero
+  show($('#h1'), 1 - ss(.1, .22, h), -h * 160);
+  show($('#h2'), ss(.26, .36, h) * (1 - ss(.55, .63, h)), (1 - ss(.26, .4, h)) * 40);
+  show($('#h3'), ss(.7, .8, h), (1 - ss(.7, .84, h)) * 40);
+  const t = Math.round(lerp(4, 56, ss(.05, .95, h))); $('#tv').innerHTML = t + '<small>°C</small>';
+  // 02 float
+  show($('#fh'), ss(.02, .12, f) * (1 - ss(.3, .4, f)), -f * 80);
+  ['#c1', '#c2', '#c3', '#c4'].forEach((id, i) => $(id).classList.toggle('on', f > .32 + i * .1 && f < .97));
+  // 03 farm
+  $('#yrs').textContent = Math.round(lerp(0, 97, ss(.05, .45, fa)));
+  show($('#ft1'), ss(.0, .08, fa) * (1 - ss(.5, .6, fa)));
+  show($('#ft2'), ss(.6, .7, fa), (1 - ss(.6, .74, fa)) * 40);
+  // 04 cut
+  show($('#ct1'), ss(.02, .12, c) * (1 - ss(.45, .55, c)), -c * 60);
+  show($('#ct2'), ss(.58, .68, c), (1 - ss(.58, .72, c)) * 40);
+  $('#top').classList.toggle('solid', scrollY > 40);
+}
+
+/* ---------- reveal, cursor ---------- */
+const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('in')), { threshold: .12 });
+$$('.rv').forEach((el) => el !== $('#h1 .rv') && io.observe(el));
+const cur = $('#cur'); let cx = 0, cy = 0, tx = 0, ty = 0;
+addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; });
+(function mv() { cx = lerp(cx, tx, .2); cy = lerp(cy, ty, .2); cur.style.left = cx + 'px'; cur.style.top = cy + 'px'; requestAnimationFrame(mv); })();
+document.addEventListener('pointerover', (e) => cur.classList.toggle('big', !!e.target.closest('a,button,.mi,.cut')));
+
+/* ---------- butcher configurator ---------- */
+const CUTS = [
+  ['ריבאיי', 'DRY AGED 30+', 'הנתח של הבית, מהבקר של החווה. שיש עשיר שנמס על האש.', .55],
+  ['סינטה', 'STRIPLOIN', 'רזה ומלאת טעם, עם פס שומן דק. מושלמת לגריל חם.', .5],
+  ['צלע על העצם', 'BONE-IN', 'נתח ענק לחלוקה, נצלה לאט עם העצם.', .9],
+  ['פיקניה', 'PICANHA', 'עם שכבת השומן, לשיפוד או לנתח שלם על המנגל.', .45],
+  ['אסאדו', 'SHORT RIB', 'צלעות לבישול ארוך ולעישון, כמו באמפנדס של המסעדה.', .7],
+  ['בריסקט', 'BRISKET', 'חזה בקר שלם עם שכבת שומן, לעישון או לתנור.', 1.2],
+];
+let sel = 0, qty = 2;
+$('#cuts').innerHTML = CUTS.map(([n, en, d], i) => `<button class="cut rv${i ? '' : ' on'}" data-i="${i}"><span class="ck"></span><span class="m">${en}</span><h4>${n}</h4><p>${d}</p></button>`).join('');
+$$('#cuts .rv').forEach((el) => io.observe(el));
+function calc() { const th = +$('#th').value; $('#thV').textContent = th.toFixed(1) + ' ס"מ'; $('#qV').textContent = qty; const w = CUTS[sel][3] * (th / 3) * qty * .82; $('#wV').textContent = w.toFixed(1) + ' ק"ג'; $('#pName').textContent = CUTS[sel][0]; }
+$('#cuts').addEventListener('click', (e) => { const b = e.target.closest('.cut'); if (!b) return; sel = +b.dataset.i; $$('.cut').forEach((x) => x.classList.toggle('on', x === b)); calc(); });
+$('#th').addEventListener('input', calc); $('#qm').onclick = () => { qty = Math.max(1, qty - 1); calc(); }; $('#qp').onclick = () => { qty = Math.min(12, qty + 1); calc(); };
+calc();
+const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 2400); };
+// live site: location.href = 'https://wa.me/<shop number>?text=' + encodeURIComponent(text). The demo only previews it.
+function orderText() { const th = (+$('#th').value).toFixed(1), now = new Date(); return `שלום, הזמנה לאיסוף מהאטליז 🥩\n${CUTS[sel][0]} · ${qty} ${qty === 1 ? 'סטייק' : 'סטייקים'} · עובי ${th} ס"מ\nמשקל משוער: ${$('#wV').textContent}\nשם: \nמתי אאסוף: `; }
+function showWa(text, to, ft) { const n = new Date(); $('#waTo').textContent = to; $('#waFt').textContent = ft; $('#waMsg').innerHTML = text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(n.getHours()).padStart(2, '0')}:${String(n.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on'); }
+$('#send').onclick = () => showWa(orderText(), 'אטליז פרץ · האטליז', 'כך ההזמנה תגיע לוואטסאפ של האטליז. הקצב מכין, והלקוח משלם באיסוף לפי שקילה.');
+/* table reservation: lunch/dinner slots, Friday = breakfast only. Live site: the same text goes to https://wa.me/<restaurant number>?text= */
+const DAYN = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+const slots = (wd) => { const out = [], add = (a, b) => { for (let m = a; m <= b; m += 30) out.push(`${String(m / 60 | 0).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`); }; if (wd === 5) add(8 * 60, 11 * 60); else add(12 * 60, wd === 4 ? 21 * 60 + 30 : 21 * 60); return out; };
+const rs = { n: 2, d: null, t: null };
+function rsTimes() { const now = new Date(), today = rs.d.toDateString() === now.toDateString(), cut = now.getHours() * 60 + now.getMinutes() + 60; $('#rsT').innerHTML = slots(rs.d.getDay()).map((t) => { const [h, m] = t.split(':').map(Number); return `<button class="ch t" ${today && h * 60 + m < cut ? 'disabled' : ''}>${t}</button>`; }).join(''); $$('#rsT .ch').forEach((b) => b.onclick = () => { rs.t = b.textContent; $$('#rsT .ch').forEach((x) => x.classList.toggle('on', x === b)); rsCheck(); }); rsCheck(); }
+function rsDays() { const now = new Date(); $('#rsD').innerHTML = Array.from({ length: 14 }, (_, i) => { const d = new Date(now); d.setDate(now.getDate() + i); const lab = i === 0 ? 'היום' : i === 1 ? 'מחר' : DAYN[d.getDay()]; return `<button class="ch" data-i="${i}">${lab}<b>${d.getDate()}.${d.getMonth() + 1}</b></button>`; }).join(''); $$('#rsD .ch').forEach((b) => b.onclick = () => { const d = new Date(); d.setDate(d.getDate() + +b.dataset.i); rs.d = d; rs.t = null; $$('#rsD .ch').forEach((x) => x.classList.toggle('on', x === b)); rsTimes(); }); $('#rsD .ch').click(); }
+function rsCheck() { $('#rsGo').disabled = !(rs.d && rs.t && $('#rsName').value.trim().length > 1 && $('#rsTel').value.replace(/\D/g, '').length >= 9); }
+function rsN() { $('#rsN').textContent = rs.n; $('#rsP').textContent = rs.n === 1 ? 'סועד אחד' : rs.n + ' סועדים'; }
+$('#rsM').onclick = () => { rs.n = Math.max(1, rs.n - 1); rsN(); }; $('#rsPl').onclick = () => { rs.n = Math.min(20, rs.n + 1); rsN(); };
+['#rsName', '#rsTel'].forEach((q) => $(q).addEventListener('input', rsCheck));
+const rsOpen = () => { rsDays(); $('#rs').classList.add('on'); lenis.stop(); }, rsClose = () => { $('#rs').classList.remove('on'); lenis.start(); };
+$$('[data-rs]').forEach((b) => b.onclick = rsOpen); $('#rsX').onclick = rsClose; $('#rs').addEventListener('click', (e) => { if (e.target.id === 'rs') rsClose(); });
+$('#rsGo').onclick = () => { const d = rs.d, note = $('#rsNote').value.trim(); const txt = `שלום, אשמח להזמין שולחן 🍷\nיום ${DAYN[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1} · ${rs.t}\n${rs.n === 1 ? 'סועד אחד' : rs.n + ' סועדים'}\nשם: ${$('#rsName').value.trim()}\nטלפון: ${$('#rsTel').value.trim()}${note ? '\nהערות: ' + note : ''}`; rsClose(); showWa(txt, 'אטליז פרץ · המסעדה', 'כך הבקשה תגיע לוואטסאפ של המסעדה. המסעדה מאשרת ללקוח בחזרה בהודעה.'); };
+$('#waOk').onclick = () => $('#wa').classList.remove('on');
+$('#wa').addEventListener('click', (e) => { if (e.target.id === 'wa') $('#wa').classList.remove('on'); });
+
+/* ---------- menu with hover peek ---------- */
+const MENU = [['ריבאיי 400 גרם', 'מהחווה המשפחתית, מיושן מעל 30 יום', 'float', .45], ['אמפנדס אסאדו מעושן', 'שלוש יחידות, הפתיחה של הבית', 'orbit', .2], ['קרפצ\'יו בקר', 'פרוס דק מהאטליז', 'cut', .8], ['שווארמה של הבית', 'השווארמה של הבית', 'orbit', .6], ['כריך בשרים מעושנים', 'קורנדביף, בייקון טלה ואיולי חזרת', 'cut', .4], ['סינטה', 'עם תפוחי אדמה וצ\'ימיצ\'ורי', 'float', .8]];
+$('#menuList').innerHTML = MENU.map(([n, d], i) => `<div class="mi rv" data-i="${i}"><span class="m">${String(i + 1).padStart(2, '0')}</span><h5>${n}</h5><p>${d}</p></div>`).join('');
+$$('#menuList .rv').forEach((el) => io.observe(el));
+const peek = $('#peek'), pimg = $('img', peek);
+$$('#menuList .mi').forEach((row) => {
+  row.addEventListener('pointerenter', () => { const [, , sc, at] = MENU[row.dataset.i], s = scenes.find((x) => x.name === sc); if (s && s.n) { pimg.src = s.imgs[Math.round(at * (s.n - 1))].dataset.src; peek.classList.add('on'); } });
+  row.addEventListener('pointermove', (e) => { peek.style.left = e.clientX + 'px'; peek.style.top = e.clientY + 'px'; });
+  row.addEventListener('pointerleave', () => peek.classList.remove('on'));
+});
+
+/* ---------- hours ---------- */
+const HOURS = [['ראשון', '12:00–22:30'], ['שני', '12:00–22:30'], ['שלישי', '12:00–22:30'], ['רביעי', '12:00–22:30'], ['חמישי', '12:00–23:00'], ['שישי', '7:30–12:00'], ['שבת', '12:00–22:30']];
+const today = new Date().getDay();
+$('#hrs').innerHTML = HOURS.map(([d, h], i) => `<div class="${i === today ? 'today' : ''}"><span>${d}</span><span>${h}</span></div>`).join('');
+</script>
+</body></html>
