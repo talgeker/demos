@@ -281,6 +281,11 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
 #ld .bar{width:140px;height:1px;background:rgba(214,178,106,.2);margin:22px auto 0;overflow:hidden}#ld .bar i{display:block;height:100%;width:0;background:var(--gold2);transition:width .3s}
 @keyframes pulse{50%{transform:scale(1.05);filter:drop-shadow(0 0 30px rgba(214,178,106,.45))}}
 @media(prefers-reduced-motion:reduce){.g,.mq div,.revs .tr{animation:none}}
+.rate{display:flex;gap:26px;align-items:center;margin-top:38px;padding:24px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(135deg,rgba(214,178,106,.12),rgba(214,178,106,.03));max-width:660px}
+.rate .qr{width:140px;height:140px;border-radius:16px;background:#fff;padding:8px;flex:none;box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.rate b{font:700 24px/1.25 var(--serif);display:block;color:var(--ink)}
+.rate p{color:var(--mut);margin:8px 0 18px;font-size:15px;line-height:1.6}
+@media(max-width:600px){.rate{flex-direction:column;text-align:center;padding:24px 18px}.rate .qr{width:160px;height:160px}}
 </style>
 <!--LANG--><style>
 .lng{display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:rgba(10,8,6,.55);backdrop-filter:blur(8px);margin-inline-start:auto;margin-inline-end:12px}
@@ -297,7 +302,7 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
 
 <header class="hd" id="hd">
  <a class="brand" href="#top"><img src="img/logo-s.png" alt="ממתקי דלית אל כרמל"><span><b>ממתקי דלית אל כרמל</b><small>DALIYAT AL-KARMEL SWEETS</small></span></a>
- <nav><a href="#anat">הכנאפה</a><a href="#build">הרכיבו מנה</a><a href="#menu">התפריט</a><a href="#sig">רק אצלנו</a><a href="#gifts">מגשי אירוח</a><a href="#visit">הגעה ושעות</a></nav>
+ <nav><a href="#anat">הכנאפה</a><a href="#menu">התפריט</a><a href="#sig">רק אצלנו</a><a href="#gifts">מגשי אירוח</a><a href="#visit">הגעה ושעות</a></nav>
  <!--LANG--><div class="lng" aria-label="Language"><a href="index-preview.html" hreflang="he" class="on">עב</a><a href="ar.html" hreflang="ar">ع</a><a href="en.html" hreflang="en">EN</a></div><!--/LANG--><a class="btn gd js-book" href="#" target="_blank" rel="noopener">הזמנת מקום</a>
 </header>
 
@@ -357,34 +362,7 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
  </div>
 </section>
 
-<!-- BUILDER -->
-<section class="sec" id="build">
- <div class="wrap">
-  <span class="kick">הרכיבו את המנה שלכם</span>
-  <h2 style="margin-top:20px">הכנאפה <span class="g">שלכם.</span></h2>
-  <div class="build">
-   <div class="stage" id="stage"><div class="ring"></div><div class="card" id="card"><img id="bimg" src="img/02-knafeh-icecream-HERO.webp" alt=""><span class="tagx" id="btag">המנה של הבית</span><div class="flash" id="flash"></div></div></div>
-   <div class="opt">
-    <h4>בחרו כנאפה</h4>
-    <div class="seg" id="bases">
-     <button class="on" data-img="02-knafeh-icecream-HERO" data-t="המנה של הבית"><b>כנאפה עם גלידה</b><small>המנה שכולם באים בשבילה</small></button>
-     <button data-img="knafeh-shamit" data-t="אישית ועגולה"><b>כנאפה שאמית</b><small>עגולה, אישית, מהגריל</small></button>
-     <button data-img="knafeh-nablusi" data-t="הקלאסיקה"><b>כנאפה נבולסית</b><small>גבינה נמתחת, קדאיף דק</small></button>
-     <button data-img="knafeh-pizza" data-t="לשולחן שלם"><b>מגש ״פיצה״ כנאפה</b><small>עגול, חתוך למשולשים</small></button>
-    </div>
-    <h4>תוספות</h4>
-    <div class="tg2" id="adds"><button>גלידת וניל</button><button>גלידת פיסטוק</button><button>פיסטוק נוסף</button><button>קרם פיסטוק</button><button>סירופ בצד</button></div>
-    <h4>כמה מנות?</h4>
-    <div class="qty"><button id="qm" aria-label="פחות">−</button><output id="qv">2</output><button id="qp" aria-label="יותר">+</button></div>
-    <h4>איך?</h4><div class="tg2" id="mode"><button class="on">לשבת במקום</button><button>לקחת הביתה</button></div>
-    <div class="sum" id="sum"></div>
-    <div class="chips" style="margin-top:20px"><a class="btn gd" id="bwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.7-.2 1.4Z"/></svg>שלחו בוואטסאפ</a><a class="btn ol js-book" href="#" target="_blank" rel="noopener">או הזמינו שולחן</a></div>
-   </div>
-  </div>
- </div>
-</section>
-
-<!-- TRAYS -->
+<!-- TRAYS --><!-- TRAYS -->
 <section class="scene split" id="trays" data-clip="5-trays" data-n="61" data-fx="gold">
  <div class="stick">
   <div class="obj fade-x"><canvas></canvas></div><div class="grad"></div>
@@ -455,7 +433,7 @@ footer .soc svg{width:20px;height:20px;fill:var(--gold2)}
 <!-- REVIEWS -->
 <section class="sec" id="reviews" style="padding-top:40px">
  <div class="wrap"><span class="kick">מה אומרים עלינו</span><h2 style="margin-top:20px">1,368 ביקורות.<br><span class="g">ככה זה נשמע.</span></h2>
-  <div class="gscore"><b class="g">4.5</b><span>★★★★★ דירוג ממוצע בגוגל<br>ממתקי דלית אל כרמל</span></div></div>
+  <div class="gscore"><b class="g">4.5</b><span>★★★★★ דירוג ממוצע בגוגל<br>ממתקי דלית אל כרמל</span></div><div class="rate" data-a><img class="qr" src="img/qr-review.svg" alt="QR"><div><b>אכלתם אצלנו? דרגו אותנו בגוגל</b><p>סרקו את הברקוד או לחצו על הכפתור. זה לוקח חצי דקה ועוזר לנו המון.</p><a class="btn gd" href="https://search.google.com/local/writereview?placeid=ChIJJ46652-vHRURSjTTxkxGgyk" target="_blank" rel="noopener">★ לדירוג בגוגל</a></div></div></div>
  <div class="revs"><div class="tr" id="revs"></div></div>
 </section>
 
@@ -566,19 +544,6 @@ const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jerusalem'}
 $('#hrs').innerHTML=[['ראשון',0,0],['שני–חמישי',1,4],['שישי–שבת',5,6]].map(([n,a,b])=>`<div class="${d>=a&&d<=b?'t':''}"><span>${n}</span><span>${String(H[a][0]).padStart(2,'0')}:00–${H[a][1]}:00</span></div>`).join('');
 const op=h>=H[d][0]&&h<H[d][1];if(!op){$('#open').classList.add('c');const nd=h<H[d][0]?d:(d+1)%7;$('#openT').textContent=`סגור עכשיו · נפתח ${nd===d?'היום':'ביום '+DN[nd]} ב-${String(H[nd][0]).padStart(2,'0')}:00`}else $('#openT').textContent=`פתוח עכשיו · עד ${H[d][1]}:00`;
 
-/* builder */
-let base=$('#bases .on'),qty=2;
-const upd=()=>{const ad=[...document.querySelectorAll('#adds .on')].map(b=>b.textContent);const md=$('#mode .on').textContent;
- const txt=`${qty} × ${base.querySelector('b').textContent}${ad.length?' + '+ad.join(', '):''} (${md})`;
- $('#sum').innerHTML=`<b>ההזמנה שלכם:</b> ${txt}`;$('#qv').textContent=qty;
- $('#bwa').href=`https://wa.me/${WA}?text=${encodeURIComponent('היי, ראיתי באתר ואשמח להזמין: '+txt)}`};
-$('#bases').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b===base)return;base.classList.remove('on');b.classList.add('on');base=b;
- const im=$('#bimg');im.classList.add('out');const n=new Image();n.src=`img/${b.dataset.img}.webp`;n.onload=()=>setTimeout(()=>{im.src=n.src;im.classList.remove('out');$('#btag').textContent=b.dataset.t;const f=$('#flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');burst()},200);upd()});
-$('#adds').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;b.classList.toggle('on');if(b.classList.contains('on'))burst(.4);upd()});
-$('#mode').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x===b));upd()});
-$('#qm').onclick=()=>{qty=Math.max(1,qty-1);upd()};$('#qp').onclick=()=>{qty=Math.min(30,qty+1);upd()};upd();
-const stage=$('#stage'),card=$('#card');
-if(!isM){stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`rotateY(${x*14}deg) rotateX(${-y*12}deg) translateZ(20px)`});stage.addEventListener('mouseleave',()=>card.style.transform='')}
 
 /* ---------- frame scenes ---------- */
 const scenes=[...document.querySelectorAll('.scene[data-clip]')].map(el=>{
