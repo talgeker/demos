@@ -1,0 +1,81 @@
+/* ===== Apple-design layer (dalia-lab experiment) =====
+   Springs: --s1 = critically damped (damping 1.0, response .45) · --s8 = momentum (damping .8, response .4) */
+:root{
+ --s1:linear(0,.0547,.1726,.309,.4408,.5577,.656,.7361,.7997,.8493,.8874,.9164,.9383,.9547,.9668,.9758,.9824,.9872,.9908,.9934,.9952,.9966,.9975,.9982,.9987,.9991,.9994,.9995,1);
+ --s8:linear(0,.0791,.2478,.4364,.608,.7471,.8507,.9223,.9682,.9951,1.0089,1.0144,1.015,1.0132,1.0105,1.0076,1.0052,1.0033,1.0019,1.0009,1.0003,1,.9998,.9998,.9998,.9998,.9999,.9999,1);
+}
+html{-webkit-tap-highlight-color:transparent}
+
+/* 15 · typography: size-specific tracking, tight leading on display, balanced wraps */
+h1,h2{text-wrap:balance;font-optical-sizing:auto}
+h2{letter-spacing:-.025em;line-height:.93}
+#hero h1{letter-spacing:-.02em}
+.lead,.dish p,.rv p,.addr,.co p{text-wrap:pretty}
+.lead{line-height:1.7}
+.dish h3,.rate b,.vcard h2{letter-spacing:-.012em}
+html[lang=ar] h1,html[lang=ar] h2{line-height:1.2}
+
+/* 1 · response: feedback on press, instant (100ms out), never on release */
+.btn,.filters button,.pill,.lng a,.mbar a,footer .soc a,.dish .ph,.rate .qr{transition-property:transform,box-shadow,background,border-color,color,opacity}
+.btn{transition-duration:.45s;transition-timing-function:var(--s1)}
+.btn:active,.filters button:active,.lng a:active,.mbar a:active,footer .soc a:active,.pill:active{transform:scale(.96)!important;transition:transform .1s ease-out}
+.btn.gd:hover{transform:translateY(-2px)}
+.filters button{transition:background .35s var(--s1),color .35s,border-color .35s,transform .45s var(--s1)}
+
+/* 12 · materials: translucent chrome, scroll-edge fade instead of a hard divider */
+.hd{transition:background .5s var(--s1),backdrop-filter .5s var(--s1),-webkit-backdrop-filter .5s var(--s1)}
+.hd.s{background:rgba(10,8,6,.5);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border-bottom:0;box-shadow:0 18px 30px -22px rgba(0,0,0,.9)}
+.hd.s:after{content:"";position:absolute;inset:auto 0 -1px;height:1px;background:linear-gradient(90deg,transparent,rgba(214,178,106,.28),transparent)}
+.lng{background:rgba(10,8,6,.35);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%)}
+.lng a{transition:background .4s var(--s1),color .3s,transform .45s var(--s1)}
+.mbar{transition:transform .75s var(--s1),opacity .4s;background:rgba(14,11,8,.62);backdrop-filter:blur(24px) saturate(170%);-webkit-backdrop-filter:blur(24px) saturate(170%);box-shadow:0 20px 50px -18px rgba(0,0,0,.85);border-top-color:rgba(246,226,168,.32)}
+.vcard,.fb .cap{box-shadow:0 40px 90px -40px rgba(0,0,0,.9);border-top-color:rgba(246,226,168,.3)}
+
+/* 4 · springs on every reveal (no fixed bezier) */
+[data-a]{transition:opacity .6s ease,transform .75s var(--s1)}
+.co{transition:opacity .45s ease,transform .75s var(--s1)}
+#ld{transition:opacity .6s ease,visibility .6s}
+#ld.done img{transform:scale(1.08);transition:transform .75s var(--s1)}
+
+/* menu: cards respond to the pointer, lift on a spring */
+.dish{cursor:pointer}
+.dish .ph{transition:transform .75s var(--s1),box-shadow .5s ease;will-change:transform}
+.dish:active .ph{transform:scale(.97);transition:transform .1s ease-out}
+.dish .ph:after{content:"";position:absolute;inset:auto 14px 14px auto;width:38px;height:38px;border-radius:50%;background:rgba(10,8,6,.45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f6e2a8' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center/16px no-repeat;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(246,226,168,.25);opacity:.9;z-index:2}
+
+/* reviews: JS-driven (draggable, momentum) */
+.revs .tr{animation:none!important;touch-action:pan-y;cursor:grab;will-change:transform;user-select:none;-webkit-user-select:none}
+.revs .tr.drag{cursor:grabbing}
+.revs .rv{transition:transform .6s var(--s1)}
+.revs .tr.drag .rv{transform:scale(.985)}
+
+/* dish sheet (anchored to its source card, drag-to-dismiss) */
+.sh-scrim{position:fixed;inset:0;z-index:90;background:rgba(5,4,3,.62);opacity:0;pointer-events:none;transition:opacity .45s ease;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sh-scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:91;left:50%;top:50%;width:min(440px,calc(100vw - 28px));max-height:calc(100svh - 40px);transform-origin:0 0;border-radius:30px;overflow:hidden;background:rgba(18,14,10,.78);backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%);border:1px solid rgba(246,226,168,.22);box-shadow:0 60px 120px -30px rgba(0,0,0,.95);touch-action:none;visibility:hidden}
+.sheet.on{visibility:visible}
+.sheet .im{aspect-ratio:4/5;width:100%;max-height:calc(100svh - 270px);object-fit:cover;display:block;pointer-events:none}
+.sheet .tx{padding:20px 24px 26px}
+.sheet h3{font:700 30px/1.15 var(--serif);letter-spacing:-.015em}
+.sheet p{color:var(--mut);font-size:16px;line-height:1.6;margin-top:8px}
+.sheet .grab{position:absolute;top:10px;left:50%;width:42px;height:5px;margin-left:-21px;border-radius:9px;background:rgba(255,255,255,.55);z-index:2}
+.sheet .x{position:absolute;top:14px;inset-inline-end:14px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(10,8,6,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(246,226,168,.25);z-index:2;transition:transform .45s var(--s1)}
+.sheet .x:active{transform:scale(.9);transition:transform .1s ease-out}
+.sheet .x svg{width:16px;height:16px}
+.sheet .tx .btn{margin-top:18px;width:100%}
+@media(max-width:600px){.sheet{top:auto;bottom:0;left:0;width:100%;border-radius:30px 30px 0 0;max-height:92svh}.sheet .im{aspect-ratio:1;max-height:calc(92svh - 250px)}}
+
+/* 14 · accessibility: gentler equivalents, not nothing */
+@media(prefers-reduced-motion:reduce){
+ #fx{display:none}
+ [data-a],.co{transform:none!important;transition:opacity .3s ease}
+ .btn,.dish .ph,.mbar,.sheet,.lng a{transition-duration:.2s!important;transition-timing-function:ease!important}
+ .g{animation:none}
+}
+@media(prefers-reduced-transparency:reduce){
+ .hd.s,.mbar,.sheet,.vcard,.fb .cap,.lng,.co{background:#120e0a!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+@media(prefers-contrast:more){
+ :root{--line:rgba(246,226,168,.7);--mut:#e0d4bf}
+ .hd.s,.mbar,.sheet{background:#0a0806;border:1px solid var(--gold2)}
+}
