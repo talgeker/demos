@@ -17,7 +17,7 @@
  --s1:linear(0,.0547,.1726,.309,.4408,.5577,.656,.7361,.7997,.8493,.8874,.9164,.9383,.9547,.9668,.9758,.9824,.9872,.9908,.9934,.9952,.9966,.9975,.9982,.9987,.9991,.9994,.9995,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--cream);color:var(--ink);-webkit-tap-highlight-color:transparent}
+html{background:#efe6d8;color:var(--ink);-webkit-tap-highlight-color:transparent}
 html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
 body{font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.6;background:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%;user-select:none;-webkit-user-drag:none}
@@ -66,7 +66,7 @@ body:after{content:"";position:fixed;inset:-50%;z-index:200;pointer-events:none;
  radial-gradient(60% 55% at 50% 52%,#fbf6ee 0%,rgba(251,246,238,0) 70%),
  radial-gradient(40% 40% at 85% 15%,rgba(231,207,159,.45),transparent 70%),
  radial-gradient(45% 45% at 10% 90%,rgba(201,164,106,.28),transparent 70%),
- linear-gradient(180deg,#f1e8db,#e6d8c3)}
+ linear-gradient(180deg,#efe6d8,#e6d8c3)}
 .bok{position:absolute;inset:0;pointer-events:none}
 .bok i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,236,196,.9),rgba(255,236,196,0) 68%);filter:blur(6px);opacity:.55}
 .stage{position:absolute;inset:0;perspective:1400px;perspective-origin:50% 45%}
@@ -192,8 +192,8 @@ footer .logo{color:var(--paper)}
  .pad{padding:96px 0}
  .hd .btn{display:none}
  #hero{height:auto}
- .pinbox{position:relative;height:var(--vh,100svh);min-height:560px}
- .htx{inset:auto 20px 96px;top:auto;transform:none;max-width:none;text-align:center}
+ .pinbox{position:relative;height:100vh;height:100lvh;min-height:560px}
+ .htx{inset:auto 20px calc(84px + 100lvh - 100svh);top:auto;transform:none;max-width:none;text-align:center}
  .htx h1{font-size:clamp(58px,17vw,90px);text-align:center}
  .htx h1 span:nth-child(2){padding:0}
  .htx p{margin:14px auto 0;font-size:16px}
@@ -354,7 +354,6 @@ setTimeout(()=>{if(!$('#ld').classList.contains('done'))fin()},6000);
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
-if(mob)document.documentElement.style.setProperty('--vh',innerHeight+'px');
 const lenis=(RM||mob)?null:new Lenis({lerp:.085,smoothWheel:true});
 if(lenis){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0)}
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:-60,duration:1.4}):t.scrollIntoView({behavior:'smooth'})}));
