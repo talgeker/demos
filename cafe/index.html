@@ -103,7 +103,7 @@ body:after{content:"";position:fixed;inset:-50%;z-index:200;pointer-events:none;
 .chip small{font-size:13px;color:var(--mut)}
 
 /* marquee */
-.mq{background:var(--ink);color:var(--gold2);padding:22px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:2}
+.mq{direction:ltr;background:var(--ink);color:var(--gold2);padding:22px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:2}
 .mq .tr{display:inline-flex;gap:48px;animation:mq 40s linear infinite;font:italic 400 30px/1 var(--latin);direction:ltr}
 .mq .tr span{display:inline-flex;align-items:center;gap:48px}
 .mq .tr span:after{content:"✦";font-size:14px;color:var(--gold3);font-style:normal}
@@ -188,9 +188,12 @@ footer .logo{color:var(--paper)}
 }
 @media(max-width:700px){
  body{font-size:16px}
+ body:after{animation:none;display:none}
  .pad{padding:96px 0}
  .hd .btn{display:none}
- .htx{inset:auto 20px 118px;top:auto;transform:none;max-width:none;text-align:center}
+ #hero{height:auto}
+ .pinbox{position:relative;height:var(--vh,100svh);min-height:560px}
+ .htx{inset:auto 20px 96px;top:auto;transform:none;max-width:none;text-align:center}
  .htx h1{font-size:clamp(58px,17vw,90px);text-align:center}
  .htx h1 span:nth-child(2){padding:0}
  .htx p{margin:14px auto 0;font-size:16px}
@@ -330,7 +333,7 @@ $('#revt').innerHTML=rvh+rvh+rvh;
 
 /* particles: beans + ice, burst from behind the cup toward the camera */
 const P=[];
-{const box=$('#parts');const N=mob?11:15;
+{const box=$('#parts');const N=mob?14:15;
  for(let i=0;i<N;i++){const ice=i%3===2;const e=document.createElement('img');
   e.src=ice?`img/ice${i%6}.webp`:`img/bean${i%9}.webp`;e.className='l sp'+(ice?' ice':'');e.alt='';box.appendChild(e);
   const a=mob?Math.PI*.82+(i/(N-1))*Math.PI*1.36+(Math.random()-.5)*.2:Math.PI/2-.45+(i/(N-1))*(Math.PI+.9)+(Math.random()-.5)*.25, r=(mob?.55:.42)+Math.random()*.35;
@@ -339,6 +342,7 @@ const P=[];
   if(ice)z=Math.min(z,.55); // glassy ice looks smudgy when blurred: keep it mid-depth
   P.push({e,a,r,z,rot:(Math.random()-.5)*540,spin:(Math.random()-.5)*40,sx:.15+Math.random()*.2,front:z>.45,ph:Math.random()*6.28});
   e.style.zIndex=z>.45?6:1;
+  if(mob&&z>.8)e.style.filter=`blur(${((z-.8)*25).toFixed(1)}px)`; // set once: per-frame filters stutter on iPhone
  }}
 
 history.scrollRestoration='manual';scrollTo(0,0);
@@ -349,7 +353,9 @@ imgs.forEach(im=>{const f=()=>{done++;$('#ld .bar i').style.width=(done/imgs.len
 setTimeout(()=>{if(!$('#ld').classList.contains('done'))fin()},6000);
 
 gsap.registerPlugin(ScrollTrigger);
-const lenis=RM?null:new Lenis({lerp:.085,smoothWheel:true});
+ScrollTrigger.config({ignoreMobileResize:true});
+if(mob)document.documentElement.style.setProperty('--vh',innerHeight+'px');
+const lenis=(RM||mob)?null:new Lenis({lerp:.085,smoothWheel:true});
 if(lenis){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0)}
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:-60,duration:1.4}):t.scrollIntoView({behavior:'smooth'})}));
 
@@ -370,14 +376,14 @@ function render(){
  const fl=Math.sin(t*1.1)*8;
  const e1=EIO(Math.min(1,p/.6)), e2=EO(clamp(0,1,(p-.08)/.6));
  // camera dolly-in like the reference: cup grows and settles to the centre on phones
- const Yc=mob?lerp(-h*.15,-h*.02,e1):0;
- const cs=lerp(.9,mob?1.38:1.14,e1)*(.86+.14*it)*(1+kw*.05), cr=lerp(0,-6,e1);
+ const Yc=mob?-h*.13:0;
+ const cs=lerp(.9,mob?1.04:1.14,e1)*(.86+.14*it)*(1+kw*.05), cr=lerp(0,-6,e1);
  gsap.set(cupw,{x:X-cupw.offsetWidth/2+S.tx*(mob?18:0),y:Yc-cupw.offsetHeight/2+fl+(1-it)*60,scale:cs,rotation:cr+S.tx*(mob?6:2),rotationY:S.tx*(mob?24:14),rotationX:-S.ty*(mob?14:8),opacity:it});
  glare.style.opacity=.35+Math.abs(S.tx)*.5;glare.style.transform=`translateX(${S.tx*40}%)`;
  gsap.set(shadow,{x:X-shadow.offsetWidth/2+S.tx*(mob?18:0),y:Yc+cupw.offsetHeight*cs*.47-20,scale:cs-fl/120,opacity:.9*it});
- gsap.set(ribbon,{x:X*.6-ribbon.offsetWidth/2+S.tx*-40,y:-ribbon.offsetHeight*.5+Yc+S.ty*-26+Math.sin(t*.6)*12,rotation:-8+p*(mob?40:28)+Math.sin(t*.35)*3,scale:(1.02+p*(mob?.45:.25))*(.94+.06*it),opacity:.95*it});
+ gsap.set(ribbon,{x:X*.6-ribbon.offsetWidth/2+S.tx*-40,y:-ribbon.offsetHeight*.5+Yc+S.ty*-26+Math.sin(t*.6)*12,rotation:-8+p*(mob?36:28)+Math.sin(t*.35)*3,scale:(1.02+p*(mob?.3:.25))*(.94+.06*it),opacity:.95*it});
  // splash ring wraps the cup (back half behind, front half in front), swirls slowly and pulses on tap
- const ss=lerp(.25,mob?1.18:1,e2)*(1+kw*.16), so=Math.min(1,e2*2.2);
+ const ss=lerp(.25,1,e2)*(1+kw*.16), so=Math.min(1,e2*2.2);
  [splB,splF].forEach(el=>gsap.set(el,{x:X-el.offsetWidth/2+S.tx*(mob?10:0),y:Yc-el.offsetHeight*.5+cupw.offsetHeight*.04,scale:ss,rotation:-4+p*14+Math.sin(t*.8)*2.5+S.tx*-6,opacity:so}));
  // particles: orbit, fly toward the camera with scroll, scatter from the finger
  const k=EX(clamp(0,1,(p-.05)/.7)), fade=1-Math.max(0,p-.86)*5;
@@ -391,13 +397,13 @@ function render(){
   q.ox+=(tx-q.ox)*(1-Math.exp(-dt*9));q.oy+=(ty-q.oy)*(1-Math.exp(-dt*9));
   px+=q.ox;py+=q.oy;
   const sc=(q.sx+k*(.45+q.z*(mob?1.9:1.5)))*(mob?.95:1)*(1+kw*.12);
-  const blur=q.z>.75?(q.z-.75)*28*k:0;
-  q.e.style.filter=blur>.3?`blur(${blur.toFixed(1)}px)`:'none';
+  if(!mob){const blur=q.z>.75?(q.z-.75)*28*k:0;q.e.style.filter=blur>.3?`blur(${blur.toFixed(1)}px)`:'none'}
   gsap.set(q.e,{x:px-q.e.offsetWidth/2,y:py-q.e.offsetHeight/2,scale:sc,rotation:q.rot*k+q.spin*Math.sin(t*.5+q.ph)+t*12*q.dir+(q.ox*.4),opacity:Math.min(1,k*3)*fade});
  }
  hudln.style.setProperty('--p',p.toFixed(3));
- document.querySelectorAll('#bok i').forEach(b=>{b.style.transform=`translate(${S.tx*-40*b.dataset.d}px,${(S.ty*-30-p*200)*b.dataset.d}px)`});
+ BOK.forEach(b=>{b.style.transform=`translate(${S.tx*-40*b.dataset.d}px,${(S.ty*-30-p*200)*b.dataset.d}px)`});
 }
+const BOK=[...document.querySelectorAll('#bok i')];
 gsap.ticker.add(render);
 addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){S.mx=(e.clientX/W()-.5)*2;S.my=(e.clientY/H()-.5)*2;S.fx=e.clientX-W()/2;S.fy=e.clientY-H()/2;S.fon=e.target.closest('#hero')?.6:0}});
 /* touch: the scene follows the finger (tilt + scatter), a tap makes the splash burst; native scroll keeps working */
@@ -409,6 +415,16 @@ addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){S.mx=(e.clientX/W
  hero.addEventListener('touchend',end,{passive:true});hero.addEventListener('touchcancel',()=>{S.fon=0;S.mx=0;S.my=0},{passive:true});
  hero.addEventListener('click',e=>{if(!mob&&!e.target.closest('a'))burst()});
 }
+/* phones: the reference video plays by itself in a loop (calm → burst → beans fly at the camera → settle), touch still drives it */
+function mobLoop(){
+ const tl=gsap.timeline({repeat:-1,defaults:{ease:'power2.inOut'}});
+ tl.to(S,{p:.5,duration:1.6})
+   .call(burst)
+   .to(S,{p:.84,duration:2.4,ease:'expo.out'})
+   .to(S,{p:.8,duration:1.4,ease:'sine.inOut'})
+   .to(S,{p:.34,duration:2.2})
+   .to(S,{p:.42,duration:1});
+}
 function burst(){S.kick=1;try{if(navigator.userActivation&&navigator.userActivation.isActive)navigator.vibrate&&navigator.vibrate(12)}catch(_){}}
 
 function intro(){
@@ -419,13 +435,14 @@ function intro(){
  setTimeout(burst,1500);
 }
 function bindScroll(){
+ if(mob){mobLoop();return}
  const base=S.p,htx=$('.htx');
  ScrollTrigger.create({trigger:'#hero',start:'top top',end:'bottom bottom',
   onUpdate:s=>{const q=s.progress;gsap.to(S,{p:base+(1-base)*q,duration:mob?.35:.6,ease:'power3.out',overwrite:'auto'});htx.style.opacity=1-Math.min(1,q*(mob?3:1.6));htx.style.translate=`0 ${-q*90}px`}});
 }
 
 /* header + bottom bar */
-ScrollTrigger.create({trigger:'#hero',start:'bottom 80px',end:'max',onToggle:s=>$('.hd').classList.toggle('s',s.isActive)});
+ScrollTrigger.create(mob?{start:innerHeight*.35,end:'max',onToggle:s=>$('.hd').classList.toggle('s',s.isActive)}:{trigger:'#hero',start:'bottom 80px',end:'max',onToggle:s=>$('.hd').classList.toggle('s',s.isActive)});
 ScrollTrigger.create({trigger:'#menu',start:'top 80%',onToggle:s=>$('#mbar').classList.toggle('on',s.isActive||s.progress>0)});
 
 /* reveals */
