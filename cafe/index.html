@@ -61,7 +61,7 @@ body:after{content:"";position:fixed;inset:-50%;z-index:200;pointer-events:none;
 .hd .btn{height:44px;padding:0 22px;font-size:15px}
 
 /* ===== HERO ===== */
-#hero{position:relative;height:210svh}
+#hero{position:relative;height:210svh;-webkit-user-select:none;user-select:none}
 .pinbox{position:sticky;top:0;height:100svh;min-height:600px;overflow:hidden;background:
  radial-gradient(60% 55% at 50% 52%,#fbf6ee 0%,rgba(251,246,238,0) 70%),
  radial-gradient(40% 40% at 85% 15%,rgba(231,207,159,.45),transparent 70%),
@@ -333,7 +333,7 @@ const P=[];
 {const box=$('#parts');const N=mob?11:15;
  for(let i=0;i<N;i++){const ice=i%3===2;const e=document.createElement('img');
   e.src=ice?`img/ice${i%6}.webp`:`img/bean${i%9}.webp`;e.className='l sp'+(ice?' ice':'');e.alt='';box.appendChild(e);
-  const a=mob?(i/N)*Math.PI*2+Math.random()*.5:Math.PI/2-.45+(i/(N-1))*(Math.PI+.9)+(Math.random()-.5)*.25, r=(mob?.55:.42)+Math.random()*.35;
+  const a=mob?Math.PI*.82+(i/(N-1))*Math.PI*1.36+(Math.random()-.5)*.2:Math.PI/2-.45+(i/(N-1))*(Math.PI+.9)+(Math.random()-.5)*.25, r=(mob?.55:.42)+Math.random()*.35;
   let z=Math.random(); // 0 far, 1 very close to camera
   if(!mob&&Math.cos(a)>.15)z*=.35; // text side (right): keep beans small and behind the copy
   if(ice)z=Math.min(z,.55); // glassy ice looks smudgy when blurred: keep it mid-depth
@@ -354,60 +354,78 @@ if(lenis){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:-60,duration:1.4}):t.scrollIntoView({behavior:'smooth'})}));
 
 /* ---------- hero scene ---------- */
-const S={p:0,mx:0,my:0,tx:0,ty:0,intro:0};
-const cupw=$('#cupw'),ribbon=$('#ribbon'),splB=$('#splB'),splF=$('#splF'),shadow=$('#shadow'),glare=$('#glare'),hudln=$('#hudln');
+const S={p:0,mx:0,my:0,tx:0,ty:0,intro:0,kick:0,fx:0,fy:0,fon:0,fa:0};
+const cupw=$('#cupw'),ribbon=$('#ribbon'),splB=$('#splB'),splF=$('#splF'),shadow=$('#shadow'),glare=$('#glare'),hudln=$('#hudln'),hero=$('#hero');
 const W=()=>innerWidth,H=()=>innerHeight;
-function cx(){ // cup center x: right of text on desktop (RTL: text on right, so cup at center-left)
- return mob?0:-W()*.06;
-}
-function render(t){
- const p=S.p, it=S.intro, w=W(), h=H(), X=cx(), Yc=mob?-h*.15:0;
- S.tx+=(S.mx-S.tx)*.06;S.ty+=(S.my-S.ty)*.06;
+const cx=()=>mob?0:-W()*.06;
+P.forEach(q=>{q.ox=0;q.oy=0;q.dir=Math.random()<.5?-1:1});
+const clamp=gsap.utils.clamp,lerp=gsap.utils.interpolate,EIO=gsap.parseEase('power2.inOut'),EO=gsap.parseEase('power3.out'),EX=gsap.parseEase('expo.out');
+let lt=performance.now()/1000;
+function render(){
+ const t=performance.now()/1000,dt=Math.min(.05,t-lt);lt=t;
+ const p=S.p,it=S.intro,w=W(),h=H(),X=cx();
+ S.tx+=(S.mx-S.tx)*(1-Math.exp(-dt*7));S.ty+=(S.my-S.ty)*(1-Math.exp(-dt*7));
+ S.kick*=Math.exp(-dt*3.2); S.fa+=(S.fon-S.fa)*(1-Math.exp(-dt*10));
+ const kw=Math.sin(S.kick*Math.PI)*S.kick; // bouncy pulse from a tap
  const fl=Math.sin(t*1.1)*8;
- const e1=gsap.parseEase('power2.inOut')(Math.min(1,p/.55));
- const e2=gsap.parseEase('power3.out')(Math.max(0,Math.min(1,(p-.08)/.6)));
- // cup
- const cs=gsap.utils.interpolate(.9,1.12,e1)*(0.86+.14*it), cr=gsap.utils.interpolate(0,-6,e1);
- gsap.set(cupw,{x:X-cupw.offsetWidth/2,y:Yc-cupw.offsetHeight/2+fl+(1-it)*60,scale:cs,rotation:cr+S.tx*2,rotationY:S.tx*14,rotationX:-S.ty*8,opacity:it});
- glare.style.opacity=.35+S.tx*.3;glare.style.transform=`translateX(${S.tx*30}%)`;
- gsap.set(shadow,{x:X-shadow.offsetWidth/2,y:Yc+cupw.offsetHeight*cs*.47-20,scale:1-fl/120,opacity:.9*it});
- // ribbon: sweeps behind, rotates with scroll
- gsap.set(ribbon,{x:X*.6-ribbon.offsetWidth/2+S.tx*-30,y:-ribbon.offsetHeight*.5+Yc+S.ty*-20+Math.sin(t*.6)*10,rotation:-8+p*28,scale:(1.02+p*.25)*(0.94+.06*it),opacity:.95*it});
- // splash ring wraps the cup: back half behind, front half in front
- const ss=gsap.utils.interpolate(.25,1,e2), so=Math.min(1,e2*2.2);
- [splB,splF].forEach(el=>gsap.set(el,{x:X-el.offsetWidth/2,y:Yc-el.offsetHeight*.5+cupw.offsetHeight*.04,scale:ss,rotation:-4+p*10+Math.sin(t*.8)*1.5,opacity:so}));
- // particles
+ const e1=EIO(Math.min(1,p/.6)), e2=EO(clamp(0,1,(p-.08)/.6));
+ // camera dolly-in like the reference: cup grows and settles to the centre on phones
+ const Yc=mob?lerp(-h*.15,-h*.02,e1):0;
+ const cs=lerp(.9,mob?1.38:1.14,e1)*(.86+.14*it)*(1+kw*.05), cr=lerp(0,-6,e1);
+ gsap.set(cupw,{x:X-cupw.offsetWidth/2+S.tx*(mob?18:0),y:Yc-cupw.offsetHeight/2+fl+(1-it)*60,scale:cs,rotation:cr+S.tx*(mob?6:2),rotationY:S.tx*(mob?24:14),rotationX:-S.ty*(mob?14:8),opacity:it});
+ glare.style.opacity=.35+Math.abs(S.tx)*.5;glare.style.transform=`translateX(${S.tx*40}%)`;
+ gsap.set(shadow,{x:X-shadow.offsetWidth/2+S.tx*(mob?18:0),y:Yc+cupw.offsetHeight*cs*.47-20,scale:cs-fl/120,opacity:.9*it});
+ gsap.set(ribbon,{x:X*.6-ribbon.offsetWidth/2+S.tx*-40,y:-ribbon.offsetHeight*.5+Yc+S.ty*-26+Math.sin(t*.6)*12,rotation:-8+p*(mob?40:28)+Math.sin(t*.35)*3,scale:(1.02+p*(mob?.45:.25))*(.94+.06*it),opacity:.95*it});
+ // splash ring wraps the cup (back half behind, front half in front), swirls slowly and pulses on tap
+ const ss=lerp(.25,mob?1.18:1,e2)*(1+kw*.16), so=Math.min(1,e2*2.2);
+ [splB,splF].forEach(el=>gsap.set(el,{x:X-el.offsetWidth/2+S.tx*(mob?10:0),y:Yc-el.offsetHeight*.5+cupw.offsetHeight*.04,scale:ss,rotation:-4+p*14+Math.sin(t*.8)*2.5+S.tx*-6,opacity:so}));
+ // particles: orbit, fly toward the camera with scroll, scatter from the finger
+ const k=EX(clamp(0,1,(p-.05)/.7)), fade=1-Math.max(0,p-.86)*5;
  for(const q of P){
-  const k=gsap.parseEase('expo.out')(Math.max(0,Math.min(1,(p-.05)/.7)));
-  const R=q.r*Math.min(w*.8,h)*(.18+k*(.6+q.z*.75));
-  const px=X+Math.cos(q.a)*R*1.25+S.tx*q.z*-60, py=Yc+Math.sin(q.a)*R*.8+Math.sin(t*.9+q.ph)*10*k+S.ty*q.z*-40;
-  const sc=(q.sx+k*(.45+q.z*1.5))*(mob?.9:1);
+  const a=q.a+Math.sin(t*.35+q.ph)*(mob?.32:.22);
+  const R=q.r*Math.min(w*.8,h)*(.18+k*(.6+q.z*.75))*(1+kw*.45);
+  let px=X+Math.cos(a)*R*1.25-S.tx*q.z*(mob?90:60), py=Yc+Math.sin(a)*R*.8+Math.sin(t*.9+q.ph)*14*k-S.ty*q.z*(mob?70:40);
+  // finger repulsion with a spring back
+  let tx=0,ty=0;
+  if(S.fa>.01){const dx=px-S.fx,dy=py-S.fy,d=Math.hypot(dx,dy)||1,f=Math.max(0,1-d/220)*170*S.fa;tx=dx/d*f;ty=dy/d*f}
+  q.ox+=(tx-q.ox)*(1-Math.exp(-dt*9));q.oy+=(ty-q.oy)*(1-Math.exp(-dt*9));
+  px+=q.ox;py+=q.oy;
+  const sc=(q.sx+k*(.45+q.z*(mob?1.9:1.5)))*(mob?.95:1)*(1+kw*.12);
   const blur=q.z>.75?(q.z-.75)*28*k:0;
   q.e.style.filter=blur>.3?`blur(${blur.toFixed(1)}px)`:'none';
-  gsap.set(q.e,{x:px-q.e.offsetWidth/2,y:py-q.e.offsetHeight/2,scale:sc,rotation:q.rot*k+q.spin*Math.sin(t*.5+q.ph),opacity:Math.min(1,k*3)*(1-Math.max(0,p-.85)*4)});
+  gsap.set(q.e,{x:px-q.e.offsetWidth/2,y:py-q.e.offsetHeight/2,scale:sc,rotation:q.rot*k+q.spin*Math.sin(t*.5+q.ph)+t*12*q.dir+(q.ox*.4),opacity:Math.min(1,k*3)*fade});
  }
  hudln.style.setProperty('--p',p.toFixed(3));
  document.querySelectorAll('#bok i').forEach(b=>{b.style.transform=`translate(${S.tx*-40*b.dataset.d}px,${(S.ty*-30-p*200)*b.dataset.d}px)`});
 }
-gsap.ticker.add(()=>render(performance.now()/1000));
-addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){S.mx=(e.clientX/W()-.5)*2;S.my=(e.clientY/H()-.5)*2}});
-if(window.DeviceOrientationEvent&&mob)addEventListener('deviceorientation',e=>{if(e.gamma!=null){S.mx=gsap.utils.clamp(-1,1,e.gamma/30);S.my=gsap.utils.clamp(-1,1,(e.beta-45)/30)}});
+gsap.ticker.add(render);
+addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){S.mx=(e.clientX/W()-.5)*2;S.my=(e.clientY/H()-.5)*2;S.fx=e.clientX-W()/2;S.fy=e.clientY-H()/2;S.fon=e.target.closest('#hero')?.6:0}});
+/* touch: the scene follows the finger (tilt + scatter), a tap makes the splash burst; native scroll keeps working */
+{let sx=0,sy=0,st=0,moved=false;
+ const pos=e=>{const T=e.touches[0];S.fx=T.clientX-W()/2;S.fy=T.clientY-H()/2;S.mx=clamp(-1,1,(T.clientX/W()-.5)*2.2);S.my=clamp(-1,1,(T.clientY/H()-.5)*2.2)};
+ hero.addEventListener('touchstart',e=>{const T=e.touches[0];sx=T.clientX;sy=T.clientY;st=performance.now();moved=false;S.fon=1;pos(e)},{passive:true});
+ hero.addEventListener('touchmove',e=>{const T=e.touches[0];if(Math.hypot(T.clientX-sx,T.clientY-sy)>10)moved=true;pos(e)},{passive:true});
+ const end=()=>{S.fon=0;S.mx=0;S.my=0;if(!moved&&performance.now()-st<300)burst()};
+ hero.addEventListener('touchend',end,{passive:true});hero.addEventListener('touchcancel',()=>{S.fon=0;S.mx=0;S.my=0},{passive:true});
+ hero.addEventListener('click',e=>{if(!mob&&!e.target.closest('a'))burst()});
+}
+function burst(){S.kick=1;try{if(navigator.userActivation&&navigator.userActivation.isActive)navigator.vibrate&&navigator.vibrate(12)}catch(_){}}
 
 function intro(){
  gsap.to(S,{intro:1,duration:1.6,ease:'expo.out'});
  gsap.from('.htx h1 b',{yPercent:110,duration:1.4,ease:'expo.out',stagger:.12,delay:.15});
  gsap.from('.htx .eyebrow,.htx p,.htx .cta,.hud.a,.hud.b,.chip',{y:24,opacity:0,duration:1.2,ease:'expo.out',stagger:.08,delay:.35});
- // auto-play a little burst on load so the splash is visible before any scroll
  gsap.fromTo(S,{p:0},{p:.42,duration:2.6,ease:'expo.out',delay:.4,onComplete:bindScroll});
+ setTimeout(burst,1500);
 }
 function bindScroll(){
  const base=S.p,htx=$('.htx');
  ScrollTrigger.create({trigger:'#hero',start:'top top',end:'bottom bottom',
-  onUpdate:s=>{const q=s.progress;gsap.to(S,{p:base+(1-base)*q,duration:.6,ease:'power3.out',overwrite:true});htx.style.opacity=1-Math.min(1,q*1.6);htx.style.translate=`0 ${-q*90}px`}});
+  onUpdate:s=>{const q=s.progress;gsap.to(S,{p:base+(1-base)*q,duration:mob?.35:.6,ease:'power3.out',overwrite:'auto'});htx.style.opacity=1-Math.min(1,q*(mob?3:1.6));htx.style.translate=`0 ${-q*90}px`}});
 }
 
 /* header + bottom bar */
-ScrollTrigger.create({start:60,onToggle:s=>$('.hd').classList.toggle('s',s.isActive)});
+ScrollTrigger.create({trigger:'#hero',start:'bottom 80px',end:'max',onToggle:s=>$('.hd').classList.toggle('s',s.isActive)});
 ScrollTrigger.create({trigger:'#menu',start:'top 80%',onToggle:s=>$('#mbar').classList.toggle('on',s.isActive||s.progress>0)});
 
 /* reveals */
