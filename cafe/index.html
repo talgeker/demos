@@ -64,10 +64,14 @@ body:after{content:"";position:fixed;inset:-50%;z-index:200;pointer-events:none;
 #hero{position:relative;height:210svh;-webkit-user-select:none;user-select:none}
 .pinbox{position:sticky;top:0;height:100svh;min-height:600px;overflow:hidden;background:
  radial-gradient(60% 55% at 50% 52%,#fbf6ee 0%,rgba(251,246,238,0) 70%),
- radial-gradient(40% 40% at 85% 15%,rgba(231,207,159,.45),transparent 70%),
+ radial-gradient(40% 36% at 82% 42%,rgba(231,207,159,.4),transparent 70%),
  radial-gradient(45% 45% at 10% 90%,rgba(201,164,106,.28),transparent 70%),
  linear-gradient(180deg,#efe6d8,#e6d8c3)}
 .bok{position:absolute;inset:0;pointer-events:none}
+/* soft edges: the hero melts into the page (and into Safari's tinted bars) instead of ending on a hard line */
+.fdT,.fdB{position:absolute;left:0;right:0;z-index:8;pointer-events:none}
+.fdT{top:0;height:120px;background:linear-gradient(var(--cream) 18%,rgba(239,230,216,0))}
+.fdB{bottom:0;height:90px;background:linear-gradient(rgba(239,230,216,0),var(--cream) 85%)}
 .bok i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,236,196,.9),rgba(255,236,196,0) 68%);filter:blur(6px);opacity:.55}
 .stage{position:absolute;inset:0;perspective:1400px;perspective-origin:50% 45%}
 .l{position:absolute;left:50%;top:50%;will-change:transform,opacity;pointer-events:none}
@@ -192,8 +196,8 @@ footer .logo{color:var(--paper)}
  .pad{padding:96px 0}
  .hd .btn{display:none}
  #hero{height:auto}
- .pinbox{position:relative;height:100vh;height:100lvh;min-height:560px}
- .htx{inset:auto 20px calc(84px + 100lvh - 100svh);top:auto;transform:none;max-width:none;text-align:center}
+ .pinbox{position:relative;height:100vh;height:100svh;min-height:560px}
+ .htx{inset:auto 20px 84px;top:auto;transform:none;max-width:none;text-align:center}
  .htx h1{font-size:clamp(58px,17vw,90px);text-align:center}
  .htx h1 span:nth-child(2){padding:0}
  .htx p{margin:14px auto 0;font-size:16px}
@@ -233,7 +237,7 @@ footer .logo{color:var(--paper)}
 </div></header>
 
 <section id="hero"><div class="pinbox">
- <div class="bok" id="bok"></div>
+ <div class="bok" id="bok"></div><i class="fdT"></i><i class="fdB"></i>
  <div class="stage" id="stage">
   <img class="l ribbon" id="ribbon" src="img/ribbon.webp" alt="">
   <div class="l shadow" id="shadow"></div>
@@ -336,13 +340,13 @@ const P=[];
 {const box=$('#parts');const N=mob?14:15;
  for(let i=0;i<N;i++){const ice=i%3===2;const e=document.createElement('img');
   e.src=ice?`img/ice${i%6}.webp`:`img/bean${i%9}.webp`;e.className='l sp'+(ice?' ice':'');e.alt='';box.appendChild(e);
-  const a=mob?Math.PI*.82+(i/(N-1))*Math.PI*1.36+(Math.random()-.5)*.2:Math.PI/2-.45+(i/(N-1))*(Math.PI+.9)+(Math.random()-.5)*.25, r=(mob?.55:.42)+Math.random()*.35;
+  const a=mob?(i%2?Math.PI:0)+(-.8+((i>>1)/((N>>1)-1||1))*1.45)*(i%2?-1:1)+(Math.random()-.5)*.15:Math.PI/2-.45+(i/(N-1))*(Math.PI+.9)+(Math.random()-.5)*.25, r=(mob?.55:.42)+Math.random()*.35;
   let z=Math.random(); // 0 far, 1 very close to camera
   if(!mob&&Math.cos(a)>.15)z*=.35; // text side (right): keep beans small and behind the copy
   if(ice)z=Math.min(z,.55); // glassy ice looks smudgy when blurred: keep it mid-depth
-  P.push({e,a,r,z,rot:(Math.random()-.5)*540,spin:(Math.random()-.5)*40,sx:.15+Math.random()*.2,front:z>.45,ph:Math.random()*6.28});
+  P.push({e,a,r,z,vx:0,vy:0,px:0,py:0,rot:(Math.random()-.5)*540,spin:(Math.random()-.5)*40,sx:.15+Math.random()*.2,front:z>.45,ph:Math.random()*6.28});
   e.style.zIndex=z>.45?6:1;
-  if(mob&&z>.8)e.style.filter=`blur(${((z-.8)*25).toFixed(1)}px)`; // set once: per-frame filters stutter on iPhone
+  if(mob)z=Math.min(z,.78); // phones: no blurred giants (blur filters stutter on iPhone)
  }}
 
 history.scrollRestoration='manual';scrollTo(0,0);
@@ -369,8 +373,8 @@ let lt=performance.now()/1000;
 function render(){
  const t=performance.now()/1000,dt=Math.min(.05,t-lt);lt=t;
  const p=S.p,it=S.intro,w=W(),h=H(),X=cx();
- S.tx+=(S.mx-S.tx)*(1-Math.exp(-dt*7));S.ty+=(S.my-S.ty)*(1-Math.exp(-dt*7));
- S.kick*=Math.exp(-dt*3.2); S.fa+=(S.fon-S.fa)*(1-Math.exp(-dt*10));
+ S.tx+=(S.mx-S.tx)*(1-Math.exp(-dt*(mob?12:7)));S.ty+=(S.my-S.ty)*(1-Math.exp(-dt*(mob?12:7)));
+ S.kick*=Math.exp(-dt*4.5); S.fa+=(S.fon-S.fa)*(1-Math.exp(-dt*10));
  const kw=Math.sin(S.kick*Math.PI)*S.kick; // bouncy pulse from a tap
  const fl=Math.sin(t*1.1)*8;
  const e1=EIO(Math.min(1,p/.6)), e2=EO(clamp(0,1,(p-.08)/.6));
@@ -385,19 +389,20 @@ function render(){
  const ss=lerp(.25,1,e2)*(1+kw*.16), so=Math.min(1,e2*2.2);
  [splB,splF].forEach(el=>gsap.set(el,{x:X-el.offsetWidth/2+S.tx*(mob?10:0),y:Yc-el.offsetHeight*.5+cupw.offsetHeight*.04,scale:ss,rotation:-4+p*14+Math.sin(t*.8)*2.5+S.tx*-6,opacity:so}));
  // particles: orbit, fly toward the camera with scroll, scatter from the finger
- const k=EX(clamp(0,1,(p-.05)/.7)), fade=1-Math.max(0,p-.86)*5;
+ const k=EX(clamp(0,1,(p-.05)/.7)), fade=mob?1:1-Math.max(0,p-.86)*5;
  for(const q of P){
   const a=q.a+Math.sin(t*.35+q.ph)*(mob?.32:.22);
-  const R=q.r*Math.min(w*.8,h)*(.18+k*(.6+q.z*.75))*(1+kw*.45);
-  let px=X+Math.cos(a)*R*1.25-S.tx*q.z*(mob?90:60), py=Yc+Math.sin(a)*R*.8+Math.sin(t*.9+q.ph)*14*k-S.ty*q.z*(mob?70:40);
+  const R=(mob?q.r*w*(.3+k*(.32+q.z*.3)):q.r*Math.min(w*.8,h)*(.18+k*(.6+q.z*.75)))*(1+kw*.45);
+  let px=X+Math.cos(a)*R*(mob?.82:1.25)-S.tx*q.z*(mob?90:60), py=Yc+Math.sin(a)*R*.8+Math.sin(t*.9+q.ph)*14*k-S.ty*q.z*(mob?70:40);
   // finger repulsion with a spring back
   let tx=0,ty=0;
   if(S.fa>.01){const dx=px-S.fx,dy=py-S.fy,d=Math.hypot(dx,dy)||1,f=Math.max(0,1-d/220)*170*S.fa;tx=dx/d*f;ty=dy/d*f}
-  q.ox+=(tx-q.ox)*(1-Math.exp(-dt*9));q.oy+=(ty-q.oy)*(1-Math.exp(-dt*9));
-  px+=q.ox;py+=q.oy;
-  const sc=(q.sx+k*(.45+q.z*(mob?1.9:1.5)))*(mob?.95:1)*(1+kw*.12);
+  // spring (slightly bouncy) — finger flicks give it velocity, it overshoots and settles
+  q.vx+=((tx-q.ox)*95-q.vx*11)*dt;q.vy+=((ty-q.oy)*95-q.vy*11)*dt;q.ox+=q.vx*dt;q.oy+=q.vy*dt;
+  px+=q.ox;py+=q.oy;q.px=px;q.py=py;
+  const sc=(q.sx+k*(.45+q.z*(mob?1.35:1.5)))*(mob?.95:1)*(1+kw*.12);
   if(!mob){const blur=q.z>.75?(q.z-.75)*28*k:0;q.e.style.filter=blur>.3?`blur(${blur.toFixed(1)}px)`:'none'}
-  gsap.set(q.e,{x:px-q.e.offsetWidth/2,y:py-q.e.offsetHeight/2,scale:sc,rotation:q.rot*k+q.spin*Math.sin(t*.5+q.ph)+t*12*q.dir+(q.ox*.4),opacity:Math.min(1,k*3)*fade});
+  gsap.set(q.e,{x:px-q.e.offsetWidth/2,y:py-q.e.offsetHeight/2,scale:sc,rotation:q.rot*k+q.spin*Math.sin(t*.5+q.ph)+t*(mob?26:12)*q.dir+(q.ox*.5),opacity:Math.min(1,k*3)*fade});
  }
  hudln.style.setProperty('--p',p.toFixed(3));
  BOK.forEach(b=>{b.style.transform=`translate(${S.tx*-40*b.dataset.d}px,${(S.ty*-30-p*200)*b.dataset.d}px)`});
@@ -408,8 +413,8 @@ addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){S.mx=(e.clientX/W
 /* touch: the scene follows the finger (tilt + scatter), a tap makes the splash burst; native scroll keeps working */
 {let sx=0,sy=0,st=0,moved=false;
  const pos=e=>{const T=e.touches[0];S.fx=T.clientX-W()/2;S.fy=T.clientY-H()/2;S.mx=clamp(-1,1,(T.clientX/W()-.5)*2.2);S.my=clamp(-1,1,(T.clientY/H()-.5)*2.2)};
- hero.addEventListener('touchstart',e=>{const T=e.touches[0];sx=T.clientX;sy=T.clientY;st=performance.now();moved=false;S.fon=1;pos(e)},{passive:true});
- hero.addEventListener('touchmove',e=>{const T=e.touches[0];if(Math.hypot(T.clientX-sx,T.clientY-sy)>10)moved=true;pos(e)},{passive:true});
+ hero.addEventListener('touchstart',e=>{const T=e.touches[0];sx=T.clientX;sy=T.clientY;st=performance.now();moved=false;pos(e);flick(S.fx,S.fy,1)},{passive:true});
+ let lf=0;hero.addEventListener('touchmove',e=>{const T=e.touches[0];if(Math.hypot(T.clientX-sx,T.clientY-sy)>10)moved=true;pos(e);const n=performance.now();if(n-lf>70){lf=n;flick(S.fx,S.fy,.45)}},{passive:true});
  const end=()=>{S.fon=0;S.mx=0;S.my=0;if(!moved&&performance.now()-st<300)burst()};
  hero.addEventListener('touchend',end,{passive:true});hero.addEventListener('touchcancel',()=>{S.fon=0;S.mx=0;S.my=0},{passive:true});
  hero.addEventListener('click',e=>{if(!mob&&!e.target.closest('a'))burst()});
@@ -417,14 +422,15 @@ addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){S.mx=(e.clientX/W
 /* phones: the reference video plays by itself in a loop (calm → burst → beans fly at the camera → settle), touch still drives it */
 function mobLoop(){
  const tl=gsap.timeline({repeat:-1,defaults:{ease:'power2.inOut'}});
- tl.to(S,{p:.5,duration:1.6})
+ tl.to(S,{p:.55,duration:.7,ease:'power3.in'})
    .call(burst)
-   .to(S,{p:.84,duration:2.4,ease:'expo.out'})
-   .to(S,{p:.8,duration:1.4,ease:'sine.inOut'})
-   .to(S,{p:.34,duration:2.2})
-   .to(S,{p:.42,duration:1});
+   .to(S,{p:.92,duration:1.1,ease:'expo.out'})
+   .to(S,{p:.86,duration:.9,ease:'sine.inOut'})
+   .to(S,{p:.4,duration:1.1,ease:'power3.inOut'})
+   .to(S,{p:.36,duration:.5,ease:'sine.inOut'});
 }
-function burst(){S.kick=1;try{if(navigator.userActivation&&navigator.userActivation.isActive)navigator.vibrate&&navigator.vibrate(12)}catch(_){}}
+function flick(fx,fy,s){for(const q of P){const dx=q.px-fx,dy=q.py-fy,d=Math.hypot(dx,dy)||1,f=Math.max(0,1-d/280)*1500*s;q.vx+=dx/d*f;q.vy+=dy/d*f}}
+function burst(){S.kick=1;for(const q of P){const d=Math.hypot(q.px,q.py)||1;q.vx+=q.px/d*700;q.vy+=q.py/d*700}try{if(navigator.userActivation&&navigator.userActivation.isActive)navigator.vibrate&&navigator.vibrate(12)}catch(_){}}
 
 function intro(){
  gsap.to(S,{intro:1,duration:1.6,ease:'expo.out'});
