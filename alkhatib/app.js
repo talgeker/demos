@@ -26,7 +26,7 @@ const M=[
 ['nests','nests','b',['קן ציפור','Bird’s nest baklava','عشّ البلبل'],['קן קדאיף זהוב מלא פיסטוקים שלמים.','A golden kadaif nest filled with whole pistachios.','عشّ من الكنافة الذهبية مليء بالفستق الكامل.'],0,1],
 ['burma','burma','b',['בורמה פיסטוק','Pistachio burma','بورما فستق'],['גליל קדאיף ארוך ופריך עם לב ירוק של פיסטוק.','A long crisp kadaif roll with a green pistachio heart.','لفافة كنافة طويلة مقرمشة بقلب أخضر من الفستق.'],0,1],
 ['balls','balls','b',['בקלאווה קושטא','Qushta pistachio bites','بقلاوة بالقشطة'],['כיפות פיסטוק במילוי קושטא. פיתוח של המקום.','Pistachio domes filled with qushta cream. A house creation.','قبب فستق محشوّة بالقشطة. من ابتكار المحل.'],0,1],
-['awwameh','06-awwameh-balls','b',['עוואמה','Awwameh','عوّامة'],['כדורי בצק פריכים טבולים בסירופ.','Crisp dough balls dipped in syrup.','كرات عجين مقرمشة مغموسة بالقطر.'],0,1],
+['awwameh','awwameh','b',['עוואמה','Awwameh','عوّامة'],['כדורי בצק פריכים טבולים בסירופ.','Crisp dough balls dipped in syrup.','كرات عجين مقرمشة مغموسة بالقطر.'],0,1],
 ['round','fatir','b',['בקלאווה במגש עגול','Round-tray baklava','بقلاوة صينية مدوّرة'],['עלים דקים ופיסטוק, נחתכת למשולשים מול העיניים.','Thin layers and pistachio, cut into triangles in front of you.','رقائق رفيعة وفستق، تُقطَّع مثلّثات أمامك.'],0,1],
 ['basbousa','harisa','h',['בסבוסה','Basbousa','بسبوسة'],['עוגת סולת לחה בסירופ עדין, גם בגרסת קוקוס.','Moist semolina cake in a gentle syrup, also with coconut.','كعكة سميد رطبة بقطر خفيف، ومنها بجوز الهند.'],0,1],
 ['tray','gift-box','b',['מגש מעורב לאירוח','Mixed hosting tray','صينية ضيافة مشكّلة'],['מרכיבים יחד לפי מה שאתם אוהבים, ארוז יפה לקחת.','Put together around what you like, packed to go.','نركّبها معًا حسب ذوقك، مغلّفة للأخذ.'],0,1],
@@ -189,11 +189,13 @@ const L=[1,2,3,4].map(i=>({l:$('#l'+i),c:$('#c'+i),k:$('#k'+i),a:[.12,.32,.52,.6
 const gf=$('#gf'),gv=$('#gv');
 const fly=$$('#fly .f'),flyEl=$('#fly'),chefEl=$('#chef'),cframe=$('#cframe'),cghost=$('#cghost'),badges=$$('.cbadge');
 const fxSecs=$$('[data-fx]');
+const traysEl=$('#trays'),awwEl=$('#aww'),ring3=$('#ring3'),rcs=$$('#ring3 .rc'),aw3=$('#aw3'),ballEls=$$('#aw3 .ball');
+const BL=ballEls.map((e,i)=>({e,a:i/ballEls.length*6.283+(i%2)*.5,r:.62+(i%3)*.16,h:(i%4-1.5)*.2,sp:.8+(i%3)*.35,sc:.7+(i%4)*.18}));
 let VH=innerHeight,heroTop=0,heroH=1,geo=[];
 const absTop=el=>el.getBoundingClientRect().top+scrollY;
 function layout(){VH=innerHeight;heroTop=absTop(hero);heroH=hero.offsetHeight;
  scenes.forEach(s=>{s.top=absTop(s.el);s.h=s.el.offsetHeight;size(s)});
- geo={words:[absTop(words),words.offsetHeight],fly:[absTop(flyEl),flyEl.offsetHeight],chef:[absTop(chefEl),chefEl.offsetHeight],fx:fxSecs.map(s=>[absTop(s),s.offsetHeight,s.dataset.fx])};fxSize()}
+ geo={words:[absTop(words),words.offsetHeight],fly:[absTop(flyEl),flyEl.offsetHeight],chef:[absTop(chefEl),chefEl.offsetHeight],trays:[absTop(traysEl),traysEl.offsetHeight],aww:[absTop(awwEl),awwEl.offsetHeight],fx:fxSecs.map(s=>[absTop(s),s.offsetHeight,s.dataset.fx])};fxSize();const R=ring3.offsetWidth*1.02;rcs.forEach((c,i)=>{c.style.transform=`rotateY(${i*60}deg) translateZ(${R.toFixed(1)}px)`})}
 let rT;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(layout,120)});
 new ResizeObserver(()=>{clearTimeout(rT);rT=setTimeout(layout,120)}).observe(document.body);
 
@@ -213,18 +215,18 @@ function tick(t){
  requestAnimationFrame(tick);if(hidden)return;
  lenis&&lenis.raf(t);
  const y=scrollY,H=VH;vel=vel*.85+(y-lastY)*.15;lastY=y;
- hd.classList.toggle('s',y>40);mbar.classList.toggle('on',y>H*.6);
+ hd.classList.toggle('s',y>heroTop+heroH-H*.55);mbar.classList.toggle('on',y>heroTop+heroH-H*.55);
  mx+=(tmx-mx)*.08;my+=(tmy-my)*.08;
  // HERO 3D rig
  if(y<heroTop+heroH){const p=clamp((y-heroTop)/(heroH-H));const ts=t/1000;
   if(introOn){kin+=(1-kin)*.06;const a=(0-drop)*.09;dv=(dv+a)*.86;drop+=dv;if(!landed&&drop>-.02){landed=true;burst(1.3,rig)}}
-  const lift=ease(clamp(p/.62));const bob=reduce?0:Math.sin(ts*1.3)*.012;
-  const rx=10-p*16+my*-9+(reduce?0:Math.sin(ts*.7)*1.2),ry=mx*14+(reduce?0:Math.sin(ts*.5)*2.2)+p*(document.documentElement.dir==='ltr'?10:-10);
-  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${(.72+.28*kin)*(1+p*.14)})`;rig.style.opacity=kin;
-  hkn.style.transform=`translateZ(0) rotate(${(p*-5).toFixed(2)}deg)`;
-  hic.style.transform=`translate3d(${(lift*-4).toFixed(2)}%,${((drop-lift*(isM?.3:.48)+bob)*100).toFixed(2)}%,${(70+lift*(isM?90:170)).toFixed(1)}px) rotate(${(-4-lift*13+drop*20).toFixed(2)}deg)`;
+  const arc=Math.sin(Math.PI*clamp(p/.94));const lift=ease(arc);const sw=Math.sin(p*Math.PI*2);const bob=reduce?0:Math.sin(ts*1.3)*.012;
+  const rx=10-arc*20+my*-9+(reduce?0:Math.sin(ts*.7)*1.2),ry=mx*14+(reduce?0:Math.sin(ts*.5)*2.2)+sw*(isM?17:22);
+  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${(sw*-3).toFixed(2)}deg) scale(${((.72+.28*kin)*(1+arc*(isM?.08:.16))).toFixed(4)})`;rig.style.opacity=kin;
+  hkn.style.transform=`translateZ(0) rotate(${(sw*6).toFixed(2)}deg)`;
+  hic.style.transform=`translate3d(${(lift*-3).toFixed(2)}%,${((drop-lift*(isM?.26:.34)+bob)*100).toFixed(2)}%,${(70+lift*(isM?80:170)).toFixed(1)}px) rotate(${(-4-lift*12+drop*20).toFixed(2)}deg)`;
   hic.style.opacity=clamp(1.6+drop*1.1);
-  huds.forEach((h,i)=>h.classList.toggle('on',landed&&p>.1+i*.11&&p<.9));
+  huds.forEach((h,i)=>h.classList.toggle('on',landed&&p>.1+i*.09&&p<.84));
   ghost.style.transform=`translateX(${((p-.5)*-30).toFixed(2)}%)`}
  for(const s of scenes){const top=s.top-y;if(top<H*2.5&&top+s.h>-H)load(s);if(top+s.h<0||top>H)continue;s.p=clamp(-top/(s.h-H||1));draw(s)}
  if(anat&&anat.top-y<H&&anat.top+anat.h-y>0){const p=anat.p;for(const o of L){const lp=clamp((p-o.a)/.12);o.l.style.strokeDashoffset=1-lp;o.c.style.opacity=lp>0?1:0;o.k.classList.toggle('on',lp>.85)}
@@ -235,6 +237,10 @@ function tick(t){
  {const top=geo.chef[0]-y;if(top<H&&top+geo.chef[1]>0){const k=clamp((top+geo.chef[1]/2-H/2)/H,-1,1);const dir=document.documentElement.dir==='ltr'?-1:1;
    cframe.style.transform=`rotateY(${(k*-16*dir+mx*10).toFixed(2)}deg) rotateX(${(k*7+my*-8).toFixed(2)}deg) translateY(${(k*26).toFixed(1)}px)`;
    cghost.style.transform=`translateX(${(k*14).toFixed(2)}%)`;badges.forEach(b=>{b.style.transform=`translateY(${(k*+b.dataset.d*46).toFixed(1)}px)`})}}
+ // live 3D ring + awwameh
+ {const top=geo.trays[0]-y;if(top<H&&top+geo.trays[1]>0){const p=clamp(-top/(geo.trays[1]-H));ring3.style.transform=`rotateX(${(-9+my*6).toFixed(2)}deg) rotateY(${(-p*320+(reduce?0:Math.sin(t/1400)*3)+mx*12).toFixed(2)}deg)`}}
+ {const top=geo.aww[0]-y;if(top<H&&top+geo.aww[1]>0){const p=clamp(-top/(geo.aww[1]-H));const W=aw3.offsetWidth,ts=reduce?0:t/1000;aw3.style.transform=`rotateX(${(16-p*22+my*-6).toFixed(2)}deg) rotateY(${(Math.sin(p*6.283)*16+mx*12).toFixed(2)}deg) scale(${(.9+Math.sin(p*3.1416)*.14).toFixed(3)})`;
+   for(const b of BL){const a=b.a+p*6.283*b.sp+ts*.12;const x=Math.cos(a)*b.r*W,z=Math.sin(a)*b.r*W*.9,yy=(b.h-.25+Math.sin(a*1.7+ts)*.06-p*.25)*W;b.e.style.transform=`translate3d(${x.toFixed(1)}px,${yy.toFixed(1)}px,${z.toFixed(1)}px) rotate(${(a*40).toFixed(1)}deg) scale(${b.sc})`}}}
  // fly parallax
  {const top=geo.fly[0]-y;if(top<H&&top+geo.fly[1]>0){const k=(top+geo.fly[1]/2-H/2)/H;fly.forEach(f=>{const d=+f.dataset.d;f.style.transform=`translateY(${(k*d*150).toFixed(1)}px) rotate(${(k*d*-8).toFixed(2)}deg) scale(${(1-Math.abs(k)*.08).toFixed(3)})`})}}
  let m='gold';for(const s of geo.fx){const top=s[0]-y;if(top<H*.5&&top+s[1]>H*.5){m=s[2];break}}mode=m;
