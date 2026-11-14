@@ -248,3 +248,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}dialog h3{font:900 28px var(--serif);
 
 /* round 10: smooth solid side (plain colour discs, 1px apart) instead of stacked photo layers */
 .rig .ds{position:absolute;inset:2.6%;border-radius:50%;display:block}
+
+/* round 11: back to the approved hero (original cut-out); undo disc-era tweaks */
+.rig .ic{top:-4%}
+.rig .shadow{left:8%;right:8%;bottom:-3%;height:22%}
