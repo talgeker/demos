@@ -190,6 +190,14 @@ const gf=$('#gf'),gv=$('#gv');
 const fly=$$('#fly .f'),flyEl=$('#fly'),chefEl=$('#chef'),cframe=$('#cframe'),cghost=$('#cghost'),badges=$$('.cbadge');
 const fxSecs=$$('[data-fx]');
 const traysEl=$('#trays'),awwEl=$('#aww'),ring3=$('#ring3'),rcs=$$('#ring3 .rc'),aw3=$('#aw3'),ballEls=$$('#aw3 .ball');
+const RG={r:0,v:0,drag:false,touched:false,x:0};
+{const box=$('#ringbox');
+ box.addEventListener('pointerdown',e=>{if(e.target.closest('.rnav'))return;RG.drag=true;RG.touched=true;RG.x=e.clientX;RG.v=0;box.classList.add('drag');try{box.setPointerCapture(e.pointerId)}catch(_){}});
+ box.addEventListener('pointermove',e=>{if(!RG.drag)return;const dx=e.clientX-RG.x;RG.x=e.clientX;const d=dx*(isM?.42:.28);RG.r+=d;RG.v=d});
+ const end=()=>{RG.drag=false;box.classList.remove('drag')};box.addEventListener('pointerup',end);box.addEventListener('pointercancel',end);box.addEventListener('lostpointercapture',end);
+ const step=d=>{RG.touched=true;RG.v=0;RG.r=Math.round(RG.r/60)*60+d*60};
+ $('#rprev').addEventListener('click',()=>step(1));$('#rnext').addEventListener('click',()=>step(-1));
+ box.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')step(1);if(e.key==='ArrowRight')step(-1)})}
 const BL=ballEls.map((e,i)=>({e,a:i/ballEls.length*6.283+(i%2)*.5,r:.62+(i%3)*.16,h:(i%4-1.5)*.2,sp:.8+(i%3)*.35,sc:.7+(i%4)*.18}));
 let VH=innerHeight,heroTop=0,heroH=1,geo=[];
 const absTop=el=>el.getBoundingClientRect().top+scrollY;
@@ -238,7 +246,9 @@ function tick(t){
    cframe.style.transform=`rotateY(${(k*-16*dir+mx*10).toFixed(2)}deg) rotateX(${(k*7+my*-8).toFixed(2)}deg) translateY(${(k*26).toFixed(1)}px)`;
    cghost.style.transform=`translateX(${(k*14).toFixed(2)}%)`;badges.forEach(b=>{b.style.transform=`translateY(${(k*+b.dataset.d*46).toFixed(1)}px)`})}}
  // live 3D ring + awwameh
- {const top=geo.trays[0]-y;if(top<H&&top+geo.trays[1]>0){const p=clamp(-top/(geo.trays[1]-H));ring3.style.transform=`rotateX(${(-9+my*6).toFixed(2)}deg) rotateY(${(-p*320+(reduce?0:Math.sin(t/1400)*3)+mx*12).toFixed(2)}deg)`}}
+ {const top=geo.trays[0]-y;if(top<H&&top+geo.trays[1]>0){
+   if(!RG.drag){if(Math.abs(RG.v)>.08){RG.r+=RG.v;RG.v*=.94}else if(RG.touched){const tg=Math.round(RG.r/60)*60;RG.r+=(tg-RG.r)*.14}else if(!reduce)RG.r-=.1}
+   ring3.style.transform=`rotateX(-8deg) rotateY(${RG.r.toFixed(2)}deg)`}}
  {const top=geo.aww[0]-y;if(top<H&&top+geo.aww[1]>0){const p=clamp(-top/(geo.aww[1]-H));const W=aw3.offsetWidth,ts=reduce?0:t/1000;aw3.style.transform=`rotateX(${(16-p*22+my*-6).toFixed(2)}deg) rotateY(${(Math.sin(p*6.283)*16+mx*12).toFixed(2)}deg) scale(${(.9+Math.sin(p*3.1416)*.14).toFixed(3)})`;
    for(const b of BL){const a=b.a+p*6.283*b.sp+ts*.12;const x=Math.cos(a)*b.r*W,z=Math.sin(a)*b.r*W*.9,yy=(b.h-.25+Math.sin(a*1.7+ts)*.06-p*.25)*W;b.e.style.transform=`translate3d(${x.toFixed(1)}px,${yy.toFixed(1)}px,${z.toFixed(1)}px) rotate(${(a*40).toFixed(1)}deg) scale(${b.sc})`}}}
  // fly parallax

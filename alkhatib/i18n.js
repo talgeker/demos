@@ -55,5 +55,5 @@ x1:['Accessibility statement','بيان إتاحة الوصول'],
 x2:['This site follows Israeli Standard 5568 at level AA: full keyboard navigation, high contrast, alternative text for images, screen-reader support and respect for the device “reduce motion” setting.','الموقع مبنيّ وفق المواصفة الإسرائيلية 5568 بمستوى AA: تنقّل كامل بلوحة المفاتيح، تباين عالٍ، نصّ بديل للصور، دعم قارئات الشاشة واحترام إعداد «تقليل الحركة».'],
 x3:['The pastry shop has one step at the entrance. We are happy to help and bring your order outside.','في مدخل المحل درجة واحدة. يسعدنا أن نساعد ونُخرج الطلب إليكم.'],
 x4:['Found a problem? Talk to us:','واجهت مشكلة؟ تواصل معنا:'],x5:['Close','إغلاق'],
-r1:['Pistachio baklava','بقلاوة فستق'],r2:['Turkish baklava','بقلاوة تركية'],r3:['Bird’s nest','عشّ البلبل'],r4:['Pistachio burma','بورما فستق'],r5:['Qushta bites','بقلاوة بالقشطة'],r6:['Knafeh rolls & strawberry','لفائف كنافة وفراولة']
+swipe:['Swipe sideways','اسحب إلى الجانب'],r1:['Pistachio baklava','بقلاوة فستق'],r2:['Turkish baklava','بقلاوة تركية'],r3:['Bird’s nest','عشّ البلبل'],r4:['Pistachio burma','بورما فستق'],r5:['Qushta bites','بقلاوة بالقشطة'],r6:['Knafeh rolls & strawberry','لفائف كنافة وفراولة']
 };

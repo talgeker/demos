@@ -186,3 +186,32 @@ dialog::backdrop{background:rgba(0,0,0,.6)}dialog h3{font:900 28px var(--serif);
  .hud.h1x i,.hud.h2x i{background:linear-gradient(270deg,var(--gold2),rgba(246,226,168,.2))}.hud.h3x i{background:linear-gradient(90deg,var(--gold2),rgba(246,226,168,.2))}
  .hud i:before{display:none}
 }
+
+/* round 3: hero sits lower on phones, own perspective so depth never pushes it into the header */
+#hero .stick{perspective:none}
+.h3d{perspective:1300px}
+@media(max-width:900px){
+ .h3d,html[dir=ltr] .h3d{top:calc(50px + 34svh);width:min(68vw,33svh)}
+ #hero .ttl img{display:none}
+ #hero .ttl{bottom:calc(20px + env(safe-area-inset-bottom))}
+ #hero .tg{font-size:15px;margin-bottom:14px}
+ #hero .ghost{bottom:34vh}
+ .hud.h1x{top:-20%}.hud.h3x{top:-34%}.hud.h2x{top:101%}
+}
+/* ring: sideways swipe, no scroll pinning */
+#trays{height:auto}
+#trays .stick{position:relative;height:min(100vh,880px)}
+#ringbox{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+#ringbox.drag{cursor:grabbing}
+.rc img{pointer-events:none;-webkit-user-drag:none}
+.rnav{position:absolute;top:50%;z-index:4;width:48px;height:48px;margin-top:-24px;border-radius:50%;border:1px solid var(--line);background:rgba(10,8,6,.7);color:var(--gold2);font:400 30px/1 var(--serif);display:grid;place-items:center;padding-bottom:5px}
+.rnav.rp{left:2%}.rnav.rn{right:2%}
+.swipe{position:absolute;left:0;right:0;bottom:7%;text-align:center;font:500 11px var(--sans);letter-spacing:.3em;color:var(--gold);pointer-events:none}
+.swipe:before{content:"‹  "}.swipe:after{content:"  ›"}
+@media(max-width:900px){
+ #trays .stick{height:auto;min-height:0;padding-bottom:40px;overflow:hidden}
+ #trays .box3{position:relative;top:auto;height:112vw;margin-top:10px}
+ #trays .cap{position:relative;bottom:auto;inset-inline:auto;margin:0 16px;transform:none}
+ #trays .cap .quote{display:block}
+ .rnav{width:42px;height:42px;font-size:26px}.swipe{bottom:2%}
+}
