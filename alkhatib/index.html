@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ממתקי אל ח׳טיב · שף קונדיטור אחמד ח׳טיב · ע׳ג׳ר</title>
+<meta name="description" content="ממתקי אל ח׳טיב בכפר ע׳ג׳ר: כנאפה חמה עם גלידה תורכית, לילות ביירות, בקלאווה ומגשי אירוח מאת השף קונדיטור אחמד ח׳טיב. הזמנה לאיסוף בוואטסאפ.">
+<meta name="theme-color" content="#0a0806">
+<meta property="og:title" content="ממתקי אל ח׳טיב · Pastry Chef Ahmad Khateb">
+<meta property="og:description" content="מזרח ומערב בצלחת אחת. כנאפה, בקלאווה וקינוחי שף בכפר ע׳ג׳ר.">
+<meta property="og:image" content="img/knafeh.webp">
+<link rel="icon" href="img/logo-s.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700&family=Noto+Kufi+Arabic:wght@400;600;800&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/cut-knafeh.webp"><link rel="preload" as="image" href="img/cut-ice.webp">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="ak.css">
+</head>
+<body>
+<a class="skip" href="#menu" data-t="skip">דלגו לתפריט</a>
+<div id="ld"><div><img src="img/logo.png" alt=""><div class="bar"><i></i></div></div></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<header class="hd" id="hd">
+ <a class="brand" href="#top"><img src="img/logo-s.png" alt="ממתקי אל ח׳טיב"><span><b data-t="brand">ממתקי אל ח׳טיב</b><small>PASTRY CHEF AHMAD KHATEB</small></span></a>
+ <nav aria-label="ראשי"><a href="#anat" data-t="n1">הכנאפה</a><a href="#chef" data-t="n2">השף</a><a href="#build" data-t="n3">הרכיבו מנה</a><a href="#menu" data-t="n4">התפריט</a><a href="#gifts" data-t="n5">אירוח וסדנאות</a><a href="#visit" data-t="n6">הגעה ושעות</a></nav>
+ <div class="hr">
+  <div class="lang" id="lang" role="group" aria-label="שפה"><button class="on" data-l="he" aria-label="עברית">עב</button><button data-l="en" aria-label="English">EN</button><button data-l="ar" aria-label="العربية">ع</button></div>
+  <button class="btn gd cartbtn" id="cartTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.400a2 2 0 0 1-2-1.800L5 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><span data-t="cart">ההזמנה שלי</span><i class="cnt" data-cnt hidden>0</i></button>
+ </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section id="hero" data-fx="pis">
+ <div class="stick">
+  <div class="ghost" id="ghost" aria-hidden="true">كنافة</div>
+  <div class="h3d" id="h3d" aria-hidden="true">
+   <div class="halo"></div>
+   <div class="rig" id="rig">
+    <div class="shadow"></div>
+    <img class="kn" id="hkn" src="img/cut-knafeh.webp" alt="" draggable="false">
+    <img class="ic" id="hic" src="img/cut-ice.webp" alt="" draggable="false">
+    <div class="hud h1x" id="hud1"><i></i><span><small>01</small><b data-t="hud1">גלידה תורכית עם מסטיק</b></span></div>
+    <div class="hud h2x" id="hud2"><i></i><span><small>02</small><b data-t="hud2">קדאיף זהוב, חם מהתנור</b></span></div>
+    <div class="hud h3x" id="hud3"><i></i><span><small>03</small><b data-t="hud3">פיסטוק טחון טרי</b></span></div>
+   </div>
+  </div>
+  <div class="ttl">
+   <img src="img/logo.png" alt="" data-a>
+   <h1 data-a><b class="g" data-t="h1a">ממתקי</b><b class="g" data-t="h1b">אל ח׳טיב</b><span>حلويات الخطيب · Pastry Chef Ahmad Khateb</span></h1>
+   <p class="tg" data-a data-t="tg">כנאפה חמה מהתנור עם פרוסה עבה של גלידה תורכית. מזרח ומערב בצלחת אחת, בכפר הכי צפוני בארץ.</p>
+   <div class="chips" data-a><a class="btn gd" href="#build" data-t="cta1">הרכיבו מנה והזמינו</a><a class="btn ol" href="#menu" data-t="cta2">לתפריט</a></div>
+  </div>
+  <div class="side">
+   <div class="stat"><b data-count="4.7" data-dec="1">0</b><small data-t="s1">★ בגוגל</small></div>
+   <div class="stat"><b data-count="498">0</b><small data-t="s2">ביקורות</small></div>
+   <div class="stat"><b data-count="9">0</b><small data-t="s3">הכשרות קונדיטור</small></div>
+  </div>
+  <div class="cue"><i></i><span data-t="cue">גללו</span></div>
+ </div>
+</section>
+
+<div class="mq" aria-hidden="true"><div id="mq"></div></div>
+
+<section class="intro wrap">
+ <span class="kick" data-t="ik">כפר ע׳ג׳ר · הגליל העליון</span>
+ <p class="big words" id="words" data-t="iw">הקינוחים של המזרח, <em>בדיוק של קונדיטוריה מערבית.</em> פחות סוכר, יותר טעם. כל מגש נאפה טרי, וכל אורח מקבל קפה על חשבון הבית.</p>
+</section>
+
+<!-- ANATOMY -->
+<section class="scene" id="anat" data-clip="3-anatomy" data-n="61" data-fx="pis">
+ <div class="stick">
+  <div class="head" data-a><span class="kick" data-t="ak">אנטומיה של כנאפה</span><h2><span data-t="ah1">מה יש</span><br><span class="g" data-t="ah2">בפנים?</span></h2><p class="lead" style="margin-top:14px" data-t="al">גללו לאט, ותראו את הגבינה נמתחת.</p><div class="gauge"><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="bgc" cx="20" cy="20" r="18"/><circle class="fgc" id="gf" cx="20" cy="20" r="18" pathLength="1"/></svg><div class="v"><span id="gv">0</span>%<small data-t="ag">מתיחת גבינה</small></div></div></div>
+  <div class="obj feather"><canvas></canvas></div>
+  <div class="hud2">
+   <svg class="ln" viewBox="0 0 300 400" preserveAspectRatio="none" aria-hidden="true">
+    <path id="l1" pathLength="1" d="M150 96 L232 70 L300 70"/><circle id="c1" cx="150" cy="96" r="3"/>
+    <path id="l2" pathLength="1" d="M190 200 L250 186 L300 186"/><circle id="c2" cx="120" cy="190" r="3"/>
+    <path id="l3" pathLength="1" d="M262 300 L282 330 L300 330"/><circle id="c3" cx="262" cy="300" r="3"/>
+    <path id="l4" pathLength="1" d="M110 312 L50 350 L0 350"/><circle id="c4" cx="110" cy="312" r="3"/>
+   </svg>
+   <div class="co r" id="k1" style="top:12%"><small data-t="a1s">01 · למעלה</small><b data-t="a1b">פיסטוק טחון</b><p data-t="a1p">שכבה נדיבה של פיסטוק ירוק על קדאיף זהוב ופריך.</p></div>
+   <div class="co r" id="k2" style="top:44%"><small data-t="a2s">02 · הלב</small><b data-t="a2b">גבינה נמתחת</b><p data-t="a2p">גבינה לבנה ורכה שנמסה בחום התנור, נמתחת בכל ביס.</p></div>
+   <div class="co r" id="k3" style="top:77%"><small data-t="a3s">03 · הזהב</small><b data-t="a3b">סירופ עדין</b><p data-t="a3p">פחות מתוק ממה שאתם מכירים. מוזלף חם רגע לפני ההגשה.</p></div>
+   <div class="co l" id="k4" style="top:82%"><small data-t="a4s">04 · הבסיס</small><b data-t="a4b">קדאיף אפוי</b><p data-t="a4p">חוטי בצק דקים באפייה עד גוון ענבר. מכינים כשמזמינים.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- CHEF -->
+<section class="sec" id="chef" data-fx="gold">
+ <div class="cghost" id="cghost" aria-hidden="true">AHMAD KHATEB</div>
+ <div class="wrap chef">
+  <div class="cpic" id="cpic">
+   <div class="cframe" id="cframe">
+    <img src="img/chef.webp" alt="השף קונדיטור אחמד ח׳טיב" loading="lazy">
+    <span class="sign" aria-hidden="true">Ahmad Khateb</span>
+   </div>
+   <div class="cbadge b1" data-d="1.4"><b>9</b><small data-t="cb1">הכשרות מקצועיות</small></div>
+   <div class="cbadge b2" data-d="-1"><b data-t="cb2b">TV</b><small data-t="cb2">״הקינוח המושלם״</small></div>
+  </div>
+  <div class="ctext">
+   <span class="kick" data-a data-t="ck">הסיפור של השף</span>
+   <h2 data-a style="margin-top:20px"><span data-t="ch1">אחמד</span> <span class="g" data-t="ch2">ח׳טיב.</span></h2>
+   <p class="lead" data-a style="margin-top:20px" data-t="cp1">קונדיטור בן הכפר ע׳ג׳ר, עם תשע הכשרות מקצועיות וניסיון שנצבר בארץ ובעולם. אחרי שנים של לימודים והתמחויות הוא חזר הביתה, עם מטרה אחת: לחבר בין המתוקים של העולם הערבי לקונדיטוריה המערבית.</p>
+   <ol class="tl" id="tl">
+    <li data-a><small data-t="t1s">ההתחלה</small><b data-t="t1b">טייק אוויי מהבית</b><p data-t="t1p">מגשים ראשונים יוצאים מהמטבח הביתי בע׳ג׳ר, והשמועה עוברת מפה לאוזן.</p></li>
+    <li data-a><small data-t="t2s">המסך</small><b data-t="t2b">״הקינוח המושלם״</b><p data-t="t2p">מתמודד בתוכנית הריאליטי לקונדיטורים, ומביא את המתוקים הסוריים לכל בית בארץ.</p></li>
+    <li data-a><small data-t="t3s">דצמבר 2021</small><b data-t="t3b">הקונדיטוריה נפתחת</b><p data-t="t3p">הטייק אוויי הופך למקום של ממש בלב הכפר, יחד עם המשפחה. mako אוכל ממליץ לעצור.</p></li>
+    <li data-a><small data-t="t4s">היום</small><b data-t="t4b">498 ביקורות, 4.7 כוכבים</b><p data-t="t4p">אחמד עדיין מקבל כל קבוצה בעצמו, מספר את סיפור הכפר ומגיש את הטעימות.</p></li>
+   </ol>
+   <p class="quote" data-a><span data-t="cq">״תעבוד בשקט, ההצלחה תעשה את הרעש.״</span><small data-t="cqs">אחמד ח׳טיב</small></p>
+  </div>
+ </div>
+</section>
+
+<!-- BUILDER -->
+<section class="sec" id="build">
+ <div class="wrap">
+  <span class="kick" data-t="bk">הרכיבו את המנה שלכם</span>
+  <h2 style="margin-top:20px"><span data-t="bh1">הכנאפה</span> <span class="g" data-t="bh2">שלכם.</span></h2>
+  <div class="build">
+   <div class="stage" id="stage"><div class="ring"></div><div class="card" id="card"><img id="bimg" src="img/knafeh.webp" alt=""><span class="tagx" id="btag"></span><div class="flash" id="flash"></div></div></div>
+   <div class="opt">
+    <h4 data-t="b1">בחרו כנאפה</h4>
+    <div class="seg" id="bases"></div>
+    <h4 data-t="b2">תוספות</h4>
+    <div class="tg2" id="adds"></div>
+    <h4 data-t="b3">כמה מנות?</h4>
+    <div class="qty"><button id="qm" aria-label="פחות">−</button><output id="qv">2</output><button id="qp" aria-label="יותר">+</button></div>
+    <div class="sum" id="sum"></div>
+    <div class="chips" style="margin-top:20px"><button class="btn gd" id="badd"><span data-t="b4">הוסיפו להזמנה</span></button><a class="btn ol" href="#menu" data-t="b5">הוסיפו עוד מהתפריט</a></div>
+    <p class="note" data-t="b6">איסוף עצמי מהקונדיטוריה, תשלום במקום. ההזמנה נשלחת לוואטסאפ של אחמד.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- TRAYS -->
+<section class="scene split" id="trays" data-clip="5-trays" data-n="61" data-fx="gold">
+ <div class="stick">
+  <div class="obj fade-x"><canvas></canvas></div><div class="grad"></div>
+  <div class="cap" data-a><span class="n">01</span><span class="kick" data-t="tk">הוויטרינה</span><h2 style="margin-top:14px"><span data-t="th1">כל בוקר,</span><br><span class="g" data-t="th2">מגשים טריים.</span></h2><p class="lead" style="margin-top:16px" data-t="tp">בקלאווה פיסטוק, בקלאווה תורכית, בורמה, קני ציפור ובקלאווה במילוי מלבי. אורזים במשקל או במגש, וטועמים לפני שבוחרים.</p><p class="quote"><span data-t="tq">״הבקלאווה הכי טעימה שאכלתי בארץ. פיסטוק זה פיסטוק!״</span><small>עינבר אליהו · Google ★★★★★</small></p></div>
+ </div>
+</section>
+
+<!-- MENU -->
+<section class="sec" id="menu">
+ <div class="wrap">
+  <div class="mhead"><div><span class="kick" data-t="mk">התפריט</span><h2 style="margin-top:20px"><span data-t="mh1">לפי מה</span> <span class="g" data-t="mh2">שהכי מבקשים.</span></h2></div><p class="lead" data-t="mp">הדירוג מבוסס על 498 ביקורות בגוגל: מה האורחים מזכירים הכי הרבה, בסדר הזה. לחצו על + כדי להוסיף להזמנה.</p></div>
+  <div class="filters" id="filters"></div>
+  <div class="menu" id="mlist"></div>
+ </div>
+</section>
+
+<!-- AWWAMEH -->
+<section class="scene split" id="aww" data-clip="4-awwameh" data-n="49" data-fx="syrup">
+ <div class="stick">
+  <div class="obj fade-x"><canvas></canvas></div><div class="grad"></div>
+  <div class="cap" data-a><span class="n">02</span><span class="kick" data-t="wk">עוואמה</span><h2 style="margin-top:14px"><span data-t="wh1">כדורים</span><br><span class="g" data-t="wh2">של זהב.</span></h2><p class="lead" style="margin-top:16px" data-t="wp">פריכים מבחוץ, אווריריים מבפנים, טבולים בסירופ ומפוזרים בפיסטוק. מי שטעם, חוזר.</p><div class="pills"><span class="pill" data-t="w1">טרי מהסיר</span><span class="pill" data-t="w2">במשקל</span><span class="pill" data-t="w3">גם במגש</span></div></div>
+ </div>
+</section>
+
+<!-- SIGNATURE -->
+<section class="sig" id="sig" data-fx="petal">
+ <div class="wrap center">
+  <span class="kick" data-t="gk">הפרשנות של השף</span>
+  <h2 style="margin-top:22px"><span data-t="gh1">קלאסיקה סורית.</span><br><span class="g" data-t="gh2">טוויסט של שף.</span></h2>
+  <p class="lead" style="margin:22px auto 0;text-align:center" data-t="gp">אלה המנות שאחמד מגיש לכל קבוצה שמגיעה לטעימות, יחד עם הסיפור שמאחוריהן. לא תמצאו אותן ככה בשום מקום אחר.</p>
+ </div>
+ <div class="fly wrap" id="fly">
+  <div class="f f1" data-d="-1.2"><img src="img/madlouka.webp" alt="" loading="lazy"><span class="flab" data-t="f1">מדלוקה סורית</span></div>
+  <div class="f f2" data-d="1"><img src="img/halawet.webp" alt="" loading="lazy"><span class="flab" data-t="f2">חלאוות אל ג׳יבן</span></div>
+  <div class="f f3" data-d="-.7"><img src="img/trilece.webp" alt="" loading="lazy"><span class="flab" data-t="f3">טרילאצ׳ה</span></div>
+ </div>
+ <div class="wrap"><div class="inv" id="inv"></div></div>
+</section>
+
+<div class="nums">
+ <div><b class="g" data-count="4.7" data-dec="1">0</b><small data-t="u1">דירוג בגוגל</small></div>
+ <div><b class="g" data-count="498">0</b><small data-t="u2">ביקורות</small></div>
+ <div><b class="g" data-count="9">0</b><small data-t="u3">הכשרות קונדיטור</small></div>
+ <div><b class="g" data-count="2021" data-plain="1">0</b><small data-t="u4">שנת הפתיחה</small></div>
+</div>
+
+<!-- GIFTS -->
+<section class="sec" id="gifts">
+ <div class="wrap gift">
+  <div class="pics"><img class="a" src="img/gift-box.webp" alt="" loading="lazy"><img class="b" src="img/04-trays-knafeh-rolls-baklava.webp" alt="" loading="lazy"></div>
+  <div data-a>
+   <span class="kick" data-t="fk">אירוח, קבוצות וסדנאות</span>
+   <h2 style="margin-top:20px"><span data-t="fh1">יותר</span> <span class="g" data-t="fh2">מקינוח.</span></h2>
+   <p class="lead" style="margin-top:18px" data-t="fp">מטיילים בע׳ג׳ר? עצרו לטעימות עם הסיפור של הכפר. חוגגים משהו? המגש יחכה לכם מוכן.</p>
+   <ul><li data-t="fl1">תפריט טעימות לקבוצות, עם הסברים מהשף</li><li data-t="fl2">סדנת קינוחים סוריים ולבנוניים</li><li data-t="fl3">מגשי בקלאווה וכנאפה לאירועים ולחגים</li><li data-t="fl4">אפשר לאסוף את ההזמנה בכניסה לכפר</li></ul>
+   <a class="btn gd" id="gwa" href="#" target="_blank" rel="noopener" data-t="fc">תיאום בוואטסאפ</a>
+  </div>
+ </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="sec" id="reviews" style="padding-top:40px">
+ <div class="wrap"><span class="kick" data-t="rk">מה אומרים עלינו</span><h2 style="margin-top:20px"><span data-t="rh1">498 ביקורות.</span><br><span class="g" data-t="rh2">ככה זה נשמע.</span></h2>
+  <div class="gscore"><b class="g">4.7</b><span>★★★★★ <span data-t="rs">דירוג ממוצע בגוגל</span><br><span data-t="brand2">ממתקי אל ח׳טיב</span></span></div></div>
+ <div class="revs"><div class="tr" id="revs"></div></div>
+</section>
+
+<!-- VISIT -->
+<section class="scene fb" id="visit" data-clip="6-visit" data-n="0" data-fit="cover" data-fx="gold">
+ <div class="stick">
+  <div class="obj" id="vobj"><canvas></canvas></div>
+  <div class="vcard" data-a>
+   <span class="open" id="open"><i></i><span id="openT"></span></span>
+   <h2><span data-t="vh1">בואו</span> <span class="g" data-t="vh2">לטעום.</span></h2>
+   <div class="hrs" id="hrs"></div>
+   <p class="addr"><b data-t="va">רחוב אל־סלאם, כפר ע׳ג׳ר</b><br><span data-t="vp">הכפר הכי צפוני בארץ, מול הרי הלבנון ונחל החצבני. ישיבה במקום ואיסוף עצמי.</span></p>
+   <div class="acts">
+    <button class="btn gd full" id="vorder" data-t="vo">הזמנה לאיסוף בוואטסאפ</button>
+    <a class="btn ol" href="https://waze.com/ul?ll=33.2734921,35.6250997&navigate=yes" target="_blank" rel="noopener">Waze</a>
+    <a class="btn ol" href="https://maps.google.com/?cid=3356323698472323076" target="_blank" rel="noopener">Google Maps</a>
+    <a class="btn ol" href="tel:+972522231287" data-t="vc">חייגו</a>
+    <a class="btn ol" href="https://wa.me/972522231287" target="_blank" rel="noopener" data-t="vw">וואטסאפ</a>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <img src="img/logo.png" alt="">
+ <div><span data-t="brand3">ממתקי אל ח׳טיב</span> · <span data-t="fa">רחוב אל־סלאם, כפר ע׳ג׳ר</span></div>
+ <div style="margin-top:6px"><a href="tel:+972522231287" dir="ltr">052-223-1287</a></div>
+ <div class="soc">
+  <a href="https://www.instagram.com/ahmad_khateb1/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7.2A4.8 4.8 0 1 0 12 16.8 4.8 4.8 0 0 0 12 7.2Zm0 7.9a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2ZM17 5.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2ZM21.900 8c0-1.500-.5-2.900-1.600-3.900-1-1-2.400-1.600-3.900-1.600C14.900 2.400 9.100 2.400 7.600 2.500c-1.500 0-2.900.5-3.900 1.600-1 1-1.600 2.400-1.600 3.900-.1 1.500-.1 6.400 0 7.900 0 1.500.5 2.900 1.600 3.900 1 1 2.400 1.600 3.900 1.600 1.500.1 6.400.1 7.900 0 1.500 0 2.900-.5 3.900-1.600 1-1 1.600-2.400 1.600-3.900.1-1.500.1-6.400 0-7.900Zm-2 9.600a3.200 3.200 0 0 1-1.800 1.800c-1.300.5-4.200.4-5.600.4s-4.300.1-5.600-.4a3.200 3.200 0 0 1-1.800-1.800c-.5-1.300-.4-4.200-.4-5.600s-.1-4.300.4-5.600A3.200 3.200 0 0 1 6.400 4.600c1.300-.5 4.200-.4 5.600-.4s4.300-.1 5.600.4a3.200 3.200 0 0 1 1.800 1.800c.5 1.300.4 4.200.4 5.600s.1 4.300-.4 5.600Z"/></svg></a>
+  <a href="https://www.facebook.com/PastryChefKH" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.500 21v-7.500h2.500l.4-3h-2.900V8.600c0-.9.300-1.500 1.500-1.500h1.500V4.400A20 20 0 0 0 14.300 4.300c-2.200 0-3.700 1.300-3.700 3.800v2.400H8.100v3h2.500V21h2.900Z"/></svg></a>
+  <a href="https://wa.me/972522231287" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.600 15.100L2 22l5-1.300A10 10 0 1 0 12 2Zm5.500 14.100c-.2.600-1.300 1.200-1.800 1.200-.5.100-1 .2-3.400-.7-2.800-1.100-4.600-4-4.800-4.200-.1-.2-1.100-1.500-1.100-2.900s.7-2 1-2.300c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.300 1.700 2.100 1.200 1 2.100 1.400 2.400 1.500.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.900.9c.3.1.5.2.5.3.1.1.1.7-.2 1.400Z"/></svg></a>
+ </div>
+ <button class="a11y" id="a11yBtn" data-t="ax">הצהרת נגישות</button>
+ <div style="opacity:.6;margin-top:10px">© <span data-t="brand4">ממתקי אל ח׳טיב</span></div>
+</footer>
+
+<nav class="mbar" id="mbar" aria-label="פעולות מהירות">
+ <a href="tel:+972522231287"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span data-t="vc2">חייגו</span></a>
+ <button class="gd" id="cartBar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 7h14l-1.400 11.200a2 2 0 0 1-2 1.800H8.400a2 2 0 0 1-2-1.800L5 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><span><span data-t="cart2">ההזמנה שלי</span> <i class="cnt" data-cnt hidden>0</i></span></button>
+ <a href="https://waze.com/ul?ll=33.2734921,35.6250997&navigate=yes" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-6.200 7-12a7 7 0 1 0-14 0c0 5.800 7 12 7 12Z"/><circle cx="12" cy="10" r="2.500"/></svg><span data-t="nav">ניווט</span></a>
+</nav>
+
+<!-- CART SHEET -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shT" hidden>
+ <div class="grab" aria-hidden="true"></div>
+ <div class="sh-h"><h3 id="shT" data-t="o1">ההזמנה שלי</h3><button id="shX" aria-label="סגירה">✕</button></div>
+ <div class="sh-b">
+  <div id="lines"></div>
+  <p class="empty" id="empty" data-t="o2">עדיין לא הוספתם כלום. הרכיבו כנאפה או לחצו + על מנה בתפריט.</p>
+  <div class="form" id="oform">
+   <label><span data-t="o3">שם</span><input id="oname" type="text" autocomplete="given-name"></label>
+   <label><span data-t="o4">מתי אוספים?</span><select id="otime"></select></label>
+   <label class="full"><span data-t="o5">הערה (לא חובה)</span><input id="onote" type="text"></label>
+  </div>
+ </div>
+ <div class="sh-f">
+  <p class="note" data-t="o6">איסוף עצמי ותשלום במקום. אחמד יאשר את ההזמנה בוואטסאפ.</p>
+  <a class="btn gd full" id="osend" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.600 15.100L2 22l5-1.300A10 10 0 1 0 12 2Zm5.500 14.100c-.2.600-1.300 1.200-1.800 1.200-.5.100-1 .2-3.400-.7-2.800-1.100-4.600-4-4.800-4.200-.1-.2-1.100-1.500-1.100-2.900s.7-2 1-2.300c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.300 1.700 2.100 1.200 1 2.100 1.400 2.400 1.500.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.900.9c.3.1.5.2.5.3.1.1.1.7-.2 1.400Z"/></svg><span data-t="o7">שלחו הזמנה בוואטסאפ</span></a>
+ </div>
+</aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="a11y"><h3 data-t="x1">הצהרת נגישות</h3><p data-t="x2">האתר נבנה לפי תקן ישראלי 5568 ברמה AA: ניווט מלא במקלדת, ניגודיות גבוהה, טקסט חלופי לתמונות, תמיכה בקוראי מסך ובהעדפת ״הפחתת תנועה״ של המכשיר.</p><p data-t="x3">בקונדיטוריה יש מדרגה אחת בכניסה. נשמח לעזור ולהוציא את ההזמנה החוצה.</p><p><span data-t="x4">נתקלתם בבעיה? דברו איתנו:</span> <a href="tel:+972522231287" dir="ltr">052-223-1287</a></p><form method="dialog"><button class="btn ol" data-t="x5">סגירה</button></form></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
