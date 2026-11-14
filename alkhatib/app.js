@@ -181,7 +181,7 @@ function drawFx(){fc.clearRect(0,0,FW,FH);const pal=PAL[mode];
  fc.setTransform(1,0,0,1,0,0);fc.globalAlpha=1}
 
 /* ---------- layout cache ---------- */
-const hero=$('#hero'),rig=$('#rig'),hic=$('#hic'),hkn=$('#hkn'),huds=[$('#hud1'),$('#hud2'),$('#hud3')],ghost=$('#ghost');
+const hero=$('#hero'),hv=$('#hv'),ghost=$('#ghost');
 const hd=$('#hd'),mbar=$('#mbar'),words=$('#words');let ws=[];
 function splitWords(){words.innerHTML=words.innerHTML.replace(/<span class="w[^"]*">([^<]*)<\/span>/g,'$1').replace(/(<em>)|(<\/em>)|([^\s<>]+)/g,(m,a,b,w)=>w?`<span class="w">${w}</span>`:m);ws=[...words.querySelectorAll('.w')]}
 const anat=scenes.find(s=>s.clip==='3-anatomy');
@@ -225,19 +225,12 @@ function tick(t){
  const y=scrollY,H=VH;vel=vel*.85+(y-lastY)*.15;lastY=y;
  hd.classList.toggle('s',y>heroTop+heroH-H*.55);mbar.classList.toggle('on',y>heroTop+heroH-H*.55);
  mx+=(tmx-mx)*.08;my+=(tmy-my)*.08;
- // HERO 3D rig
- if(y<heroTop+heroH){const p=clamp((y-heroTop)/(heroH-H));const ts=t/1000;
-  if(introOn){kin+=(1-kin)*.06;const a=(0-drop)*.09;dv=(dv+a)*.86;drop+=dv;if(!landed&&drop>-.02){landed=true;burst(1.3,rig)}}
-  // one slow cinematic move with inertia: the dish turns toward the viewer and the slab floats up once (no back-and-forth)
-  if(landed&&!hT0)hT0=ts+1.2;const lt=hT0?Math.max(0,ts-hT0):0;hsp=1;const e=reduce?.5:(1-Math.cos(lt*.7))/2;const bob=reduce?0:Math.sin(ts*1.1)*.01;
-  const dirS=document.documentElement.dir==='ltr'?1:-1;
-  const rx=12-e*15+my*-8+(reduce?0:Math.sin(ts*.6)*.8),ry=mx*12+(reduce?0:Math.sin(ts*.45)*1.4)+(reduce?0:Math.sin(lt*.35)*9)*dirS;
-  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${((.72+.28*kin)*(1+e*(isM?.05:.12))).toFixed(4)})`;rig.style.opacity=kin;
-  hkn.style.transform='translateZ(0)';
-  hic.style.transform=`translate3d(${(e*-2).toFixed(2)}%,${((drop-e*(isM?.16:.3)+bob)*100).toFixed(2)}%,${(70+e*(isM?50:150)).toFixed(1)}px) rotate(${(-4-e*5+drop*20).toFixed(2)}deg)`;
-  hic.style.opacity=clamp(1.6+drop*1.1);
-  huds.forEach((h,i)=>h.classList.toggle('on',landed&&lt>.6+i*.5));
+ // HERO: self-playing turntable clip, independent of scrolling
+ if(y<heroTop+heroH){const p=clamp((y-heroTop)/(heroH||1));if(introOn)kin+=(1-kin)*.05;
+  hv.style.opacity=kin.toFixed(3);hv.style.transform=`translate(-50%,-50%) scale(${(.92+.08*kin).toFixed(4)})`;
+  if(introOn&&hv.paused&&!reduce)hv.play().catch(()=>{});
   ghost.style.transform=`translateX(${((p-.5)*-30).toFixed(2)}%)`}
+ else if(!hv.paused)hv.pause();
  for(const s of scenes){const top=s.top-y;if(top<H*2.5&&top+s.h>-H)load(s);if(top+s.h<0||top>H)continue;s.p=clamp(-top/(s.h-H||1));draw(s)}
  if(anat&&anat.top-y<H&&anat.top+anat.h-y>0){const p=anat.p;for(const o of L){const lp=clamp((p-o.a)/.12);o.l.style.strokeDashoffset=1-lp;o.c.style.opacity=lp>0?1:0;o.k.classList.toggle('on',lp>.85)}
   const g=clamp((p-.1)/.75);gf.style.strokeDashoffset=1-g;gv.textContent=Math.round(g*100)}
@@ -260,10 +253,11 @@ function tick(t){
 
 /* ---------- boot ---------- */
 renderAll();splitWords();layout();$$('[data-count]').forEach(c=>cio.observe(c));
-const ld=$('#ld'),bar=$('#ld .bar i');const need=[$('#hkn'),$('#hic')];let t0=performance.now();
-(function wait(){const n=need.filter(i=>i.complete&&i.naturalWidth).length;bar.style.width=(n/need.length*100)+'%';
- if(n===need.length||performance.now()-t0>5000){ld.classList.add('done');$$('#hero [data-a]').forEach(e=>e.classList.add('on'));setTimeout(()=>{introOn=true},250);layout()}else requestAnimationFrame(wait)})();
-if(reduce){drop=0;kin=1;landed=true}
+const ld=$('#ld'),bar=$('#ld .bar i');let t0=performance.now();
+(function wait(){const ok=hv.readyState>=2;bar.style.width=(ok?100:Math.min(90,(performance.now()-t0)/30))+'%';
+ if(ok||performance.now()-t0>3500){ld.classList.add('done');$$('#hero [data-a]').forEach(e=>e.classList.add('on'));setTimeout(()=>{introOn=true},200);layout()}else requestAnimationFrame(wait)})();
+if(reduce){kin=1}
+
 document.fonts&&document.fonts.ready.then(layout);
 requestAnimationFrame(tick);
 })();
