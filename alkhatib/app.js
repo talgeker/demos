@@ -230,9 +230,9 @@ function tick(t){
   if(introOn){kin+=(1-kin)*.06;const a=(0-drop)*.09;dv=(dv+a)*.86;drop+=dv;if(!landed&&drop>-.02){landed=true;burst(1.3,rig)}}
   const arc=Math.sin(Math.PI*clamp(p/.94));const lift=ease(arc);const sw=Math.sin(p*Math.PI*2);const bob=reduce?0:Math.sin(ts*1.3)*.012;
   const rx=10-arc*20+my*-9+(reduce?0:Math.sin(ts*.7)*1.2),ry=mx*14+(reduce?0:Math.sin(ts*.5)*2.2)+sw*(isM?17:22);
-  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${(sw*-3).toFixed(2)}deg) scale(${((.72+.28*kin)*(1+arc*(isM?.08:.16))).toFixed(4)})`;rig.style.opacity=kin;
+  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${(sw*-3).toFixed(2)}deg) scale(${((.72+.28*kin)*(1+arc*(isM?.04:.16))).toFixed(4)})`;rig.style.opacity=kin;
   hkn.style.transform=`translateZ(0) rotate(${(sw*6).toFixed(2)}deg)`;
-  hic.style.transform=`translate3d(${(lift*-3).toFixed(2)}%,${((drop-lift*(isM?.26:.34)+bob)*100).toFixed(2)}%,${(70+lift*(isM?80:170)).toFixed(1)}px) rotate(${(-4-lift*12+drop*20).toFixed(2)}deg)`;
+  hic.style.transform=`translate3d(${(lift*-3).toFixed(2)}%,${((drop-lift*(isM?.18:.34)+bob)*100).toFixed(2)}%,${(70+lift*(isM?55:170)).toFixed(1)}px) rotate(${(-4-lift*12+drop*20).toFixed(2)}deg)`;
   hic.style.opacity=clamp(1.6+drop*1.1);
   huds.forEach((h,i)=>h.classList.toggle('on',landed&&p>.1+i*.09&&p<.84));
   ghost.style.transform=`translateX(${((p-.5)*-30).toFixed(2)}%)`}
