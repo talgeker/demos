@@ -203,7 +203,7 @@ let VH=innerHeight,heroTop=0,heroH=1,geo=[];
 const absTop=el=>el.getBoundingClientRect().top+scrollY;
 function layout(){VH=innerHeight;heroTop=absTop(hero);heroH=hero.offsetHeight;
  scenes.forEach(s=>{s.top=absTop(s.el);s.h=s.el.offsetHeight;size(s)});
- geo={words:[absTop(words),words.offsetHeight],fly:[absTop(flyEl),flyEl.offsetHeight],chef:[absTop(chefEl),chefEl.offsetHeight],trays:[absTop(traysEl),traysEl.offsetHeight],aww:[absTop(awwEl),awwEl.offsetHeight],fx:fxSecs.map(s=>[absTop(s),s.offsetHeight,s.dataset.fx])};fxSize();const R=ring3.offsetWidth*1.02;rcs.forEach((c,i)=>{c.style.transform=`rotateY(${i*60}deg) translateZ(${R.toFixed(1)}px)`})}
+ geo={words:[absTop(words),words.offsetHeight],fly:[absTop(flyEl),flyEl.offsetHeight],chef:[absTop(chefEl),chefEl.offsetHeight],trays:[absTop(traysEl),traysEl.offsetHeight],aww:[absTop(awwEl),awwEl.offsetHeight],fx:fxSecs.map(s=>[absTop(s),s.offsetHeight,s.dataset.fx])};fxSize();{const dls=$$('#hspin .dl'),th=rig.offsetWidth*.075,n=dls.length;dls.forEach((d,i)=>{d.style.transform=`translateZ(${(-(n-1-i)*th/(n-1)).toFixed(2)}px)`})}const R=ring3.offsetWidth*1.02;rcs.forEach((c,i)=>{c.style.transform=`rotateY(${i*60}deg) translateZ(${R.toFixed(1)}px)`})}
 let rT;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(layout,120)});
 new ResizeObserver(()=>{clearTimeout(rT);rT=setTimeout(layout,120)}).observe(document.body);
 
@@ -231,9 +231,9 @@ function tick(t){
   // one slow cinematic move with inertia: the dish turns toward the viewer and the slab floats up once (no back-and-forth)
   if(landed&&!hT0)hT0=ts+1.2;const lt=hT0?Math.max(0,ts-hT0):0;hsp=1;const e=reduce?.5:(1-Math.cos(lt*.7))/2;const bob=reduce?0:Math.sin(ts*1.1)*.01;
   const dirS=document.documentElement.dir==='ltr'?1:-1;
-  const rx=12-e*15+my*-8+(reduce?0:Math.sin(ts*.6)*.8),ry=mx*12+(reduce?0:Math.sin(ts*.45)*1.4)+(reduce?0:Math.sin(lt*.35)*9)*dirS;
+  const rx=5-e*7+my*-6+(reduce?0:Math.sin(ts*.6)*.8),ry=mx*12+(reduce?0:Math.sin(ts*.45)*1.4)+(reduce?0:Math.sin(lt*.35)*9)*dirS;
   rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${((.72+.28*kin)*(1+e*(isM?.05:.12))).toFixed(4)})`;rig.style.opacity=kin;
-  hkn.style.transform='translateZ(0)';hspin.style.transform=`scaleY(.656) rotate(${(reduce?0:lt*24).toFixed(2)}deg) scaleY(1.5244)`;
+  hspin.style.transform=`rotateZ(${(reduce?0:lt*-20).toFixed(2)}deg)`;
   hic.style.transform=`translate3d(${(e*-2).toFixed(2)}%,${((drop-e*(isM?.16:.3)+bob)*100).toFixed(2)}%,${(70+e*(isM?50:150)).toFixed(1)}px) rotate(${(-4-e*5+drop*20).toFixed(2)}deg)`;
   hic.style.opacity=clamp(1.6+drop*1.1);
   huds.forEach((h,i)=>h.classList.toggle('on',landed&&lt>.6+i*.5));
