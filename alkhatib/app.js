@@ -217,7 +217,7 @@ const lenis=(window.Lenis&&!isM&&!reduce)?new Lenis({lerp:.12,wheelMultiplier:1.
 document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const h=a.getAttribute('href');if(h.length<2)return;const t=document.querySelector(h);if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:0}):t.scrollIntoView({behavior:reduce?'auto':'smooth'})});
 let mx=0,my=0,tmx=0,tmy=0;if(!isM)addEventListener('mousemove',e=>{tmx=e.clientX/innerWidth-.5;tmy=e.clientY/innerHeight-.5},{passive:true});
 // hero intro spring
-let drop=-1.5,dv=0,introOn=false,kin=0,landed=false;
+let hsp=0;let drop=-1.5,dv=0,introOn=false,kin=0,landed=false;
 let lastY=scrollY,hidden=false;document.addEventListener('visibilitychange',()=>hidden=document.hidden);
 function tick(t){
  requestAnimationFrame(tick);if(hidden)return;
@@ -228,13 +228,15 @@ function tick(t){
  // HERO 3D rig
  if(y<heroTop+heroH){const p=clamp((y-heroTop)/(heroH-H));const ts=t/1000;
   if(introOn){kin+=(1-kin)*.06;const a=(0-drop)*.09;dv=(dv+a)*.86;drop+=dv;if(!landed&&drop>-.02){landed=true;burst(1.3,rig)}}
-  const arc=Math.sin(Math.PI*clamp(p/.94));const lift=ease(arc);const sw=Math.sin(p*Math.PI*2);const bob=reduce?0:Math.sin(ts*1.3)*.012;
-  const rx=10-arc*20+my*-9+(reduce?0:Math.sin(ts*.7)*1.2),ry=mx*14+(reduce?0:Math.sin(ts*.5)*2.2)+sw*(isM?17:22);
-  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${(sw*-3).toFixed(2)}deg) scale(${((.72+.28*kin)*(1+arc*(isM?.04:.16))).toFixed(4)})`;rig.style.opacity=kin;
-  hkn.style.transform=`translateZ(0) rotate(${(sw*6).toFixed(2)}deg)`;
-  hic.style.transform=`translate3d(${(lift*-3).toFixed(2)}%,${((drop-lift*(isM?.18:.34)+bob)*100).toFixed(2)}%,${(70+lift*(isM?55:170)).toFixed(1)}px) rotate(${(-4-lift*12+drop*20).toFixed(2)}deg)`;
+  // one slow cinematic move with inertia: the dish turns toward the viewer and the slab floats up once (no back-and-forth)
+  hsp+=(p-hsp)*(reduce?1:.075);const q=clamp(hsp/.82);const e=q*q*(3-2*q);const bob=reduce?0:Math.sin(ts*1.1)*.01;
+  const dirS=document.documentElement.dir==='ltr'?1:-1;
+  const rx=12-e*15+my*-8+(reduce?0:Math.sin(ts*.6)*.8),ry=mx*12+(reduce?0:Math.sin(ts*.45)*1.4)+e*9*dirS;
+  rig.style.transform=`rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${((.72+.28*kin)*(1+e*(isM?.05:.12))).toFixed(4)})`;rig.style.opacity=kin;
+  hkn.style.transform='translateZ(0)';
+  hic.style.transform=`translate3d(${(e*-2).toFixed(2)}%,${((drop-e*(isM?.16:.3)+bob)*100).toFixed(2)}%,${(70+e*(isM?50:150)).toFixed(1)}px) rotate(${(-4-e*5+drop*20).toFixed(2)}deg)`;
   hic.style.opacity=clamp(1.6+drop*1.1);
-  huds.forEach((h,i)=>h.classList.toggle('on',landed&&p>.1+i*.09&&p<.84));
+  huds.forEach((h,i)=>h.classList.toggle('on',landed&&hsp>.12+i*.1&&hsp<.93));
   ghost.style.transform=`translateX(${((p-.5)*-30).toFixed(2)}%)`}
  for(const s of scenes){const top=s.top-y;if(top<H*2.5&&top+s.h>-H)load(s);if(top+s.h<0||top>H)continue;s.p=clamp(-top/(s.h-H||1));draw(s)}
  if(anat&&anat.top-y<H&&anat.top+anat.h-y>0){const p=anat.p;for(const o of L){const lp=clamp((p-o.a)/.12);o.l.style.strokeDashoffset=1-lp;o.c.style.opacity=lp>0?1:0;o.k.classList.toggle('on',lp>.85)}
