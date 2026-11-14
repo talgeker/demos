@@ -203,7 +203,7 @@ let VH=innerHeight,heroTop=0,heroH=1,geo=[];
 const absTop=el=>el.getBoundingClientRect().top+scrollY;
 function layout(){VH=innerHeight;heroTop=absTop(hero);heroH=hero.offsetHeight;
  scenes.forEach(s=>{s.top=absTop(s.el);s.h=s.el.offsetHeight;size(s)});
- geo={words:[absTop(words),words.offsetHeight],fly:[absTop(flyEl),flyEl.offsetHeight],chef:[absTop(chefEl),chefEl.offsetHeight],trays:[absTop(traysEl),traysEl.offsetHeight],aww:[absTop(awwEl),awwEl.offsetHeight],fx:fxSecs.map(s=>[absTop(s),s.offsetHeight,s.dataset.fx])};fxSize();{const dls=$$('#hspin .dl'),th=rig.offsetWidth*.075,n=dls.length;dls.forEach((d,i)=>{d.style.transform=`translateZ(${(-(n-1-i)*th/(n-1)).toFixed(2)}px)`})}const R=ring3.offsetWidth*1.02;rcs.forEach((c,i)=>{c.style.transform=`rotateY(${i*60}deg) translateZ(${R.toFixed(1)}px)`})}
+ geo={words:[absTop(words),words.offsetHeight],fly:[absTop(flyEl),flyEl.offsetHeight],chef:[absTop(chefEl),chefEl.offsetHeight],trays:[absTop(traysEl),traysEl.offsetHeight],aww:[absTop(awwEl),awwEl.offsetHeight],fx:fxSecs.map(s=>[absTop(s),s.offsetHeight,s.dataset.fx])};fxSize();{const ds=$$('#disc .ds'),th=rig.offsetWidth*.07,n=ds.length;ds.forEach((d,i)=>{d.style.transform=`translateZ(${(-(n-i)*th/n).toFixed(2)}px)`})}const R=ring3.offsetWidth*1.02;rcs.forEach((c,i)=>{c.style.transform=`rotateY(${i*60}deg) translateZ(${R.toFixed(1)}px)`})}
 let rT;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(layout,120)});
 new ResizeObserver(()=>{clearTimeout(rT);rT=setTimeout(layout,120)}).observe(document.body);
 
