@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero-rzr.webp">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=1794871539">
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -80,6 +80,17 @@
 <!-- 03 · what you meet on the way -->
 <section class="mq" aria-label="מה רואים בדרך"><div class="track" id="mq"></div></section>
 
+<!-- 04 · the machine, taken apart: the photoreal clip is scrubbed by the scroll -->
+<section id="xray" aria-label="הכלי, מפורק">
+ <div class="stick">
+  <canvas id="xCv" width="960" height="960" aria-hidden="true"></canvas>
+  <img id="xPoster" src="f/explode/m/000.webp" alt="פולריס רנג'ר לשישה נוסעים על רכס בזלת מול הכנרת בשקיעה" width="720" height="720">
+  <div class="x-copy"><span class="m k">// INSIDE THE MACHINE</span><h2 class="big">מה יש<br>בפנים.</h2><p>הרנג'ר החדש שלנו לשישה נוסעים, חלק אחרי חלק. ככה נראה כלי שמתוחזק כמו שצריך.</p></div>
+  <ol class="x-tags" aria-hidden="true"><li style="--x:50%;--y:16%">גג וכלוב מגן</li><li style="--x:29%;--y:44%">מנוע ותמסורת</li><li style="--x:43%;--y:58%">בולמי זעזועים</li><li style="--x:80%;--y:60%">צמיגי שטח</li><li style="--x:79%;--y:30%">ארגז מטען</li></ol>
+  <div class="x-meter" aria-hidden="true"><span class="m">ASSEMBLY</span><b id="xPct">100%</b></div>
+ </div>
+</section>
+
 <!-- 04 · the fleet -->
 <section id="fleet">
  <div class="head"><span class="m k">// THE FLEET</span><h2 class="big">הכלים.</h2><p class="lead">פולריס בלבד. כלים לארבעה ולשישה נוסעים, כך שכל המשפחה או כל החבר׳ה נוסעים יחד.</p></div>
@@ -138,7 +149,7 @@
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="data.js"></script>
-<script type="module" src="app.js"></script>
+<script src="data.js?v=1794871539"></script>
+<script type="module" src="app.js?v=1794871539"></script>
 </body>
 </html>

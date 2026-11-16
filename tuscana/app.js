@@ -102,6 +102,17 @@ const hero = $('#hero'), hp = { v: 0 };
 // real-time 3D model: kept as an option (?3d). The default hero is the photoreal picture, because the model read as a toy.
 if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf', { method: 'HEAD' }).then((r) => { if (r.ok) import('./hero3d.js').then((m) => m.start({ hero, canvas: $('#gl'), progress: () => hp.v, touch, reduce })).catch((e) => console.warn('3D hero off', e)); }).catch(() => {});
 
+/* ---------- x-ray: the Ranger comes apart and back together as you scroll ---------- */
+{
+  const sec = $('#xray'), cv = $('#xCv'), cx = cv.getContext('2d'), tags = $('.x-tags'), pct = $('#xPct'), N = 91, dir = `f/explode/${touch || innerWidth < 820 ? 'm' : 'd'}/`, fr = [];
+  let want = 0, shown = -1, started = false;
+  const draw = () => { let i = Math.round(cl(want) * (N - 1)); while (i > 0 && !(fr[i] && fr[i].complete && fr[i].naturalWidth)) i--; const f = fr[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cv.width !== f.naturalWidth) cv.width = cv.height = f.naturalWidth; cx.drawImage(f, 0, 0); shown = i; };
+  const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); sec.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; fr[i] = im; });
+  const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
+  ScrollTrigger.create({ trigger: sec, start: 'top 180%', onEnter: start });
+  ScrollTrigger.create({ trigger: sec, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (st) => { want = st.progress; draw(); const open = Math.sin(Math.PI * cl((want - .08) / .84)); tags.classList.toggle('on', want > .3 && want < .72); pct.textContent = Math.round(100 - open * 100) + '%'; } });
+}
+
 /* ---------- booking wizard -> WhatsApp ---------- */
 {
   const bk = $('#bk'), B = $('#bkB'), F = $('#bkF'), P = $('#bkP'), DAYN = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
@@ -116,7 +127,7 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
     { t: 'עם מי יוצאים לשטח?', s: 'נתאים לכם את המסלול ואת הכלים.', ok: () => st.who,
       html: () => `<div class="opts two">${T.book.who.map(([id, n, e]) => `<button class="op${st.who === id ? ' on' : ''}" data-v="${id}"><span class="e">${e}</span><span>${n}</span></button>`).join('')}</div>`,
       bind: () => $$('.op', B).forEach((b) => b.onclick = () => { st.who = b.dataset.v; if (st.who === 'couple') st.n = 2; else if (st.n < 3) st.n = st.who === 'team' ? 12 : 4; next(); }) },
-    { t: 'כמה אתם?', s: 'כולל ילדים. נוסעים מגיל 4.', ok: () => st.n > 0,
+    { t: 'כמה אתם?', s: 'כולל ילדים. מגיל 5, ופעוטות עם בוסטר.', ok: () => st.n > 0,
       html: () => `<div class="stepper"><button id="nM" aria-label="פחות">−</button><b id="nV" aria-live="polite">${st.n}</b><button id="nP" aria-label="יותר">+</button></div><div class="hint" id="nH"></div>`,
       bind: () => { const up = () => { $('#nV').textContent = st.n; $('#nH').innerHTML = `ל‑${people(st.n)} מתאים: <b>${vehicles(st.n).txt}</b>.${st.n >= 12 ? ' לקבוצות יש גם פריסת שטח וחבילות אירוח.' : ''}`; }; $('#nM').onclick = () => { st.n = Math.max(1, st.n - 1); up(); }; $('#nP').onclick = () => { st.n = Math.min(60, st.n + 1); up(); }; up(); } },
     { t: 'איזה מסלול?', s: 'לא בטוחים? בחרו את הראשון, ונתאים בטלפון.', ok: () => st.route,
@@ -141,7 +152,7 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
   const next = () => { if (st.step < STEPS.length - 1) { st.step++; draw(); } };
   function open(pre = {}) { lastFocus = document.activeElement; Object.assign(st, pre); st.step = pre.who ? 1 : 0; if (pre.route && !st.who) st.step = 0; draw(); bk.classList.add('on'); if (lenis) lenis.stop(); document.documentElement.style.overflow = 'hidden'; $('#bkX').focus({ preventScroll: true }); }
   function close() { bk.classList.remove('on'); if (lenis) lenis.start(); document.documentElement.style.overflow = ''; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
-  document.addEventListener('click', (e) => { const b = e.target.closest('[data-book],[data-route]'); if (!b) return; const pre = {}; if (b.dataset.who) { pre.who = ['couple', 'family', 'friends', 'team', 'event'].includes(b.dataset.who) ? b.dataset.who : 'event'; if (b.dataset.who === 'stay') pre.extras = ['suite']; if (pre.who === 'couple') pre.n = 2; else if (st.n < 3) pre.n = pre.who === 'team' ? 12 : 4; } if (b.dataset.route) pre.route = b.dataset.route; open(pre); });
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-book],[data-route]'); if (!b) return; const pre = {}; if (b.dataset.who) { pre.who = ['couple', 'family', 'friends', 'team', 'birthday', 'event'].includes(b.dataset.who) ? b.dataset.who : b.dataset.who === 'holiday' ? 'family' : 'friends'; if (b.dataset.who === 'stay') pre.extras = ['suite']; if (pre.who === 'couple') pre.n = 2; else if (st.n < 3) pre.n = pre.who === 'team' ? 12 : 4; } if (b.dataset.route) pre.route = b.dataset.route; open(pre); });
   $('#bkX').onclick = close; bk.addEventListener('click', (e) => { if (e.target === bk) close(); }); addEventListener('keydown', (e) => { if (e.key === 'Escape' && bk.classList.contains('on')) close(); });
   if (new URLSearchParams(location.search).has('book')) setTimeout(() => open(), 500);
 }
