@@ -57,7 +57,9 @@ if (!reduce) {
   const set = (t) => { t = cl(t); const p = trail.getPointAtLength(len * t * END); trail.style.strokeDashoffset = len * (1 - t * END); car.setAttribute('transform', `translate(${p.x} ${p.y})`); gKm.textContent = (t * 15).toFixed(1); gMin.textContent = Math.round(t * 75);
     T.stops.forEach((s, i) => { const on = t >= s.at - .02; gs[i].classList.toggle('on', on); }); };
   set(0);
-  ScrollTrigger.create({ trigger: '#stopList', start: 'top 72%', end: 'bottom 62%', scrub: reduce ? false : .4, onUpdate: (s) => set(s.progress) });
+  // phones: the map is not pinned (nothing slides over the stops), so the trail draws while the map itself crosses the screen
+  const small = matchMedia('(max-width:900px)').matches;
+  ScrollTrigger.create(small ? { trigger: '#map', start: 'top 80%', end: 'bottom 45%', scrub: reduce ? false : .4, onUpdate: (s) => set(s.progress) } : { trigger: '#stopList', start: 'top 72%', end: 'bottom 62%', scrub: reduce ? false : .4, onUpdate: (s) => set(s.progress) });
   lis.forEach((li) => ScrollTrigger.create({ trigger: li, start: 'top 80%', end: 'bottom 30%', onToggle: (s) => li.classList.toggle('on', s.isActive) }));
 }
 
