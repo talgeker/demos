@@ -9,8 +9,8 @@
 <link rel="icon" href="img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/hero-rzr.webp">
-<link rel="stylesheet" href="style.css?v=1794872103">
+<link rel="preload" as="image" href="img/hero-mud.webp">
+<link rel="stylesheet" href="style.css?v=1794872864">
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -21,26 +21,36 @@
 </header>
 
 <main id="main">
-<!-- 01 · the machine: a real 3D RZR, the camera flies around it as you scroll -->
+<!-- 01 · mud: the user's RZR, wheels spinning in place, mud spraying (a looping photoreal clip) -->
 <section id="hero" aria-label="פתיחה">
+ <div class="mud" aria-hidden="true">
+  <img id="mudPoster" src="img/hero-mud.webp" alt="" width="1199" height="1312">
+  <video id="mudA" muted playsinline preload="auto" poster="img/hero-mud.webp"></video>
+  <video id="mudB" muted playsinline preload="auto"></video>
+ </div>
+ <canvas id="dust" aria-hidden="true"></canvas>
+ <div class="h-copy" id="hc1">
+  <span class="m k">// טיולי רייזרים · יבנאל · מאז 2013</span>
+  <h1>יוצאים<br><em>לשטח.</em></h1>
+  <p>משדות בקעת יבנאל, בדרכי הבזלת, עד התצפית מרכס פוריה מול הכנרת.</p>
+  <div class="row"><button class="btn p" data-book>הזמנת טיול</button><a class="btn o" href="#route">המסלול שלנו</a></div>
+ </div>
+ <div class="scrollcue" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- 02 · the machine at golden hour: the camera circles the RZR as you scroll -->
+<section id="ride" aria-label="הכלי">
  <div class="stick">
   <div id="sky" aria-hidden="true"></div>
+  <div class="r-slot"><div class="h-copy alt" id="hc2"><span class="m k">// THE MACHINE</span><h2>ארבעה מקומות. אפס אספלט.</h2><p>פולריס RZR, ארבע חגורות בכל מושב, כלוב מגן מלא ומערכת שמע שמתחברת לטלפון שלכם.</p></div>
+  <div class="h-copy alt" id="hc3"><span class="m k">// LIGHTS ON</span><h2>מדליקים אורות.</h2><p>הכי יפה בשקיעה: האור על הבקעה ועל הכנרת.</p></div></div>
+  <div class="stage"><div class="box">
   <canvas id="gl" aria-hidden="true"></canvas>
-  <img id="heroImg" src="img/hero-rzr.webp" alt="רייזר פולריס על סלעי בזלת מול שקיעה" width="1254" height="1254">
+  <img id="heroImg" src="img/hero-rzr.webp" alt="רייזר פולריס על סלעי בזלת מול שקיעה" width="1254" height="1254" loading="lazy">
   <canvas id="heroCv" width="960" height="960" aria-hidden="true"></canvas>
-  <canvas id="dust" aria-hidden="true"></canvas>
+  </div></div>
   <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i>
-   <span class="m tl">32.713°N · 35.499°E</span><span class="m tr">YAVNE'EL · LOWER GALILEE</span>
    <span class="m bl" id="hudA">POLARIS RZR · 4 SEATS</span><span class="m br" id="hudB">000°</span></div>
-  <div class="h-copy" id="hc1">
-   <span class="m k">// טיולי רייזרים · יבנאל · מאז 2013</span>
-   <h1>יוצאים<br><em>לשטח.</em></h1>
-   <p>משדות בקעת יבנאל, בדרכי הבזלת, עד התצפית מרכס פוריה מול הכנרת.</p>
-   <div class="row"><button class="btn p" data-book>הזמנת טיול</button><a class="btn o" href="#route">המסלול שלנו</a></div>
-  </div>
-  <div class="h-copy alt" id="hc2"><span class="m k">// THE MACHINE</span><h2>ארבעה מקומות.<br>אפס אספלט.</h2><p>פולריס RZR, ארבע חגורות בכל מושב, כלוב מגן מלא ומערכת שמע שמתחברת לטלפון שלכם.</p></div>
-  <div class="h-copy alt" id="hc3"><span class="m k">// LIGHTS ON</span><h2>מדליקים<br>אורות.</h2><p>הכי יפה בשקיעה: האור על הבקעה ועל הכנרת.</p></div>
-  <div class="scrollcue" aria-hidden="true"><span></span></div>
  </div>
 </section>
 
@@ -83,10 +93,12 @@
 <!-- 04 · the machine, taken apart: the photoreal clip is scrubbed by the scroll -->
 <section id="xray" aria-label="הכלי, מפורק">
  <div class="stick">
+  <div class="x-copy"><span class="m k">// INSIDE THE MACHINE</span><h2 class="big">מה יש בפנים.</h2><p>הרנג'ר החדש שלנו לשישה נוסעים, חלק אחרי חלק. ככה נראה כלי שמתוחזק כמו שצריך.</p></div>
+  <div class="stage"><div class="box">
   <canvas id="xCv" width="960" height="960" aria-hidden="true"></canvas>
   <img id="xPoster" src="f/explode/m/000.webp" alt="פולריס רנג'ר לשישה נוסעים על רכס בזלת מול הכנרת בשקיעה" width="720" height="720">
-  <div class="x-copy"><span class="m k">// INSIDE THE MACHINE</span><h2 class="big">מה יש<br>בפנים.</h2><p>הרנג'ר החדש שלנו לשישה נוסעים, חלק אחרי חלק. ככה נראה כלי שמתוחזק כמו שצריך.</p></div>
-  <ol class="x-tags" aria-hidden="true"><li style="--x:50%;--y:16%">גג וכלוב מגן</li><li style="--x:29%;--y:44%">מנוע ותמסורת</li><li style="--x:43%;--y:58%">בולמי זעזועים</li><li style="--x:80%;--y:60%">צמיגי שטח</li><li style="--x:79%;--y:30%">ארגז מטען</li></ol>
+  <ol class="x-tags" aria-hidden="true"><li style="--x:50%;--y:16%">גג וכלוב מגן</li><li style="--x:29%;--y:44%">מנוע ותמסורת</li><li style="--x:43%;--y:58%">בולמי זעזועים</li><li style="--x:80%;--y:66%">צמיגי שטח</li><li style="--x:80%;--y:28%">ארגז מטען</li></ol>
+  </div></div>
   <div class="x-meter" aria-hidden="true"><span class="m">ASSEMBLY</span><b id="xPct">100%</b></div>
  </div>
 </section>
@@ -149,7 +161,7 @@
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="data.js?v=1794872103"></script>
-<script type="module" src="app.js?v=1794872103"></script>
+<script src="data.js?v=1794872864"></script>
+<script type="module" src="app.js?v=1794872864"></script>
 </body>
 </html>

@@ -72,22 +72,36 @@ if (!reduce) {
   deck.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); deck.scrollBy({ left: (e.key === 'ArrowLeft' ? -1 : 1) * cards[0].offsetWidth, behavior: 'smooth' }); } });
 }
 
-/* ---------- hero: copy changes with the scroll; dust in front of everything ---------- */
-const hero = $('#hero'), hp = { v: 0 };
+/* ---------- hero: the mud clip loops without a seam (two copies cross-fade at the joint) ---------- */
+const hero = $('#hero'), ride = $('#ride'), hp = { v: 0 };
 {
-  const c1 = $('#hc1'), c2 = $('#hc2'), c3 = $('#hc3'), img = $('#heroImg'), hudB = $('#hudB'), hudA = $('#hudA');
-  // the photoreal clip (the camera circles the RZR, the lights come on), cut to frames and scrubbed by the scroll
-  const cvs = $('#heroCv'), ctx = cvs.getContext('2d'), N = 81, dir = `f/orbit/${touch || innerWidth < 820 ? 'm' : 'd'}/`, frames = []; let want = 0, shown = -1, ready = 0;
-  const draw = () => { let i = Math.round(cl(want / .92) * (N - 1)); while (i > 0 && !(frames[i] && frames[i].complete && frames[i].naturalWidth)) i--; const f = frames[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cvs.width !== f.naturalWidth) cvs.width = cvs.height = f.naturalWidth; ctx.drawImage(f, 0, 0); shown = i; };
-  const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { ready++; if (i === 0 && im.naturalWidth) { draw(); hero.classList.add('seq'); } else if (ready % 6 === 0) draw(); res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; frames[i] = im; });
-  if (!reduce) (async () => { await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st = st >> 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) await Promise.all(order.slice(k, k + 4).map(load)); draw(); })();
+  const A = $('#mudA'), B = $('#mudB'), src = `f/mud/${touch || innerWidth < 820 ? 'm' : 'd'}.mp4`, FADE = .7;
+  if (!reduce) {
+    [A, B].forEach((v) => { v.src = src; v.load(); });
+    let cur = A, nxt = B, fading = false;
+    const tick = () => { requestAnimationFrame(tick); if (!cur.duration || fading) return; if (cur.currentTime > cur.duration - FADE - .05) { fading = true; nxt.currentTime = 0; nxt.play().catch(() => {}); nxt.style.transition = cur.style.transition = `opacity ${FADE}s linear`; nxt.style.opacity = 1; cur.style.opacity = 0; setTimeout(() => { cur.pause(); [cur, nxt] = [nxt, cur]; fading = false; }, FADE * 1000 + 40); } };
+    A.play().then(() => { $('#mudPoster').style.opacity = 0; }).catch(() => {}); requestAnimationFrame(tick);
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) cur.play().catch(() => {}); else { A.pause(); B.pause(); } }).observe(hero);
+    ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: (st) => { $('.mud').style.transform = `translateY(${st.progress * 18}%) scale(${1 + st.progress * .08})`; $('#hc1').style.opacity = 1 - cl(st.progress / .55); $('.scrollcue').style.opacity = 1 - cl(st.progress / .1); } });
+  }
+}
+/* ---------- the machine at golden hour: copy changes with the scroll ---------- */
+{
+  const c2 = $('#hc2'), c3 = $('#hc3'), img = $('#heroImg'), hudB = $('#hudB'), hudA = $('#hudA');
   const show = (el, a) => { el.style.opacity = a; el.style.visibility = a > .01 ? 'visible' : 'hidden'; el.style.transform = `translateY(${(1 - a) * 30}px)`; };
   const win = (p, a, b, c, d) => cl((p - a) / (b - a)) * (1 - cl((p - c) / (d - c)));
-  ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
-    show(c1, 1 - cl(p / .16)); show(c2, win(p, .22, .32, .5, .58)); show(c3, win(p, .64, .74, .92, .99));
-    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .2 ? 'POLARIS RZR · 4 SEATS' : p < .6 ? '4‑POINT HARNESS · FULL CAGE' : 'LIGHTS ON · GOLDEN HOUR';
-    if (!hero.classList.contains('gl')) { const tf = `translateX(-50%) scale(${1 + p * .16}) translateY(${-p * 3}%)`; img.style.transform = tf; cvs.style.transform = tf; want = p; draw(); }
-    $('.scrollcue').style.opacity = 1 - cl(p / .05); } });
+  // the photoreal clip (the camera circles the RZR, the lights come on), cut to frames and scrubbed by the scroll
+  const cvs = $('#heroCv'), ctx = cvs.getContext('2d'), N = 81, dir = `f/orbit/${touch || innerWidth < 820 ? 'm' : 'd'}/`, frames = []; let want = 0, shown = -1, started = false;
+  const draw = () => { let i = Math.round(cl(want / .92) * (N - 1)); while (i > 0 && !(frames[i] && frames[i].complete && frames[i].naturalWidth)) i--; const f = frames[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cvs.width !== f.naturalWidth) cvs.width = cvs.height = f.naturalWidth; ctx.drawImage(f, 0, 0); shown = i; };
+  const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); ride.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; frames[i] = im; });
+  const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
+  ScrollTrigger.create({ trigger: ride, start: 'top 200%', onEnter: start });
+  ScrollTrigger.create({ trigger: ride, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
+    show(c2, win(p, .04, .14, .44, .54)); show(c3, win(p, .6, .7, .92, .99));
+    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .5 ? 'POLARIS RZR · 4 SEATS' : 'LIGHTS ON · GOLDEN HOUR';
+    if (!ride.classList.contains('gl')) { want = p; draw(); } } });
+}
+{
   // dust: soft particles drifting toward the viewer, in front of the vehicle and the text
   const cv = $('#dust'), cx = cv.getContext('2d'); let W, H, D = Math.min(devicePixelRatio, 2), P = [], vis = true, last = 0;
   const size = () => { W = cv.width = cv.clientWidth * D; H = cv.height = cv.clientHeight * D; };
@@ -102,7 +116,7 @@ const hero = $('#hero'), hp = { v: 0 };
   requestAnimationFrame(tick);
 }
 // real-time 3D model: kept as an option (?3d). The default hero is the photoreal picture, because the model read as a toy.
-if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf', { method: 'HEAD' }).then((r) => { if (r.ok) import('./hero3d.js').then((m) => m.start({ hero, canvas: $('#gl'), progress: () => hp.v, touch, reduce })).catch((e) => console.warn('3D hero off', e)); }).catch(() => {});
+if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf', { method: 'HEAD' }).then((r) => { if (r.ok) import('./hero3d.js').then((m) => m.start({ hero: ride, canvas: $('#gl'), progress: () => hp.v, touch, reduce })).catch((e) => console.warn('3D hero off', e)); }).catch(() => {});
 
 /* ---------- x-ray: the Ranger comes apart and back together as you scroll ---------- */
 {
