@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STEAKWOOD · ניהול</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="STEAKWOOD">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>window.SW_BASE = '../';</script>
+<script src="../menu-data.js"></script><script src="../sw-store.js"></script>
+<style>
+:root{--bg:#0b0b0b;--card:#141413;--card2:#1b1a18;--cream:#EFE3C8;--cream2:#CDBB96;--ember:#FF6A2B;--mut:rgba(239,227,200,.56);--line:rgba(239,227,200,.12);--ok:#7ED9A0;--bad:#FF8F7A}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:Heebo,system-ui,sans-serif;color:var(--cream);background:var(--bg);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+button,input,select,textarea{font-family:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.mono{font-family:'JetBrains Mono',monospace;direction:ltr;unicode-bidi:isolate}
+.serif{font-family:'Frank Ruhl Libre',serif;font-weight:900}
+.k{font:400 10.5px 'JetBrains Mono';letter-spacing:2px;color:var(--mut);text-transform:uppercase;direction:ltr;unicode-bidi:isolate}
+#app{max-width:880px;margin:0 auto;min-height:100%;padding:0 16px calc(env(safe-area-inset-bottom) + 104px)}
+/* login */
+#login{min-height:100dvh;display:grid;place-items:center;padding:24px}
+#login .box{width:min(400px,100%);text-align:center}
+#login img{width:92px;height:92px;border-radius:24px;margin-bottom:18px}
+#login h1{font-size:34px;line-height:1}
+#login p{color:var(--mut);margin:8px 0 26px;font-size:15px}
+.f{width:100%;height:54px;border-radius:16px;border:1px solid rgba(239,227,200,.18);background:#101010;font-size:16px;padding:0 16px;outline:none;transition:border-color .2s}
+.f:focus{border-color:var(--ember)}
+textarea.f{height:86px;padding:14px 16px;resize:none}
+select.f{appearance:none;-webkit-appearance:none}
+.btn{height:54px;border-radius:27px;border:1px solid rgba(239,227,200,.24);background:none;font-weight:700;font-size:15px;padding:0 22px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s,opacity .2s}
+a.btn{color:inherit;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn.p{background:var(--ember);border-color:var(--ember);color:#0b0b0b}
+.btn.c{background:var(--cream);border-color:var(--cream);color:#0b0b0b}
+.btn.r{color:var(--bad);border-color:rgba(255,143,122,.4)}
+.btn.w{width:100%}
+.btn.s{height:42px;font-size:13.5px;padding:0 16px}
+.btn:disabled{opacity:.4}
+#login .demo{margin-top:26px;padding:18px;border:1px dashed rgba(239,227,200,.22);border-radius:20px}
+#login .demo .k{display:block;margin-bottom:12px}
+#login .demo div{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#login .err{color:var(--bad);font-size:14px;min-height:20px;margin-top:10px}
+/* header */
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 14px) 0 12px;background:linear-gradient(var(--bg) 78%,transparent)}
+header img{width:42px;height:42px;border-radius:12px}
+header .t{flex:1;min-width:0}
+header .t b{display:block;font:900 20px 'Frank Ruhl Libre';line-height:1.05}
+header .t span{font-size:12.5px;color:var(--mut)}
+.ib{width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:18px;position:relative}
+.ib.on{border-color:rgba(255,106,43,.6);color:var(--ember)}
+h2{font:900 30px 'Frank Ruhl Libre';line-height:1.05;margin:10px 0 4px}
+.sub{color:var(--mut);font-size:14px;margin-bottom:16px}
+/* tabs */
+nav{position:fixed;z-index:30;bottom:0;left:0;right:0;padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);background:rgba(11,11,11,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+nav div{max-width:560px;margin:0 auto;display:flex;gap:6px}
+nav button{flex:1;height:54px;border-radius:18px;border:0;background:none;color:var(--mut);font-size:11.5px;font-weight:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+nav button i{font-style:normal;font-size:19px;line-height:1}
+nav button.on{background:var(--card2);color:var(--cream)}
+/* bookings */
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 auto;min-width:68px;height:66px;border-radius:18px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;color:var(--cream2)}
+.day b{font:600 17px 'JetBrains Mono';color:var(--cream);direction:ltr}
+.day small{font-size:10.5px;color:var(--mut)}
+.day.on{background:var(--cream);border-color:var(--cream);color:#3a3222}
+.day.on b{color:#0b0b0b}.day.on small{color:#5c513b}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 14px 12px}
+.stat b{display:block;font:600 28px 'JetBrains Mono';direction:ltr;text-align:right;line-height:1.1}
+.stat span{font-size:12.5px;color:var(--mut)}
+.search{position:relative;margin-bottom:6px}
+.search .f{height:48px;padding-inline-start:44px;border-radius:24px}
+.search i{position:absolute;inset-inline-start:17px;top:13px;font-style:normal;opacity:.5}
+.slot{display:flex;align-items:center;gap:12px;margin:20px 2px 10px}
+.slot b{font:600 17px 'JetBrains Mono';direction:ltr}
+.slot .barw{flex:1;height:5px;border-radius:3px;background:rgba(239,227,200,.1);overflow:hidden}
+.slot .barw i{display:block;height:100%;border-radius:3px;background:var(--cream2)}
+.slot .barw i.hot{background:var(--ember)}
+.slot span{font-size:12.5px;color:var(--mut)}
+.bk{background:var(--card);border:1px solid var(--line);border-radius:22px;margin-bottom:10px;overflow:hidden;transition:border-color .25s,opacity .25s}
+.bk.new{animation:flash 1.6s ease-out}
+@keyframes flash{0%{border-color:var(--ember);box-shadow:0 0 0 4px rgba(255,106,43,.25)}100%{box-shadow:0 0 0 0 transparent}}
+.bk .main{width:100%;display:flex;align-items:center;gap:13px;padding:14px 16px;background:none;border:0;text-align:right}
+.bk .n{flex:0 0 46px;height:46px;border-radius:15px;background:var(--card2);display:grid;place-items:center;font:600 18px 'JetBrains Mono'}
+.bk .who{flex:1;min-width:0}
+.bk .who b{display:block;font-size:16.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk .who span{font-size:13px;color:var(--mut);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{flex:0 0 auto;font-size:12px;font-weight:700;padding:5px 11px;border-radius:14px;background:rgba(239,227,200,.09);color:var(--cream2)}
+.chip.arrived{background:rgba(126,217,160,.15);color:var(--ok)}
+.chip.noshow,.chip.cancelled{background:rgba(255,143,122,.13);color:var(--bad)}
+.bk.cancelled,.bk.noshow{opacity:.5}
+.bk .more{display:none;padding:0 16px 16px}
+.bk.open .more{display:block}
+.bk .note{background:var(--card2);border-radius:14px;padding:10px 13px;font-size:14px;margin-bottom:12px;color:var(--cream)}
+.bk .meta{font-size:12.5px;color:var(--mut);margin-bottom:12px;display:flex;gap:14px;flex-wrap:wrap}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.acts .btn{height:48px;font-size:14px;padding:0 10px}
+.acts .full{grid-column:1/-1}
+.empty{text-align:center;color:var(--mut);padding:46px 20px;border:1px dashed rgba(239,227,200,.18);border-radius:24px;margin-top:18px;line-height:1.7}
+#fab{position:fixed;z-index:25;bottom:calc(env(safe-area-inset-bottom) + 88px);left:max(16px,calc(50% - 424px));height:56px;padding:0 22px;border-radius:28px;border:0;background:var(--ember);color:#0b0b0b;font-weight:800;font-size:15px;box-shadow:0 12px 34px rgba(255,106,43,.35)}
+/* panels */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin-bottom:14px}
+.panel h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.panel .hint{font-size:13px;color:var(--mut);margin-bottom:14px;line-height:1.55}
+.rowl{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.rowl:first-of-type{border-top:0}
+.rowl>span{font-size:15px}.rowl small{display:block;color:var(--mut);font-size:12.5px}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:42px;height:42px;border-radius:21px;border:1px solid var(--line);background:var(--card2);font-size:20px}
+.step b{min-width:46px;text-align:center;font:600 19px 'JetBrains Mono'}
+.tg{width:54px;height:32px;border-radius:16px;border:0;background:rgba(239,227,200,.16);position:relative;transition:background .2s;flex:0 0 auto}
+.tg::after{content:"";position:absolute;top:3px;right:3px;width:26px;height:26px;border-radius:13px;background:var(--cream);transition:transform .2s}
+.tg[aria-checked=true]{background:var(--ember)}.tg[aria-checked=true]::after{transform:translateX(-22px)}
+.hrs{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:8px 10px;align-items:center}
+.hrs .f{height:44px;padding:0 10px;text-align:center;font-family:'JetBrains Mono';direction:ltr}
+.hrs span{font-size:14.5px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}.cats::-webkit-scrollbar{display:none}
+.cat{flex:0 0 auto;height:42px;padding:0 18px;border-radius:21px;border:1px solid var(--line);background:var(--card);font-size:14px;font-weight:500;color:var(--cream2)}
+.cat.on{background:var(--cream);color:#0b0b0b;border-color:var(--cream);font-weight:700}
+.dish{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:10px;margin-bottom:8px}
+.dish .th{flex:0 0 62px;height:62px;border-radius:15px;background:var(--card2) center/cover;display:grid;place-items:center;font-size:20px;color:var(--mut)}
+.dish .in{flex:1;min-width:0;background:none;border:0;text-align:right}
+.dish .in b{display:block;font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dish .in span{font:600 13.5px 'JetBrains Mono';color:var(--cream2);direction:ltr;unicode-bidi:isolate}
+.dish .in em{font-style:normal;font-size:12px;color:var(--bad);margin-inline-start:8px}
+.dish.hide{opacity:.45}
+.dish .so{flex:0 0 auto;text-align:center}.dish .so small{display:block;font-size:10.5px;color:var(--mut);margin-top:3px}
+.ph{width:100%;aspect-ratio:16/10;border-radius:20px;background:var(--card2) center/cover;border:1px dashed rgba(239,227,200,.25);display:grid;place-items:center;color:var(--mut);font-size:14px;margin-bottom:12px;overflow:hidden;position:relative}
+.ph input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.ph.has{border-style:solid}.ph.has span{background:rgba(0,0,0,.6);padding:8px 14px;border-radius:20px;color:var(--cream)}
+.person{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.person:first-of-type{border-top:0}
+.person .av{width:44px;height:44px;border-radius:22px;background:var(--card2);display:grid;place-items:center;font-weight:700}
+.person div{flex:1}.person b{display:block;font-size:15.5px}.person span{font-size:12.5px;color:var(--mut)}
+.logl{font-size:13.5px;padding:10px 0;border-top:1px solid var(--line);display:flex;gap:10px}
+.logl:first-of-type{border-top:0}.logl time{color:var(--mut);font:400 12px 'JetBrains Mono';flex:0 0 46px;direction:ltr}.logl b{color:var(--cream2);font-weight:500}
+/* sheet */
+#sh{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+#sh.on{opacity:1;pointer-events:auto}
+#sh .c{width:min(560px,100%);max-height:92dvh;overflow:auto;background:linear-gradient(165deg,#181716,#0c0c0c);border:1px solid var(--line);border-bottom:0;border-radius:28px 28px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom) + 22px);transform:translateY(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#sh.on .c{transform:none}
+#sh h3{font:900 26px 'Frank Ruhl Libre';margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+#sh label{display:block;font-size:12.5px;color:var(--mut);margin:14px 0 7px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tb{height:48px;border-radius:14px;border:1px solid var(--line);background:var(--card);font:600 14px 'JetBrains Mono';direction:ltr;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.tb small{font:400 9.5px Heebo;color:var(--mut);direction:rtl}
+.tb.on{background:var(--cream);color:#0b0b0b;border-color:var(--cream)}.tb.on small{color:#5c513b}
+.tb.full small{color:var(--bad)}
+#toast{position:fixed;z-index:70;top:calc(env(safe-area-inset-top) + 12px);left:50%;transform:translate(-50%,-160%);width:min(440px,calc(100% - 24px));background:#1d1c1a;border:1px solid rgba(255,106,43,.5);border-radius:20px;padding:14px 16px;box-shadow:0 20px 50px rgba(0,0,0,.6);transition:transform .45s cubic-bezier(.2,.9,.2,1);display:flex;gap:12px;align-items:center}
+#toast.on{transform:translate(-50%,0)}
+#toast i{font-style:normal;font-size:22px}#toast b{display:block;font-size:15px}#toast span{font-size:13px;color:var(--cream2)}
+.demo-note{font-size:12.5px;color:var(--mut);text-align:center;margin:20px 0 0;line-height:1.6}
+@media(min-width:700px){.acts{grid-template-columns:repeat(4,1fr)}#sh{align-items:center}#sh .c{border-radius:28px;border-bottom:1px solid var(--line)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="sh" role="dialog" aria-modal="true"><div class="c" id="shc"></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const root = $('#root'); let me = SW.session(), tab = 'bk', date = SW.day(0), q = '', openCode = null, flash = null, mcat = 0;
+const ROLE = { owner: 'בעלים', host: 'מארחת' };
+
+/* ---------- sheet / toast / sound ---------- */
+function sheet(html) { $('#shc').innerHTML = html; $('#sh').classList.add('on'); const x = $('#shx'); if (x) x.onclick = closeSheet; const f = $('#shc input:not([type=file]),#shc textarea'); if (f && matchMedia('(min-width:700px)').matches) f.focus(); }
+const closeSheet = () => $('#sh').classList.remove('on');
+$('#sh').addEventListener('click', (e) => { if (e.target.id === 'sh') closeSheet(); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+function toast(icon, title, text) { const t = $('#toast'); t.innerHTML = `<i>${icon}</i><div><b>${esc(title)}</b><span>${esc(text || '')}</span></div>`; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 4200); }
+let ac; function ding() { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); [880, 1175].forEach((f, i) => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = 'sine'; g.gain.setValueAtTime(.0001, ac.currentTime + i * .13); g.gain.exponentialRampToValueAtTime(.18, ac.currentTime + i * .13 + .02); g.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + i * .13 + .35); o.connect(g).connect(ac.destination); o.start(ac.currentTime + i * .13); o.stop(ac.currentTime + i * .13 + .4); }); } catch (e) {} }
+function push(title, body) { if ('Notification' in window && Notification.permission === 'granted' && document.hidden) { try { new Notification(title, { body, icon: 'icon.png', tag: 'sw' + Date.now() }); } catch (e) {} } }
+
+/* ---------- live updates: a booking made on the site lands here at once ---------- */
+SW.on((e) => {
+  if (!me) return;
+  const b = e.code && SW.find(e.code), S = SW.settings(), fromGuest = !e.by;
+  if (b && fromGuest) {
+    const when = `${SW.fmtDate(b.date)} ${b.time}`, txt = `${b.name} · ${SW.people(b.n)} · ${when}`;
+    if (e.type === 'new' && S.notify.neu) { flash = b.code; ding(); toast('🔔', 'הזמנה חדשה', txt); push('הזמנה חדשה', txt); }
+    if (e.type === 'cancel' && S.notify.cancel) { ding(); toast('✕', 'הזמנה בוטלה', txt); push('הזמנה בוטלה', txt); }
+    if (e.type === 'change' && S.notify.change) { ding(); toast('↻', 'הזמנה שונתה', txt); push('הזמנה שונתה', txt); }
+  }
+  if (e.type === 'staff' || e.type === 'reset') { me = SW.session(); }
+  if (!$('#sh').classList.contains('on') || e.type === 'new' || e.type === 'cancel' || e.type === 'change') render();
+});
+
+/* ---------- login ---------- */
+function login() {
+  root.innerHTML = `<div id="login"><div class="box"><img src="icon.png" alt=""><h1 class="serif">STEAKWOOD</h1><p>ניהול הזמנות ותפריט</p>
+   <form id="lf"><input class="f" id="lu" placeholder="שם משתמש" autocomplete="username" autocapitalize="none" aria-label="שם משתמש" dir="ltr" style="text-align:right;margin-bottom:10px"><input class="f" id="lp" type="password" placeholder="סיסמה" autocomplete="current-password" aria-label="סיסמה" dir="ltr" style="text-align:right;margin-bottom:14px"><button class="btn p w">כניסה</button><div class="err" id="le" role="alert"></div></form>
+   <div class="demo"><span class="k">DEMO · כניסה מהירה</span><div><button class="btn s" data-u="owner">כניסה כבעלים</button><button class="btn s" data-u="host">כניסה כמארחת</button></div></div></div></div>`;
+  const go = (u, p) => { const r = SW.login(u, p); if (!r) { $('#le').textContent = 'שם משתמש או סיסמה לא נכונים'; return; } me = r; tab = 'bk'; date = SW.day(0); render(); };
+  $('#lf').onsubmit = (e) => { e.preventDefault(); go($('#lu').value, $('#lp').value); };
+  $$('#login [data-u]').forEach((b) => b.onclick = () => go(b.dataset.u, '1234'));
+}
+
+/* ---------- shell ---------- */
+function render() {
+  if (!me) return login();
+  const owner = me.role === 'owner', tabs = [['bk', '🗓', 'הזמנות'], ...(owner ? [['cap', '◔', 'מקומות'], ['menu', '🍽', 'תפריט'], ['team', '👥', 'צוות']] : [])];
+  if (!owner) tab = 'bk';
+  const perm = 'Notification' in window ? Notification.permission : 'none';
+  const y = scrollY;
+  root.innerHTML = `<div id="app"><header><img src="icon.png" alt=""><div class="t"><b>STEAKWOOD</b><span>${esc(me.name)} · ${ROLE[me.role]}</span></div>
+    <button class="ib${perm === 'granted' ? ' on' : ''}" id="bell" aria-label="התראות">🔔</button><button class="btn s" id="out" style="height:44px">יציאה</button></header>
+    <main id="view"></main></div>
+    ${tabs.length > 1 ? `<nav><div>${tabs.map(([k, i, n]) => `<button data-t="${k}" class="${k === tab ? 'on' : ''}" aria-current="${k === tab}"><i>${i}</i>${n}</button>`).join('')}</div></nav>` : ''}`;
+  $('#out').onclick = () => { SW.logout(); me = null; render(); };
+  $('#bell').onclick = async () => { if (!('Notification' in window)) return toast('🔔', 'התראות', 'בדפדפן הזה אין תמיכה בהתראות'); const p = await Notification.requestPermission(); toast('🔔', p === 'granted' ? 'התראות פעילות' : 'התראות כבויות', p === 'granted' ? 'תקבלו התראה על כל הזמנה, ביטול ושינוי' : 'אפשר להפעיל בהגדרות הדפדפן'); render(); };
+  $$('nav button').forEach((b) => b.onclick = () => { tab = b.dataset.t; render(); scrollTo(0, 0); });
+  ({ bk: vBookings, cap: vCap, menu: vMenu, team: vTeam })[tab]();
+  scrollTo(0, y);
+}
+
+/* ---------- bookings ---------- */
+function vBookings() {
+  const S = SW.settings(), list = SW.byDate(date), liveL = list.filter(SW.live), covers = liveL.reduce((a, b) => a + b.n, 0), arr = list.filter((b) => b.status === 'arrived').length;
+  const days = Array.from({ length: 14 }, (_, i) => { const d = SW.day(i), dt = new Date(d + 'T00:00'), n = SW.byDate(d).filter(SW.live).length; return `<button class="day${d === date ? ' on' : ''}" data-d="${d}">${i === 0 ? 'היום' : i === 1 ? 'מחר' : SW.DAYN[dt.getDay()]}<b>${dt.getDate()}.${dt.getMonth() + 1}</b><small>${n ? n + ' הזמנות' : '—'}</small></button>`; }).join('');
+  const ql = q.trim().toLowerCase(), shown = ql ? SW.all().filter((b) => (b.name + ' ' + b.tel.replace(/\D/g, '') + ' ' + b.code).toLowerCase().includes(ql.replace(/-/g, ''))).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)) : list;
+  const groups = {}; shown.forEach((b) => { const k = ql ? `${SW.fmtDate(b.date)} · ${b.time}` : b.time; (groups[k] = groups[k] || []).push(b); });
+  const card = (b) => `<div class="bk ${b.status}${b.code === openCode ? ' open' : ''}${b.code === flash ? ' new' : ''}" data-c="${b.code}">
+    <button class="main" aria-expanded="${b.code === openCode}"><span class="n">${b.n}</span><span class="who"><b>${esc(b.name)}</b><span>${b.note ? '✎ ' + esc(b.note) : esc(b.tel)}</span></span><span class="chip ${b.status}">${SW.STATUS[b.status]}</span></button>
+    <div class="more">${b.note ? `<div class="note">${esc(b.note)}</div>` : ''}<div class="meta"><span class="mono">${esc(b.tel)}</span><span>${b.src === 'phone' ? 'הוזמן בטלפון' : 'הוזמן באתר'}</span><span class="mono">${b.code}</span></div>
+     <div class="acts">${b.status === 'confirmed' ? `<button class="btn c" data-a="arrived">הגיעו ✓</button><button class="btn" data-a="noshow">לא הגיעו</button>` : `<button class="btn full" data-a="confirmed">החזרה ל״מאושר״</button>`}
+      <a class="btn" href="tel:${esc(b.tel.replace(/[^\d+]/g, ''))}">חיוג</a><button class="btn" data-a="edit">שינוי</button>${b.status !== 'cancelled' ? `<button class="btn r full" data-a="cancelled">ביטול ההזמנה</button>` : ''}</div></div></div>`;
+  $('#view').innerHTML = `<h2>${ql ? 'חיפוש' : SW.fmtDate(date)}</h2><p class="sub">${ql ? `${shown.length} תוצאות` : new Date(date + 'T00:00').toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+    <div class="days">${days}</div>
+    ${ql ? '' : `<div class="stats"><div class="stat"><b>${liveL.length}</b><span>הזמנות</span></div><div class="stat"><b>${covers}</b><span>סועדים</span></div><div class="stat"><b>${arr}<small style="font-size:15px;opacity:.5">/${liveL.length}</small></b><span>הגיעו</span></div></div>`}
+    <div class="search"><i>⌕</i><input class="f" id="q" placeholder="חיפוש לפי שם, טלפון או קוד" value="${esc(q)}" aria-label="חיפוש הזמנה"></div>
+    ${Object.keys(groups).length ? Object.entries(groups).map(([k, L]) => { const t = L[0].time, used = ql ? 0 : SW.taken(date, t), pc = Math.min(100, used / S.cap * 100); return `<div class="slot"><b>${k}</b>${ql ? '' : `<div class="barw"><i class="${pc >= 80 ? 'hot' : ''}" style="width:${pc}%"></i></div><span>${used}/${S.cap} סועדים</span>`}</div>${L.map(card).join('')}`; }).join('') : `<div class="empty">${ql ? 'לא נמצאה הזמנה מתאימה.' : 'אין עדיין הזמנות ליום הזה.<br>הזמנה חדשה מהאתר תופיע כאן מיד.'}</div>`}
+    <p class="demo-note">דמו: פתחו את האתר בלשונית נוספת, הזמינו שולחן, והוא יופיע כאן מיד עם צליל.</p>
+    <button id="fab">+ הזמנה</button>`;
+  flash = null;
+  $$('.day').forEach((b) => b.onclick = () => { date = b.dataset.d; q = ''; openCode = null; render(); });
+  const on = $('.day.on'); if (on) on.scrollIntoView({ inline: 'center', block: 'nearest' });
+  $('#q').oninput = (e) => { q = e.target.value; const p = e.target.selectionStart; vBookings(); const i = $('#q'); i.focus(); i.setSelectionRange(p, p); };
+  $$('.bk').forEach((el) => { const c = el.dataset.c;
+    $('.main', el).onclick = () => { openCode = openCode === c ? null : c; $$('.bk').forEach((x) => { const o = x.dataset.c === openCode; x.classList.toggle('open', o); $('.main', x).setAttribute('aria-expanded', o); }); };
+    $$('[data-a]', el).forEach((a) => a.onclick = () => { const act = a.dataset.a, b = SW.find(c); if (act === 'edit') return bookingSheet(b); if (act === 'cancelled' && !confirm(`לבטל את ההזמנה של ${b.name}?`)) return; openCode = act === 'arrived' ? null : c; SW.update(c, { status: act }, me.name); render(); }); });
+  $('#fab').onclick = () => bookingSheet();
+}
+function bookingSheet(b) {
+  const st = b ? { n: b.n, date: b.date, time: b.time } : { n: 2, date, time: null };
+  sheet(`<h3>${b ? 'שינוי הזמנה' : 'הזמנה חדשה'}<button class="ib" id="shx" aria-label="סגירה">✕</button></h3>
+    <div class="two"><div><label for="sN">שם</label><input class="f" id="sN" value="${esc(b ? b.name : '')}" autocomplete="off"></div><div><label for="sT">טלפון</label><input class="f" id="sT" inputmode="tel" dir="ltr" style="text-align:right" value="${esc(b ? b.tel : '')}" autocomplete="off"></div></div>
+    <div class="two"><div><label>סועדים</label><div class="step"><button id="sm" aria-label="פחות">−</button><b id="sn">${st.n}</b><button id="sp" aria-label="יותר">+</button></div></div><div><label for="sD">תאריך</label><input class="f" id="sD" type="date" value="${st.date}" min="${SW.day(0)}"></div></div>
+    <label>שעה</label><div class="tgrid" id="sG"></div>
+    <label for="sO">הערה</label><textarea class="f" id="sO">${esc(b ? b.note : '')}</textarea>
+    <button class="btn p w" id="sS" style="margin-top:16px">${b ? 'שמירה' : 'יצירת הזמנה'}</button>`);
+  const grid = () => { const S = SW.settings(), d = new Date(st.date + 'T00:00'), h = S.hours[d.getDay()], out = []; for (let m = SW.toMin(h.from); m <= SW.toMin(h.last); m += 30) { const t = SW.toT(m), left = S.cap - SW.taken(st.date, t, b && b.code); out.push(`<button class="tb${t === st.time ? ' on' : ''}${left < st.n ? ' full' : ''}" data-t="${t}">${t}<small>${left < st.n ? 'מלא' : 'נשארו ' + left}</small></button>`); } $('#sG').innerHTML = out.join(''); $$('#sG .tb').forEach((x) => x.onclick = () => { st.time = x.dataset.t; grid(); }); };
+  $('#sm').onclick = () => { st.n = Math.max(1, st.n - 1); $('#sn').textContent = st.n; grid(); }; $('#sp').onclick = () => { st.n = Math.min(40, st.n + 1); $('#sn').textContent = st.n; grid(); };
+  $('#sD').onchange = (e) => { st.date = e.target.value || st.date; grid(); }; grid();
+  $('#sS').onclick = () => { const name = $('#sN').value.trim(), tel = $('#sT').value.trim(); if (name.length < 2 || !st.time) return toast('!', 'חסרים פרטים', 'צריך שם ושעה'); const data = { name, tel, n: st.n, date: st.date, time: st.time, note: $('#sO').value.trim() };
+    if (b) SW.update(b.code, data, me.name); else { const r = SW.create(Object.assign(data, { src: 'phone' }), me.name); flash = r.code; } date = st.date; closeSheet(); render(); toast('✓', b ? 'ההזמנה עודכנה' : 'ההזמנה נוצרה', `${name} · ${SW.fmtDate(st.date)} ${st.time}`); };
+}
+
+/* ---------- capacity, hours, closures ---------- */
+function vCap() {
+  const S = SW.settings(), save = () => SW.saveSettings(S, me.name);
+  const stepper = (k, min, max, step, suf) => `<div class="step"><button data-k="${k}" data-d="${-step}" data-min="${min}" data-max="${max}" aria-label="פחות">−</button><b>${S[k]}${suf || ''}</b><button data-k="${k}" data-d="${step}" data-min="${min}" data-max="${max}" aria-label="יותר">+</button></div>`;
+  $('#view').innerHTML = `<h2>מקומות ושעות</h2><p class="sub">מה שנקבע כאן קובע מה הלקוחות רואים באתר.</p>
+    <div class="panel"><h3>כמה מקבלים</h3><p class="hint">כשחצי שעה מתמלאת, האתר מפסיק להציע אותה לבד.</p>
+      <div class="rowl"><span>סועדים בכל חצי שעה</span>${stepper('cap', 4, 200, 2)}</div>
+      <div class="rowl"><span>הזמנה גדולה ביותר באתר<small>מעבר לזה מתבקשים להתקשר</small></span>${stepper('maxParty', 2, 40, 1)}</div>
+      <div class="rowl"><span>הזמנה אחרונה לפני ההגעה<small>בדקות</small></span>${stepper('lead', 0, 240, 30)}</div></div>
+    <div class="panel"><h3>שעות הזמנה</h3><p class="hint">שעת פתיחה ושעת ההושבה האחרונה, לכל יום.</p><div class="hrs">${S.hours.map((h, i) => `<span>${SW.DAYN[i]}</span><input class="f" type="time" step="1800" data-i="${i}" data-f="from" value="${h.from}" aria-label="פתיחה ${SW.DAYN[i]}" ${h.open ? '' : 'disabled'}><input class="f" type="time" step="1800" data-i="${i}" data-f="last" value="${h.last}" aria-label="הושבה אחרונה ${SW.DAYN[i]}" ${h.open ? '' : 'disabled'}><button class="tg" role="switch" aria-checked="${h.open}" data-i="${i}" aria-label="פתוח ביום ${SW.DAYN[i]}"></button>`).join('')}</div></div>
+    <div class="panel"><h3>חסימת תאריכים ושעות</h3><p class="hint">חג, אירוע פרטי, שיפוץ. מה שחסום לא מוצע באתר.</p>
+      ${S.blocks.length ? S.blocks.map((b, i) => `<div class="rowl"><span>${SW.fmtDate(b.date)} ${b.from ? `<span class="mono">${b.from}–${b.to}</span>` : '· כל היום'}<small>${esc(b.why || '')}</small></span><button class="btn s r" data-del="${i}">הסרה</button></div>`).join('') : '<div class="rowl"><span style="color:var(--mut)">אין חסימות</span></div>'}
+      <button class="btn w s" id="addB" style="margin-top:12px">+ חסימה חדשה</button></div>
+    <div class="panel"><h3>התראות</h3><p class="hint">על מה הטלפון מצלצל.</p>${[['neu', 'הזמנה חדשה'], ['cancel', 'ביטול'], ['change', 'שינוי מועד']].map(([k, n]) => `<div class="rowl"><span>${n}</span><button class="tg" role="switch" aria-checked="${S.notify[k]}" data-nt="${k}" aria-label="${n}"></button></div>`).join('')}</div>`;
+  $$('.step button').forEach((b) => b.onclick = () => { const k = b.dataset.k; S[k] = Math.max(+b.dataset.min, Math.min(+b.dataset.max, S[k] + +b.dataset.d)); save(); vCap(); });
+  $$('.hrs input').forEach((x) => x.onchange = () => { S.hours[+x.dataset.i][x.dataset.f] = x.value; save(); });
+  $$('.hrs .tg').forEach((x) => x.onclick = () => { const h = S.hours[+x.dataset.i]; h.open = !h.open; save(); vCap(); });
+  $$('[data-nt]').forEach((x) => x.onclick = () => { S.notify[x.dataset.nt] = !S.notify[x.dataset.nt]; save(); vCap(); });
+  $$('[data-del]').forEach((x) => x.onclick = () => { S.blocks.splice(+x.dataset.del, 1); save(); vCap(); });
+  $('#addB').onclick = () => { sheet(`<h3>חסימה חדשה<button class="ib" id="shx" aria-label="סגירה">✕</button></h3><label for="bD">תאריך</label><input class="f" id="bD" type="date" value="${SW.day(1)}" min="${SW.day(0)}">
+      <div class="rowl" style="border:0;margin-top:8px"><span>כל היום</span><button class="tg" role="switch" aria-checked="true" id="bAll" aria-label="כל היום"></button></div>
+      <div class="two" id="bHrs" hidden><div><label for="bF">משעה</label><input class="f" id="bF" type="time" step="1800" value="18:00"></div><div><label for="bT">עד שעה</label><input class="f" id="bT" type="time" step="1800" value="20:00"></div></div>
+      <label for="bW">סיבה (לשימוש פנימי)</label><input class="f" id="bW" placeholder="אירוע פרטי"><button class="btn p w" id="bS" style="margin-top:16px">חסימה</button>`);
+    $('#bAll').onclick = (e) => { const on = e.target.getAttribute('aria-checked') !== 'true'; e.target.setAttribute('aria-checked', on); $('#bHrs').hidden = on; };
+    $('#bS').onclick = () => { const all = $('#bAll').getAttribute('aria-checked') === 'true', blk = { date: $('#bD').value, why: $('#bW').value.trim() }; if (!all) { blk.from = $('#bF').value; blk.to = $('#bT').value; } S.blocks.push(blk); S.blocks.sort((a, b) => a.date.localeCompare(b.date)); save(); closeSheet(); vCap(); }; };
+}
+
+/* ---------- menu ---------- */
+function vMenu() {
+  const M = SW.menu(); mcat = Math.min(mcat, M.length - 1); const C = M[mcat];
+  $('#view').innerHTML = `<h2>תפריט</h2><p class="sub">כל שינוי מופיע באתר מיד.</p>
+    <div class="cats">${M.map((c, i) => `<button class="cat${i === mcat ? ' on' : ''}" data-i="${i}">${esc(c.name)}</button>`).join('')}<button class="cat" id="addC">+ קטגוריה</button></div>
+    ${C.items.map((x, i) => `<div class="dish${x.hide ? ' hide' : ''}"><div class="th" ${x.im ? `style="background-image:url('${SW.img(x.im, 1)}')"` : ''}>${x.im ? '' : '🍽'}</div>
+      <button class="in" data-i="${i}"><b>${esc(x.n)}</b><span>${x.p} ₪</span>${x.hide ? '<em>מוסתר</em>' : ''}</button>
+      <div class="so"><button class="tg" role="switch" aria-checked="${!x.out}" data-o="${i}" aria-label="${esc(x.n)} זמין"></button><small>${x.out ? 'אזל' : 'זמין'}</small></div></div>`).join('') || '<div class="empty">אין עדיין מנות בקטגוריה הזאת.</div>'}
+    <button class="btn w" id="addD" style="margin-top:8px">+ מנה חדשה ב״${esc(C.name)}״</button>`;
+  $$('.cat[data-i]').forEach((b) => b.onclick = () => { mcat = +b.dataset.i; vMenu(); });
+  $('#addC').onclick = () => { const n = prompt('שם הקטגוריה החדשה'); if (!n || !n.trim()) return; M.push({ name: n.trim(), en: '', items: [] }); SW.saveMenu(M, me.name, 'קטגוריה חדשה: ' + n.trim()); mcat = M.length - 1; vMenu(); };
+  $$('[data-o]').forEach((b) => b.onclick = () => { const x = C.items[+b.dataset.o]; x.out = !x.out; SW.saveMenu(M, me.name, `${x.n}: ${x.out ? 'אזל' : 'חזר לתפריט'}`); vMenu(); });
+  $$('.dish .in').forEach((b) => b.onclick = () => dishSheet(M, mcat, +b.dataset.i));
+  $('#addD').onclick = () => dishSheet(M, mcat, -1);
+}
+function dishSheet(M, c, i) {
+  const isNew = i < 0, x = isNew ? { id: 'n' + Date.now(), n: '', d: '', p: '', im: '', ex: '', out: false, hide: false } : Object.assign({}, M[c].items[i]); let im = x.im;
+  sheet(`<h3>${isNew ? 'מנה חדשה' : 'עריכת מנה'}<button class="ib" id="shx" aria-label="סגירה">✕</button></h3>
+    <div class="ph${im ? ' has' : ''}" id="dPh" ${im ? `style="background-image:url('${SW.img(im)}')"` : ''}><span>${im ? 'החלפת תמונה' : '📷 הוספת תמונה מהטלפון'}</span><input type="file" accept="image/*" id="dF" aria-label="תמונת המנה"></div>
+    <label for="dN">שם המנה</label><input class="f" id="dN" value="${esc(x.n)}">
+    <label for="dD">תיאור</label><textarea class="f" id="dD">${esc(x.d)}</textarea>
+    <div class="two"><div><label for="dP">מחיר (₪)</label><input class="f mono" id="dP" inputmode="numeric" value="${esc(x.p)}"></div><div><label for="dE">הערה (תוספות וכו׳)</label><input class="f" id="dE" value="${esc(x.ex)}"></div></div>
+    <div class="rowl" style="margin-top:8px"><span>מוצג באתר<small>כיבוי מסתיר את המנה בלי למחוק</small></span><button class="tg" role="switch" aria-checked="${!x.hide}" id="dH" aria-label="מוצג באתר"></button></div>
+    ${isNew ? '' : `<div class="two" style="margin-top:6px"><button class="btn s" id="dUp" ${i === 0 ? 'disabled' : ''}>↑ הזזה למעלה</button><button class="btn s" id="dDn" ${i === M[c].items.length - 1 ? 'disabled' : ''}>↓ הזזה למטה</button></div>`}
+    <button class="btn p w" id="dS" style="margin-top:16px">שמירה</button>${isNew ? '' : '<button class="btn r w s" id="dX" style="margin-top:10px">מחיקת המנה</button>'}`);
+  $('#dH').onclick = (e) => e.target.setAttribute('aria-checked', e.target.getAttribute('aria-checked') !== 'true');
+  $('#dF').onchange = (e) => { const f = e.target.files[0]; if (!f) return; const img = new Image(); img.onload = () => { const k = Math.min(1, 1000 / Math.max(img.width, img.height)), cv = document.createElement('canvas'); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k); cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height); im = cv.toDataURL('image/jpeg', .82); const ph = $('#dPh'); ph.style.backgroundImage = `url('${im}')`; ph.classList.add('has'); $('span', ph).textContent = 'החלפת תמונה'; URL.revokeObjectURL(img.src); }; img.src = URL.createObjectURL(f); };
+  const read = () => Object.assign(x, { n: $('#dN').value.trim(), d: $('#dD').value.trim(), p: parseInt($('#dP').value) || 0, ex: $('#dE').value.trim(), im, hide: $('#dH').getAttribute('aria-checked') !== 'true' });
+  const done = (what) => { if (!SW.saveMenu(M, me.name, what)) return toast('!', 'התמונה גדולה מדי לדמו', 'בגרסה החיה אין מגבלה כזאת'); closeSheet(); vMenu(); };
+  $('#dS').onclick = () => { read(); if (!x.n) return toast('!', 'חסר שם למנה', ''); if (isNew) M[c].items.push(x); else M[c].items[i] = x; done(`${isNew ? 'מנה חדשה' : 'עדכון מנה'}: ${x.n}`); toast('✓', 'נשמר', x.n + ' · ' + x.p + ' ₪'); };
+  if (!isNew) { $('#dX').onclick = () => { if (!confirm(`למחוק את ״${x.n}״ מהתפריט?`)) return; M[c].items.splice(i, 1); done('מחיקת מנה: ' + x.n); };
+    const mv = (d) => { read(); M[c].items[i] = x; const L = M[c].items; [L[i], L[i + d]] = [L[i + d], L[i]]; done('שינוי סדר: ' + x.n); };
+    $('#dUp').onclick = () => mv(-1); $('#dDn').onclick = () => mv(1); }
+}
+
+/* ---------- team + activity ---------- */
+function vTeam() {
+  const T = SW.staff(), L = SW.activity().slice(0, 30);
+  $('#view').innerHTML = `<h2>צוות</h2><p class="sub">לכל עובד כניסה משלו. מארחת רואה ומנהלת רק הזמנות.</p>
+    <div class="panel">${T.map((u) => `<div class="person"><span class="av">${esc(u.name[0])}</span><div><b>${esc(u.name)}${u.id === me.id ? ' (את/ה)' : ''}</b><span>${ROLE[u.role]} · <span class="mono">${esc(u.user)}</span></span></div><button class="btn s" data-u="${u.id}">עריכה</button></div>`).join('')}
+      <button class="btn w s" id="addU" style="margin-top:12px">+ עובד חדש</button></div>
+    <div class="panel"><h3>פעילות אחרונה</h3><p class="hint">מי עשה מה, ומתי.</p>${L.map((l) => `<div class="logl"><time>${new Date(l.t).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}</time><span><b>${esc(l.who)}</b> · ${esc(l.text)}</span></div>`).join('') || '<div class="logl">אין עדיין פעילות</div>'}</div>
+    <button class="btn w s r" id="rst">איפוס נתוני הדמו</button>`;
+  const edit = (u) => { const isNew = !u; u = u || { id: 'u' + Date.now(), name: '', role: 'host', user: '', pass: '' };
+    sheet(`<h3>${isNew ? 'עובד חדש' : 'עריכת עובד'}<button class="ib" id="shx" aria-label="סגירה">✕</button></h3><label for="uN">שם</label><input class="f" id="uN" value="${esc(u.name)}">
+      <div class="two"><div><label for="uU">שם משתמש</label><input class="f" id="uU" dir="ltr" style="text-align:right" autocapitalize="none" value="${esc(u.user)}"></div><div><label for="uP">סיסמה</label><input class="f" id="uP" dir="ltr" style="text-align:right" value="${esc(u.pass)}"></div></div>
+      <label for="uR">תפקיד</label><select class="f" id="uR" ${u.id === me.id ? 'disabled' : ''}><option value="host" ${u.role === 'host' ? 'selected' : ''}>מארחת: הזמנות בלבד</option><option value="owner" ${u.role === 'owner' ? 'selected' : ''}>בעלים: גישה מלאה</option></select>
+      <button class="btn p w" id="uS" style="margin-top:16px">שמירה</button>${isNew || u.id === me.id ? '' : '<button class="btn r w s" id="uX" style="margin-top:10px">מחיקת העובד</button>'}`);
+    $('#uS').onclick = () => { const n = $('#uN').value.trim(), us = $('#uU').value.trim().toLowerCase(), p = $('#uP').value; if (!n || !us || p.length < 4) return toast('!', 'חסרים פרטים', 'שם, שם משתמש וסיסמה של 4 תווים לפחות'); if (T.some((x) => x.user === us && x.id !== u.id)) return toast('!', 'שם המשתמש תפוס', ''); Object.assign(u, { name: n, user: us, pass: p, role: $('#uR').value }); if (isNew) T.push(u); SW.saveStaff(T, me.name, `${isNew ? 'עובד חדש' : 'עדכון עובד'}: ${n}`); closeSheet(); me = SW.session(); render(); };
+    if ($('#uX')) $('#uX').onclick = () => { if (!confirm(`למחוק את ${u.name}?`)) return; SW.saveStaff(T.filter((x) => x.id !== u.id), me.name, 'מחיקת עובד: ' + u.name); closeSheet(); render(); }; };
+  $$('[data-u]').forEach((b) => b.onclick = () => edit(T.find((x) => x.id === b.dataset.u)));
+  $('#addU').onclick = () => edit();
+  $('#rst').onclick = () => { if (confirm('לאפס את כל נתוני הדמו (הזמנות, תפריט, צוות)?')) { SW.reset(); me = null; render(); } };
+}
+const pre = new URLSearchParams(location.search).get('as');
+if (pre && (!me || me.user !== pre)) { me = SW.login(pre, '1234') || me; history.replaceState(null, '', location.pathname); }
+render();
+setInterval(() => { if (me && tab === 'bk' && !$('#sh').classList.contains('on') && document.activeElement.id !== 'q') { const d = SW.day(0); if (date < d) date = d; } }, 60000);
+</script>
+</body>
+</html>

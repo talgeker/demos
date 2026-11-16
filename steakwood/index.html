@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="frames/manifest.js"></script>
+<script src="menu-data.js"></script><script src="sw-store.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--bg:#070707;--cream:#EFE3C8;--cream2:#CDBB96;--ember:#FF6A2B;--navy:#0F2C47;--mut:rgba(239,227,200,.56);--line:rgba(239,227,200,.13);--pad:clamp(18px,4vw,56px)}
@@ -282,7 +283,8 @@ button.btn{font-family:Heebo}
 #bar .btn{height:50px;flex:1;font-size:15px;padding:0 14px}#bar .btn.o{background:rgba(7,7,7,.7);flex:0 0 auto;padding:0 22px}#bar .btn.ic{padding:0;width:50px;font-size:19px}
 @media(max-width:860px){#bar{display:flex}footer{padding-bottom:calc(env(safe-area-inset-bottom) + 110px)}}
 @media(prefers-reduced-motion:reduce){.di{animation:none}.rv{transition:none}}
-</style></head>
+</style><link rel="stylesheet" href="sw.css">
+</head>
 <body>
 <div id="grain"></div><div id="cur"></div>
 <div id="ld"><img src="img/logo.png" alt=""><div class="bar"><b id="ldb"></b></div><div class="m" id="ldn" style="color:var(--mut)">000</div></div>
@@ -411,20 +413,8 @@ button.btn{font-family:Heebo}
   <div class="bt"><b class="num" id="dsP"></b><button class="btn c" id="dsR">הזמנת שולחן</button></div></div>
 </div></div>
 <div id="bar"><button class="btn c" data-rs>הזמנת שולחן</button><a class="btn o" href="#menu">תפריט</a><a class="btn o ic" href="tel:+972502483177" aria-label="התקשרו אלינו">☎</a></div>
-<div id="rs" data-lenis-prevent><div class="card">
- <button class="x" id="rsX" aria-label="סגירה">✕</button>
- <span class="m k" style="color:var(--ember)">// RESERVE</span>
- <h3>הזמנת שולחן</h3><p class="sub">STEAKWOOD · כביש 98, מסעדה</p>
- <label class="l">כמה סועדים</label>
- <div class="ppl"><span id="rsP">2 סועדים</span><div class="qty"><button id="rsM">−</button><b id="rsN">2</b><button id="rsPl">+</button></div></div>
- <label class="l">באיזה יום</label><div class="row" id="rsD"></div>
- <label class="l">באיזו שעה</label><div class="row times" id="rsT"></div>
- <label class="l">פרטים</label>
- <div class="two"><input class="f" id="rsName" placeholder="שם מלא" autocomplete="name"><input class="f" id="rsTel" placeholder="טלפון" inputmode="tel" autocomplete="tel"></div>
- <textarea class="f" id="rsNote" placeholder="הערות: יום הולדת, כיסא תינוק, אלרגיות…"></textarea>
- <button class="btn go" id="rsGo" disabled>שליחת בקשת הזמנה</button>
- <p class="note">הבקשה נשלחת ישירות למסעדה, והמסעדה חוזרת אליך לאישור.</p>
-</div></div>
+<div id="rs" data-lenis-prevent role="dialog" aria-modal="true" aria-label="הזמנת שולחן"><div class="card" id="rsCard"></div></div>
+<button id="mybk" aria-label="ההזמנה שלך"></button>
 <div id="wa"><div class="ph"><div class="hd"><img src="img/logo.png" alt=""><div><b id="waTo">STEAKWOOD</b><small>וואטסאפ</small></div></div><div class="bd"><div class="msg" id="waMsg"></div></div><div class="ft"><span id="waFt"></span><button class="btn" id="waOk">הבנתי</button></div></div></div>
 
 <script type="module">
@@ -464,7 +454,7 @@ function draw(s, idx) {
 const resize = () => scenes.forEach(fit); addEventListener('resize', resize); resize();
 
 /* ---------- smooth scroll ---------- */
-const lenis = new Lenis({ lerp: .12, smoothWheel: true });
+const lenis = new Lenis({ lerp: .12, smoothWheel: true }); window.__lenis = lenis;
 function raf(t) { lenis.raf(t); tick(); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(a.getAttribute('href'), { duration: 1.6 }); }));
@@ -509,33 +499,21 @@ document.addEventListener('pointerover', (e) => cur.classList.toggle('big', !!e.
 
 const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 2400); };
 function showWa(text, to, ft) { const n = new Date(); $('#waTo').textContent = to; $('#waFt').textContent = ft; $('#waMsg').innerHTML = text.replace(/&/g, '&amp;').replace(/</g, '&lt;') + `<i>${String(n.getHours()).padStart(2, '0')}:${String(n.getMinutes()).padStart(2, '0')}</i>`; $('#wa').classList.add('on'); }
-/* table reservation: lunch/dinner slots, Friday = breakfast only. Live site: the same text goes to https://wa.me/<restaurant number>?text= */
-const DAYN = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
-const slots = (wd) => { const out = [], add = (a, b) => { for (let m = a; m <= b; m += 30) out.push(`${String(m / 60 | 0).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`); }; add(12 * 60, 20 * 60); return out; };
-const rs = { n: 2, d: null, t: null };
-function rsTimes() { const now = new Date(), today = rs.d.toDateString() === now.toDateString(), cut = now.getHours() * 60 + now.getMinutes() + 60; $('#rsT').innerHTML = slots(rs.d.getDay()).map((t) => { const [h, m] = t.split(':').map(Number); return `<button class="ch t" ${today && h * 60 + m < cut ? 'disabled' : ''}>${t}</button>`; }).join(''); $$('#rsT .ch').forEach((b) => b.onclick = () => { rs.t = b.textContent; $$('#rsT .ch').forEach((x) => x.classList.toggle('on', x === b)); rsCheck(); }); rsCheck(); }
-function rsDays() { const now = new Date(); $('#rsD').innerHTML = Array.from({ length: 14 }, (_, i) => { const d = new Date(now); d.setDate(now.getDate() + i); const lab = i === 0 ? 'היום' : i === 1 ? 'מחר' : DAYN[d.getDay()]; return `<button class="ch" data-i="${i}">${lab}<b>${d.getDate()}.${d.getMonth() + 1}</b></button>`; }).join(''); $$('#rsD .ch').forEach((b) => b.onclick = () => { const d = new Date(); d.setDate(d.getDate() + +b.dataset.i); rs.d = d; rs.t = null; $$('#rsD .ch').forEach((x) => x.classList.toggle('on', x === b)); rsTimes(); }); $('#rsD .ch').click(); }
-function rsCheck() { $('#rsGo').disabled = !(rs.d && rs.t && $('#rsName').value.trim().length > 1 && $('#rsTel').value.replace(/\D/g, '').length >= 9); }
-function rsN() { $('#rsN').textContent = rs.n; $('#rsP').textContent = rs.n === 1 ? 'סועד אחד' : rs.n + ' סועדים'; }
-$('#rsM').onclick = () => { rs.n = Math.max(1, rs.n - 1); rsN(); }; $('#rsPl').onclick = () => { rs.n = Math.min(20, rs.n + 1); rsN(); };
-['#rsName', '#rsTel'].forEach((q) => $(q).addEventListener('input', rsCheck));
-const rsOpen = () => { rsDays(); $('#rs').classList.add('on'); lenis.stop(); }, rsClose = () => { $('#rs').classList.remove('on'); lenis.start(); };
-$$('[data-rs]').forEach((b) => b.onclick = rsOpen); $('#rsX').onclick = rsClose; $('#rs').addEventListener('click', (e) => { if (e.target.id === 'rs') rsClose(); });
-$('#rsGo').onclick = () => { const d = rs.d, note = $('#rsNote').value.trim(); const txt = `שלום STEAKWOOD, אשמח להזמין שולחן 🥩\nיום ${DAYN[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1} · ${rs.t}\n${rs.n === 1 ? 'סועד אחד' : rs.n + ' סועדים'}\nשם: ${$('#rsName').value.trim()}\nטלפון: ${$('#rsTel').value.trim()}${note ? '\nהערות: ' + note : ''}`; rsClose(); showWa(txt, 'STEAKWOOD · הזמנות', 'כך הבקשה תגיע לוואטסאפ של המסעדה (050-2483177). המסעדה מאשרת ללקוח בחזרה בהודעה.'); };
 $('#waOk').onclick = () => $('#wa').classList.remove('on');
 $('#wa').addEventListener('click', (e) => { if (e.target.id === 'wa') $('#wa').classList.remove('on'); });
 
 /* ---------- signature carousel (depth: the centre card is full size, neighbours recede) ---------- */
-const MENU = [["פתיחת שולחן", "TO START", [["מבחר סלטים ליחיד", "בהזמנת מנה עיקרית.", 45, "opening", ""], ["מבחר סלטים ליחיד", "ללא ארוחה עיקרית.", 65, "mezze", ""]]], ["סלטים", "SALADS", [["תבולה", "פטרוזיליה, מלפפון, בצל ירוק, בורגול, נענע ושמן זית. מוגש עם עגבנייה מעל.", 50, "tabule", ""], ["סלט פתוש", "מלפפון, עגבנייה, בצל, חסה וקרוטונים. מוגש עם גבינה מעל.", 50, "fatush", ""], ["סלט קיסר", "חסה קיסר, חסה לליק ואגוזי מלך. מוגש עם גבינת פרמז׳ן.", 55, "caesar", ""], ["סלט חלומי", "מלפפון, עגבנייה, בצל סגול, חסה ופטריות, ברוטב טריאקי.", 60, "halumi", ""], ["סלט עוף", "עוף, מלפפון, עגבנייה, בצל, חסה, רוטב טריאקי ואגוזי מלך.", 75, "", ""], ["סלט חסה", "חסה צבעונית ופירות העונה, ברוטב ויניגרט ובוטנים.", 60, "", ""]]], ["ביניים", "STARTERS", [["חציל בלדי", "על מצע טחינה, עם צ׳ימיצ׳ורי, סומק ושמן זית.", 45, "hatzil", ""], ["פטריות ממולאות", "פטריות ממולאות גבינה, פסטו ואגוזי מלך, ברוטב שמנת פטריות.", 60, "mushroom", ""], ["רביולי", "רביולי גבינה ברוטב שמנת פטריות.", 70, "ravioli", ""], ["פירות ים", "מיקס פירות ים מבושל ברוטב שום, לימון וצ׳ילי.", 80, "seafood", ""], ["עראיס בשר", "עראיס בשר בקר, מוגשות על מצע טחינה.", 75, "", ""], ["אסאדו ביס", "אסאדו מפורק בבאן מאודה.", 80, "", ""], ["חומוס גרגירים", "עם פפריקה, שמן זית ופטרוזיליה.", 30, "", ""], ["טחינה", "מוגשת עם פטרוזיליה.", 30, "", ""], ["פלטת ירקות", "גמבה צבעונית, בצל, עגבנייה ותפוח אדמה.", 65, "", ""], ["צ׳יפס", "", 35, "", ""]]], ["בשרים", "FROM THE GRILL", [["סטייק טומהוק", "סטייק טומהוק על העצם, בליווי רוטב צ׳ימיצ׳ורי.", 320, "tomahawk", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["סטייק טי בון", "עצם טי בון מובחרת שמשלבת סינטה ופילה, בליווי רוטב צ׳ימיצ׳ורי.", 280, "tbone", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["אנטריקוט", "סטייק אנטריקוט מובחר, בליווי רוטב צ׳ימיצ׳ורי.", 145, "entrecote", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["פילה בקר", "מדליוני פילה בקר, בליווי רוטב צ׳ימיצ׳ורי.", 150, "fillet", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["פלטת בשרים", "מיקס בשרים לשולחן: פילה בקר, אנטריקוט, קבב ופרגית.", 450, "platter", ""], ["טריו שיפודים", "שלושה שיפודים מובחרים: בקר, כבש ופרגית, עם ירקות קלויים.", 135, "trio", ""], ["צלעות כבש", "צלעות כבש, בליווי רוטב צ׳ימיצ׳ורי.", 140, "", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["קבב הבית", "קבב על מצע טחינה וירקות קלויים.", 90, "", ""], ["סטייק פרגית", "סטייק פרגית בגריל.", 85, "pargit", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["חזה עוף", "חזה עוף בגריל.", 80, "", "תוספת לבחירה: תפוח אדמה, פירה או אורז."], ["המבורגר", "בלחמנייה, עם חסה, עגבנייה ובצל, וצ׳יפס בצד.", 90, "burger", "תוספות: גבינה 10 ₪ · פטריות 10 ₪ · קציצה נוספת 30 ₪"], ["שניצל עוף", "שניצל מטוגן.", 80, "", "תוספת לבחירה: תפוח אדמה, פירה או אורז."]]], ["דגים ופירות ים", "FROM THE SEA", [["לברק", "לברק שלם, אפוי או מטוגן, בליווי רוטב שום ולימון.", 110, "fish", "תוספת לבחירה: סלטון או צ׳יפס."], ["דניס", "דניס שלם, אפוי או מטוגן, בליווי רוטב שום ולימון.", 110, "", "תוספת לבחירה: סלטון או צ׳יפס."], ["סטייק סלמון", "סלמון אפוי, בליווי רוטב שום ולימון.", 115, "", "תוספת לבחירה: סלטון או צ׳יפס."], ["שרימפס", "שרימפס מבושל או מטוגן, בליווי רוטב שום, לימון וצ׳ילי.", 100, "", ""], ["קלמרי מטוגן", "בליווי רוטב שום, לימון וצ׳ילי.", 90, "", ""]]], ["ילדים", "KIDS", [["שניצל ילדים", "שניצל מטוגן עם צ׳יפס.", 60, "", ""], ["פרגית ילדים", "סטייק פרגית עם צ׳יפס.", 60, "", ""], ["ספגטי ילדים", "ברוטב עגבניות או שמנת פטריות.", 60, "", ""], ["פיש אנד צ׳יפס", "שניצל דג עם צ׳יפס.", 60, "", ""]]], ["קינוחים", "DESSERTS", [["כנאפה ווד", "הכנאפה של הבית.", 48, "", ""], ["עוגת שוקולד", "סופלה שוקולד.", 48, "", ""], ["פאי אגוזים", "טארט חמאה ווניל פריך, במילוי קרמל אגוזים.", 48, "", ""], ["רושה", "שכבות מוס שוקולד לבן בציפוי קראנץ׳ לוז.", 48, "", ""], ["סניקרס", "מוס שוקולד חלב וחמאת בוטנים, על בסיס אגוזים וקרמל בוטנים.", 48, "", ""], ["עוגת אוראו", "פאדג׳ שוקולד וקרם וניל, עם פירורי אוראו.", 48, "", ""], ["קוקיס", "ריבת חלב ושוקולד לבן עם עוגיות, על בסיס פאדג׳ שוקולד.", 48, "", ""]]], ["שתייה", "DRINKS", [["לימונדה", "כוס 12 ₪ · קנקן 30 ₪", 12, "", ""], ["לימונענע גרוס", "", 18, "", ""], ["מוגזים", "קולה, זירו, ספרייט, פנטה או סודה.", 12, "", ""], ["מיצים", "פיוז טי, ענבים או תפוזים.", 12, "", ""], ["מים מינרליים", "", 12, "", ""], ["אספרסו", "", 10, "", ""], ["קפה הפוך", "", 12, "", ""], ["אמריקנו", "", 12, "", ""], ["תה נענע", "", 12, "", ""], ["שוקו חם", "", 12, "", ""]]]];
+const loadMenu = () => SW.menu().map((c) => [c.name, c.en, c.items.filter((x) => !x.hide).map((x) => [x.n, x.d, x.p, x.im, x.ex, x.out])]).filter((c) => c[2].length);
+const MENU = loadMenu(), priceOf = (n, p) => { for (const c of MENU) for (const x of c[2]) if (x[0] === n) return x[2]; return p; };
 const SIG = [["סטייק טומהוק", "על העצם, עם צ׳ימיצ׳ורי", 320, "tomahawk", 3, 0], ["סטייק טי בון", "סינטה ופילה על עצם אחת", 280, "tbone", 3, 1], ["אנטריקוט", "הנתח של הבית", 145, "entrecote", 3, 2], ["פלטת בשרים", "פילה, אנטריקוט, קבב ופרגית", 450, "platter", 3, 4], ["טריו שיפודים", "בקר, כבש ופרגית", 135, "trio", 3, 5], ["פילה בקר", "מדליונים על פלטה לוהטת", 150, "fillet", 3, 3]];
 const cf = $('#cf');
-cf.innerHTML = SIG.map(([n, d, p, im, c, i]) => `<figure tabindex="0" role="button" data-c="${c}" data-i="${i}" aria-label="${n}, ${p} שקלים"><img src="img/d/${im}.webp" alt="${n}" loading="lazy"><figcaption><div><b>${n}</b><small>${d}</small></div><i>${p} ₪</i></figcaption></figure>`).join('');
+cf.innerHTML = SIG.map(([n, d, p, im, c, i]) => `<figure tabindex="0" role="button" data-c="${c}" data-i="${i}" aria-label="${n}, ${p} שקלים"><img src="img/d/${im}.webp" alt="${n}" loading="lazy"><figcaption><div><b>${n}</b><small>${d}</small></div><i>${priceOf(n, p)} ₪</i></figcaption></figure>`).join('');
 const figs = [...cf.children]; let cfT = false;
 function lay() { cfT = false; const c = cf.scrollLeft + cf.clientWidth / 2; figs.forEach((f) => { const w = f.offsetWidth, k = (f.offsetLeft + w / 2 - c) / w, a = Math.min(Math.abs(k), 2); f.style.transform = `perspective(1100px) rotateY(${Math.max(-26, Math.min(26, -k * 20)).toFixed(1)}deg) scale(${(1 - Math.min(a, 1.4) * .1).toFixed(3)})`; f.style.opacity = (1 - Math.min(a, 2) * .22).toFixed(2); f.style.zIndex = String(10 - Math.round(a * 3)); }); }
 cf.addEventListener('scroll', () => { if (!cfT) { cfT = true; requestAnimationFrame(lay); } }, { passive: true });
 addEventListener('resize', lay); cf.scrollLeft = 0; lay(); setTimeout(lay, 400);
 let cfDown = 0; cf.addEventListener('pointerdown', (e) => { cfDown = e.clientX; });
-figs.forEach((f) => { const go = () => openDish(+f.dataset.c, +f.dataset.i); f.addEventListener('click', (e) => { if (Math.abs(e.clientX - cfDown) < 8) go(); }); f.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }); });
+figs.forEach((f) => { const go = () => { const n = f.querySelector('b').textContent; MENU.some((c, ci) => c[2].some((x, xi) => x[0] === n && x[3] && (openDish(ci, xi), true))); }; f.addEventListener('click', (e) => { if (Math.abs(e.clientX - cfDown) < 8) go(); }); f.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }); });
 
 /* ---------- table opener: the photo opens up as it enters ---------- */
 const ow = $('#open .ow'), oi = $('#openImg');
@@ -544,21 +522,22 @@ lenis.on('scroll', openTick); openTick();
 
 /* ---------- full menu ---------- */
 let cat = 3;
-$('#tabs').innerHTML = MENU.map(([n], i) => `<button role="tab" data-i="${i}" aria-selected="${i === cat}" class="${i === cat ? 'on' : ''}">${n}</button>`).join('');
+const renderTabs = () => { cat = Math.min(cat, MENU.length - 1); $('#tabs').innerHTML = MENU.map(([n], i) => `<button role="tab" data-i="${i}" aria-selected="${i === cat}" class="${i === cat ? 'on' : ''}">${n}</button>`).join(''); }; renderTabs();
 function renderMenu() {
-  $('#dl').innerHTML = MENU[cat][2].map(([n, d, p, im], i) => `<button class="di${im ? '' : ' np'}" data-i="${i}" style="animation-delay:${i * 35}ms" ${im ? '' : 'tabindex="-1"'}><span class="th">${im ? `<img src="img/d/${im}_t.webp" alt="" loading="lazy" width="84" height="84">` : String(i + 1).padStart(2, '0')}</span><span><h5>${n}</h5>${d ? `<p>${d}</p>` : ''}</span><span class="pr">${p} ₪</span></button>`).join('');
+  $('#dl').innerHTML = MENU[cat][2].map(([n, d, p, im, ex, out], i) => `<button class="di${im ? '' : ' np'}${out ? ' so' : ''}" data-i="${i}" style="animation-delay:${i * 35}ms" ${im ? '' : 'tabindex="-1"'}><span class="th">${im ? `<img src="${SW.img(im, 1)}" alt="" loading="lazy" width="84" height="84" style="width:100%;height:100%;object-fit:cover">` : String(i + 1).padStart(2, '0')}</span><span><h5>${n}${out ? '<em class="out">אזל להיום</em>' : ''}</h5>${d ? `<p>${d}</p>` : ''}</span><span class="pr">${p} ₪</span></button>`).join('');
 }
 renderMenu();
+SW.on((e) => { if (e.type !== 'menu' && e.type !== 'reset') return; MENU.splice(0, MENU.length, ...loadMenu()); renderTabs(); renderMenu(); $$('#cf figure').forEach((f) => { f.querySelector('i').textContent = priceOf(f.querySelector('b').textContent, parseInt(f.querySelector('i').textContent)) + ' ₪'; }); });
 $('#tabs').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; cat = +b.dataset.i; $$('#tabs button').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b); }); renderMenu(); b.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); });
 $('#dl').addEventListener('click', (e) => { const b = e.target.closest('.di'); if (b && !b.classList.contains('np')) openDish(cat, +b.dataset.i); });
 
 /* ---------- dish sheet ---------- */
 let lastFocus = null;
-function openDish(c, i) { const [n, d, p, im, ex] = MENU[c][2][i]; lastFocus = document.activeElement; $('#dsImg').src = `img/d/${im}.webp`; $('#dsImg').alt = n; $('#dsC').textContent = MENU[c][1]; $('#dsN').textContent = n; $('#dsD').textContent = d; $('#dsE').textContent = ex || ''; $('#dsE').style.display = ex ? '' : 'none'; $('#dsP').textContent = p + ' ₪'; $('#dish').classList.add('on'); lenis.stop(); $('#dsX').focus(); }
+function openDish(c, i) { const [n, d, p, im, ex] = MENU[c][2][i]; lastFocus = document.activeElement; $('#dsImg').src = SW.img(im); $('#dsImg').alt = n; $('#dsC').textContent = MENU[c][1]; $('#dsN').textContent = n; $('#dsD').textContent = d; $('#dsE').textContent = ex || ''; $('#dsE').style.display = ex ? '' : 'none'; $('#dsP').textContent = p + ' ₪'; $('#dish').classList.add('on'); lenis.stop(); $('#dsX').focus(); }
 const closeDish = () => { $('#dish').classList.remove('on'); lenis.start(); if (lastFocus) lastFocus.focus(); };
 $('#dsX').onclick = closeDish; $('#dish').addEventListener('click', (e) => { if (e.target.id === 'dish') closeDish(); });
-$('#dsR').onclick = () => { closeDish(); rsOpen(); };
-addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if ($('#dish').classList.contains('on')) closeDish(); else if ($('#rs').classList.contains('on')) rsClose(); else $('#wa').classList.remove('on'); });
+$('#dsR').onclick = () => { closeDish(); SWB.open(); };
+addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if ($('#dish').classList.contains('on')) closeDish(); else if (SWB.isOpen()) SWB.close(); else $('#wa').classList.remove('on'); });
 
 /* ---------- events request (WhatsApp preview) ---------- */
 $('#evBtn').onclick = () => showWa('שלום STEAKWOOD, אשמח לקבל הצעה לאירוע פרטי 🎉\nסוג האירוע: \nתאריך: \nכמה אורחים: \nשם: ', 'STEAKWOOD · אירועים', 'כך הבקשה תגיע לוואטסאפ של המסעדה. מכאן ממשיכים לתאם ישירות מול הלקוח.');
@@ -572,4 +551,5 @@ const HOURS = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי',
 const today = new Date().getDay();
 $('#hrs').innerHTML = HOURS.map(([d, h], i) => `<div class="${i === today ? 'today' : ''}"><span>${d}</span><span>${h}</span></div>`).join('');
 </script>
+<script src="sw-booking.js" defer></script>
 </body></html>
