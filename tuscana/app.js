@@ -127,7 +127,7 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
   const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
   ScrollTrigger.create({ trigger: sec, start: 'top 180%', onEnter: start });
   // the clip is drawn 'cover' (centred), so the labels are placed on the same square the picture is drawn into, and kept on screen
-  const place = () => { const W = sec.querySelector('.stick').clientWidth, H = sec.querySelector('.stick').clientHeight, b = sec.querySelector('.stage').getBoundingClientRect(), st = sec.querySelector('.stick').getBoundingClientRect(), small = innerWidth <= 900;
+  const place = () => { const W = sec.querySelector('.stick').clientWidth, H = sec.querySelector('.stick').clientHeight, b = sec.querySelector('.stage').getBoundingClientRect(), st = sec.querySelector('.stick').getBoundingClientRect(), small = false;
     // phones: the square clip is shown whole at the bottom (contain); wide screens: it covers the frame
     const S = small ? b.width : Math.max(W, H), ox = small ? 0 : (W - S) / 2, oy = small ? 0 : (H - S) / 2, BW = small ? b.width : W, BH = small ? b.height : H;
     tags.style.inset = '0'; tags.style.width = BW + 'px'; tags.style.height = BH + 'px';

@@ -349,14 +349,12 @@ textarea.f{height:88px;padding:14px 16px;resize:none}
 #ride .hud{z-index:4}
 .h-copy p,.x-copy p{text-shadow:0 1px 14px rgba(0,0,0,.8)}
 
-/* phones: the whole clip is visible (no crop), edge to edge, under the text; its top edge melts into the page */
+
+/* no shades or fades over the clips: the text carries its own soft shadow */
+#hero::after,#hero::before,#ride .stick::after,#ride .stick::before,#xray .stick::after,#xray .stick::before{display:none!important}
+#hero .h-copy h1,#ride h2,#xray h2,.h-copy .k,.x-copy .k{text-shadow:0 2px 24px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.5)}
+.h-copy p,.x-copy p{text-shadow:0 1px 3px rgba(0,0,0,.85),0 2px 18px rgba(0,0,0,.7)}
 @media(max-width:900px){
- #hero .mud{top:auto!important;bottom:0!important;left:0!important;right:0!important;height:auto!important;aspect-ratio:918/1004;-webkit-mask-image:linear-gradient(transparent,#000 16%);mask-image:linear-gradient(transparent,#000 16%)}
- #hero .mud img,#hero .mud video{object-fit:contain!important;object-position:50% 100%!important}
- #hero::after{height:46%;background:linear-gradient(var(--bg) 40%,rgba(13,10,7,0))}
- #ride .stage,#xray .stage{top:auto!important;bottom:calc(env(safe-area-inset-bottom) + 76px)!important;height:auto!important;aspect-ratio:1;-webkit-mask-image:linear-gradient(transparent,#000 14%);mask-image:linear-gradient(transparent,#000 14%)}
- .stage .box>canvas,.stage .box>img{object-fit:contain!important}
- #ride .stick::after,#xray .stick::after{height:40%;background:linear-gradient(var(--bg) 35%,rgba(13,10,7,0))}
- #ride .stick,#xray .stick{background:var(--bg)}
- #ride #sky{display:none}
+ #hero .mud img,#hero .mud video{object-position:42% 50%}
+ .stage .box>canvas,.stage .box>img{object-position:50% 50%}
 }
