@@ -78,7 +78,7 @@ const hero = $('#hero'), hp = { v: 0 };
   const win = (p, a, b, c, d) => cl((p - a) / (b - a)) * (1 - cl((p - c) / (d - c)));
   ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
     show(c1, 1 - cl(p / .16)); show(c2, win(p, .22, .32, .5, .58)); show(c3, win(p, .64, .74, .92, .99));
-    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .2 ? 'POLARIS RZR · 4 SEATS' : p < .6 ? '4‑POINT HARNESS · FULL CAGE' : 'DRAG TO ROTATE';
+    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .2 ? 'POLARIS RZR · 4 SEATS' : p < .6 ? '4‑POINT HARNESS · FULL CAGE' : 'GOLDEN HOUR · PORIYA RIDGE';
     if (!hero.classList.contains('gl')) img.style.transform = `translateX(-50%) scale(${1 + p * .34}) translateY(${-p * 6}%)`;
     $('.scrollcue').style.opacity = 1 - cl(p / .05); } });
   // dust: soft particles drifting toward the viewer, in front of the vehicle and the text
@@ -94,8 +94,8 @@ const hero = $('#hero'), hp = { v: 0 };
       const g = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r); const col = p.hot ? '255,160,70' : '222,196,160'; g.addColorStop(0, `rgba(${col},${p.a})`); g.addColorStop(1, `rgba(${col},0)`); cx.fillStyle = g; cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.3); cx.fill(); } }
   requestAnimationFrame(tick);
 }
-// real-time 3D: only when the model is there and the device can draw it
-fetch('models/rzr/scene.gltf', { method: 'HEAD' }).then((r) => { if (r.ok) import('./hero3d.js').then((m) => m.start({ hero, canvas: $('#gl'), progress: () => hp.v, touch, reduce })).catch((e) => console.warn('3D hero off', e)); }).catch(() => {});
+// real-time 3D model: kept as an option (?3d). The default hero is the photoreal picture, because the model read as a toy.
+if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf', { method: 'HEAD' }).then((r) => { if (r.ok) import('./hero3d.js').then((m) => m.start({ hero, canvas: $('#gl'), progress: () => hp.v, touch, reduce })).catch((e) => console.warn('3D hero off', e)); }).catch(() => {});
 
 /* ---------- booking wizard -> WhatsApp ---------- */
 {
