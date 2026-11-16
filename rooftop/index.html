@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<script src="../mala/frames/manifest.js"></script>
+<script src="frames/manifest.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--bg:#060606;--ivory:#F1EADB;--ivory2:#CFC4AE;--red:#E4472C;--pool:#5FD6E3;--mut:rgba(241,234,219,.55);--line:rgba(241,234,219,.12);--pad:clamp(18px,4vw,56px)}
@@ -125,7 +125,7 @@ a{color:inherit;text-decoration:none}
 /* sunset (real photo, depth parallax) */
 #sunset{height:180vh;position:relative}
 #sunset .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-#sunset .ph{position:absolute;inset:-8%;background:url(../mala/img/sunset.jpg) center/cover;will-change:transform}
+#sunset .ph{position:absolute;inset:-8%;background:url(img/sunset.jpg) center/cover;will-change:transform}
 #sunset .ph:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,6,.75),rgba(6,6,6,.1) 30%,rgba(6,6,6,.15) 60%,rgba(6,6,6,.95))}
 #sunset .tx{top:calc(env(safe-area-inset-top) + 120px);text-align:center}
 #sunset .tx .big{font-size:clamp(50px,10vw,150px);line-height:.9}
@@ -250,7 +250,7 @@ footer .row img{height:56px}
 </div></section>
 
 <!-- 04 · the chef: crispy rice tuna -->
-<section class="scene" id="chef" data-scene="chef" data-fit="obj" data-fx=".5" data-still="../mala/img/crispy.jpg" style="height:230vh"><div class="stick">
+<section class="scene" id="chef" data-scene="chef" data-fit="obj" data-fx=".5" data-still="img/crispy.jpg" style="height:230vh"><div class="stick">
  <canvas></canvas><div class="vig"></div>
  <div class="hud"><i></i><i></i><i></i><i></i><span class="m tl">04 / 04 — המטבח</span><span class="m tr">CHEF'S TABLE</span><span class="m bl" data-frame>FRAME 000</span><span class="prog"><b></b></span></div>
  <div class="tx t1" id="cht1"><div class="m k">// 04 · CHEF</div><div class="big d">היד<br>של השף.</div></div>
@@ -271,15 +271,15 @@ footer .row img{height:56px}
 <section id="gal"><div class="stick">
  <div class="hd"><span class="m k">// THE NIGHT</span><h2 class="h2 d">ערב שלם<br>על הגג.</h2></div>
  <div class="row" id="grow">
-  <figure class="w"><img src="../mala/img/night.jpg" alt="הגג בלילה מלמעלה"><figcaption><span class="m">AFTER DARK</span>הגג, הבריכה והפרגולות בלילה</figcaption></figure>
-  <figure><img src="../mala/img/chefs.jpg" alt="צוות המטבח בעבודה"><figcaption><span class="m">THE KITCHEN</span>מטבח הזכוכית, בזמן שירות</figcaption></figure>
-  <figure><img src="../mala/img/torch.jpg" alt="רול נצרב בלהבה"><figcaption><span class="m">FLAME</span>צריבה רגע לפני ההגשה</figcaption></figure>
-  <figure class="w"><img src="../mala/img/lounge.jpg" alt="הלאונג' בלילה"><figcaption><span class="m">THE LOUNGE</span>הבר והלאונג' תחת הקשת</figcaption></figure>
-  <figure><img src="../mala/img/sashimi.jpg" alt="קרפצ'יו דג"><figcaption><span class="m">SASHIMI</span>סשימי המאצ׳י</figcaption></figure>
-  <figure><img src="../mala/img/view.jpg" alt="הנוף מהגג בשקיעה"><figcaption><span class="m">THE VIEW</span>שקיעה מהגג</figcaption></figure>
-  <figure class="w"><img src="../mala/img/sushibar.jpg" alt="פס הסושי"><figcaption><span class="m">SUSHI BAR</span>פס הסושי, מול העיניים</figcaption></figure>
-  <figure><img src="../mala/img/pool.jpg" alt="ליד הבריכה"><figcaption><span class="m">POOLSIDE</span>קוקטייל ליד הבריכה</figcaption></figure>
-  <figure><img src="../mala/img/dining.jpg" alt="חדר האוכל מלא"><figcaption><span class="m">FULL HOUSE</span>ערב מלא על הגג</figcaption></figure>
+  <figure class="w"><img src="img/night.jpg" alt="הגג בלילה מלמעלה"><figcaption><span class="m">AFTER DARK</span>הגג, הבריכה והפרגולות בלילה</figcaption></figure>
+  <figure><img src="img/chefs.jpg" alt="צוות המטבח בעבודה"><figcaption><span class="m">THE KITCHEN</span>מטבח הזכוכית, בזמן שירות</figcaption></figure>
+  <figure><img src="img/torch.jpg" alt="רול נצרב בלהבה"><figcaption><span class="m">FLAME</span>צריבה רגע לפני ההגשה</figcaption></figure>
+  
+  <figure><img src="img/sashimi.jpg" alt="קרפצ'יו דג"><figcaption><span class="m">SASHIMI</span>סשימי המאצ׳י</figcaption></figure>
+  <figure><img src="img/view.jpg" alt="הנוף מהגג בשקיעה"><figcaption><span class="m">THE VIEW</span>שקיעה מהגג</figcaption></figure>
+  <figure class="w"><img src="img/sushibar.jpg" alt="פס הסושי"><figcaption><span class="m">SUSHI BAR</span>פס הסושי, מול העיניים</figcaption></figure>
+  <figure><img src="img/pool.jpg" alt="ליד הבריכה"><figcaption><span class="m">POOLSIDE</span>קוקטייל ליד הבריכה</figcaption></figure>
+  <figure><img src="img/dining.jpg" alt="חדר האוכל מלא"><figcaption><span class="m">FULL HOUSE</span>ערב מלא על הגג</figcaption></figure>
  </div>
 </div></section>
 
@@ -287,7 +287,7 @@ footer .row img{height:56px}
  <span class="m k rv">// THE BAR</span>
  <h2 class="h2 d rv">קוקטיילים<br>עם שואו.</h2>
  <div class="grid">
-  <div class="shot rv"><img src="../mala/img/cocktails.jpg" alt="קוקטיילים ליד הבריכה" id="barImg"></div>
+  <div class="shot rv"><img src="img/cocktails.jpg" alt="קוקטיילים ליד הבריכה" id="barImg"></div>
   <div id="cks"></div>
  </div>
 </section>
@@ -332,7 +332,7 @@ $$('.js-book').forEach((a) => a.href = BOOK); $$('.js-wolt').forEach((a) => a.hr
 /* ---------- frames ---------- */
 const scenes = $$('.scene').map((el) => {
   const name = el.dataset.scene, n = (M[name] && M[name].n) || 0, ext = (M[name] && M[name].ext) || 'jpg';
-  const imgs = [...Array(n).keys()].map((i) => { const im = new Image(); im.decoding = 'async'; im.dataset.src = `../mala/frames/${name}/${String(i).padStart(3, '0')}.${ext}`; return im; });
+  const imgs = [...Array(n).keys()].map((i) => { const im = new Image(); im.decoding = 'async'; im.dataset.src = `frames/${name}/${String(i).padStart(3, '0')}.${ext}`; return im; });
   // no clip yet: a real photo stands in, pushed in slowly by the scroll
   if (!n && el.dataset.still) { const im = new Image(); im.dataset.src = el.dataset.still; return { el, name, n: 1, still: true, imgs: [im], cv: $('canvas', el), fit: el.dataset.fit, fx: +(el.dataset.fx || .5), p: 0, sp: 0, last: -1 }; }
   return { el, name, n, imgs, cv: $('canvas', el), fit: el.dataset.fit, fx: +(el.dataset.fx || .5), p: 0, sp: 0, last: -1 };
@@ -430,7 +430,7 @@ document.addEventListener('pointerover', (e) => cur.classList.toggle('big', !!e.
 
 /* ---------- menu ---------- */
 const MENU = {
-  'פתיחים': ['APPETIZERS', '../mala/img/crispy.jpg', [
+  'פתיחים': ['APPETIZERS', 'img/crispy.jpg', [
     ['קריספי רייס טונה', 'ריבועי אורז סושי צרובים בחמאה, טרטר טונה בתיבול חריף, בצל ירוק, צ׳ילי ופוריקקה', 88],
     ['ניגירי אינטיאס מקומי', 'טרטר טונה כחולה, וואסאבי מרמת הגולן, צ׳יפס כרישה', 65],
     ['סשימי המאצ׳י', 'תפוח סמית, עלה בזיל, קפיר ליים, ויניגרט צ׳ילי מותסס עם תות', 78],
@@ -440,7 +440,7 @@ const MENU = {
     ['ברוסקטה דג מלוח', 'לחם שיפון, חמאת שמיר, קרם פרש, בצל מוחמץ וכוסברה', 72],
     ['סשימי פריסטייל · 250 גר׳', 'פרוסות דג נא מהדגה הטרייה והמובחרת ביותר', 168],
     ['ניגירי פריסטייל', '6 יחידות ניגירי משלל סוגי הדגים', 99]]],
-  'רולים': ['SIGNATURE ROLLS', '../mala/img/zucchini.jpg', [
+  'רולים': ['SIGNATURE ROLLS', 'img/zucchini.jpg', [
     ['ספיישל דג ים משתנה', 'אבוקדו, קנפיו, עטוף במיקס דגים, איולי יוזו, בצל ירוק וסויה קוג׳י', 89],
     ['טרטר ספייסי טונה', 'מלפפון, קנפיו, עטוף בטונה, איולי צ׳ילי ומסאגו אררה', 89],
     ['סלמון קרים', 'אבוקדו, עירית, עטוף סלמון על קרם פרש יוזו', 86],
@@ -449,20 +449,20 @@ const MENU = {
     ['סשימאקי', 'סלמון, טונה, יילו טייל, אבוקדו וסלנובה עטופים בנורי ומלפפון מגולף', 79],
     ['פוטומאקי סלמון ואיקורה', 'אבוקדו, מלפפון, לקט עלים ואיולי וואסאבי', 77],
     ['פוטומאקי זוקיני בטמפורה', 'אבוקדו, עירית, סלנובה וקמפיו עם איולי נענע וטריאקי', 67]]],
-  'חמים וסלטים': ['HOT & SALADS', '../mala/img/table.jpg', [
+  'חמים וסלטים': ['HOT & SALADS', 'img/table.jpg', [
     ['מרק ראמן', 'ציר עצמות בבישול 20 שעות, מיסו אדום, ביצה, שיטאקי, באקצ׳וי ואטריות. עם שיפוד סינטה', 82],
     ['גיוזה פטריות', 'קציפת תירס, גבינת מנצ׳גו ושמן בזיל', 73],
     ['מרק טום יאם', 'ציר דגים חריף עם למון גראס וקפיר ליים, פטריות יער וליים', 58],
     ['ענבים על החצי', 'גבינת מנצ׳גו, בצל סגול, צנונית, כוסברה, לקט עלים ויוזו', 65],
     ['קיסר יפני', 'חסה לאליק, פירורי פנקו בטוגראשי, רוטב קיסר דאשי ופרמזן', 65],
     ['סלט חורף', 'אפונת גינה ושלג, צנונית אבטיח, פומלה, אצות נורי, סויה קוג׳י ויוזו', 67]]],
-  'מהים ומהגריל': ['SEA & GRILL', '../mala/img/tuna.jpg', [
+  'מהים ומהגריל': ['SEA & GRILL', 'img/tuna.jpg', [
     ['פילה בר ים', 'עגבניות שרי, ירקות ירוקים, קרם תפו״א, ציר דגים, חמאה ולימון כבוש', 166],
     ['מוסר ים', 'קרם בטטה לבנה, חמאה חומה, צ׳יפס כרישה, קוויאר אדום ופוריקקה', 138],
     ['סטייק סינטה · 180 גר׳', 'קרם ארטישוק ירושלמי, באק צ׳וי, פטריית מלך היער וציר בקר מצומצם', 136],
     ['נאם טוק', 'אנטריקוט על פחם בתיבול נאם חריף, אבקת אורז קלוי לצד סטיקי רייס', 97],
     ['אנטריקוט ריו פלטנסה', 'תפוחי אדמה בתנור. המחיר ל־100 גרם', 76]]],
-  'קינוחים': ['DESSERTS', '../mala/img/view.jpg', [
+  'קינוחים': ['DESSERTS', 'img/view.jpg', [
     ['שוקולד קפה', 'פייטה פקאן, מוס שוקולד אוורירי, קציפת קפה ושבבי שוקולד קריספיים', 65],
     ['עוגת חלב', 'טורט מוקצפת בחלב, שכבת טופי, קרם שנטילי וניל ורוטב פירות יער', 65],
     ['טבעת יוזו', 'מצע קדאיף פיסטוק, מרנג ופירות העונה', 65]]],

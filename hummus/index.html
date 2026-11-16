@@ -7,10 +7,10 @@
 <!--
   Local demo (not published). Open index.html directly or serve the folder.
   3D bowl = two scroll-scrubbed JPG frame sequences:
-    ../bluebus/frames/rotate/000.jpg …   (hero: the bowl turns)
-    ../bluebus/frames/explode/000.jpg …  (the bowl separates into floating layers and comes back)
-  Frame counts: ../bluebus/frames/manifest.js (window.BLUEBUS_FRAMES={rotate:N,explode:N}, written by tools/update_manifest.py)
-  or ../bluebus/frames/manifest.json; a sequence missing from the manifest is counted automatically by probing. If a folder is missing, ../bluebus/frames/_placeholder/<name> is used.
+    frames/rotate/000.jpg …   (hero: the bowl turns)
+    frames/explode/000.jpg …  (the bowl separates into floating layers and comes back)
+  Frame counts: frames/manifest.js (window.HUMMUS_FRAMES={rotate:N,explode:N}, written by tools/update_manifest.py)
+  or frames/manifest.json; a sequence missing from the manifest is counted automatically by probing. If a folder is missing, frames/_placeholder/<name> is used.
   Recording hook: window.READY, window.T_END, window.renderAt(t) (deterministic phone-scroll timeline).
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -238,7 +238,7 @@ footer .fine{font-size:11.5px;opacity:.5;margin-top:22px}
     <div class="stat glass-l"><b class="num">6</b><span>ימים בשבוע</span></div>
    </div>
   </div>
-  <div class="photo" data-py="-40"><img src="../bluebus/assets/hummus-ref.jpg" alt="קערת חומוס עם ביצה, גרגירים ושמן זית" data-py="60"><div class="sticker" data-rot="1">יוצא<br>חם<br>מהסיר</div></div>
+  <div class="photo" data-py="-40"><img src="assets/hummus-ref.jpg" alt="קערת חומוס עם ביצה, גרגירים ושמן זית" data-py="60"><div class="sticker" data-rot="1">יוצא<br>חם<br>מהסיר</div></div>
  </div>
 </section>
 
@@ -328,14 +328,14 @@ footer .fine{font-size:11.5px;opacity:.5;margin-top:22px}
  <div class="fine">© החומוסייה · הדמיית אתר</div>
 </footer>
 
-<script src="../bluebus/frames/manifest.js" onerror="this.remove()"></script>
+<script src="frames/manifest.js" onerror="this.remove()"></script>
 <script>
 // ===================== EDIT ME =====================
 const WHATSAPP_NUMBER = '972500000000';   // PLACEHOLDER — the restaurant's real WhatsApp number, international format without "+"
 const PHONE_NUMBER    = '+972500000000';  // PLACEHOLDER — the restaurant's real phone number
 const WHATSAPP_TEXT   = 'היי, אשמח להזמין:';
 const PLACE_QUERY     = 'חומוס';
-// Ingredient labels for the explode scene, calibrated to ../bluebus/frames/explode (1280x720) at full separation (frames 96-120).
+// Ingredient labels for the explode scene, calibrated to frames/explode (1280x720) at full separation (frames 96-120).
 // x / y = the spot on the layer, as a fraction of the FRAME width / height. side = which side the tag sits on.
 // m = phone slot: t1/t2 = rows above the bowl, b1/b2 = rows below it.
 const LABELS = [
@@ -350,7 +350,7 @@ const LABELS = [
 // explode choreography (fraction of the explode section's scroll). The footage runs whole bowl -> fully exploded;
 // the site plays it forward, holds it apart with the labels, then plays it backwards so the bowl re-assembles.
 const EXPLODE = { out: [.08, .42], back: [.62, .90] };
-const SPIN_FPS = 9;   // hero: idle turn speed (../bluebus/frames/sec) on top of the scroll scrub — the rotate clip is a seamless 360° loop
+const SPIN_FPS = 9;   // hero: idle turn speed (frames/sec) on top of the scroll scrub — the rotate clip is a seamless 360° loop
 // ===================================================
 
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -375,7 +375,7 @@ $('#gmaps').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeUR
 })();
 
 // ---------- frame sequences ----------
-// order of truth: ../bluebus/frames/manifest.js → ../bluebus/frames/manifest.json (http only) → probing 000.jpg, 001.jpg, … ; placeholder folder if empty
+// order of truth: frames/manifest.js → frames/manifest.json (http only) → probing 000.jpg, 001.jpg, … ; placeholder folder if empty
 const probe = src => new Promise(r => { const im = new Image(); im.onload = () => r(true); im.onerror = () => r(false); im.src = src; });
 async function countFrames(dir) {
   if (!await probe(`${dir}/000.jpg`)) return 0;
@@ -384,12 +384,12 @@ async function countFrames(dir) {
   return lo + 1;
 }
 async function manifest() {
-  if (window.BLUEBUS_FRAMES) return window.BLUEBUS_FRAMES;
+  if (window.HUMMUS_FRAMES) return window.HUMMUS_FRAMES;
   if (!/^https?:/.test(location.protocol)) return null;
-  try { const r = await fetch('../bluebus/frames/manifest.json', { cache: 'no-store' }); return r.ok ? await r.json() : null; } catch (e) { return null; }
+  try { const r = await fetch('frames/manifest.json', { cache: 'no-store' }); return r.ok ? await r.json() : null; } catch (e) { return null; }
 }
 async function resolveSeq(name, man) {
-  const dir = `../bluebus/frames/${name}`, pdir = `../bluebus/frames/_placeholder/${name}`;
+  const dir = `frames/${name}`, pdir = `frames/_placeholder/${name}`;
   if (man && man[name] > 0) return { dir, n: man[name], real: true };            // counted by tools/update_manifest.py
   let n = await countFrames(dir); if (n) return { dir, n, real: true };           // not in the manifest: probe for it
   const pn = man && man._placeholder && man._placeholder[name];
@@ -514,7 +514,7 @@ window.READY = false;
 S_LIST.forEach(S => fit(S.cv)); update(true); requestAnimationFrame(loop);
 (async () => {
   const man = await manifest(), seqs = await Promise.all(['rotate', 'explode'].map(n => resolveSeq(n, man)));
-  window.FRAME_SOURCES = seqs; console.log('[bluebus] frames', seqs.map(s => `${s.dir}: ${s.n}${s.real ? '' : ' (placeholder)'}`).join(' · '));
+  window.FRAME_SOURCES = seqs; console.log('[hummus] frames', seqs.map(s => `${s.dir}: ${s.n}${s.real ? '' : ' (placeholder)'}`).join(' · '));
   await Promise.all(seqs.map((s, i) => loadSeq([SCENES.rotate, SCENES.explode][i], s)));
   try { await document.fonts.ready; } catch (e) { }
   update(true); window.READY = true;
