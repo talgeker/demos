@@ -74,12 +74,17 @@ if (!reduce) {
 const hero = $('#hero'), hp = { v: 0 };
 {
   const c1 = $('#hc1'), c2 = $('#hc2'), c3 = $('#hc3'), img = $('#heroImg'), hudB = $('#hudB'), hudA = $('#hudA');
+  // the photoreal clip (the camera circles the RZR, the lights come on), cut to frames and scrubbed by the scroll
+  const cvs = $('#heroCv'), ctx = cvs.getContext('2d'), N = 81, dir = `f/orbit/${touch || innerWidth < 820 ? 'm' : 'd'}/`, frames = []; let want = 0, shown = -1, ready = 0;
+  const draw = () => { let i = Math.round(cl(want / .92) * (N - 1)); while (i > 0 && !(frames[i] && frames[i].complete && frames[i].naturalWidth)) i--; const f = frames[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cvs.width !== f.naturalWidth) cvs.width = cvs.height = f.naturalWidth; ctx.drawImage(f, 0, 0); shown = i; };
+  const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { ready++; if (i === 0 && im.naturalWidth) { draw(); hero.classList.add('seq'); } else if (ready % 6 === 0) draw(); res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; frames[i] = im; });
+  if (!reduce) (async () => { await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st = st >> 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) await Promise.all(order.slice(k, k + 4).map(load)); draw(); })();
   const show = (el, a) => { el.style.opacity = a; el.style.visibility = a > .01 ? 'visible' : 'hidden'; el.style.transform = `translateY(${(1 - a) * 30}px)`; };
   const win = (p, a, b, c, d) => cl((p - a) / (b - a)) * (1 - cl((p - c) / (d - c)));
   ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
     show(c1, 1 - cl(p / .16)); show(c2, win(p, .22, .32, .5, .58)); show(c3, win(p, .64, .74, .92, .99));
-    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .2 ? 'POLARIS RZR · 4 SEATS' : p < .6 ? '4‑POINT HARNESS · FULL CAGE' : 'GOLDEN HOUR · PORIYA RIDGE';
-    if (!hero.classList.contains('gl')) img.style.transform = `translateX(-50%) scale(${1 + p * .34}) translateY(${-p * 6}%)`;
+    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .2 ? 'POLARIS RZR · 4 SEATS' : p < .6 ? '4‑POINT HARNESS · FULL CAGE' : 'LIGHTS ON · GOLDEN HOUR';
+    if (!hero.classList.contains('gl')) { const tf = `translateX(-50%) scale(${1 + p * .16}) translateY(${-p * 3}%)`; img.style.transform = tf; cvs.style.transform = tf; want = p; draw(); }
     $('.scrollcue').style.opacity = 1 - cl(p / .05); } });
   // dust: soft particles drifting toward the viewer, in front of the vehicle and the text
   const cv = $('#dust'), cx = cv.getContext('2d'); let W, H, D = Math.min(devicePixelRatio, 2), P = [], vis = true, last = 0;

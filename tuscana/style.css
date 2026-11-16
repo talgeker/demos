@@ -44,8 +44,9 @@ section{position:relative;padding:clamp(70px,11vw,150px) var(--pad)}
 #gl{touch-action:pan-y;opacity:0;transition:opacity 1s}
 #gl.on{opacity:1}
 #dust{pointer-events:none}
-#heroImg{position:absolute;left:50%;bottom:0;width:min(118vw,100svh);height:auto;transform:translateX(-50%);-webkit-mask-image:radial-gradient(70% 64% at 50% 56%,#000 52%,transparent 100%);mask-image:radial-gradient(70% 64% at 50% 56%,#000 52%,transparent 100%);transition:opacity .8s;will-change:transform}
-#hero.gl #heroImg{opacity:0;pointer-events:none}
+#heroImg,#heroCv{position:absolute;left:50%;bottom:0;width:min(118vw,100svh);height:auto;aspect-ratio:1;transform:translateX(-50%);-webkit-mask-image:radial-gradient(70% 64% at 50% 56%,#000 52%,transparent 100%);mask-image:radial-gradient(70% 64% at 50% 56%,#000 52%,transparent 100%);transition:opacity .8s;will-change:transform}
+#hero.gl #heroImg,#hero.gl #heroCv,#hero.seq #heroImg{opacity:0;pointer-events:none}
+#heroCv{opacity:0}#hero.seq #heroCv{opacity:1}
 .hud{position:absolute;inset:calc(env(safe-area-inset-top) + 78px) 16px 18px;pointer-events:none}
 .hud i{position:absolute;width:22px;height:22px;border:1px solid rgba(239,228,207,.4)}
 .hud i:nth-child(1){top:0;right:0;border-left:0;border-bottom:0}.hud i:nth-child(2){top:0;left:0;border-right:0;border-bottom:0}.hud i:nth-child(3){bottom:0;right:0;border-left:0;border-top:0}.hud i:nth-child(4){bottom:0;left:0;border-right:0;border-top:0}
