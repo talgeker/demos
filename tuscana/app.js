@@ -119,16 +119,17 @@ let heroReady; const heroGo = new Promise((r) => heroReady = r);
 /* ---------- the two vehicle clips play by themselves in a loop (the scroll never drives them) ---------- */
 // each one loads a little before it comes into view, plays while visible and pauses when it leaves the screen
 const autoClip = (v, onTime) => {
-  let loaded = false, seen = false;
-  const load = () => { if (loaded) return; loaded = true; v.autoplay = true; v.src = innerWidth < 820 ? v.dataset.src.replace('.mp4', '-m.mp4') : v.dataset.src; v.preload = 'auto'; v.load(); };
+  // the sources and autoplay are in the HTML (exactly like the opening clip, which iPhones always play);
+  // the script only keeps it playing while it is on screen and nudges it on any touch
+  let seen = false;
   const go = () => { if (seen && v.paused && !reduce) v.play().catch(() => {}); };
-  heroGo.then(() => setTimeout(load, 300));
-  new IntersectionObserver(([e]) => { seen = e.isIntersecting; if (seen) { load(); go(); } else v.pause(); }, { rootMargin: '30% 0px' }).observe(v);
+  heroGo.then(() => { if (v.preload !== 'auto') { v.preload = 'auto'; } });
+  new IntersectionObserver(([e]) => { seen = e.isIntersecting; if (seen) go(); else v.pause(); }, { rootMargin: '20% 0px' }).observe(v);
   v.addEventListener('canplay', go); v.addEventListener('loadeddata', go);
-  // iPhone in low-power mode refuses to start videos by itself: any touch on the page (every scroll starts with one) starts it
   ['touchstart', 'touchend', 'click'].forEach((t) => addEventListener(t, go, { passive: true }));
   if (onTime) v.addEventListener('timeupdate', () => v.duration && onTime(v.currentTime / v.duration));
 };
+
 {
   const c2 = $('#hc2'), c3 = $('#hc3'), hudB = $('#hudB'), hudA = $('#hudA');
   const show = (el, on) => { el.style.transition = 'opacity .7s, transform .7s'; el.style.opacity = on ? 1 : 0; el.style.visibility = on ? 'visible' : 'hidden'; el.style.transform = on ? 'none' : 'translateY(20px)'; };
@@ -138,7 +139,7 @@ const autoClip = (v, onTime) => {
     const deg = Math.round((t < .5 ? t * 2 : 2 - t * 2) * 360); hudB.textContent = String(deg).padStart(3, '0') + '°'; hudA.textContent = lights ? 'LIGHTS ON · GOLDEN HOUR' : 'POLARIS RZR · 4 SEATS'; });
   // rises out of the dark as it scrolls in, with a soft top edge that is gone once it is in place
   const rs = ride.querySelector('.stick');
-  const mask = (f) => { rs.style.webkitMaskImage = rs.style.maskImage = f > .2 ? `linear-gradient(rgba(0,0,0,0),#000 ${f.toFixed(1)}%)` : 'none'; };
+  const mask = (f) => rs.style.setProperty('--edge', (f / 26).toFixed(3));
   ScrollTrigger.create({ trigger: ride, start: 'top bottom', end: 'top top', scrub: true, onUpdate: (st) => { const q = st.progress, e = q * q * (3 - 2 * q); rs.style.opacity = (.3 + .7 * e).toFixed(3); mask(26 * (1 - e)); }, onLeave: () => { rs.style.opacity = 1; mask(0); } });
 }
 if (!touch) {
@@ -168,7 +169,7 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
     $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - (innerWidth <= 900 ? 200 : 70)) + 'px'); }); };
   place(); addEventListener('resize', place);
   autoClip($('#xV'), (t) => { const open = Math.sin(Math.PI * cl((t - .08) / .84)); tags.classList.toggle('on', open > .82); pct.textContent = Math.round(100 - open * 100) + '%'; });
-  const xs = sec.querySelector('.stick'), xmask = (f) => { xs.style.webkitMaskImage = xs.style.maskImage = f > .2 ? `linear-gradient(rgba(0,0,0,0),#000 ${f.toFixed(1)}%)` : 'none'; };
+  const xs = sec.querySelector('.stick'), xmask = (f) => xs.style.setProperty('--edge', (f / 26).toFixed(3));
   ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'top top', scrub: true, onUpdate: (st) => { const q = st.progress, e = q * q * (3 - 2 * q); xs.style.opacity = (.3 + .7 * e).toFixed(3); xmask(26 * (1 - e)); }, onLeave: () => { xs.style.opacity = 1; xmask(0); } });
 }
 
