@@ -27,7 +27,11 @@ section{position:relative;padding:clamp(70px,11vw,150px) var(--pad)}
 .head{max-width:1200px;margin:0 auto clamp(30px,5vw,60px)}
 /* header */
 #top{position:fixed;z-index:80;top:0;left:0;right:0;display:flex;align-items:center;gap:18px;padding:calc(env(safe-area-inset-top) + 10px) var(--pad) 10px;transition:background .35s,backdrop-filter .35s,transform .4s}
-#top.solid{background:rgba(13,10,7,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+#top{background:none!important;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s}
+#top::before{content:"";position:absolute;inset:0 0 -26px 0;z-index:-1;background:linear-gradient(rgba(13,10,7,.72),rgba(13,10,7,.42) 55%,rgba(13,10,7,0));opacity:0;transition:opacity .4s;pointer-events:none}
+#top.solid::before{opacity:1}
+#top.away{transform:translateY(-110%);opacity:0}
+#top .brand span,#top .brand small{text-shadow:0 1px 10px rgba(0,0,0,.6)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;font-size:21px;line-height:1}
 .brand small{display:block;font:400 10px 'JetBrains Mono';letter-spacing:.14em;color:var(--mut);margin-top:3px}
 #top nav{margin-inline-start:auto;display:flex;gap:26px}
@@ -366,8 +370,18 @@ textarea.f{height:88px;padding:14px 16px;resize:none}
 .mudbg,.mudbg img{position:absolute;inset:0;width:100%;height:100%;display:block}
 .mudclip{position:absolute;left:25.56%;top:38.29%;width:50.05%;height:36.48%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent),linear-gradient(transparent,#000 13%,#000 85%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent),linear-gradient(transparent,#000 13%,#000 85%,transparent);mask-composite:intersect}
 .mudclip img,.mudclip video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important}
-@media(max-aspect-ratio:2/3){.mudbox{top:-1%;transform:translateX(-50%);height:112%;width:auto}}
+/* close-up framing: the RZR (x 25-80%, y 45-70% of the tall still) fills ~96% of a phone's width, under the headline */
+@media(max-aspect-ratio:2/3){.mudbox{--bw:max(175vw,calc(118svh * 1024 / 1536));transform:none;aspect-ratio:auto;width:var(--bw);height:calc(var(--bw) * 1.5);left:calc(50vw - var(--bw) * .525);top:calc(66svh - var(--bw) * 1.5 * .575)}}
 @media(min-aspect-ratio:1/1){
- .mudbox{aspect-ratio:1536/1024;width:max(100%,calc(100svh * 1536 / 1024))}
+ /* the RZR (x 23-69%, y 36-86% of the wide still) takes ~85% of the screen height, in the left half beside the headline */
+ .mudbox{--bw:max(240svh,125vw);transform:none;aspect-ratio:auto;width:var(--bw);height:calc(var(--bw) / 1.5);left:calc(38vw - var(--bw) * .46);top:calc(55svh - var(--bw) / 1.5 * .61)}
  .mudclip{left:22.82%;top:24.22%;width:42.76%;height:70.16%}
 }
+
+/* cinematic hand-off: the golden-hour section starts under the opening and dissolves in over it while the opening drifts up;
+   the x-ray clip fades up from the page and back into it, so no section ends on a hard photo edge */
+#hero{position:relative;z-index:1}
+#ride{position:relative;z-index:2;margin-top:-100svh;height:340vh!important}
+#ride .stick,#xray .stick{will-change:opacity}
+#ride .stick{opacity:0;pointer-events:none}
+#xray .stage{will-change:opacity}

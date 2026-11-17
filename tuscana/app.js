@@ -30,7 +30,8 @@ $$('.fq button').forEach((b) => b.onclick = () => { const f = b.parentElement, o
 
 /* ---------- header + mobile bar ---------- */
 const top = $('#top'), bar = $('#bar');
-ScrollTrigger.create({ start: 80, onUpdate: (s) => top.classList.toggle('solid', s.scroll() > innerHeight * .9) });
+// header: transparent over the opening, slips away while scrolling down, comes back (with a soft shade, no hard band) when scrolling up
+ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (s) => { const y = s.scroll(); top.classList.toggle('away', s.direction > 0 && y > innerHeight * .5 && !$('#bk').classList.contains('on')); top.classList.toggle('solid', y > innerHeight * .6); } });
 ScrollTrigger.create({ trigger: '.strip', start: 'top 80%', endTrigger: 'footer', end: 'top bottom', onToggle: (s) => bar.classList.toggle('on', s.isActive) });
 
 /* ---------- reveals, counters, parallax ---------- */
@@ -96,7 +97,10 @@ const hero = $('#hero'), ride = $('#ride'), hp = { v: 0 };
   const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); ride.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; frames[i] = im; });
   const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
   ScrollTrigger.create({ trigger: ride, start: 'top 200%', onEnter: start });
-  ScrollTrigger.create({ trigger: ride, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
+  // dissolve in over the opening during the first screen of scrolling, fade back into the page at the very end
+  const rs = ride.querySelector('.stick');
+  ScrollTrigger.create({ trigger: ride, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (st) => { const y = st.progress * (ride.offsetHeight - innerHeight), a = cl(y / (innerHeight * .8)) * (1 - cl((y - (ride.offsetHeight - innerHeight * 1.35)) / (innerHeight * .35))); rs.style.opacity = a.toFixed(3); rs.style.pointerEvents = a > .5 ? 'auto' : 'none'; } });
+  ScrollTrigger.create({ trigger: ride, start: 'top -100%', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
     show(c2, win(p, .04, .14, .44, .54)); show(c3, win(p, .6, .7, .92, .99));
     hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .5 ? 'POLARIS RZR · 4 SEATS' : 'LIGHTS ON · GOLDEN HOUR';
     if (!ride.classList.contains('gl')) { want = p; draw(); } } });
@@ -133,6 +137,8 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
     tags.style.inset = '0'; tags.style.width = BW + 'px'; tags.style.height = BH + 'px';
     $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, 70, BW - 70) + 'px'); li.style.setProperty('--sy', cl(y, small ? 30 : H * .42, BH - (small ? 24 : 70)) + 'px'); }); };
   place(); addEventListener('resize', place);
+  const stage = sec.querySelector('.stage'), xc = sec.querySelector('.x-copy');
+  ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true, onUpdate: (st) => { const vh = innerHeight, H = sec.offsetHeight, y = st.progress * (H + vh); const a = cl((y - vh * .35) / (vh * .65)) * (1 - cl((y - H) / (vh * .55))); stage.style.opacity = a.toFixed(3); xc.style.opacity = a.toFixed(3); } });
   ScrollTrigger.create({ trigger: sec, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (st) => { want = st.progress; draw(); const open = Math.sin(Math.PI * cl((want - .08) / .84)); tags.classList.toggle('on', want > .3 && want < .72); pct.textContent = Math.round(100 - open * 100) + '%'; } });
 }
 
