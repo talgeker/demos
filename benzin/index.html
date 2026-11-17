@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>בנזין · רייזרים בשטח · טיולי רייזרים בגליל</title>
+<meta name="description" content="טיולי רייזרים בבקעת יבנאל וברכס פוריה, מול הכנרת. לזוגות, למשפחות, לקבוצות ולימי גיבוש.">
+<meta name="theme-color" content="#0d0a07" id="tc">
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/hero-mud-tall.webp" media="(max-aspect-ratio: 1/1)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-mud-wide.webp" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-mud-m.webp" media="(max-width: 819px)">
+<link rel="preload" as="image" href="img/hero-mud.webp" media="(min-width: 820px)">
+<link rel="stylesheet" href="style.css?v=1794880160">
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+<header id="top">
+ <a class="brand" href="#hero" aria-label="בנזין רייזרים בשטח, לראש העמוד"><img src="img/logo_s.webp" alt="" width="46" height="46"><span>בנזין<small>רייזרים בשטח</small></span></a>
+ <nav aria-label="ניווט ראשי"><a href="#route">המסלולים</a><a href="#fleet">הכלים</a><a href="#who">למי זה</a><a href="#reviews">ביקורות</a><a href="#faq">שאלות</a></nav>
+ <button class="btn p" data-book>הזמנת טיול</button>
+</header>
+
+<main id="main">
+<!-- 01 · mud: the user's RZR, wheels spinning in place, mud spraying (a looping photoreal clip) -->
+<section id="hero" aria-label="פתיחה">
+ <div class="mud" aria-hidden="true">
+  <div class="mudbox"><picture class="mudbg"><source media="(min-aspect-ratio: 1/1)" srcset="img/hero-mud-wide.webp"><img src="img/hero-mud-tall.webp" alt="" width="1024" height="1536" fetchpriority="high"></picture><div class="mudclip">
+  <picture><source media="(min-width: 820px)" srcset="img/hero-mud.webp"><img id="mudPoster" src="img/hero-mud-m.webp" alt="" width="918" height="1004" fetchpriority="high"></picture>
+  <video id="mudV" autoplay muted loop playsinline preload="auto"><source src="f/mud/d.mp4" type="video/mp4" media="(min-width: 820px)"><source src="f/mud/m.mp4" type="video/mp4"></video>
+  </div></div>
+ </div>
+ <canvas id="dust" aria-hidden="true"></canvas>
+ <div class="h-copy" id="hc1">
+  <span class="m k">// טיולי רייזרים · הגליל התחתון</span>
+  <h1>יוצאים<br><em>לשטח.</em></h1>
+  <p>משדות בקעת יבנאל, בדרכי הבזלת, עד התצפית מרכס פוריה מול הכנרת.</p>
+  <div class="row"><button class="btn p" data-book>הזמנת טיול</button><a class="btn rt" href="#route">המסלול שלנו <i aria-hidden="true">←</i></a></div>
+ </div>
+ <div class="scrollcue" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- a short dark breath between the two clips -->
+<section id="gap" aria-label="מדריך צמוד">
+ <div class="g-in"><i class="g-rule" aria-hidden="true"></i><span class="m k" dir="ltr">// GUIDED · 15 KM · BASALT &amp; FIELDS</span><p class="g-line">אתם נוהגים.<br><em>אנחנו מובילים.</em></p></div>
+</section>
+
+<!-- 02 · the machine at golden hour: the camera circles the RZR as you scroll -->
+<section id="ride" aria-label="הכלי">
+ <div class="stick">
+  <div id="sky" aria-hidden="true"></div>
+  <div class="r-slot"><div class="h-copy alt" id="hc2"><span class="m k">// THE MACHINE</span><h2>ארבעה מקומות. אפס אספלט.</h2><p>פולריס RZR, ארבע חגורות בכל מושב, כלוב מגן מלא ומערכת שמע שמתחברת לטלפון שלכם.</p></div>
+  <div class="h-copy alt" id="hc3"><span class="m k">// LIGHTS ON</span><h2>מדליקים אורות.</h2><p>הכי יפה בשקיעה: האור על הבקעה ועל הכנרת.</p></div></div>
+  <div class="stage"><div class="box">
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <video id="rideV" class="auto" autoplay muted loop playsinline preload="metadata" poster="f/v/ride.webp" aria-label="רייזר פולריס על סלעי בזלת מול שקיעה, המצלמה מקיפה אותו"><source src="f/v/ride.mp4" type="video/mp4" media="(min-width: 820px)"><source src="f/v/ride-m.mp4" type="video/mp4"></video>
+  </div></div>
+  <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i>
+   <span class="m bl" id="hudA">POLARIS RZR · 4 SEATS</span><span class="m br" id="hudB">000°</span></div>
+ </div>
+</section>
+
+<section class="strip" aria-label="במספרים">
+ <div><b class="num" data-count="4.7" data-dec="1">0</b><span>★ בגוגל</span></div>
+ <div><b class="num" data-count="416">0</b><span>ביקורות</span></div>
+ <div><b class="num" data-count="2013" data-plain="1">0</b><span>יוצאים לשטח מאז</span></div>
+ <div><b class="num" data-count="15">0</b><span>ק״מ במסלול</span></div>
+</section>
+
+<!-- 02 · the route: the line draws itself as you scroll, the stops light up -->
+<section id="route">
+ <div class="head"><span class="m k">// THE ROUTE</span><h2 class="big">מהשדות<br>עד הרכס.</h2><p class="lead">המסלול המרכזי שלנו: כ‑15 ק״מ, שעה עד שעה ורבע, עם מדריך צמוד לאורך כל הדרך.</p></div>
+ <div class="map-wrap">
+  <div class="map" id="map">
+   <svg viewBox="0 0 400 620" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs><linearGradient id="lake" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3fb6c9"/><stop offset="1" stop-color="#1c6f8a"/></linearGradient>
+     <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <g class="topo" fill="none" stroke="currentColor"><path d="M-20 520 C60 470 120 500 200 470 S340 430 430 470"/><path d="M-20 470 C70 420 130 450 210 420 S340 380 430 420"/><path d="M-20 410 C80 370 150 395 220 368 S350 330 430 365"/><path d="M-20 350 C90 315 160 338 232 312 S350 280 430 305"/><path d="M-20 285 C95 255 170 278 240 252 S355 222 430 245"/><path d="M-20 225 C100 198 175 216 250 194 S360 168 430 186"/><path d="M-20 165 C105 142 180 158 258 138 S365 116 430 130"/><path d="M-20 108 C110 88 190 102 266 84 S370 66 430 78"/></g>
+    <path class="lake" d="M300 -10 C330 20 372 30 410 22 L410 -10 Z M318 30 C345 66 380 84 410 92 L410 22 C372 30 340 22 318 30Z" fill="url(#lake)"/>
+    <text class="lbl" x="352" y="56" text-anchor="middle">הכנרת</text>
+    <path id="trailBg" d="M96 560 C150 530 96 480 150 450 S250 440 232 384 S150 330 196 286 S300 262 286 204 S226 150 262 112 S330 96 312 150 S352 250 318 318 S250 420 200 470 S130 540 96 560" fill="none"/>
+    <path id="trail" d="M96 560 C150 530 96 480 150 450 S250 440 232 384 S150 330 196 286 S300 262 286 204 S226 150 262 112 S330 96 312 150 S352 250 318 318 S250 420 200 470 S130 540 96 560" fill="none" filter="url(#glow)"/>
+    <g id="stops"></g>
+    <g id="car"><circle r="13" class="pulse"/><circle r="6.5"/></g>
+   </svg>
+   <div class="gauge"><div><small class="m">DISTANCE</small><b><span id="gKm">0.0</span><i>ק״מ</i></b></div><div><small class="m">TIME</small><b><span id="gMin">0</span><i>דק׳</i></b></div></div>
+  </div>
+  <ol class="stops" id="stopList"></ol>
+ </div>
+ <div class="more-routes">
+  <h3>ויש עוד מסלולים, בתיאום מראש</h3>
+  <div class="rcards" id="rcards"></div>
+ </div>
+</section>
+
+<!-- 04 · the machine, taken apart: the photoreal clip is scrubbed by the scroll -->
+<section id="xray" aria-label="הכלי, מפורק">
+ <div class="stick">
+  <div class="x-copy"><span class="m k">// INSIDE THE MACHINE</span><h2 class="big">מה יש בפנים.</h2><p>הרנג'ר החדש שלנו לשישה נוסעים, חלק אחרי חלק. ככה נראה כלי שמתוחזק כמו שצריך.</p></div>
+  <div class="stage"><div class="box">
+  <video id="xV" class="auto" autoplay muted loop playsinline preload="metadata" poster="f/v/xray.webp" aria-label="פולריס רנג'ר לשישה נוסעים מתפרק לחלקים וחוזר לעצמו, על רכס בזלת מול הכנרת"><source src="f/v/xray.mp4" type="video/mp4"></video>
+  <ol class="x-tags" aria-hidden="true"><li data-x="30" data-y="46">מנוע ותמסורת</li><li data-x="41" data-y="56">בולמי זעזועים</li><li data-x="86" data-y="61">צמיגי שטח</li></ol>
+  </div></div>
+  <div class="x-meter" aria-hidden="true"><span class="m">ASSEMBLY</span><b id="xPct">100%</b></div>
+ </div>
+</section>
+
+<!-- 04 · the fleet -->
+<section id="fleet">
+ <div class="head"><span class="m k">// THE FLEET</span><h2 class="big">הכלים.</h2><p class="lead">פולריס בלבד. כלים לארבעה ולשישה נוסעים, כך שכל המשפחה או כל החבר׳ה נוסעים יחד.</p></div>
+ <div class="fleet" id="fleetCards"></div>
+</section>
+
+<!-- 05 · who is it for -->
+<section id="who">
+ <div class="head"><span class="m k">// PICK YOUR RIDE</span><h2 class="big">עם מי<br>אתם באים?</h2></div>
+ <div class="deck" id="deck" tabindex="0" aria-label="סוגי טיולים, גלילה לצדדים"></div>
+</section>
+
+<!-- 06 · gallery -->
+<section id="gallery" aria-label="גלריה">
+ <div class="head"><span class="m k">// FROM THE FIELD</span><h2 class="big">ככה זה<br>נראה שם.</h2><p class="lead">צילומים אמיתיים מהמסלולים שלנו. בלי פילטרים.</p></div>
+ <div class="mosaic" id="mosaic"></div>
+</section>
+
+<!-- 07 · reviews -->
+<section id="reviews">
+ <div class="rv-top"><div class="score"><b class="num" data-count="416">0</b><span>ביקורות בגוגל · דירוג <strong>4.7</strong> ★</span></div><h2 class="big">הם כבר<br>חזרו מאובקים.</h2></div>
+ <div class="wall" aria-label="ביקורות לקוחות"><div class="cols" id="wall"></div></div>
+ 
+</section>
+
+<!-- 08 · story -->
+<section id="story">
+ <div class="st-img"><img src="img/golden.webp" alt="רייזרים בשקיעה מעל בקעת יבנאל" loading="lazy" width="1080" height="810"></div>
+ <div class="st-txt"><span class="m k">// FUEL · DUST · FRIENDS</span><h2 class="big">דלק בדם,<br>אבק בשטח.</h2>
+  <p>בנזין – רייזרים בשטח נולד מתוך אהבה לשטח ולחיבור הישיר בין אדם לטבע. הצוות שלנו מכיר כל שביל, כל תצפית וכל פינת חמד נסתרת בדרך.</p>
+  <p>אנחנו מקום קטן ואישי, לא פס ייצור. המסלול מותאם לכם, המדריך איתכם לאורך כל הדרך, והמטרה אחת: שתחזרו הביתה עם חיוך, אבק וזיכרון טוב.</p>
+  <div class="sig"><img src="img/logo_s.webp" alt="" width="64" height="64"><div><b>הצוות של בנזין</b><span>רייזרים בשטח</span></div></div></div>
+</section>
+
+<!-- 09 · faq + visit -->
+<section id="faq">
+ <div class="head"><span class="m k">// GOOD TO KNOW</span><h2 class="big">לפני<br>שיוצאים.</h2></div>
+ <div class="faq-grid"><div id="faqList"></div>
+  <aside class="visit"><h3>מגיעים אלינו</h3><p>הגליל התחתון, מול הכנרת.<br>נקודת המפגש נשלחת בוואטסאפ.</p>
+   <div class="hrs" id="hrs"></div><p class="s">כל הטיולים בתיאום מראש.</p>
+   <div class="col"><a class="btn o" id="waVisit" target="_blank" rel="noopener">שלחו לנו וואטסאפ</a></div></aside></div>
+</section>
+
+<!-- 10 · outro -->
+<section id="outro"><img src="img/kinneret.webp" alt="" loading="lazy" width="750" height="750"><div class="o-txt"><span class="m k">// SEE YOU OUT THERE</span><h2 class="huge">נתראה<br>בשטח.</h2><button class="btn p big" data-book>הזמנת טיול</button></div></section>
+</main>
+
+<footer><img src="img/logo_s.webp" alt="בנזין רייזרים בשטח" width="72" height="72"><p>בנזין · רייזרים בשטח</p><p class="s">אתר הדגמה.</p></footer>
+
+<div id="bar"><button class="btn p" data-book>הזמנת טיול</button><a class="btn o ic" id="waQuick" aria-label="וואטסאפ" target="_blank" rel="noopener">וואטסאפ</a></div>
+
+<!-- booking wizard -->
+<div id="bk" role="dialog" aria-modal="true" aria-labelledby="bkT" data-lenis-prevent><div class="card"><button class="x" id="bkX" aria-label="סגירה">✕</button><div class="prog"><i id="bkP"></i></div><div class="body" id="bkB"></div><div class="foot" id="bkF"></div></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="data.js?v=1794880160"></script>
+<script type="module" src="app.js?v=1794880160"></script>
+</body>
+</html>
