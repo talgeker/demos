@@ -15,7 +15,7 @@ $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => { const el 
 $('#waze').href = T.waze; $('#gReview').href = T.review;
 $('#waQuick').href = `https://wa.me/${T.wa}?text=${encodeURIComponent('היי טוסקנה, אשמח לפרטים על טיול רייזרים 🚙')}`;
 $('#hrs').innerHTML = T.hours.map(([d, h]) => `<div><span>${d}</span><span>${h}</span></div>`).join('');
-$('#mq').innerHTML = [...T.see, ...T.see].map((s) => `<span>${s}</span>`).join('');
+if ($('#mq')) $('#mq').innerHTML = [...T.see, ...T.see].map((s) => `<span>${s}</span>`).join('');
 $('#fleetCards').innerHTML = T.fleet.map((f) => `<article class="fc rv"><div class="ph"><img src="img/${f.img}.webp" alt="${esc(f.n)}" loading="lazy"><span class="tag">${f.tag}</span></div><div class="in"><h3>${f.n}</h3><div class="sub">${f.sub}</div><p>${f.d}</p><div class="specs">${f.specs.map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join('')}</div></div></article>`).join('');
 $('#rcards').innerHTML = T.routes.map((r) => `<button class="rc" data-route="${r.id}"><img src="img/${r.img}_s.webp" alt="" loading="lazy"><div><div class="tg"><span>${r.time}</span><span>${r.lvl}</span></div><h4>${r.n}</h4><p>${r.d}</p><u>להזמנת המסלול ‹</u></div></button>`).join('');
 $('#deck').innerHTML = T.who.map((w) => `<article class="dk"><img src="img/${w.img}.webp" alt="" loading="lazy"><div class="t"><span class="m">${w.k}</span><h3>${w.n}</h3><p>${w.d}</p><ul>${w.pts.map((p) => `<li>${p}</li>`).join('')}</ul><button class="btn p" data-book data-who="${w.id}">מתאים לנו</button></div></article>`).join('');
@@ -174,12 +174,13 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
 {
   const sec = $('#xray'), tags = $('.x-tags'), pct = $('#xPct');
   // the labels sit on the same square the clip is drawn into ('cover' inside its box: full frame on phones, the left part of wide screens)
-  const place = () => { const st = sec.querySelector('.stick').getBoundingClientRect(), b = sec.querySelector('.stage .box').getBoundingClientRect(), W = st.width, H = st.height;
-    const S = Math.max(b.width, b.height), ox = b.left - st.left + (b.width - S) / 2, oy = b.top - st.top + (b.height - S) / 2, x0 = Math.max(0, b.left - st.left), x1 = Math.min(W, b.right - st.left);
-    tags.style.inset = '0'; tags.style.width = W + 'px'; tags.style.height = H + 'px';
-    $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - (innerWidth <= 900 ? 200 : 70)) + 'px'); }); };
+  // the labels sit on the square the clip is drawn into ('cover' inside its box), and always stay inside the picture
+  const place = () => { const b = sec.querySelector('.stage .box').getBoundingClientRect(), bw = b.width, bh = b.height, small = innerWidth <= 900;
+    const S = Math.max(bw, bh), ox = (bw - S) / 2, oy = (bh - S) / 2, x1 = Math.min(bw, innerWidth - b.left);
+    tags.style.inset = '0'; tags.style.width = bw + 'px'; tags.style.height = bh + 'px';
+    $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, 66, x1 - 66) + 'px'); li.style.setProperty('--sy', cl(y, small ? 24 : bh * .3, bh - (small ? 24 : 70)) + 'px'); }); };
   place(); addEventListener('resize', place);
-  autoClip($('#xV'), (t) => { const open = Math.sin(Math.PI * cl((t - .08) / .84)); tags.classList.toggle('on', open > .82); pct.textContent = Math.round(100 - open * 100) + '%'; }, { dir: 'f/explode/m/', N: 91, fps: 18 });
+  autoClip($('#xV'), (t) => { const open = Math.sin(Math.PI * cl((t - .08) / .84)); tags.classList.toggle('on', open > .5); pct.textContent = Math.round(100 - open * 100) + '%'; }, { dir: 'f/explode/m/', N: 91, fps: 18 });
   const xs = sec.querySelector('.stick'), xmask = (f) => xs.style.setProperty('--edge', (f / 26).toFixed(3));
   ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'top top', scrub: true, onUpdate: (st) => { const q = st.progress, e = q * q * (3 - 2 * q); xs.style.opacity = (.3 + .7 * e).toFixed(3); xmask(26 * (1 - e)); }, onLeave: () => { xs.style.opacity = 1; xmask(0); } });
 }

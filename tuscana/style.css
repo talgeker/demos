@@ -476,3 +476,21 @@ html{scroll-padding-top:var(--hh)}
 
 .stage .box>img.vposter,.stage .box>canvas.vframes{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block;opacity:1!important}
 .stage .box>video.auto{z-index:1;background:transparent!important}
+
+/* phones: the x-ray clip is shown whole (the full vehicle, nothing cropped), full width, its top and bottom melting into the page;
+   the headline sits above it and the part labels sit on the parts */
+@media(max-width:900px){
+ #route{padding-bottom:clamp(36px,8vw,60px)}
+ #xray{height:auto!important;min-height:0!important;padding:0!important}
+ #xray .stick{height:auto!important;display:flex!important;flex-direction:column;padding:12px 0 8px!important}
+ #xray .stick::after,#xray .stick::before{display:none!important}
+ #xray .x-copy{position:relative!important;inset:auto!important;top:auto!important;bottom:auto!important;padding:0 var(--pad);z-index:4}
+ #xray .x-copy p{display:block!important;margin-top:8px;font-size:15px;color:var(--sand2)}
+ #xray .x-copy .big{font-size:min(11vw,46px)!important}
+ #xray .stage{position:relative!important;inset:auto!important;width:100%;aspect-ratio:1;margin-top:-4px}
+ #xray .stage::before,#xray .stage::after{content:"";position:absolute;left:0;right:0;height:18%;z-index:2;pointer-events:none}
+ #xray .stage::before{top:-1px;background:linear-gradient(var(--bg),rgba(13,10,7,0))}
+ #xray .stage::after{bottom:-1px;background:linear-gradient(rgba(13,10,7,0),var(--bg))}
+ #xray .x-tags{z-index:3}
+ .x-tags li{font-size:12.5px!important;padding:6px 11px 6px 10px!important;background:rgba(13,10,7,.82)!important}
+}
