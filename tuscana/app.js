@@ -118,16 +118,27 @@ let heroReady; const heroGo = new Promise((r) => heroReady = r);
 }
 /* ---------- the two vehicle clips play by themselves in a loop (the scroll never drives them) ---------- */
 // each one loads a little before it comes into view, plays while visible and pauses when it leaves the screen
-const autoClip = (v, onTime) => {
-  // the sources and autoplay are in the HTML (exactly like the opening clip, which iPhones always play);
-  // the script only keeps it playing while it is on screen and nudges it on any touch
-  let seen = false;
-  const go = () => { if (seen && v.paused && !reduce) v.play().catch(() => {}); };
-  heroGo.then(() => { if (v.preload !== 'auto') { v.preload = 'auto'; } });
-  new IntersectionObserver(([e]) => { seen = e.isIntersecting; if (seen) go(); else v.pause(); }, { rootMargin: '20% 0px' }).observe(v);
-  v.addEventListener('canplay', go); v.addEventListener('loadeddata', go);
+const autoClip = (v, onTime, fb) => {
+  // the sources and autoplay are in the HTML. Under the video lies its first frame as a plain picture, so the frame is never black.
+  // If a phone still refuses to play the video, the same clip runs from still frames drawn on a canvas (this always works on iPhone).
+  const box = v.parentElement, under = new Image(); under.src = v.poster; under.alt = ''; under.className = 'vposter'; box.insertBefore(under, v);
+  let seen = false, usingFrames = false, watch = 0;
+  const go = () => { if (usingFrames || !seen || reduce) return; if (v.paused) v.play().catch(() => {}); };
+  heroGo.then(() => { v.preload = 'auto'; });
+  const frames = () => {
+    if (usingFrames || !fb) return; usingFrames = true; v.pause(); v.style.display = 'none';
+    const cv = document.createElement('canvas'), cx = cv.getContext('2d'), F = []; cv.className = 'vframes'; box.insertBefore(cv, v);
+    let ready = 0, k = 0, last = 0;
+    for (let n = 0; n < fb.N; n++) { const im = new Image(); im.decoding = 'async'; im.onload = () => { ready++; if (n === 0) { cv.width = cv.height = im.naturalWidth; cx.drawImage(im, 0, 0); } }; im.src = fb.dir + String(n).padStart(3, '0') + '.webp'; F.push(im); }
+    const seq = fb.pingpong ? [...F.keys(), ...[...F.keys()].reverse().slice(1, -1)] : [...F.keys()];
+    const tick = (t) => { requestAnimationFrame(tick); if (!seen || ready < fb.N * .9 || t - last < 1000 / fb.fps) return; last = t; k = (k + 1) % seq.length; const im = F[seq[k]]; if (im.complete && im.naturalWidth) { cx.drawImage(im, 0, 0); onTime && onTime(k / seq.length); } };
+    requestAnimationFrame(tick);
+  };
+  new IntersectionObserver(([e]) => { seen = e.isIntersecting; clearTimeout(watch);
+    if (seen) { go(); watch = setTimeout(() => { if (!usingFrames && (v.paused || v.currentTime < .05)) frames(); }, 3500); } else v.pause(); }, { rootMargin: '10% 0px' }).observe(box);
+  v.addEventListener('canplay', go); v.addEventListener('loadeddata', go); v.addEventListener('error', frames, true);
   ['touchstart', 'touchend', 'click'].forEach((t) => addEventListener(t, go, { passive: true }));
-  if (onTime) v.addEventListener('timeupdate', () => v.duration && onTime(v.currentTime / v.duration));
+  if (onTime) v.addEventListener('timeupdate', () => !usingFrames && v.duration && onTime(v.currentTime / v.duration));
 };
 
 {
@@ -136,7 +147,7 @@ const autoClip = (v, onTime) => {
   show(c2, true); show(c3, false);
   // the clip circles the RZR (lights come on) and circles back: the copy follows the clip's own clock
   autoClip($('#rideV'), (t) => { const lights = t > .38 && t < .9; show(c2, !lights); show(c3, lights); hp.v = t;
-    const deg = Math.round((t < .5 ? t * 2 : 2 - t * 2) * 360); hudB.textContent = String(deg).padStart(3, '0') + '°'; hudA.textContent = lights ? 'LIGHTS ON · GOLDEN HOUR' : 'POLARIS RZR · 4 SEATS'; });
+    const deg = Math.round((t < .5 ? t * 2 : 2 - t * 2) * 360); hudB.textContent = String(deg).padStart(3, '0') + '°'; hudA.textContent = lights ? 'LIGHTS ON · GOLDEN HOUR' : 'POLARIS RZR · 4 SEATS'; }, { dir: 'f/orbit/m/', N: 81, fps: 16, pingpong: true });
   // rises out of the dark as it scrolls in, with a soft top edge that is gone once it is in place
   const rs = ride.querySelector('.stick');
   const mask = (f) => rs.style.setProperty('--edge', (f / 26).toFixed(3));
@@ -168,7 +179,7 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
     tags.style.inset = '0'; tags.style.width = W + 'px'; tags.style.height = H + 'px';
     $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - (innerWidth <= 900 ? 200 : 70)) + 'px'); }); };
   place(); addEventListener('resize', place);
-  autoClip($('#xV'), (t) => { const open = Math.sin(Math.PI * cl((t - .08) / .84)); tags.classList.toggle('on', open > .82); pct.textContent = Math.round(100 - open * 100) + '%'; });
+  autoClip($('#xV'), (t) => { const open = Math.sin(Math.PI * cl((t - .08) / .84)); tags.classList.toggle('on', open > .82); pct.textContent = Math.round(100 - open * 100) + '%'; }, { dir: 'f/explode/m/', N: 91, fps: 18 });
   const xs = sec.querySelector('.stick'), xmask = (f) => xs.style.setProperty('--edge', (f / 26).toFixed(3));
   ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'top top', scrub: true, onUpdate: (st) => { const q = st.progress, e = q * q * (3 - 2 * q); xs.style.opacity = (.3 + .7 * e).toFixed(3); xmask(26 * (1 - e)); }, onLeave: () => { xs.style.opacity = 1; xmask(0); } });
 }

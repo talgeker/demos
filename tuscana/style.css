@@ -473,3 +473,6 @@ html{scroll-padding-top:var(--hh)}
 #ride .stick::after,#xray .stick::after{display:block!important;content:"";position:absolute;inset:0 0 auto 0;height:30%;z-index:3;background:linear-gradient(var(--bg),rgba(13,10,7,0));opacity:var(--edge,0);pointer-events:none}
 @media(min-width:901px) and (min-aspect-ratio:6/5){#ride .stage .box,#xray .stage .box{-webkit-mask-image:none!important;mask-image:none!important}
  #ride .stage .box::after,#xray .stage .box::after{content:"";position:absolute;inset:0 0 0 auto;width:16%;z-index:2;background:linear-gradient(to left,var(--bg),rgba(13,10,7,0));pointer-events:none}}
+
+.stage .box>img.vposter,.stage .box>canvas.vframes{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block;opacity:1!important}
+.stage .box>video.auto{z-index:1;background:transparent!important}
