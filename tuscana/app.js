@@ -31,7 +31,8 @@ $$('.fq button').forEach((b) => b.onclick = () => { const f = b.parentElement, o
 /* ---------- header + mobile bar ---------- */
 const top = $('#top'), bar = $('#bar');
 // header: transparent over the opening, slips away while scrolling down, comes back (with a soft shade, no hard band) when scrolling up
-ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (s) => { const y = s.scroll(); top.classList.toggle('away', s.direction > 0 && y > innerHeight * .5 && !$('#bk').classList.contains('on')); top.classList.toggle('solid', y > innerHeight * .6); } });
+// header: a fixed black bar (it never slides away); its height is shared with the CSS
+const setHH = () => document.documentElement.style.setProperty('--hh', top.offsetHeight + 'px'); setHH(); addEventListener('resize', setHH);
 ScrollTrigger.create({ trigger: '.strip', start: 'top 80%', endTrigger: 'footer', end: 'top bottom', onToggle: (s) => bar.classList.toggle('on', s.isActive) });
 
 /* ---------- reveals, counters, parallax ---------- */
@@ -92,8 +93,19 @@ let heroReady; const heroGo = new Promise((r) => heroReady = r);
   }
   const tc = $('#tc'), mudEl = $('.mud'), hc1 = $('#hc1'), cue = $('.scrollcue');
   ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: (st) => { mudEl.style.transform = `translate3d(0,${(st.progress * 22).toFixed(2)}%,0)`; hc1.style.opacity = 1 - cl(st.progress / .5); cue.style.opacity = 1 - cl(st.progress / .1); } });
-  // the browser bar takes the colour of the sky over the opening, and the page colour after it
-  ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom 12%', onToggle: (st) => { tc.content = st.isActive ? (innerWidth / innerHeight >= 1 ? '#514241' : '#3e2c25') : '#0d0a07'; } });
+  // portrait screens: the whole RZR (with its flag) is fitted into the free space under the copy, never under the buttons
+  const box = $('.mudbox'), CAR = { x0: .245, x1: .805, y0: .372, y1: .705 };
+  const fit = () => {
+    if (innerWidth / innerHeight >= 1) { box.removeAttribute('style'); return; }
+    const W = hero.clientWidth, H = hero.clientHeight, T = hc1.offsetTop + hc1.offsetHeight + 14, B = H * .955;
+    let bw = Math.min(W * .97 / (CAR.x1 - CAR.x0), (B - T) / ((CAR.y1 - CAR.y0) * 1.5));
+    bw = Math.max(bw, W, H / 1.5);
+    const carH = (CAR.y1 - CAR.y0) * 1.5 * bw, spare = Math.max(0, B - T - carH);
+    let left = W / 2 - bw * (CAR.x0 + CAR.x1) / 2, tp = T + spare * .45 - bw * 1.5 * CAR.y0;
+    left = Math.min(0, Math.max(W - bw, left)); tp = Math.min(0, Math.max(H - bw * 1.5, tp));
+    Object.assign(box.style, { width: bw + 'px', height: bw * 1.5 + 'px', left: left + 'px', top: tp + 'px', transform: 'none' });
+  };
+  fit(); addEventListener('resize', fit); document.fonts && document.fonts.ready.then(fit);
 }
 /* ---------- the dark breath: a thin ember line draws down, then the copy rises word by word ---------- */
 {
@@ -155,7 +167,7 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
   const place = () => { const st = sec.querySelector('.stick').getBoundingClientRect(), b = sec.querySelector('.stage .box').getBoundingClientRect(), W = st.width, H = st.height;
     const S = Math.max(b.width, b.height), ox = b.left - st.left + (b.width - S) / 2, oy = b.top - st.top + (b.height - S) / 2, x0 = Math.max(0, b.left - st.left), x1 = Math.min(W, b.right - st.left);
     tags.style.inset = '0'; tags.style.width = W + 'px'; tags.style.height = H + 'px';
-    $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - 70) + 'px'); }); };
+    $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - (innerWidth <= 900 ? 200 : 70)) + 'px'); }); };
   place(); addEventListener('resize', place);
   const stage = sec.querySelector('.stage'), xc = sec.querySelector('.x-copy');
   // same entrance as the golden-hour clip: it rises out of the dark with a soft top edge, then sits clean and full

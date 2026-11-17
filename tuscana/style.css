@@ -385,7 +385,7 @@ textarea.f{height:88px;padding:14px 16px;resize:none}
 @media(max-aspect-ratio:2/3){.mudbox{--bw:max(186vw,calc(124svh * 1024 / 1536));top:calc(69svh - var(--bw) * 1.5 * .575)}}
 #hero .h-copy .k{color:var(--sand);opacity:.92}
 @media(min-aspect-ratio:1/1){
- .mudbox{--bw:max(222svh,115vw);left:calc(35vw - var(--bw) * .46);top:calc(57svh - var(--bw) / 1.5 * .61)}
+ .mudbox{--bw:max(218svh,112vw);left:calc(31vw - var(--bw) * .46);top:calc(57svh - var(--bw) / 1.5 * .61)}
  .mudclip{left:25.32%;top:27.69%;width:37.57%;height:61.99%}
 }
 #hero{position:relative;z-index:1}
@@ -435,3 +435,31 @@ textarea.f{height:88px;padding:14px 16px;resize:none}
  #ride .r-slot .h-copy h2,#xray .x-copy .big{font-size:clamp(44px,4.6vw,76px)!important;line-height:1.02}
  #ride .r-slot p,#xray .x-copy p{max-width:440px}
 }
+
+/* ---------- a fixed black bar for the logo and the booking button; the opening starts right under it ---------- */
+:root{--hh:64px}
+html{scroll-padding-top:var(--hh)}
+#top{background:#0d0a07!important;transform:none!important;opacity:1!important;box-shadow:0 1px 0 rgba(239,228,207,.06)}
+#top::before{display:none!important}
+#hero{margin-top:var(--hh)!important;height:calc(100svh - var(--hh))!important;min-height:480px!important}
+#hero .h-copy{top:clamp(14px,3svh,40px)!important}
+@media(min-width:901px){#hero .h-copy{top:clamp(30px,9svh,110px)!important}}
+/* phones: compact copy (one-line headline, buttons side by side) and the RZR placed by script in the free space below it */
+@media(max-width:900px){
+ #hero .scrollcue{display:none!important}
+ #hero .h-copy h1{font-size:min(12.6vw,62px)!important;line-height:1!important;white-space:nowrap}
+ #hero .h-copy h1 br{display:none}
+ #hero .h-copy .k{font-size:10.5px}
+ #hero .h-copy p{font-size:15px;margin-top:10px;max-width:none}
+ #hero .h-copy .row{flex-direction:row!important;align-items:center!important;gap:10px!important;margin-top:16px}
+ #hero .h-copy .row .btn{min-width:0!important;height:46px!important;padding:0 20px!important;font-size:15px}
+}
+
+/* phones: the headlines of the two scrubbed clips sit low, over the ground under the wheels, not on the vehicle */
+@media(max-width:900px){
+ #ride .r-slot,#xray .x-copy{top:auto!important;bottom:calc(env(safe-area-inset-bottom) + 44px)!important;height:auto!important}
+ #ride .r-slot{height:112px!important}
+ #ride .r-slot .h-copy{top:auto!important;bottom:0!important;inset:auto 0 0 0!important}
+ #ride .r-slot .h-copy h2,#xray .x-copy .big{font-size:min(9.4vw,40px)!important;line-height:1.05}
+}
+@media(max-width:900px){#xray .x-copy{bottom:calc(env(safe-area-inset-bottom) + 104px)!important}}
