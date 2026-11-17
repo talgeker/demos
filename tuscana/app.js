@@ -73,18 +73,36 @@ if (!reduce) {
   deck.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); deck.scrollBy({ left: (e.key === 'ArrowLeft' ? -1 : 1) * cards[0].offsetWidth, behavior: 'smooth' }); } });
 }
 
-/* ---------- hero: the mud clip loops without a seam (two copies cross-fade at the joint) ---------- */
+/* ---------- hero: one seamless, stabilised loop that starts by itself (autoplay in the HTML) ---------- */
 const hero = $('#hero'), ride = $('#ride'), hp = { v: 0 };
+// the heavy frame sequences further down wait until the opening clip is playing (or the visitor scrolls)
+let heroReady; const heroGo = new Promise((r) => heroReady = r);
 {
-  const A = $('#mudA'), B = $('#mudB'), src = `f/mud/${touch || innerWidth < 820 ? 'm' : 'd'}.mp4`, FADE = .7;
-  if (!reduce) {
-    [A, B].forEach((v) => { v.src = src; v.load(); });
-    let cur = A, nxt = B, fading = false;
-    const tick = () => { requestAnimationFrame(tick); if (!cur.duration || fading) return; if (cur.currentTime > cur.duration - FADE - .05) { fading = true; nxt.currentTime = 0; nxt.play().catch(() => {}); nxt.style.transition = cur.style.transition = `opacity ${FADE}s linear`; nxt.style.opacity = 1; cur.style.opacity = 0; setTimeout(() => { cur.pause(); [cur, nxt] = [nxt, cur]; fading = false; }, FADE * 1000 + 40); } };
-    A.play().then(() => { $('#mudPoster').style.opacity = 0; }).catch(() => {}); requestAnimationFrame(tick);
-    new IntersectionObserver(([e]) => { if (e.isIntersecting) cur.play().catch(() => {}); else { A.pause(); B.pause(); } }).observe(hero);
-    ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: (st) => { $('.mud').style.transform = `translateY(${st.progress * 18}%) scale(${1 + st.progress * .08})`; $('#hc1').style.opacity = 1 - cl(st.progress / .55); $('.scrollcue').style.opacity = 1 - cl(st.progress / .1); } });
+  const V = $('#mudV'), poster = $('#mudPoster');
+  const ok = () => { poster.style.opacity = 0; heroReady(); };
+  if (reduce) { V.pause(); heroReady(); }
+  else {
+    if (V.readyState >= 3 && !V.paused) ok(); else V.addEventListener('playing', ok, { once: true });
+    V.play().catch(() => {});
+    // iOS low-power mode blocks autoplay: start on the first touch
+    addEventListener('touchstart', () => V.paused && V.play().catch(() => {}), { once: true, passive: true });
+    addEventListener('scroll', () => setTimeout(heroReady, 200), { once: true, passive: true });
+    setTimeout(heroReady, 3500);
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) V.play().catch(() => {}); else V.pause(); }).observe(hero);
   }
+  const tc = $('#tc'), mudEl = $('.mud'), hc1 = $('#hc1'), cue = $('.scrollcue');
+  ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: (st) => { mudEl.style.transform = `translate3d(0,${(st.progress * 22).toFixed(2)}%,0)`; hc1.style.opacity = 1 - cl(st.progress / .5); cue.style.opacity = 1 - cl(st.progress / .1); } });
+  // the browser bar takes the colour of the sky over the opening, and the page colour after it
+  ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom 12%', onToggle: (st) => { tc.content = st.isActive ? (innerWidth / innerHeight >= 1 ? '#514241' : '#3e2c25') : '#0d0a07'; } });
+}
+/* ---------- the dark breath: a thin ember line draws down, then the copy rises word by word ---------- */
+{
+  const g = $('#gap'), line = $('.g-line', g);
+  line.innerHTML = line.innerHTML.split(/(<br>|<em>|<\/em>)/).map((t) => /^</.test(t) ? t : t.split(' ').filter(Boolean).map((w) => `<span>${w}</span>`).join(' ')).join('');
+  const words = $$('span', line);
+  ScrollTrigger.create({ trigger: g, start: 'top 85%', end: 'bottom 35%', scrub: true, onUpdate: (st) => { const p = st.progress;
+    g.style.setProperty('--gr', cl(p / .3).toFixed(3)); g.style.setProperty('--ga', cl((p - .15) / .15).toFixed(3));
+    words.forEach((w, i) => { const a = cl((p - .25 - i * .07) / .16); w.style.opacity = a.toFixed(3); w.style.transform = `translateY(${((1 - a) * .5).toFixed(3)}em)`; }); } });
 }
 /* ---------- the machine at golden hour: copy changes with the scroll ---------- */
 {
@@ -96,17 +114,19 @@ const hero = $('#hero'), ride = $('#ride'), hp = { v: 0 };
   const draw = () => { let i = Math.round(cl(want / .92) * (N - 1)); while (i > 0 && !(frames[i] && frames[i].complete && frames[i].naturalWidth)) i--; const f = frames[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cvs.width !== f.naturalWidth) cvs.width = cvs.height = f.naturalWidth; ctx.drawImage(f, 0, 0); shown = i; };
   const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); ride.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; frames[i] = im; });
   const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
-  ScrollTrigger.create({ trigger: ride, start: 'top 200%', onEnter: start });
-  // dissolve in over the opening during the first screen of scrolling, fade back into the page at the very end
+  heroGo.then(() => setTimeout(start, 250));
+  // rises out of the dark as it scrolls in (it is never laid over the opening)
   const rs = ride.querySelector('.stick');
-  ScrollTrigger.create({ trigger: ride, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (st) => { const y = st.progress * (ride.offsetHeight - innerHeight), a = cl(y / (innerHeight * .8)) * (1 - cl((y - (ride.offsetHeight - innerHeight * 1.35)) / (innerHeight * .35))); rs.style.opacity = a.toFixed(3); rs.style.pointerEvents = a > .5 ? 'auto' : 'none'; } });
-  ScrollTrigger.create({ trigger: ride, start: 'top -100%', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
+  // its top edge stays soft while it scrolls in, and the softness is gone a moment after it settles
+  const mask = (f) => { rs.style.webkitMaskImage = rs.style.maskImage = f > .2 ? `linear-gradient(rgba(0,0,0,0),#000 ${f.toFixed(1)}%)` : 'none'; };
+  ScrollTrigger.create({ trigger: ride, start: 'top bottom', end: 'top -35%', scrub: true, onUpdate: (st) => { const y = st.progress * 1.35, q = cl(y), e = q * q * (3 - 2 * q); rs.style.opacity = (.3 + .7 * e).toFixed(3); mask(26 * (1 - cl((y - 1) / .35))); }, onLeave: () => { rs.style.opacity = 1; mask(0); }, onEnterBack: () => {} });
+  ScrollTrigger.create({ trigger: ride, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
     show(c2, win(p, .04, .14, .44, .54)); show(c3, win(p, .6, .7, .92, .99));
     hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .5 ? 'POLARIS RZR · 4 SEATS' : 'LIGHTS ON · GOLDEN HOUR';
     if (!ride.classList.contains('gl')) { want = p; draw(); } } });
 }
-{
-  // dust: soft particles drifting toward the viewer, in front of the vehicle and the text
+if (!touch) {
+  // dust: soft particles drifting toward the viewer (desktop only: on phones it costs battery and smoothness)
   const cv = $('#dust'), cx = cv.getContext('2d'); let W, H, D = Math.min(devicePixelRatio, 2), P = [], vis = true, last = 0;
   const size = () => { W = cv.width = cv.clientWidth * D; H = cv.height = cv.clientHeight * D; };
   const spawn = (o = {}) => Object.assign(o, { x: Math.random() * W, y: H * (.55 + Math.random() * .5), z: Math.random(), r: (8 + Math.random() * 46) * D, a: .05 + Math.random() * .16, vx: (-.25 + Math.random() * .5) * D, vy: -(.12 + Math.random() * .4) * D, hot: Math.random() < .16 });
@@ -129,16 +149,18 @@ if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf
   const draw = () => { let i = Math.round(cl(want) * (N - 1)); while (i > 0 && !(fr[i] && fr[i].complete && fr[i].naturalWidth)) i--; const f = fr[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cv.width !== f.naturalWidth) cv.width = cv.height = f.naturalWidth; cx.drawImage(f, 0, 0); shown = i; };
   const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); sec.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; fr[i] = im; });
   const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
-  ScrollTrigger.create({ trigger: sec, start: 'top 180%', onEnter: start });
+  heroGo.then(() => ScrollTrigger.create({ trigger: sec, start: 'top 250%', onEnter: () => setTimeout(start, 400) }));
   // the clip is drawn 'cover' (centred), so the labels are placed on the same square the picture is drawn into, and kept on screen
-  const place = () => { const W = sec.querySelector('.stick').clientWidth, H = sec.querySelector('.stick').clientHeight, b = sec.querySelector('.stage').getBoundingClientRect(), st = sec.querySelector('.stick').getBoundingClientRect(), small = false;
-    // phones: the square clip is shown whole at the bottom (contain); wide screens: it covers the frame
-    const S = small ? b.width : Math.max(W, H), ox = small ? 0 : (W - S) / 2, oy = small ? 0 : (H - S) / 2, BW = small ? b.width : W, BH = small ? b.height : H;
-    tags.style.inset = '0'; tags.style.width = BW + 'px'; tags.style.height = BH + 'px';
-    $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, 70, BW - 70) + 'px'); li.style.setProperty('--sy', cl(y, small ? 30 : H * .42, BH - (small ? 24 : 70)) + 'px'); }); };
+  // the labels sit on the same square the picture is drawn into ('cover' inside its box: full frame on phones, the left part of wide screens)
+  const place = () => { const st = sec.querySelector('.stick').getBoundingClientRect(), b = sec.querySelector('.stage .box').getBoundingClientRect(), W = st.width, H = st.height;
+    const S = Math.max(b.width, b.height), ox = b.left - st.left + (b.width - S) / 2, oy = b.top - st.top + (b.height - S) / 2, x0 = Math.max(0, b.left - st.left), x1 = Math.min(W, b.right - st.left);
+    tags.style.inset = '0'; tags.style.width = W + 'px'; tags.style.height = H + 'px';
+    $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - 70) + 'px'); }); };
   place(); addEventListener('resize', place);
   const stage = sec.querySelector('.stage'), xc = sec.querySelector('.x-copy');
-  ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true, onUpdate: (st) => { const vh = innerHeight, H = sec.offsetHeight, y = st.progress * (H + vh); const a = cl((y - vh * .35) / (vh * .65)) * (1 - cl((y - H) / (vh * .55))); stage.style.opacity = a.toFixed(3); xc.style.opacity = a.toFixed(3); } });
+  // same entrance as the golden-hour clip: it rises out of the dark with a soft top edge, then sits clean and full
+  const xs = sec.querySelector('.stick'), xmask = (f) => { xs.style.webkitMaskImage = xs.style.maskImage = f > .2 ? `linear-gradient(rgba(0,0,0,0),#000 ${f.toFixed(1)}%)` : 'none'; };
+  ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'top -35%', scrub: true, onUpdate: (st) => { const y = st.progress * 1.35, q = cl(y), e = q * q * (3 - 2 * q); xs.style.opacity = (.3 + .7 * e).toFixed(3); xmask(26 * (1 - cl((y - 1) / .35))); }, onLeave: () => { xs.style.opacity = 1; xmask(0); } });
   ScrollTrigger.create({ trigger: sec, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (st) => { want = st.progress; draw(); const open = Math.sin(Math.PI * cl((want - .08) / .84)); tags.classList.toggle('on', want > .3 && want < .72); pct.textContent = Math.round(100 - open * 100) + '%'; } });
 }
 

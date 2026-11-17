@@ -378,10 +378,60 @@ textarea.f{height:88px;padding:14px 16px;resize:none}
  .mudclip{left:22.82%;top:24.22%;width:42.76%;height:70.16%}
 }
 
-/* cinematic hand-off: the golden-hour section starts under the opening and dissolves in over it while the opening drifts up;
-   the x-ray clip fades up from the page and back into it, so no section ends on a hard photo edge */
+/* ---------- hero clip: one seamless loop (stabilised, the wheels spin in place) ---------- */
+/* the loop is framed tighter than the first still: its box inside the stills is the matching sub-rectangle */
+.mudclip{left:28.48%;top:40.09%;width:43.97%;height:32.23%}
+#mudPoster{transition:opacity .3s}
+@media(max-aspect-ratio:2/3){.mudbox{--bw:max(186vw,calc(124svh * 1024 / 1536));top:calc(69svh - var(--bw) * 1.5 * .575)}}
+#hero .h-copy .k{color:var(--sand);opacity:.92}
+@media(min-aspect-ratio:1/1){
+ .mudbox{--bw:max(222svh,115vw);left:calc(35vw - var(--bw) * .46);top:calc(57svh - var(--bw) / 1.5 * .61)}
+ .mudclip{left:25.32%;top:27.69%;width:37.57%;height:61.99%}
+}
 #hero{position:relative;z-index:1}
-#ride{position:relative;z-index:2;margin-top:-100svh;height:340vh!important}
-#ride .stick,#xray .stick{will-change:opacity}
-#ride .stick{opacity:0;pointer-events:none}
+/* the opening ends by melting into the dark page (bottom edge only, the RZR stays clean) */
+#hero .mud::after{content:"";position:absolute;inset:auto 0 0 0;height:11%;background:linear-gradient(rgba(13,10,7,0),var(--bg));pointer-events:none}
+#hero .h-copy .row{flex-direction:column;align-items:flex-start;gap:12px}
+#hero .h-copy .row .btn{min-width:178px}
+.btn.rt{height:48px;border:1.5px solid var(--ember);color:var(--sand);background:rgba(13,10,7,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 8px 26px rgba(0,0,0,.35)}
+.btn.rt i{font-style:normal;color:var(--ember);transition:transform .25s}
+.btn.rt:hover{background:var(--ember);color:#150c04}.btn.rt:hover i{color:#150c04;transform:translateX(-4px)}
+
+/* ---------- the dark breath between the opening and the golden-hour clip ---------- */
+#gap{position:relative;z-index:1;height:72svh;min-height:420px;display:grid;place-items:center;background:var(--bg);padding:0 var(--pad);text-align:center;overflow:hidden}
+#gap .g-in{display:flex;flex-direction:column;align-items:center;gap:18px}
+#gap .g-rule{display:block;width:1.5px;height:84px;background:linear-gradient(rgba(255,122,47,0),var(--ember));transform-origin:50% 0;transform:scaleY(var(--gr,0))}
+#gap .k{letter-spacing:.24em;font-size:11px;color:var(--ember);opacity:var(--ga,0)}
+#gap .g-line{margin:0;font:900 clamp(38px,9.6vw,92px)/1.02 Rubik;color:var(--sand);letter-spacing:-.01em}
+#gap .g-line em{font-style:normal;color:var(--ember)}
+#gap .g-line span{display:inline-block;opacity:0;transform:translateY(.5em)}
+
+/* ---------- golden hour: scrolls in from the dark normally, then holds while the camera circles ---------- */
+#ride{position:relative;z-index:2;height:270vh!important}
+@media(max-width:900px){#ride{height:250vh!important}}
+#ride .stick{will-change:opacity}
+#ride .stick::before{display:block!important;content:"";position:absolute;inset:auto 0 0 0;height:12%;z-index:3;background:linear-gradient(rgba(13,10,7,0),var(--bg));pointer-events:none}
+#xray{height:230vh!important}
 #xray .stage{will-change:opacity}
+@media(hover:none){#dust{display:none}}
+
+/* the tilted review wall starts clearly below its headline */
+.wall{margin-top:44px;-webkit-mask-image:linear-gradient(transparent 6%,#000 20%,#000 86%,transparent);mask-image:linear-gradient(transparent 6%,#000 20%,#000 86%,transparent)}
+
+/* x-ray: no see-through stage; the section ends on a short melt into the page like the golden-hour one */
+#xray .stage,#xray .x-copy{opacity:1!important}
+#xray .stick::before{display:block!important;content:"";position:absolute;inset:auto 0 0 0;height:12%;z-index:3;background:linear-gradient(rgba(13,10,7,0),var(--bg));pointer-events:none}
+/* phones: over the full-frame clips only the headline stays, so no running text sits on the vehicle */
+@media(max-width:900px){#ride .r-slot p,#xray .x-copy p{display:none}#ride .r-slot{height:clamp(120px,18svh,170px)}}
+
+/* wide screens: the vehicle clips sit on the left and melt into the page on the right; the copy has its own clean column,
+   so no headline is ever laid over the vehicle */
+@media(min-width:901px) and (min-aspect-ratio:6/5){
+ #ride #sky{display:none}
+ #ride .stick,#xray .stick{background:var(--bg)}
+ #ride .stage .box,#xray .stage .box{left:0!important;right:auto!important;top:-4svh!important;width:120svh!important;height:108svh!important;max-width:67vw!important;-webkit-mask-image:linear-gradient(to left,transparent,#000 15%);mask-image:linear-gradient(to left,transparent,#000 15%)}
+ #ride .r-slot,#xray .x-copy{inset-inline-start:var(--pad)!important;inset-inline-end:auto!important;width:calc(100vw - min(120svh,67vw) - var(--pad) * .6)!important;max-width:560px!important;top:34svh!important}
+ #ride .r-slot .h-copy{max-width:none}
+ #ride .r-slot .h-copy h2,#xray .x-copy .big{font-size:clamp(44px,4.6vw,76px)!important;line-height:1.02}
+ #ride .r-slot p,#xray .x-copy p{max-width:440px}
+}

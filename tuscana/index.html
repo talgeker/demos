@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>טוסקנה חוויות שטח · טיולי רייזרים ביבנאל ומול הכנרת</title>
 <meta name="description" content="טיולי רייזרים בבקעת יבנאל וברכס פוריה, מול הכנרת. לזוגות, למשפחות, לקבוצות ולימי גיבוש. מאז 2013.">
-<meta name="theme-color" content="#0d0a07">
+<meta name="theme-color" content="#3e2c25" id="tc">
 <link rel="icon" href="img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/hero-mud.webp">
-<link rel="stylesheet" href="style.css?v=1794874654">
+<link rel="preload" as="image" href="img/hero-mud-tall.webp" media="(max-aspect-ratio: 1/1)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-mud-wide.webp" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-mud-m.webp" media="(max-width: 819px)">
+<link rel="preload" as="image" href="img/hero-mud.webp" media="(min-width: 820px)">
+<link rel="stylesheet" href="style.css?v=1794876666">
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -24,10 +27,9 @@
 <!-- 01 · mud: the user's RZR, wheels spinning in place, mud spraying (a looping photoreal clip) -->
 <section id="hero" aria-label="פתיחה">
  <div class="mud" aria-hidden="true">
-  <div class="mudbox"><picture class="mudbg"><source media="(min-aspect-ratio: 1/1)" srcset="img/hero-mud-wide.webp"><img src="img/hero-mud-tall.webp" alt="" width="1024" height="1536"></picture><div class="mudclip">
-  <img id="mudPoster" src="img/hero-mud.webp" alt="" width="1199" height="1312">
-  <video id="mudA" muted playsinline preload="auto" poster="img/hero-mud.webp"></video>
-  <video id="mudB" muted playsinline preload="auto"></video>
+  <div class="mudbox"><picture class="mudbg"><source media="(min-aspect-ratio: 1/1)" srcset="img/hero-mud-wide.webp"><img src="img/hero-mud-tall.webp" alt="" width="1024" height="1536" fetchpriority="high"></picture><div class="mudclip">
+  <picture><source media="(min-width: 820px)" srcset="img/hero-mud.webp"><img id="mudPoster" src="img/hero-mud-m.webp" alt="" width="918" height="1004" fetchpriority="high"></picture>
+  <video id="mudV" autoplay muted loop playsinline preload="auto"><source src="f/mud/d.mp4" type="video/mp4" media="(min-width: 820px)"><source src="f/mud/m.mp4" type="video/mp4"></video>
   </div></div>
  </div>
  <canvas id="dust" aria-hidden="true"></canvas>
@@ -35,9 +37,14 @@
   <span class="m k">// טיולי רייזרים · יבנאל · מאז 2013</span>
   <h1>יוצאים<br><em>לשטח.</em></h1>
   <p>משדות בקעת יבנאל, בדרכי הבזלת, עד התצפית מרכס פוריה מול הכנרת.</p>
-  <div class="row"><button class="btn p" data-book>הזמנת טיול</button><a class="btn o" href="#route">המסלול שלנו</a></div>
+  <div class="row"><button class="btn p" data-book>הזמנת טיול</button><a class="btn rt" href="#route">המסלול שלנו <i aria-hidden="true">←</i></a></div>
  </div>
  <div class="scrollcue" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- a short dark breath between the two clips -->
+<section id="gap" aria-label="מדריך צמוד">
+ <div class="g-in"><i class="g-rule" aria-hidden="true"></i><span class="m k" dir="ltr">// GUIDED · 15 KM · BASALT &amp; FIELDS</span><p class="g-line">אתם נוהגים.<br><em>אנחנו מובילים.</em></p></div>
 </section>
 
 <!-- 02 · the machine at golden hour: the camera circles the RZR as you scroll -->
@@ -163,7 +170,7 @@
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="data.js?v=1794874654"></script>
-<script type="module" src="app.js?v=1794874654"></script>
+<script src="data.js?v=1794876666"></script>
+<script type="module" src="app.js?v=1794876666"></script>
 </body>
 </html>
