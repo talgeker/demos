@@ -86,7 +86,7 @@ let heroReady; const heroGo = new Promise((r) => heroReady = r);
     if (V.readyState >= 3 && !V.paused) ok(); else V.addEventListener('playing', ok, { once: true });
     V.play().catch(() => {});
     // iOS low-power mode blocks autoplay: start on the first touch
-    addEventListener('touchstart', () => V.paused && V.play().catch(() => {}), { once: true, passive: true });
+    ['touchstart', 'touchend', 'click'].forEach((t) => addEventListener(t, () => { if (V.paused && hero.getBoundingClientRect().bottom > 0) V.play().catch(() => {}); }, { passive: true }));
     addEventListener('scroll', () => setTimeout(heroReady, 200), { once: true, passive: true });
     setTimeout(heroReady, 3500);
     new IntersectionObserver(([e]) => { if (e.isIntersecting) V.play().catch(() => {}); else V.pause(); }).observe(hero);
@@ -119,10 +119,14 @@ let heroReady; const heroGo = new Promise((r) => heroReady = r);
 /* ---------- the two vehicle clips play by themselves in a loop (the scroll never drives them) ---------- */
 // each one loads a little before it comes into view, plays while visible and pauses when it leaves the screen
 const autoClip = (v, onTime) => {
-  let loaded = false;
-  const load = () => { if (loaded) return; loaded = true; v.src = v.dataset.src; v.preload = 'auto'; v.load(); };
-  heroGo.then(() => setTimeout(load, 600));
-  new IntersectionObserver(([e]) => { if (e.isIntersecting) { load(); if (!reduce) v.play().catch(() => {}); } else v.pause(); }, { rootMargin: '25% 0px' }).observe(v);
+  let loaded = false, seen = false;
+  const load = () => { if (loaded) return; loaded = true; v.autoplay = true; v.src = innerWidth < 820 ? v.dataset.src.replace('.mp4', '-m.mp4') : v.dataset.src; v.preload = 'auto'; v.load(); };
+  const go = () => { if (seen && v.paused && !reduce) v.play().catch(() => {}); };
+  heroGo.then(() => setTimeout(load, 300));
+  new IntersectionObserver(([e]) => { seen = e.isIntersecting; if (seen) { load(); go(); } else v.pause(); }, { rootMargin: '30% 0px' }).observe(v);
+  v.addEventListener('canplay', go); v.addEventListener('loadeddata', go);
+  // iPhone in low-power mode refuses to start videos by itself: any touch on the page (every scroll starts with one) starts it
+  ['touchstart', 'touchend', 'click'].forEach((t) => addEventListener(t, go, { passive: true }));
   if (onTime) v.addEventListener('timeupdate', () => v.duration && onTime(v.currentTime / v.duration));
 };
 {
