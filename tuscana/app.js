@@ -126,7 +126,7 @@ const autoClip = (v, onTime, fb) => {
   const go = () => { if (usingFrames || !seen || reduce) return; if (v.paused) v.play().catch(() => {}); };
   heroGo.then(() => { v.preload = 'auto'; });
   const frames = () => {
-    if (usingFrames || !fb) return; usingFrames = true; v.pause(); v.style.display = 'none';
+    if (usingFrames || !fb || window.__rec) return; usingFrames = true; v.pause(); v.style.display = 'none';
     const cv = document.createElement('canvas'), cx = cv.getContext('2d'), F = []; cv.className = 'vframes'; box.insertBefore(cv, v);
     let ready = 0, k = 0, last = 0;
     for (let n = 0; n < fb.N; n++) { const im = new Image(); im.decoding = 'async'; im.onload = () => { ready++; if (n === 0) { cv.width = cv.height = im.naturalWidth; cx.drawImage(im, 0, 0); } }; im.src = fb.dir + String(n).padStart(3, '0') + '.webp'; F.push(im); }
