@@ -116,26 +116,26 @@ let heroReady; const heroGo = new Promise((r) => heroReady = r);
     g.style.setProperty('--gr', cl(p / .3).toFixed(3)); g.style.setProperty('--ga', cl((p - .15) / .15).toFixed(3));
     words.forEach((w, i) => { const a = cl((p - .25 - i * .07) / .16); w.style.opacity = a.toFixed(3); w.style.transform = `translateY(${((1 - a) * .5).toFixed(3)}em)`; }); } });
 }
-/* ---------- the machine at golden hour: copy changes with the scroll ---------- */
+/* ---------- the two vehicle clips play by themselves in a loop (the scroll never drives them) ---------- */
+// each one loads a little before it comes into view, plays while visible and pauses when it leaves the screen
+const autoClip = (v, onTime) => {
+  let loaded = false;
+  const load = () => { if (loaded) return; loaded = true; v.src = v.dataset.src; v.preload = 'auto'; v.load(); };
+  heroGo.then(() => setTimeout(load, 600));
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) { load(); if (!reduce) v.play().catch(() => {}); } else v.pause(); }, { rootMargin: '25% 0px' }).observe(v);
+  if (onTime) v.addEventListener('timeupdate', () => v.duration && onTime(v.currentTime / v.duration));
+};
 {
-  const c2 = $('#hc2'), c3 = $('#hc3'), img = $('#heroImg'), hudB = $('#hudB'), hudA = $('#hudA');
-  const show = (el, a) => { el.style.opacity = a; el.style.visibility = a > .01 ? 'visible' : 'hidden'; el.style.transform = `translateY(${(1 - a) * 30}px)`; };
-  const win = (p, a, b, c, d) => cl((p - a) / (b - a)) * (1 - cl((p - c) / (d - c)));
-  // the photoreal clip (the camera circles the RZR, the lights come on), cut to frames and scrubbed by the scroll
-  const cvs = $('#heroCv'), ctx = cvs.getContext('2d'), N = 81, dir = `f/orbit/${touch || innerWidth < 820 ? 'm' : 'd'}/`, frames = []; let want = 0, shown = -1, started = false;
-  const draw = () => { let i = Math.round(cl(want / .92) * (N - 1)); while (i > 0 && !(frames[i] && frames[i].complete && frames[i].naturalWidth)) i--; const f = frames[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cvs.width !== f.naturalWidth) cvs.width = cvs.height = f.naturalWidth; ctx.drawImage(f, 0, 0); shown = i; };
-  const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); ride.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; frames[i] = im; });
-  const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
-  heroGo.then(() => setTimeout(start, 250));
-  // rises out of the dark as it scrolls in (it is never laid over the opening)
+  const c2 = $('#hc2'), c3 = $('#hc3'), hudB = $('#hudB'), hudA = $('#hudA');
+  const show = (el, on) => { el.style.transition = 'opacity .7s, transform .7s'; el.style.opacity = on ? 1 : 0; el.style.visibility = on ? 'visible' : 'hidden'; el.style.transform = on ? 'none' : 'translateY(20px)'; };
+  show(c2, true); show(c3, false);
+  // the clip circles the RZR (lights come on) and circles back: the copy follows the clip's own clock
+  autoClip($('#rideV'), (t) => { const lights = t > .38 && t < .9; show(c2, !lights); show(c3, lights); hp.v = t;
+    const deg = Math.round((t < .5 ? t * 2 : 2 - t * 2) * 360); hudB.textContent = String(deg).padStart(3, '0') + '°'; hudA.textContent = lights ? 'LIGHTS ON · GOLDEN HOUR' : 'POLARIS RZR · 4 SEATS'; });
+  // rises out of the dark as it scrolls in, with a soft top edge that is gone once it is in place
   const rs = ride.querySelector('.stick');
-  // its top edge stays soft while it scrolls in, and the softness is gone a moment after it settles
   const mask = (f) => { rs.style.webkitMaskImage = rs.style.maskImage = f > .2 ? `linear-gradient(rgba(0,0,0,0),#000 ${f.toFixed(1)}%)` : 'none'; };
-  ScrollTrigger.create({ trigger: ride, start: 'top bottom', end: 'top -35%', scrub: true, onUpdate: (st) => { const y = st.progress * 1.35, q = cl(y), e = q * q * (3 - 2 * q); rs.style.opacity = (.3 + .7 * e).toFixed(3); mask(26 * (1 - cl((y - 1) / .35))); }, onLeave: () => { rs.style.opacity = 1; mask(0); }, onEnterBack: () => {} });
-  ScrollTrigger.create({ trigger: ride, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => { const p = hp.v = s.progress;
-    show(c2, win(p, .04, .14, .44, .54)); show(c3, win(p, .6, .7, .92, .99));
-    hudB.textContent = String(Math.round(p * 360)).padStart(3, '0') + '°'; hudA.textContent = p < .5 ? 'POLARIS RZR · 4 SEATS' : 'LIGHTS ON · GOLDEN HOUR';
-    if (!ride.classList.contains('gl')) { want = p; draw(); } } });
+  ScrollTrigger.create({ trigger: ride, start: 'top bottom', end: 'top top', scrub: true, onUpdate: (st) => { const q = st.progress, e = q * q * (3 - 2 * q); rs.style.opacity = (.3 + .7 * e).toFixed(3); mask(26 * (1 - e)); }, onLeave: () => { rs.style.opacity = 1; mask(0); } });
 }
 if (!touch) {
   // dust: soft particles drifting toward the viewer (desktop only: on phones it costs battery and smoothness)
@@ -154,26 +154,18 @@ if (!touch) {
 // real-time 3D model: kept as an option (?3d). The default hero is the photoreal picture, because the model read as a toy.
 if (new URLSearchParams(location.search).has('3d')) fetch('models/rzr/scene.gltf', { method: 'HEAD' }).then((r) => { if (r.ok) import('./hero3d.js').then((m) => m.start({ hero: ride, canvas: $('#gl'), progress: () => hp.v, touch, reduce })).catch((e) => console.warn('3D hero off', e)); }).catch(() => {});
 
-/* ---------- x-ray: the Ranger comes apart and back together as you scroll ---------- */
+/* ---------- x-ray: the Ranger comes apart and back together, playing by itself in a loop ---------- */
 {
-  const sec = $('#xray'), cv = $('#xCv'), cx = cv.getContext('2d'), tags = $('.x-tags'), pct = $('#xPct'), N = 91, dir = `f/explode/${touch || innerWidth < 820 ? 'm' : 'd'}/`, fr = [];
-  let want = 0, shown = -1, started = false;
-  const draw = () => { let i = Math.round(cl(want) * (N - 1)); while (i > 0 && !(fr[i] && fr[i].complete && fr[i].naturalWidth)) i--; const f = fr[i]; if (!f || !f.complete || !f.naturalWidth || i === shown) return; if (cv.width !== f.naturalWidth) cv.width = cv.height = f.naturalWidth; cx.drawImage(f, 0, 0); shown = i; };
-  const load = (i) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = im.onerror = () => { if (i === 0 && im.naturalWidth) { draw(); sec.classList.add('seq'); } res(); }; im.src = dir + String(i).padStart(3, '0') + '.webp'; fr[i] = im; });
-  const start = async () => { if (started || reduce) return; started = true; await load(0); const order = [], seen = new Set([0]); for (let st = 8; st >= 1; st >>= 1) for (let i = 0; i < N; i += st) if (!seen.has(i)) { seen.add(i); order.push(i); } for (let k = 0; k < order.length; k += 4) { await Promise.all(order.slice(k, k + 4).map(load)); draw(); } };
-  heroGo.then(() => ScrollTrigger.create({ trigger: sec, start: 'top 250%', onEnter: () => setTimeout(start, 400) }));
-  // the clip is drawn 'cover' (centred), so the labels are placed on the same square the picture is drawn into, and kept on screen
-  // the labels sit on the same square the picture is drawn into ('cover' inside its box: full frame on phones, the left part of wide screens)
+  const sec = $('#xray'), tags = $('.x-tags'), pct = $('#xPct');
+  // the labels sit on the same square the clip is drawn into ('cover' inside its box: full frame on phones, the left part of wide screens)
   const place = () => { const st = sec.querySelector('.stick').getBoundingClientRect(), b = sec.querySelector('.stage .box').getBoundingClientRect(), W = st.width, H = st.height;
     const S = Math.max(b.width, b.height), ox = b.left - st.left + (b.width - S) / 2, oy = b.top - st.top + (b.height - S) / 2, x0 = Math.max(0, b.left - st.left), x1 = Math.min(W, b.right - st.left);
     tags.style.inset = '0'; tags.style.width = W + 'px'; tags.style.height = H + 'px';
     $$('li', tags).forEach((li) => { const x = ox + S * li.dataset.x / 100, y = oy + S * li.dataset.y / 100; li.style.setProperty('--sx', cl(x, x0 + 70, x1 - 70) + 'px'); li.style.setProperty('--sy', cl(y, H * .3, H - (innerWidth <= 900 ? 200 : 70)) + 'px'); }); };
   place(); addEventListener('resize', place);
-  const stage = sec.querySelector('.stage'), xc = sec.querySelector('.x-copy');
-  // same entrance as the golden-hour clip: it rises out of the dark with a soft top edge, then sits clean and full
+  autoClip($('#xV'), (t) => { const open = Math.sin(Math.PI * cl((t - .08) / .84)); tags.classList.toggle('on', open > .82); pct.textContent = Math.round(100 - open * 100) + '%'; });
   const xs = sec.querySelector('.stick'), xmask = (f) => { xs.style.webkitMaskImage = xs.style.maskImage = f > .2 ? `linear-gradient(rgba(0,0,0,0),#000 ${f.toFixed(1)}%)` : 'none'; };
-  ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'top -35%', scrub: true, onUpdate: (st) => { const y = st.progress * 1.35, q = cl(y), e = q * q * (3 - 2 * q); xs.style.opacity = (.3 + .7 * e).toFixed(3); xmask(26 * (1 - cl((y - 1) / .35))); }, onLeave: () => { xs.style.opacity = 1; xmask(0); } });
-  ScrollTrigger.create({ trigger: sec, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (st) => { want = st.progress; draw(); const open = Math.sin(Math.PI * cl((want - .08) / .84)); tags.classList.toggle('on', want > .3 && want < .72); pct.textContent = Math.round(100 - open * 100) + '%'; } });
+  ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'top top', scrub: true, onUpdate: (st) => { const q = st.progress, e = q * q * (3 - 2 * q); xs.style.opacity = (.3 + .7 * e).toFixed(3); xmask(26 * (1 - e)); }, onLeave: () => { xs.style.opacity = 1; xmask(0); } });
 }
 
 /* ---------- booking wizard -> WhatsApp ---------- */

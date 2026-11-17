@@ -463,3 +463,8 @@ html{scroll-padding-top:var(--hh)}
  #ride .r-slot .h-copy h2,#xray .x-copy .big{font-size:min(9.4vw,40px)!important;line-height:1.05}
 }
 @media(max-width:900px){#xray .x-copy{bottom:calc(env(safe-area-inset-bottom) + 104px)!important}}
+
+/* the two vehicle clips are self-playing videos now: each section is one screen tall, nothing is pinned to the scroll */
+#ride,#xray{height:100svh!important;min-height:520px}
+#ride .stick,#xray .stick{position:relative!important;top:auto!important;height:100%!important}
+.stage .box>video.auto{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover;display:block;background:var(--bg)}
