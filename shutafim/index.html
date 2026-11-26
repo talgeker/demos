@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#221c18">
-<title>שותפים · Residence</title>
+<title>חצי-חצי · ניהול הוצאות לשותפים</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -372,124 +372,281 @@ header.glass nav a.cta{background:var(--champ)!important;color:var(--esp)!import
   header:not(.glass){background:linear-gradient(to bottom,rgba(23,18,14,.35),rgba(23,18,14,0))}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ================= חצי-חצי additions ================= */
+.half{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--champ);color:var(--esp);font-family:Heebo;font-weight:800;font-size:16px;margin-inline-end:6px}
+.logo{align-items:center!important}
+.vid{opacity:0;transition:opacity 1.4s ease;pointer-events:none}
+.vid.on{opacity:1}
+video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit-media-controls-play-button,video::-webkit-media-controls-start-playback-button,video::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none;opacity:0!important}
+.chip-mini{display:inline-block;margin-top:8px;font-size:13px;padding:5px 11px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.hero-card .label .dotlive{display:inline-block;vertical-align:middle;margin-inline-end:4px}
+.wide-pill{width:100%;justify-content:center;margin-top:14px}
+.live .lt-row b{font-family:"Frank Ruhl Libre",serif;font-weight:400;font-size:18px}
+.lt-row.simp{display:block;line-height:1.6;font-size:13.5px;color:rgba(255,245,230,.85)}
+.myBal.pos{color:#9fe8d2}.myBal.neg{color:#f3aaa2}
+.live-m .lt-row{border-top-color:var(--line)}.live-m .lt-row.simp{color:#c4b7a7}
+.edit-apt{font-size:20px;color:var(--champ);vertical-align:middle;padding:4px 8px;border-radius:10px}.edit-apt:hover{background:var(--paper)}
+.tabs{position:sticky;top:68px;z-index:20;display:flex;gap:6px;overflow-x:auto;padding:6px;margin-bottom:22px;background:rgba(34,28,24,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:99px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:1;white-space:nowrap;padding:12px 16px;border-radius:99px;font-size:14.5px;color:#c4b7a7;transition:background .3s,color .3s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tabs button.on{background:var(--champ);color:var(--esp);font-weight:600}
+.badge{font-style:normal;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:#e2786e;color:#fff;font-size:11px;font-weight:700;display:inline-grid;place-items:center}
+.panel-t{animation:fadeUp .45s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.row-act{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row-act .btn.wide{flex:1;width:auto}
+.btn.ghost{background:transparent!important;color:var(--ink)!important;border:1px solid var(--line)}
+.btn.sm{padding:9px 13px;font-size:13.5px;border-radius:12px}
+.btn.danger{background:#b9574d!important;color:#fff!important}
+.btn.pp{display:flex;justify-content:center;text-decoration:none;margin-top:16px;background:#ffc439!important;color:#111!important;font-weight:700!important}
+.btn.pp.off{opacity:.35;cursor:not-allowed}
+.field.sm{padding:9px 10px;font-size:14px;width:96px}
+.flab{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mute);margin-bottom:12px}
+.form{margin-top:14px}
+.sheet{max-width:520px;width:min(520px,100%)!important}
+.sheet .sh{font-family:"Frank Ruhl Libre",serif;font-weight:400;font-size:26px;margin:14px 0 12px}
+.seg{display:flex;gap:8px}.seg label{flex:1}.seg input{position:absolute;opacity:0}
+.seg span{display:block;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#231d18;color:var(--ink);font-size:14px;cursor:pointer}
+.seg input:checked+span{background:var(--champ);color:var(--esp);border-color:var(--champ);font-weight:600}
+.seg input:focus-visible+span{outline:2px solid var(--champ2);outline-offset:2px}
+.switch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:15px;cursor:pointer;margin:6px 0 12px}
+.switch small{width:100%;color:var(--mute);font-size:12.5px;margin-inline-start:52px;margin-top:-4px}
+.switch input{position:absolute;opacity:0}
+.switch span{width:42px;height:24px;border-radius:99px;background:#3e342c;position:relative;transition:background .3s;flex:none}
+.switch span::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#f0e7db;transition:transform .35s var(--spring)}
+.switch input:checked+span{background:var(--bit)}
+.switch input:checked+span::after{transform:translateX(-18px)}
+.switch input:focus-visible+span{outline:2px solid var(--champ2);outline-offset:2px}
+.switch.sm{font-size:14px}
+.drop{display:grid;place-items:center;height:150px;border:1.5px dashed var(--champ2);border-radius:20px;cursor:pointer;font-size:17px;color:var(--champ);background:#231d18}
+.scanline{height:150px;border-radius:20px;background:linear-gradient(180deg,transparent 0 45%,rgba(227,201,161,.5) 50%,transparent 55%) 0 0/100% 200% #231d18;animation:scan 1.2s linear infinite;margin:16px 0 10px}
+@keyframes scan{to{background-position:0 -200%}}
+.rcpt{margin:12px 0}
+.rc-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px;cursor:pointer}
+.rc-row input{accent-color:var(--champ);width:18px;height:18px}
+.rc-total{font-size:15px;margin:10px 0 16px;color:#d8cdbf}.rc-total b{color:var(--champ);font-size:18px}
+.shop-list{margin-top:14px}
+.shop-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.shop-row .sn{font-size:16px}
+.shop-row .buy{display:flex;gap:8px;align-items:center}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:rgba(227,201,161,.15);color:var(--champ);margin-inline-start:4px;vertical-align:middle}
+.mate .rm{font-size:12.5px;color:var(--mute);margin-top:4px}.mate .rm i{color:var(--champ)}
+.mate .pp{font-size:12px;color:#b9c6e8}
+.me-tag{font-family:Heebo;font-size:12px;color:var(--champ)}
+.leave{display:block;margin-top:12px;font-size:12px;color:#f3aaa2;text-decoration:underline;text-align:right}
+.mates{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))!important}
+.pcts{margin-top:10px}
+.pct-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:10px}
+.pct-row>span:first-child{display:flex;align-items:center;gap:10px;font-weight:500}
+.pct-row small{color:var(--mute);font-weight:400;font-size:12px}
+.ava.xs{width:30px;height:30px;font-size:13px;border-radius:9px;transform:none;box-shadow:none}
+.pin{display:flex;align-items:center;gap:6px;color:var(--mute)}
+.pct-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap;font-size:14px}
+.paybtn i{background:#ffc439!important;color:#111!important}
+.notif{position:fixed;top:12px;left:50%;transform:translate(-50%,-140%);z-index:150;width:min(440px,calc(100% - 24px));padding:16px 18px;border-radius:22px;background:rgba(40,32,26,.82);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid rgba(255,255,255,.16);color:#f4ece1;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);transition:transform .8s var(--spring)}
+.notif.on{transform:translate(-50%,0)}
+.nf-top{display:flex;align-items:center;gap:8px;font-size:12px;color:#c4b7a7}
+.nf-logo{width:22px;height:22px;border-radius:6px;background:var(--champ);color:var(--esp);font-weight:800;display:grid;place-items:center;font-size:12px}
+.nf-now{margin-inline-start:auto}
+.notif b{display:block;margin-top:8px;font-size:16px}
+.notif p{font-size:14px;line-height:1.55;margin-top:4px;color:#e2d7c8}.notif p b{display:inline;margin:0;color:var(--champ)}
+.nf-act{display:flex;gap:8px;margin-top:12px}.nf-act .pill{flex:1;justify-content:center;padding:11px 14px;font-size:14px}
+@media(max-width:900px){
+  .hero-card p{display:block!important;font-size:13.5px;color:var(--mute)!important;margin-top:8px}
+  .hero-card .chip-mini{background:#231d18;border-color:var(--line);color:var(--ink)}
+  .tabs{top:60px;border-radius:18px}
+  .tabs button{flex:none;padding:11px 14px;font-size:14px}
+  .pct-row .field.sm{width:78px}
+  .shop-row .buy{width:100%}.shop-row .buy .field{flex:1;width:auto}
+  .live-m .wide-pill{margin-top:10px}
+}
+
+@media(max-width:900px){
+  header,header.glass{background:rgba(34,28,24,.96)!important;padding:10px 14px!important;box-shadow:0 1px 0 var(--line)!important}
+  header .logo,header nav a{color:var(--ink)!important}
+  header nav a.cta{background:var(--champ)!important;color:var(--esp)!important;border:0!important;padding:8px 14px}
+  .stage{padding-top:58px}
+  .tabs{display:grid!important;grid-template-columns:1fr 1fr;gap:6px;border-radius:18px;overflow:visible}
+  .tabs button{flex:none;padding:11px 8px;font-size:13.5px;border-radius:12px}
+  .mates{grid-template-columns:1fr 1fr!important;gap:8px}
+  .mate{padding:12px 10px!important}.mate .nm{font-size:16px!important}.mate .ph{font-size:10.5px!important;word-break:break-all}.mate .rm{font-size:11px}
+  .leave{font-size:11px}
+}
 </style>
 </head>
 <body>
 
 <div id="intro" aria-hidden="true">
   <div class="wash"></div>
-  <div class="ttl"><b>שותפים<span class="latin" style="font-size:.36em;color:var(--champ2)">Residence</span></b></div>
+  <div class="ttl"><b>½ חצי-חצי<span class="latin" style="font-size:.36em;color:var(--champ2)">Shared living, fairly split</span></b></div>
+</div>
+
+<!-- month-end reminder popup (simulation) -->
+<div class="notif" id="notif" role="alertdialog" aria-labelledby="nfT" aria-hidden="true">
+  <div class="nf-top"><span class="nf-logo">½</span><span>חצי-חצי • תזכורת סוף חודש</span><span class="nf-now">עכשיו</span></div>
+  <b id="nfT">תזכורת לחוב פתוח</b>
+  <p id="nfText"></p>
+  <div class="nf-act"><button class="pill champ" id="nfPay">שלם ב-PayPal עכשיו</button><button class="pill glassbtn" id="nfIgnore">התעלם</button></div>
 </div>
 
 <header id="hdr">
-  <a class="logo" href="#top">שותפים <small>Residence</small></a>
+  <a class="logo" href="#top"><span class="half">½</span> חצי-חצי</a>
   <nav>
-    <a href="#inside">הדירה</a>
-    <a href="#how">איך זה עובד</a>
-    <a href="#app" class="cta">לחשבון הדירה</a>
+    <a href="#app" data-tab="exp">הוצאות</a>
+    <a href="#app" data-tab="shop">מה חסר</a>
+    <a href="#app" data-tab="settle">התחשבנות</a>
+    <a href="#app" data-tab="mates">שותפים</a>
+    <a href="#app" class="cta" data-open="mExpense">+ הוצאה</a>
   </nav>
 </header>
 
 <section class="stage" id="top">
-  <div class="cine-film" data-video="media/hero.mp4"><img class="kb" src="media/building.jpg" alt="בניין המגורים ברחוב הרצל 27 בשעת שקיעה"></div>
+  <div class="cine-film"><img class="kb" src="media/building.jpg" alt="בניין המגורים בשעת שקיעה"><video class="vid" src="media/hero.mp4" muted autoplay loop playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video></div>
   <div class="stage-grad" aria-hidden="true"></div>
   <div class="stage-in">
     <div class="glass hero-card">
-      <div class="label lt">הרצל 27 · דירה 9 · קומה 3</div>
-      <h1>בית אחד.<br><b>חשבון אחד.</b></h1>
-      <p>כל הוצאה נרשמת פעם אחת. המערכת מחשבת מי חייב למי ומכינה לכם את ההעברה בביט.</p>
+      <div class="label lt"><span class="dotlive"></span> דירה פעילה · <span class="aptAddr"></span></div>
+      <h1>בית אחד.<br><b>חצי-חצי.</b></h1>
+      <p><span class="nMates"></span> שותפות/ים · מחזור נוכחי: <span class="cycleTxt"></span></p><button type="button" id="remChip" class="chip-mini" title="בדוק קפיצת התראה לדייר חייב"></button>
       <div class="actions">
-        <a class="pill champ" href="#app" data-focus="eTitle">+ הוספת הוצאה</a>
-        <a class="pill glassbtn" href="#app" data-focus="hSettle">מי חייב למי</a>
+        <a class="pill champ" href="#app" data-open="mExpense">+ הוספת הוצאה</a>
+        <a class="pill glassbtn" href="#app" data-open="mScan">סרוק קבלה ב-AI</a>
       </div>
     </div>
     <div class="glass live" aria-live="polite">
-      <div class="live-h"><span class="label lt">החשבון עכשיו</span><span class="dotlive"></span></div>
-      <div class="live-n"><b id="sTotal">₪0</b><span>הוצאות החודש · <i id="sMates">3</i> שותפים</span></div>
-      <div id="liveTr"></div>
+      <div class="live-h"><span class="label lt">המאזן האישי שלך (<span class="meName"></span>)</span><span class="dotlive"></span></div>
+      <div class="live-n"><b class="myBal">₪0</b><span class="myBalTxt"></span></div>
+      <div class="lt-row"><span>סך הוצאות המחזור בדירה</span><b class="cycTotal">₪0</b></div>
+      <div class="lt-row simp"><span class="simpTxt"></span></div>
+      <a class="pill champ wide-pill" href="#app" data-tab="settle">מעבר לסגירת חובות ב-PayPal ←</a>
     </div>
   </div>
 </section>
 
+<div class="glass live live-m" aria-live="polite">
+  <div class="live-h"><span class="label">המאזן האישי שלך (<span class="meName"></span>)</span><span class="dotlive"></span></div>
+  <div class="live-n"><b class="myBal">₪0</b><span class="myBalTxt"></span></div>
+  <div class="lt-row"><span>סך הוצאות המחזור</span><b class="cycTotal">₪0</b></div>
+  <div class="lt-row simp"><span class="simpTxt"></span></div>
+  <a class="pill champ wide-pill" href="#app" data-tab="settle">מעבר לסגירת חובות ב-PayPal ←</a>
+</div>
 
-
-<div class="glass live live-m" aria-live="polite"><div class="live-h"><span class="label">החשבון עכשיו</span><span class="dotlive"></span></div><div class="live-n"><b id="sTotalM">₪0</b><span>הוצאות החודש</span></div><div id="liveTrM"></div></div>
 <main class="app" id="app">
   <div class="wrap">
     <div class="app-head">
-      <div><div class="label">החשבון של הדירה</div><h2>דירה 9, קומה 3</h2></div>
-      <label class="me">אני:<select id="meSel" aria-label="מי אני"></select></label>
-    </div>
-    <div class="grid">
       <div>
-        <section class="card" aria-labelledby="hMates">
-          <h3 id="hMates">השותפים <small class="hint">הזיזו את העכבר על הכרטיסים</small></h3>
-          <div class="mates" id="mates"></div>
-          <form class="addmate" id="mateForm" autocomplete="off">
-            <input class="field" id="mName" placeholder="שם" required aria-label="שם השותף">
-            <input class="field" id="mPhone" placeholder="טלפון לביט" inputmode="tel" required aria-label="טלפון" dir="ltr" style="text-align:right">
-            <button class="btn" type="submit">+ הוספה</button>
-          </form>
-        </section>
-        <section class="card settle" aria-labelledby="hSettle">
-          <h3 id="hSettle">מי חייב למי <small id="nTransfers"></small></h3>
-          <div id="debts" aria-live="polite"></div>
-        </section>
+        <div class="label">דירה פעילה · <span class="aptNick"></span></div>
+        <h2><span class="aptAddr"></span> <button class="edit-apt" data-open="mApt" aria-label="עריכת פרטי הדירה">✎</button></h2>
       </div>
-      <div>
-        <section class="card" aria-labelledby="hExp">
-          <h3 id="hExp">הוצאה חדשה</h3>
-          <form id="expForm" autocomplete="off">
-            <div class="cats" id="cats" role="group" aria-label="קטגוריה"></div>
-            <input class="field" id="eTitle" placeholder="על מה? (למשל: חשבון חשמל)" required aria-label="תיאור" style="margin-bottom:10px">
-            <div class="row2">
-              <div class="amount"><input class="field" id="eAmount" type="number" min="1" step="0.01" placeholder="סכום" required aria-label="סכום בשקלים" inputmode="decimal"><span>₪</span></div>
-              <select class="field" id="ePayer" aria-label="מי שילם"></select>
+      <label class="me">מחובר כעת:<select id="meSel" aria-label="מחובר כעת"></select></label>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="אזורי האפליקציה">
+      <button role="tab" data-tab="exp">הוצאות הדירה</button>
+      <button role="tab" data-tab="shop">מה חסר בבית? <i class="badge" id="shopBadge"></i></button>
+      <button role="tab" data-tab="settle">התחשבנות ו-PayPal</button>
+      <button role="tab" data-tab="mates">שותפים ואחוזים</button>
+    </div>
+
+    <!-- 1. expenses -->
+    <section class="panel-t" data-panel="exp" role="tabpanel">
+      <div class="card">
+        <div class="row-act">
+          <button class="btn" data-open="mScan">📷 סרוק קבלה ב-AI</button>
+          <button class="btn ghost" data-open="mExpense">+ הוסף הוצאה</button>
+        </div>
+        <h3 style="margin-top:22px">היסטוריית תשלומים <small id="hCount"></small></h3>
+        <div class="cats" id="filters" role="group" aria-label="סינון"></div>
+        <div id="hist"></div>
+      </div>
+    </section>
+
+    <!-- 2. shopping list -->
+    <section class="panel-t" data-panel="shop" role="tabpanel" hidden>
+      <div class="card">
+        <h3>מה חסר בדירה?</h3>
+        <p class="sub" style="font-size:14px">מי שקונה ציוד משותף לוחץ "קניתי", והסכום מזכה אותו מיד במאזן מול כולם!</p>
+        <form class="addmate" id="shopForm" autocomplete="off" style="grid-template-columns:1fr auto">
+          <input class="field" id="shopName" placeholder="מה חסר? (למשל: נייר טואלט)" required aria-label="פריט חסר">
+          <button class="btn" type="submit">+ הוסף לרשימה</button>
+        </form>
+        <div id="shopList" class="shop-list"></div>
+      </div>
+    </section>
+
+    <!-- 3. settle -->
+    <section class="panel-t" data-panel="settle" role="tabpanel" hidden>
+      <div class="card settle">
+        <h3>סגירת חובות ואיזון הדירה <small id="nTransfers"></small></h3>
+        <p class="sub" style="color:#b5a999;font-size:14px">חישוב מסלול מינימלי ב-PayPal כדי שכולם יישארו מאופסים.</p>
+        <div id="debts" aria-live="polite"></div>
+        <p class="note" style="color:#9c8f80">ללא צד שלישי: האפליקציה אינה מחזיקה בכספי המשתמשים. התשלומים מבוצעים ישירות דרך PayPal בלחיצת כפתור אחת.</p>
+      </div>
+    </section>
+
+    <!-- 4. roommates, percentages, reminders -->
+    <section class="panel-t" data-panel="mates" role="tabpanel" hidden>
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h3>שותפי הדירה והרשאות <small class="hint">רק הדייר עצמו יכול להסיר את חשבונו</small></h3>
+            <div class="mates" id="mates"></div>
+            <div class="row-act" style="margin-top:16px"><button class="btn" data-open="mInvite">✉️ הזמן שותף באימייל אישי</button></div>
+            <p class="note">🔒 כלל אבטחה מובנה: אף שותף אינו יכול למחוק שותף אחר. רק השותף שמחובר בפועל רשאי ללחוץ על "עזיבת דירה ומחיקת החשבון שלי".</p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3>אחוזי חלוקת שכר דירה והוצאות</h3>
+            <p class="sub" style="font-size:14px">ברירת המחדל היא חלוקה שווה. ניתן להתאים אישית לפי גודל החדר.</p>
+            <div id="pcts" class="pcts"></div>
+            <div class="pct-foot"><span id="pctTotal"></span><button class="btn ghost sm" id="pctReset">אפס לחלוקה שווה</button></div>
+          </div>
+          <div class="card" style="margin-top:24px">
+            <h3>הגדרות תזכורות סוף חודש</h3>
+            <p class="sub" style="font-size:14px">שליחת התראה אוטומטית לדיירים בעלי חוב לקראת סוף המחזור</p>
+            <label class="switch"><input type="checkbox" id="remOn"><span></span> הפעל התראת תזכורת חודשית <small>שולח פוש והודעת WhatsApp לדיירים החייבים</small></label>
+            <div class="row2" style="margin-top:14px">
+              <label class="flab">מועד שליחת התזכורת<select class="field" id="remDay"></select></label>
+              <label class="flab">יום פתיחת מחזור החיוב<select class="field" id="cycDay"></select></label>
             </div>
-            <div class="sub">מתחלק בין:</div>
-            <div class="parts" id="parts"></div>
-            <button class="btn wide" type="submit">להוסיף ולחשב מחדש</button>
-          </form>
-        </section>
-        <section class="card hist" aria-labelledby="hHist">
-          <h3 id="hHist">היסטוריה <small id="hCount"></small></h3>
-          <div id="hist"></div>
-        </section>
+            <button class="btn wide" id="simNotif">🔔 בדוק והדמה קפיצת התראה לדייר/ת שחייב/ת כסף</button>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 </main>
 
 <section class="cine" id="inside" aria-label="הסלון המשותף">
-  <div class="cine-film" data-video="media/interior.mp4"><img class="kb" src="media/interior.jpg" alt="הסלון והמטבח המשותפים בדירה"></div>
+  <div class="cine-film"><img class="kb" src="media/interior.jpg" alt="הסלון והמטבח המשותפים בדירה"><video class="vid" src="media/interior.mp4" muted autoplay loop playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video></div>
   <div class="stage-grad" aria-hidden="true"></div>
-  <div class="cap glass reveal"><div class="label lt">Inside · בתוך הדירה</div><h2>סלון אחד.<br>שלושה סיפורים.</h2></div>
+  <div class="cap glass reveal"><div class="label lt">Inside · בתוך הדירה</div><h2>סלון אחד.<br>ארבעה סיפורים.</h2></div>
 </section>
 
 <section class="inside">
   <div class="in">
-    <div class="top">
-      <p class="reveal">הסלון, המטבח והמרפסת משותפים — וגם החשבונות שלהם. כל קנייה לבית נרשמת כאן ומתחלקת אוטומטית בין מי שנהנה ממנה.</p>
-    </div>
+    <div class="top"><p class="reveal">הסלון, המטבח והמרפסת משותפים — וגם החשבונות שלהם. חשמל, אינטרנט, ועד בית וקניות שוטפות נרשמים פעם אחת ומתחלקים שווה, או לפי אחוזי שכר הדירה.</p></div>
     <div class="specs reveal">
-      <div><b>96</b><span>מ"ר</span></div>
-      <div><b id="sMates2">3</b><span>שותפים</span></div>
-      <div><b id="sShared">₪0</b><span>הוצאות משותפות</span></div>
-      <div><b>1</b><span>מרפסת לשקיעה</span></div>
+      <div><b class="nMates">4</b><span>שותפות/ים</span></div>
+      <div><b class="cycTotal">₪0</b><span>הוצאות המחזור</span></div>
+      <div><b id="sTr">0</b><span>העברות לאיפוס</span></div>
+      <div><b>0₪</b><span>עמלות</span></div>
     </div>
   </div>
 </section>
 
 <section class="cine" id="balcony" aria-label="המרפסת">
-  <div class="cine-film"><img class="kb" src="media/balcony.jpg" alt="מרפסת הדירה בשקיעה עם שולחן לשלושה"></div>
+  <div class="cine-film"><img class="kb" src="media/balcony.jpg" alt="מרפסת הדירה בשקיעה"></div>
   <div class="stage-grad" aria-hidden="true"></div>
-  <div class="cap glass reveal"><div class="label lt">The terrace · המרפסת</div><h2>ארוחה לשלושה.<br>חשבון אחד.</h2></div>
+  <div class="cap glass reveal"><div class="label lt">The terrace · המרפסת</div><h2>ארוחה משותפת.<br>חשבון חצי-חצי.</h2></div>
 </section>
 
 <section class="cine" id="kitchen" aria-label="המטבח">
   <div class="cine-film"><img class="kb" src="media/kitchen.jpg" alt="אי המטבח עם קניות וכוסות קפה"></div>
   <div class="stage-grad" aria-hidden="true"></div>
-  <div class="cap glass reveal"><div class="label lt">Every purchase · כל קנייה</div><h2>קניתם לבית?<br>זה כבר מחושב.</h2></div>
+  <div class="cap glass reveal"><div class="label lt">Every purchase · כל קנייה</div><h2>קניתם לבית?<br>לוחצים "קניתי".</h2></div>
 </section>
 
 <section class="process" id="how">
@@ -497,191 +654,308 @@ header.glass nav a.cta{background:var(--champ)!important;color:var(--esp)!import
     <div class="label reveal">איך זה עובד</div>
     <h2 class="reveal">שלושה צעדים, ואף אחד לא צריך לזכור מי שילם על החלב.</h2>
     <div class="steps">
-      <div class="step reveal tilt"><div class="n">i.</div><h3>מוסיפים שותפים</h3><p>שם ומספר טלפון לכל שותף — זה המספר שאליו יעבירו לו בביט.</p></div>
-      <div class="step reveal tilt"><div class="n">ii.</div><h3>רושמים הוצאה</h3><p>מי שילם, כמה, ועל מי זה מתחלק. שכירות, חשמל, סופר, אינטרנט.</p></div>
-      <div class="step reveal tilt"><div class="n">iii.</div><h3>סוגרים בביט</h3><p>המערכת מצמצמת את החובות למספר ההעברות הקטן ביותר, ומעתיקה לכם מספר וסכום.</p></div>
+      <div class="step reveal tilt"><div class="n">i.</div><h3>מזמינים שותפים</h3><p>כל שותף מצטרף באימייל האישי שלו ומגדיר את קישור ה-PayPal.me שלו.</p></div>
+      <div class="step reveal tilt"><div class="n">ii.</div><h3>רושמים או סורקים</h3><p>מוסיפים הוצאה ידנית, סורקים קבלה ב-AI, או לוחצים "קניתי" ברשימת מה חסר.</p></div>
+      <div class="step reveal tilt"><div class="n">iii.</div><h3>סוגרים ב-PayPal</h3><p>המערכת מצמצמת את החובות למינימום העברות, ושולחת תזכורת לפני סוף המחזור.</p></div>
     </div>
   </div>
 </section>
 
-
-
-
 <footer class="outro">
   <div class="windows" id="wins"></div>
-  <h2 class="reveal">נתראה בבית.<span class="latin" dir="ltr">See you on Herzl 27.</span></h2>
-  <a class="pill champ reveal" href="#app">לחשבון הדירה ←</a>
-  <div class="fine">דמו לפרויקט · התשלום עצמו מאושר תמיד באפליקציית ביט על ידי המשלם.<br>ביט לא מאפשרת לאתר חיצוני להעביר כסף בשם משתמש פרטי — המערכת מכינה את ההעברה, והמשלם מאשר.<br>
+  <h2 class="reveal">נתראה בבית.<span class="latin" dir="ltr">See you on <span class="aptStreetEn">Herzl 42</span>.</span></h2>
+  <a class="pill champ reveal" href="#app" data-tab="exp">לחשבון הדירה ←</a>
+  <div class="fine">חצי-חצי © 2026 — אפליקציית ניהול הוצאות לשותפים<br><span id="footNames"></span> | <span class="aptAddr"></span><br>
   <button class="reset" id="reset">איפוס לנתוני הדוגמה</button></div>
 </footer>
 
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-  <div class="sheet">
-    <button class="close" id="mClose" aria-label="סגירה">×</button>
-    <div class="label" id="mTitle">תשלום בביט</div>
-    <div class="big" id="mAmt">₪0</div>
-    <div class="to" id="mTo"></div>
-    <div class="copyrow"><div>מספר טלפון<b id="payPhone"></b></div><button data-copy="phone">העתקה</button></div>
-    <div class="copyrow"><div>סכום<b id="paySum"></b></div><button data-copy="sum">העתקה</button></div>
-    <ol class="howto">
-      <li>העתיקו את המספר (מועתק אוטומטית כשאפשר).</li>
-      <li>פתחו את אפליקציית ביט ← "העברה" ← הדביקו את המספר והסכום.</li>
-      <li>אשרו בביט, ואז חזרו ולחצו "שילמתי".</li>
-    </ol>
-    <button class="btn wide" id="mPaid">שילמתי ✓</button>
-    <p class="note">האישור הסופי נעשה רק בתוך ביט, עם הסיסמה או טביעת האצבע של המשלם. המערכת לא נוגעת בכסף.</p>
+<!-- ============ MODALS ============ -->
+<div class="modal" id="mExpense" role="dialog" aria-modal="true" aria-labelledby="mExpT"><div class="sheet">
+  <button class="close" data-close aria-label="סגירה">×</button>
+  <div class="label" id="mExpT">הוספת הוצאה חדשה</div>
+  <form id="expForm" autocomplete="off" class="form">
+    <label class="flab">תיאור ההוצאה<input class="field" id="eTitle" required placeholder="למשל: חשבון חשמל"></label>
+    <div class="row2">
+      <label class="flab">סכום (₪)<input class="field" id="eAmount" type="number" min="1" step="0.01" required inputmode="decimal"></label>
+      <label class="flab">קטגוריה<select class="field" id="eCat"></select></label>
+    </div>
+    <label class="switch sm"><input type="checkbox" id="eBi"><span></span> חשבון דו-חודשי? <small>מתאים לחשמל, מים וארנונה המגיעים פעם בחודשיים</small></label>
+    <label class="flab">מי שילם/ה?<select class="field" id="ePayer"></select></label>
+    <div class="flab">איך מחלקים?
+      <div class="seg"><label><input type="radio" name="split" value="equal" checked><span>שווה בין כולם</span></label><label><input type="radio" name="split" value="rent"><span>לפי אחוזי שכר דירה</span></label></div>
+    </div>
+    <div class="flab">בין מי?<div class="parts" id="parts"></div></div>
+    <div class="row-act"><button class="btn wide" type="submit">שמור הוצאה</button><button class="btn ghost" type="button" data-close>ביטול</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="mScan" role="dialog" aria-modal="true" aria-labelledby="mScanT"><div class="sheet">
+  <button class="close" data-close aria-label="סגירה">×</button>
+  <div class="label" id="mScanT">סורק קבלות חכם (AI Vision)</div>
+  <div id="scanStart">
+    <h3 class="sh">צלמו או העלו קבלה</h3>
+    <label class="drop"><input type="file" id="scanFile" accept="image/*" capture="environment" hidden><span>📷 צילום / העלאת קבלה</span></label>
+    <button class="btn ghost wide" id="scanDemo" style="margin-top:10px">השתמש בקבלה לדוגמה (שופרסל)</button>
   </div>
-</div>
+  <div id="scanBusy" hidden><div class="scanline"></div><p class="sub" style="text-align:center">ה-AI קורא את הקבלה…</p></div>
+  <div id="scanRes" hidden>
+    <p class="sub" style="font-size:14px">ה-AI קרא קבלה מ״שופרסל שלי״. סמנו אילו פריטים משותפים לכל הדירה (פריטים לא מסומנים יישארו כהוצאה אישית שלכם ולא יחולקו).</p>
+    <div id="rcpt" class="rcpt"></div>
+    <div class="rc-total" id="rcTotal"></div>
+    <div class="row-act"><button class="btn wide" id="scanOk">אישור והוספה כהוצאה משותפת</button><button class="btn ghost" data-close>ביטול</button></div>
+  </div>
+  <p class="note">הדמיה: בגרסה המלאה הקבלה נשלחת למודל AI שמזהה פריטים ומחירים.</p>
+</div></div>
+
+<div class="modal" id="mInvite" role="dialog" aria-modal="true" aria-labelledby="mInvT"><div class="sheet">
+  <button class="close" data-close aria-label="סגירה">×</button>
+  <div class="label" id="mInvT">הזמנת שותף/ה באימייל אישי</div>
+  <p class="sub" style="font-size:14px;margin-top:8px">יצירת משתמש נעשית באמצעות כתובת האימייל האישית. הדייר יקבל הזמנה מאובטחת להצטרף לדירה.</p>
+  <form id="invForm" class="form" autocomplete="off">
+    <label class="flab">שם הדייר/ת<input class="field" id="iName" required></label>
+    <label class="flab">אימייל אישי (חובה להתחברות)<input class="field" id="iEmail" type="email" required dir="ltr"></label>
+    <div class="row2">
+      <label class="flab">סוג חדר / הערות<input class="field" id="iRoom" placeholder="למשל: חדר קטן"></label>
+      <label class="flab">אחוז שכר דירה (%)<input class="field" id="iPct" type="number" min="0" max="100" step="0.5"></label>
+    </div>
+    <label class="flab">שם משתמש PayPal.me (לקבלת תשלומים)<input class="field" id="iPP" dir="ltr" placeholder="your-name"></label>
+    <div class="row-act"><button class="btn wide" type="submit">שלח הזמנה לאימייל</button><button class="btn ghost" type="button" data-close>ביטול</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="mApt" role="dialog" aria-modal="true" aria-labelledby="mAptT"><div class="sheet">
+  <button class="close" data-close aria-label="סגירה">×</button>
+  <div class="label" id="mAptT">עריכת פרטי הדירה</div>
+  <form id="aptForm" class="form" autocomplete="off">
+    <label class="flab">כינוי הדירה<input class="field" id="aNick" required></label>
+    <label class="flab">כתובת (רחוב ומספר)<input class="field" id="aStreet" required></label>
+    <label class="flab">עיר<input class="field" id="aCity" required></label>
+    <div class="row-act"><button class="btn wide" type="submit">שמור שינויים</button><button class="btn ghost" type="button" data-close>ביטול</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="mPay" role="dialog" aria-modal="true" aria-labelledby="mPayT"><div class="sheet">
+  <button class="close" data-close aria-label="סגירה">×</button>
+  <div class="label" id="mPayT">העברה ב-PayPal</div>
+  <p class="sub" style="font-size:14px">פותח את PayPal להעברה ישירה</p>
+  <div class="to" style="margin-top:10px">סכום להעברה:</div>
+  <div class="big" id="payAmt">₪0</div>
+  <div class="to" id="payTo"></div>
+  <a class="btn wide pp" id="ppLink" href="#" target="_blank" rel="noopener">פתח את PayPal ←</a>
+  <p class="note" id="ppNote"></p>
+  <div class="row-act"><button class="btn ghost wide" id="payDone">סימולציה: "שילמתי ב-PayPal בהצלחה!"</button><button class="btn ghost" data-close>חזור</button></div>
+</div></div>
+
+<div class="modal" id="mLeave" role="dialog" aria-modal="true" aria-labelledby="mLeaveT"><div class="sheet">
+  <button class="close" data-close aria-label="סגירה">×</button>
+  <div class="label" id="mLeaveT">עזיבת דירה ומחיקת החשבון שלי</div>
+  <p class="sub" id="leaveTxt" style="font-size:15px;margin:12px 0"></p>
+  <div class="row-act"><button class="btn wide danger" id="leaveOk">כן, למחוק את החשבון שלי</button><button class="btn ghost" data-close>ביטול</button></div>
+</div></div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ================= DATA ================= */
 const COLORS=['#7c9b8a','#8a95b5','#b5776f','#b8915f','#9a84b0','#6f9fab','#b0809a'];
-const CATS=[['🏠','שכירות'],['⚡','חשמל'],['💧','מים'],['🌐','אינטרנט'],['🛒','סופר'],['🧽','ניקיון'],['🍕','אוכל']];
-const KEY='shutafim-res-v1';
-const seed=()=>({me:'m1',
-  mates:[{id:'m1',name:'נועה',phone:'050-123-4567',c:0},{id:'m2',name:'דניאל',phone:'052-765-4321',c:1},{id:'m3',name:'מאיה',phone:'054-222-3344',c:2}],
+const CATS=[{e:'⚡',n:'חשמל',g:'bills'},{e:'💧',n:'מים',g:'bills'},{e:'🏛️',n:'ארנונה',g:'bills'},{e:'🌐',n:'אינטרנט',g:'bills'},{e:'🏢',n:'ועד בית',g:'bills'},{e:'🛒',n:'סופר',g:'super'},{e:'🧽',n:'ניקיון',g:'home'},{e:'🏠',n:'ציוד לבית',g:'home'}];
+const FILTERS=[['all','הכל'],['bills','חשבונות'],['super','סופר'],['home','בית']];
+const KEY='hatzi-v1';
+const D=86400e3,now=Date.now();
+const seed=()=>({me:'m1',tab:'exp',filter:'all',
+  apt:{nick:'הדירה בהרצל',street:'הרצל 42',city:'תל אביב',en:'Herzl 42'},
+  cycleStart:15,remind:{on:true,day:'-2'},
+  mates:[
+    {id:'m1',name:'נטלי',email:'natali@example.com',room:'חדר עם מרפסת',paypal:'natali-demo',pct:25,c:0},
+    {id:'m2',name:'חלי',email:'hali@example.com',room:'חדר בינוני',paypal:'hali-demo',pct:25,c:1},
+    {id:'m3',name:'אניה',email:'anya@example.com',room:'חדר בינוני',paypal:'anya-demo',pct:25,c:2},
+    {id:'m4',name:'טל',email:'tal@example.com',room:'חדר קטן',paypal:'tal-demo',pct:25,c:3}],
   items:[
-    {id:'e1',k:'exp',cat:0,title:'שכירות נובמבר',amt:7200,payer:'m2',parts:['m1','m2','m3'],t:Date.now()-86400e3*6},
-    {id:'e2',k:'exp',cat:1,title:'חשבון חשמל',amt:540,payer:'m1',parts:['m1','m2','m3'],t:Date.now()-86400e3*3},
-    {id:'e3',k:'exp',cat:4,title:'קניות בסופר',amt:390,payer:'m3',parts:['m1','m3'],t:Date.now()-86400e3}]});
+    {id:'e1',k:'exp',cat:0,title:'חשבון חשמל',amt:465,payer:'m1',parts:['m1','m2','m3','m4'],split:'equal',bi:true,t:now-D*9},
+    {id:'e2',k:'exp',cat:3,title:'אינטרנט – בזק',amt:120,payer:'m4',parts:['m1','m2','m3','m4'],split:'equal',t:now-D*8},
+    {id:'e3',k:'exp',cat:4,title:'ועד בית',amt:240,payer:'m3',parts:['m1','m2','m3','m4'],split:'equal',t:now-D*6},
+    {id:'e4',k:'exp',cat:5,title:'קניות שוטפות – רמי לוי',amt:240,payer:'m4',parts:['m1','m2','m3','m4'],split:'equal',t:now-D*4},
+    {id:'e5',k:'exp',cat:6,title:'חומרי ניקיון',amt:195,payer:'m2',parts:['m1','m2','m3','m4'],split:'equal',t:now-D*3},
+    {id:'e6',k:'exp',cat:5,title:'פירות וירקות',amt:120,payer:'m1',parts:['m1','m2','m3','m4'],split:'equal',t:now-D}],
+  shop:[{id:'s1',name:'🧻 נייר טואלט'},{id:'s2',name:'🧴 סבון כלים'}]});
 let S;try{S=JSON.parse(localStorage.getItem(KEY))||seed()}catch(e){S=seed()}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-const $=s=>document.querySelector(s);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const setAll=(sel,v,html)=>$$(sel).forEach(e=>html?e.innerHTML=v:e.textContent=v);
 const mate=id=>S.mates.find(m=>m.id===id);
 const col=m=>COLORS[m.c%COLORS.length];
-const ils=n=>'₪'+(Math.round(n*100)/100).toLocaleString('he-IL',{maximumFractionDigits:2});
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ava=(m,cls='ava')=>`<div class="${cls}" style="background:${col(m)}">${esc(m.name.trim()[0]||'?')}</div>`;
+const ils=n=>'₪'+(Math.round(n*100)/100).toLocaleString('he-IL',{minimumFractionDigits:0,maximumFractionDigits:2});
+const ils2=n=>'₪'+(Math.round(n*100)/100).toLocaleString('he-IL',{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ava=(m,cls='ava')=>`<div class="${cls}" style="background:${col(m)}">${esc((m.name||'?').trim()[0])}</div>`;
+const pctTotal=()=>Math.round(S.mates.reduce((s,m)=>s+(+m.pct||0),0)*100)/100;
+
+/* balances in agorot; rent split uses room percentages (falls back to equal if they don't sum to 100) */
 function balances(){const b={};S.mates.forEach(m=>b[m.id]=0);
   for(const it of S.items){const a=Math.round(it.amt*100);
     if(it.k==='exp'){const ps=it.parts.filter(p=>b[p]!==undefined);if(!ps.length||b[it.payer]===undefined)continue;
-      b[it.payer]+=a;const sh=Math.floor(a/ps.length);let r=a-sh*ps.length;ps.forEach(p=>{b[p]-=sh+(r>0?1:0);r--});}
-    else{if(b[it.from]!==undefined)b[it.from]+=a;if(b[it.to]!==undefined)b[it.to]-=a;}}
+      b[it.payer]+=a;
+      const rent=it.split==='rent'&&pctTotal()===100;
+      const w=ps.map(p=>rent?(+mate(p).pct||0):1),W=w.reduce((x,y)=>x+y,0)||1;
+      let given=0;ps.forEach((p,i)=>{const sh=i===ps.length-1?a-given:Math.round(a*w[i]/W);given+=sh;b[p]-=sh});
+    }else{if(b[it.from]!==undefined)b[it.from]+=a;if(b[it.to]!==undefined)b[it.to]-=a;}}
   return b;}
 function settle(b){const cr=[],db=[];for(const[id,v]of Object.entries(b)){if(v>0)cr.push({id,v});else if(v<0)db.push({id,v:-v});}
   cr.sort((a,b)=>b.v-a.v);db.sort((a,b)=>b.v-a.v);const out=[];let i=0,j=0;
   while(i<db.length&&j<cr.length){const x=Math.min(db[i].v,cr[j].v);if(x>0)out.push({from:db[i].id,to:cr[j].id,amt:x/100});db[i].v-=x;cr[j].v-=x;if(!db[i].v)i++;if(!cr[j].v)j++;}
   return out;}
 const balTxt=v=>v>0.004?['pos','מקבל/ת '+ils(v)]:v<-0.004?['neg','חייב/ת '+ils(-v)]:['zero','מאוזן/ת'];
+const cycleTxt=()=>{const s=+S.cycleStart,e=s===1?'סוף החודש':(s-1)+' לחודש';return `${s} לחודש עד ${e}`};
+const remTxt=()=>S.remind.day==='-2'?'יומיים לפני סוף המחזור':S.remind.day==='-1'?'יום לפני סוף המחזור':`ב-${S.remind.day} לחודש`;
 
-/* ================= BUILDING EXPLORER ================= */
-const LEVELS=[
-  {n:'04',top:.00,h:.25,title:'פנטהאוז',spec:'4 חדרים · מרפסת גג · 140 מ"ר',st:'מאוכלסת',ours:false},
-  {n:'03',top:.25,h:.21,title:'הדירה שלנו',spec:'3 חדרי שינה · סלון · מרפסת · 96 מ"ר',st:'שותפים · מנוהלת כאן',ours:true},
-  {n:'02',top:.46,h:.18,title:'דירת גן עליונה',spec:'3 חדרים · מרפסת · 88 מ"ר',st:'מאוכלסת',ours:false},
-  {n:'01',top:.64,h:.24,title:'לובי',spec:'כניסה · תיבות דואר · חניית אופניים',st:'שטח משותף',ours:false}];
-let lvl=1;
-function buildExplorer(){const tower=$('#tower');
-  LEVELS.forEach((L,i)=>{const b=document.createElement('div');b.className='band';b.style.top=L.top*100+'%';b.style.height=L.h*100+'%';
-    b.dataset.i=i;b.setAttribute('aria-hidden','true');
-    b.addEventListener('pointerenter',()=>setLevel(i));b.addEventListener('click',()=>{setLevel(i);if(LEVELS[i].ours)openPlan()});tower.appendChild(b)});
-  $('#ruler').innerHTML=LEVELS.map((L,i)=>`<button class="lv ${L.ours?'ours':''}" role="tab" data-lv="${i}" aria-label="קומה ${L.n}"><b>${L.n}</b><i></i><span class="dot"></span></button>`).join('');
-  $('#ruler').querySelectorAll('.lv').forEach(b=>{b.onclick=()=>setLevel(+b.dataset.lv);b.onpointerenter=()=>setLevel(+b.dataset.lv)});}
-function setLevel(i){lvl=i;const L=LEVELS[i];
-  document.querySelectorAll('.band').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
-  document.querySelectorAll('.lv').forEach(b=>{b.classList.toggle('on',+b.dataset.lv===i);b.setAttribute('aria-selected',+b.dataset.lv===i)});
-  $('#panel').innerHTML=`<div class="label">Level ${L.n}</div><h3>${L.title}</h3><div class="spec">${L.spec}</div>
-    <span class="st ${L.ours?'ours':''}"><i></i>${L.st}</span>
-    ${L.ours?`<div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">${S.mates.map(m=>`<span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#d6cabb"><span style="width:9px;height:9px;border-radius:50%;background:${col(m)}"></span>${esc(m.name)}</span>`).join('')}</div>`:''}
-    <div class="go"><button ${L.ours?'':'disabled'} id="openPlan">${L.ours?'לפתוח את תוכנית הדירה':'הדירה לא מנוהלת כאן'}</button></div>`;
-  if(L.ours)$('#openPlan').onclick=openPlan;}
-function openPlan(){$('#planWrap').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>$('#plan').classList.add('flat'),350)}
-const ROOMS=[{x:20,y:20,w:190,h:170},{x:20,y:200,w:190,h:180},{x:470,y:20,w:150,h:220}];
-let selMate=null;
-function renderPlan(){const b=balances();
-  const T=(x,y,s,c,t,extra='')=>`<text x="${x}" y="${y}" text-anchor="middle" fill="${c}" font-size="${s}" font-family="Heebo" ${extra}>${t}</text>`;
-  const shared=`
-    <rect x="220" y="20" width="240" height="220" rx="6" fill="#2a221c" stroke="#4a3d31"/>${T(340,125,15,'#b5a999','סלון משותף')}${T(340,146,11,'#7d7064','32 מ"ר','letter-spacing="2"')}
-    <rect x="220" y="250" width="140" height="130" rx="6" fill="#261f19" stroke="#4a3d31"/>${T(290,320,14,'#b5a999','מטבח')}
-    <rect x="370" y="250" width="90" height="130" rx="6" fill="#261f19" stroke="#4a3d31"/>${T(415,320,13,'#b5a999','רחצה')}
-    <rect x="470" y="250" width="150" height="130" rx="6" fill="#2b2a22" stroke="#6a5c45" stroke-dasharray="5 5"/>${T(545,320,13,'#d8c39f','מרפסת')}
-    <rect x="10" y="10" width="620" height="380" rx="10" fill="none" stroke="#8a7760" stroke-width="3"/>
-    <line x1="270" y1="380" x2="330" y2="380" stroke="#17120e" stroke-width="6"/>${T(300,402,10,'#7d7064','כניסה','letter-spacing="3"')}`;
-  const rooms=S.mates.slice(0,3).map((m,i)=>{const R=ROOMS[i],v=b[m.id]/100,[,t]=balTxt(v),on=selMate===m.id;
-    return `<g class="room" data-mate="${m.id}" tabindex="0" role="button" aria-label="החדר של ${esc(m.name)}, ${t}">
-      <rect class="f" x="${R.x}" y="${R.y}" width="${R.w}" height="${R.h}" rx="6" fill="${col(m)}" fill-opacity="${on?.95:.6}" stroke="${on?'#fff':'#17120e'}" stroke-width="${on?3:1.5}"/>
-      <text x="${R.x+R.w/2}" y="${R.y+R.h/2-8}" text-anchor="middle" fill="#fff" font-size="21" font-family="Frank Ruhl Libre" font-weight="500">${esc(m.name)}</text>
-      <text x="${R.x+R.w/2}" y="${R.y+R.h/2+16}" text-anchor="middle" fill="#fff" fill-opacity=".88" font-size="12.5" font-family="Heebo">${t}</text></g>`}).join('');
-  $('#plan').innerHTML=`<svg viewBox="0 0 640 410" role="img" aria-label="תוכנית קומה 3">${shared}${rooms}</svg>`;
-  $('#plan').querySelectorAll('.room').forEach(g=>{const f=()=>{selMate=g.dataset.mate;renderPlan();renderLegend()};g.onclick=f;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}});}
-function renderLegend(){const b=balances(),tr=settle(b);
-  $('#legend').innerHTML=S.mates.map((m,i)=>{const v=b[m.id]/100,[cls]=balTxt(v),owe=tr.find(t=>t.from===m.id);
-    return `<button class="lg ${selMate===m.id?'on':''}" data-lgm="${m.id}"><span class="sw" style="background:${col(m)}">${esc(m.name[0])}</span>
-      <span><b>${esc(m.name)}</b><small>${i<3?'חדר '+(i+1):'ללא חדר בתוכנית'}${owe?' · מעביר/ה ל'+esc(mate(owe.to).name):''}</small></span>
-      <span class="amt ${cls}">${cls==='zero'?'—':(v>0?'+':'−')+ils(Math.abs(v))}</span></button>`}).join('')
-    +`<a class="pill champ" href="#app" style="justify-content:center;margin-top:6px">לסגור חשבון בביט ←</a>`;
-  $('#legend').querySelectorAll('[data-lgm]').forEach(x=>x.onclick=()=>{selMate=x.dataset.lgm;renderPlan();renderLegend()});}
-
-/* ================= APP RENDER ================= */
-let selCat=0;
-function render(){const b=balances(),tr=settle(b);
+/* ================= RENDER ================= */
+function render(){const b=balances(),tr=settle(b);window.__tr=tr;
+  const me=mate(S.me)||S.mates[0];S.me=me.id;
+  const addr=`${S.apt.street}, ${S.apt.city}`;
+  setAll('.aptAddr',addr);setAll('.aptNick',S.apt.nick);setAll('.aptStreetEn',S.apt.en||S.apt.street);
+  setAll('.nMates',S.mates.length);setAll('.cycleTxt',cycleTxt());setAll('.meName',me.name);
+  $('#remChip').textContent=S.remind.on?'🔔 תזכורת סוף חודש פעילה · '+remTxt()+' · בדוק קפיצת התראה':'🔕 תזכורת סוף חודש כבויה';
+  const my=b[me.id]/100;
+  setAll('.myBal',(my>0.004?'+':my<-0.004?'−':'')+ils2(Math.abs(my)));
+  setAll('.myBalTxt',my>0.004?'מגיע לך כסף משותפות הדירה':my<-0.004?'את/ה חייב/ת לשותפות הדירה':'החשבון שלך מאוזן');
+  $$('.myBal').forEach(e=>e.className='myBal '+(my>0.004?'pos':my<-0.004?'neg':''));
+  const tot=S.items.filter(i=>i.k==='exp').reduce((s,i)=>s+i.amt,0);
+  setAll('.cycTotal',ils(tot));$('#sTr').textContent=tr.length;
+  const simp=tr.length?`פישוט חובות חכם ללא עמלות: במקום עסקאות מרובות — ${tr.map(t=>`<b>${esc(mate(t.from).name)}</b> מעביר/ה ל${esc(mate(t.to).name)} ${ils(t.amt)}`).join(', ')} וכל הדירה מאוזנת!`:'כל הדירה מאוזנת ✓ אין חובות פתוחים.';
+  setAll('.simpTxt',simp,true);
+  $('#footNames').textContent=S.mates.map(m=>m.name).join(' • ');
   $('#meSel').innerHTML=S.mates.map(m=>`<option value="${m.id}" ${m.id===S.me?'selected':''}>${esc(m.name)}</option>`).join('');
-  $('#mates').innerHTML=S.mates.map(m=>{const[cls,txt]=balTxt(b[m.id]/100);
-    return `<div class="mate tilt">${S.mates.length>2?`<button class="x" data-del-mate="${m.id}" aria-label="הסרת ${esc(m.name)}">×</button>`:''}
-      ${ava(m)}<div class="nm">${esc(m.name)}${m.id===S.me?' <span style="font-family:Heebo;font-size:12px;color:var(--mute)">(אני)</span>':''}</div>
-      <div class="ph">${esc(m.phone)}</div><span class="bal ${cls}">${txt}</span></div>`}).join('');
-  $('#ePayer').innerHTML=S.mates.map(m=>`<option value="${m.id}" ${m.id===S.me?'selected':''}>שילם/ה: ${esc(m.name)}</option>`).join('');
-  $('#parts').innerHTML=S.mates.map(m=>`<label><input type="checkbox" value="${m.id}" checked> ${esc(m.name)}</label>`).join('');
-  $('#cats').innerHTML=CATS.map((c,i)=>`<button type="button" class="chip" aria-pressed="${i===selCat}" data-cat="${i}">${c[0]} ${c[1]}</button>`).join('');
+  // tabs
+  $$('.tabs [data-tab]').forEach(t=>{const on=t.dataset.tab===S.tab;t.setAttribute('aria-selected',on);t.classList.toggle('on',on)});
+  $$('.panel-t').forEach(p=>p.hidden=p.dataset.panel!==S.tab);
+  // expenses + filters
+  $('#filters').innerHTML=FILTERS.map(([k,n])=>`<button type="button" class="chip" aria-pressed="${S.filter===k}" data-filter="${k}">${n}</button>`).join('');
+  const items=[...S.items].sort((a,b)=>b.t-a.t).filter(it=>S.filter==='all'||(it.k==='exp'&&CATS[it.cat]?.g===S.filter));
+  $('#hCount').textContent=items.length+' רשומות';
+  $('#hist').innerHTML=items.length?items.map(it=>{const d=new Date(it.t).toLocaleDateString('he-IL',{day:'numeric',month:'short'});
+    if(it.k==='pay'){const f=mate(it.from),to=mate(it.to);
+      return `<div class="hitem pay"><div class="hic">✓</div><div><div class="t">${esc(f?.name||'?')} העביר/ה ל${esc(to?.name||'?')} ב-PayPal</div><div class="d">${d}</div></div><div class="a" style="color:#8fe6cf">${ils(it.amt)}<button class="del" data-del="${it.id}">מחיקה</button></div></div>`}
+    const p=mate(it.payer),c=CATS[it.cat]||CATS[7];
+    return `<div class="hitem"><div class="hic">${c.e}</div><div><div class="t">${esc(it.title)}${it.bi?' <span class="tag">דו-חודשי</span>':''}${it.split==='rent'?' <span class="tag">לפי אחוזים</span>':''}</div><div class="d">${esc(p?.name||'?')} שילם/ה · ${c.n} · מתחלק ב־${it.parts.length} · ${d}</div></div><div class="a">${ils(it.amt)}<button class="del" data-del="${it.id}">מחיקה</button></div></div>`}).join('')
+    :'<p class="sub" style="padding:18px 0">אין רשומות בסינון הזה.</p>';
+  // shopping list
+  $('#shopBadge').textContent=S.shop.length||'';$('#shopBadge').hidden=!S.shop.length;
+  $('#shopList').innerHTML=S.shop.length?S.shop.map(s=>`<div class="shop-row" data-sid="${s.id}"><span class="sn">${esc(s.name)}</span>
+      <span class="buy"><input class="field sm" type="number" min="1" step="0.01" placeholder="₪ סכום" aria-label="כמה עלה" inputmode="decimal"><button class="btn sm" data-bought="${s.id}">קניתי ✓</button><button class="del" data-unshop="${s.id}" aria-label="הסרה">✕</button></span></div>`).join('')
+    :'<p class="sub" style="padding:14px 0">הבית מאובזר 🎉 אין פריטים חסרים.</p>';
+  // settle
   $('#nTransfers').textContent=tr.length?`${tr.length} העברות בלבד`:'';
   $('#debts').innerHTML=tr.length?tr.map((t,i)=>{const f=mate(t.from),to=mate(t.to),mine=t.from===S.me;
     return `<div class="debt"><div class="flow">${ava(f)}<svg viewBox="0 0 46 14" aria-hidden="true"><path d="M46 7 C30 -2 16 16 0 7"/></svg>${ava(to)}</div>
-      <div class="who"><b>${esc(f.name)}</b> מעביר/ה ל<b>${esc(to.name)}</b>${mine?' · <span style="color:var(--champ)">זה אני</span>':''}</div>
-      <div class="sum">${ils(t.amt)}</div><div class="pays"><button class="paybtn" data-pay="${i}"><i>bit</i> לשלם בביט</button></div></div>`}).join('')
+      <div class="who"><b>${esc(f.name)}</b> מעביר/ה ל<b>${esc(to.name)}</b>${mine?' · <span style="color:var(--champ)">זה את/ה</span>':''}</div>
+      <div class="sum">${ils(t.amt)}</div><div class="pays"><button class="paybtn" data-pay="${i}"><i>P</i> תשלום ב-PayPal</button></div></div>`}).join('')
     :`<div class="empty"><b>הכול מאוזן.</b>אף אחד לא חייב לאף אחד.</div>`;
-  window.__tr=tr;
-  const items=[...S.items].sort((a,b)=>b.t-a.t);
-  $('#hCount').textContent=items.length+' רשומות';
-  $('#hist').innerHTML=items.map(it=>{const d=new Date(it.t).toLocaleDateString('he-IL',{day:'numeric',month:'short'});
-    if(it.k==='pay'){const f=mate(it.from),to=mate(it.to);
-      return `<div class="hitem pay"><div class="hic">✓</div><div><div class="t">${esc(f?.name||'?')} העביר/ה ל${esc(to?.name||'?')} בביט</div><div class="d">${d}</div></div><div class="a" style="color:var(--bit-d)">${ils(it.amt)}<button class="del" data-del="${it.id}">מחיקה</button></div></div>`}
-    const p=mate(it.payer);
-    return `<div class="hitem"><div class="hic">${CATS[it.cat]?.[0]||'•'}</div><div><div class="t">${esc(it.title)}</div><div class="d">${esc(p?.name||'?')} שילם/ה · מתחלק ב־${it.parts.length} · ${d}</div></div><div class="a">${ils(it.amt)}<button class="del" data-del="${it.id}">מחיקה</button></div></div>`}).join('');
-  const tot=S.items.filter(i=>i.k==='exp').reduce((s,i)=>s+i.amt,0);
-  $('#sMates').textContent=S.mates.length;$('#sTotal').textContent=ils(tot);
-  $('#sShared').textContent=ils(S.items.filter(i=>i.k==='exp'&&i.cat!==0).reduce((s,i)=>s+i.amt,0));
-  $('#sMates2').textContent=S.mates.length;
-  $('#liveTr').innerHTML=tr.length?tr.map((t,i)=>`<div class="lt-row"><span><b>${esc(mate(t.from).name)}</b> ← ${esc(mate(t.to).name)} · ${ils(t.amt)}</span><button data-pay="${i}"><i>bit</i>לשלם</button></div>`).join(''):'<div class="lt-row"><span>הכול מאוזן ✓</span></div>';
-  $('#sTotalM').textContent=$('#sTotal').textContent;$('#liveTrM').innerHTML=$('#liveTr').innerHTML;
+  // roommates
+  $('#mates').innerHTML=S.mates.map(m=>{const[cls,txt]=balTxt(b[m.id]/100),self=m.id===S.me;
+    return `<div class="mate tilt">${ava(m)}<div class="nm">${esc(m.name)}${self?' <span class="me-tag">(את/ה)</span>':''}</div>
+      <div class="ph">${esc(m.email)}</div><div class="rm">${esc(m.room||'')} · ${+m.pct||0}%${m.invited?' · <i>הוזמן/ה</i>':''}</div>
+      <div class="ph pp">${m.paypal?'paypal.me/'+esc(m.paypal):'<span style="color:#f3aaa2">אין PayPal.me</span>'}</div>
+      <span class="bal ${cls}">${txt}</span>
+      ${self?'<button class="leave" data-leave>עזיבת דירה ומחיקת החשבון שלי</button>':''}</div>`}).join('');
+  // percentages
+  $('#pcts').innerHTML=S.mates.map(m=>`<label class="pct-row"><span>${ava(m,'ava xs')}${esc(m.name)}<small>${esc(m.room||'')}</small></span><span class="pin"><input class="field sm" type="number" min="0" max="100" step="0.5" value="${+m.pct||0}" data-pct="${m.id}" aria-label="אחוז של ${esc(m.name)}">%</span></label>`).join('');
+  const pt=pctTotal();$('#pctTotal').innerHTML=pt===100?`סה״כ אחוזים בדירה: <b>100%</b> ✔️ (תקין)`:`סה״כ אחוזים בדירה: <b style="color:#f3aaa2">${pt}%</b> ⚠️ צריך להגיע ל-100%`;
+  // reminders
+  $('#remOn').checked=S.remind.on;
+  $('#remDay').innerHTML=[['-2','יומיים לפני סוף המחזור'],['-1','יום לפני סוף המחזור'],...[1,5,10,12,14,20,25,28].map(d=>[String(d),d+' לחודש'])].map(([v,n])=>`<option value="${v}" ${S.remind.day===v?'selected':''}>${n}</option>`).join('');
+  $('#cycDay').innerHTML=Array.from({length:28},(_,i)=>i+1).map(d=>`<option value="${d}" ${+S.cycleStart===d?'selected':''}>${d} לחודש</option>`).join('');
   bindTilt();}
 
+/* ================= MODALS ================= */
+let lastFocus=null;
+function openM(id){lastFocus=document.activeElement;const m=document.getElementById(id);
+  if(id==='mExpense'){$('#eCat').innerHTML=CATS.map((c,i)=>`<option value="${i}">${c.e} ${c.n}</option>`).join('');
+    $('#ePayer').innerHTML=S.mates.map(x=>`<option value="${x.id}" ${x.id===S.me?'selected':''}>${esc(x.name)}</option>`).join('');
+    $('#parts').innerHTML=S.mates.map(x=>`<label><input type="checkbox" value="${x.id}" checked> ${esc(x.name)}</label>`).join('')}
+  if(id==='mApt'){$('#aNick').value=S.apt.nick;$('#aStreet').value=S.apt.street;$('#aCity').value=S.apt.city}
+  if(id==='mInvite'){$('#iPct').value=Math.round(100/(S.mates.length+1)*10)/10}
+  if(id==='mScan'){$('#scanStart').hidden=false;$('#scanBusy').hidden=true;$('#scanRes').hidden=true;$('#scanFile').value=''}
+  m.classList.add('open');setTimeout(()=>{const f=m.querySelector('input:not([type=hidden]):not([type=radio]):not([type=checkbox]),button:not(.close)');f&&f.focus()},60)}
+function closeM(){$$('.modal.open').forEach(m=>m.classList.remove('open'));lastFocus&&lastFocus.focus&&lastFocus.focus()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m||e.target.closest('[data-close]'))closeM()}));
+
 /* ================= EVENTS ================= */
-$('#meSel').onchange=e=>{S.me=e.target.value;save();render()};
-$('#mateForm').onsubmit=e=>{e.preventDefault();const name=$('#mName').value.trim(),phone=$('#mPhone').value.trim();
-  if(!/^[0-9\-\s+]{9,15}$/.test(phone)){toast('מספר טלפון לא תקין');return}
-  S.mates.push({id:'m'+Date.now(),name,phone,c:S.mates.length});e.target.reset();save();render();toast(`${name} נוסף/ה לדירה`)};
-$('#expForm').onsubmit=e=>{e.preventDefault();const parts=[...document.querySelectorAll('#parts input:checked')].map(x=>x.value),amt=parseFloat($('#eAmount').value);
-  if(!parts.length){toast('צריך לבחור לפחות שותף אחד');return}if(!(amt>0)){toast('סכום לא תקין');return}
-  S.items.push({id:'e'+Date.now(),k:'exp',cat:selCat,title:$('#eTitle').value.trim(),amt,payer:$('#ePayer').value,parts,t:Date.now()});
-  e.target.reset();save();render();toast('ההוצאה נוספה והחשבון חושב מחדש');$('#hSettle').scrollIntoView({behavior:'smooth',block:'center'})};
+function goTab(t){S.tab=t;save();render();$('#app').scrollIntoView({behavior:'smooth',block:'start'})}
 document.addEventListener('click',e=>{
-  const c=e.target.closest('[data-cat]');if(c){selCat=+c.dataset.cat;document.querySelectorAll('[data-cat]').forEach(x=>x.setAttribute('aria-pressed',x===c));return}
+  const op=e.target.closest('[data-open]');if(op){e.preventDefault();openM(op.dataset.open);return}
+  const tb=e.target.closest('[data-tab]');if(tb){e.preventDefault();goTab(tb.dataset.tab);return}
+  const fl=e.target.closest('[data-filter]');if(fl){S.filter=fl.dataset.filter;save();render();return}
   const d=e.target.closest('[data-del]');if(d){S.items=S.items.filter(i=>i.id!==d.dataset.del);save();render();toast('נמחק');return}
-  const dm=e.target.closest('[data-del-mate]');if(dm){const id=dm.dataset.delMate;
-    if(S.items.some(i=>i.payer===id||i.from===id||i.to===id||(i.parts||[]).includes(id))){toast('לשותף/ה יש הוצאות בהיסטוריה — מחקו אותן קודם');return}
-    S.mates=S.mates.filter(m=>m.id!==id);if(S.me===id)S.me=S.mates[0].id;save();render();return}
-  const p=e.target.closest('[data-pay]');if(p)openPay(window.__tr[+p.dataset.pay],p)});
+  const us=e.target.closest('[data-unshop]');if(us){S.shop=S.shop.filter(s=>s.id!==us.dataset.unshop);save();render();return}
+  const bo=e.target.closest('[data-bought]');if(bo){const row=bo.closest('.shop-row'),amt=parseFloat(row.querySelector('input').value),it=S.shop.find(s=>s.id===bo.dataset.bought);
+    if(!(amt>0)){row.querySelector('input').focus();toast('כמה זה עלה? הכניסו סכום');return}
+    S.items.push({id:'e'+Date.now(),k:'exp',cat:7,title:'קניתי: '+it.name,amt,payer:S.me,parts:S.mates.map(m=>m.id),split:'equal',t:Date.now()});
+    S.shop=S.shop.filter(s=>s.id!==it.id);save();render();toast(`${mate(S.me).name} זוכה ב-${ils(amt)} מול כולם ✓`);return}
+  const p=e.target.closest('[data-pay]');if(p){openPay(window.__tr[+p.dataset.pay]);return}
+  const lv=e.target.closest('[data-leave]');if(lv){const v=balances()[S.me]/100;
+    $('#leaveTxt').textContent=Math.abs(v)>0.004?`יש לך יתרה פתוחה של ${ils(Math.abs(v))} (${v>0?'מגיע לך':'את/ה חייב/ת'}). מומלץ לסגור חשבון לפני העזיבה. האם למחוק בכל זאת?`:'החשבון שלך מאוזן. למחוק את החשבון ולעזוב את הדירה?';
+    if(S.mates.length<=1){toast('אי אפשר למחוק את הדייר/ת האחרון/ה');return}openM('mLeave');return}
+});
+$('#meSel').onchange=e=>{S.me=e.target.value;save();render();toast('מחובר/ת כעת: '+mate(S.me).name)};
+$('#expForm').onsubmit=e=>{e.preventDefault();const parts=$$('#parts input:checked').map(x=>x.value),amt=parseFloat($('#eAmount').value);
+  if(!parts.length){toast('צריך לבחור לפחות שותף אחד');return}if(!(amt>0)){toast('סכום לא תקין');return}
+  const split=document.querySelector('input[name=split]:checked').value;
+  if(split==='rent'&&pctTotal()!==100){toast('האחוזים לא מסתכמים ל-100% — מחלקים שווה');}
+  S.items.push({id:'e'+Date.now(),k:'exp',cat:+$('#eCat').value,title:$('#eTitle').value.trim(),amt,payer:$('#ePayer').value,parts,split,bi:$('#eBi').checked,t:Date.now()});
+  e.target.reset();save();closeM();S.tab='exp';S.filter='all';render();toast('ההוצאה נשמרה והחשבון חושב מחדש')};
+$('#shopForm').onsubmit=e=>{e.preventDefault();const n=$('#shopName').value.trim();if(!n)return;S.shop.push({id:'s'+Date.now(),name:n});e.target.reset();save();render();toast('נוסף לרשימה')};
+$('#aptForm').onsubmit=e=>{e.preventDefault();S.apt.nick=$('#aNick').value.trim();S.apt.street=$('#aStreet').value.trim();S.apt.city=$('#aCity').value.trim();save();closeM();render();toast('פרטי הדירה נשמרו')};
+$('#invForm').onsubmit=e=>{e.preventDefault();const m={id:'m'+Date.now(),name:$('#iName').value.trim(),email:$('#iEmail').value.trim(),room:$('#iRoom').value.trim(),pct:+$('#iPct').value||0,paypal:$('#iPP').value.trim().replace(/^.*paypal\.me\//,''),c:S.mates.length,invited:true};
+  S.mates.push(m);save();closeM();S.tab='mates';render();
+  const sub=encodeURIComponent(`הזמנה להצטרף לדירה ב"חצי-חצי" – ${S.apt.street}`),body=encodeURIComponent(`היי ${m.name}!\n${mate(S.me).name} מזמין/ה אותך להצטרף לדירה "${S.apt.nick}" (${S.apt.street}, ${S.apt.city}) באפליקציית חצי-חצי לניהול הוצאות משותפות.\nאחוז שכר הדירה שהוגדר לך: ${m.pct}%.\n\n${location.href.split('#')[0]}`);
+  const a=document.createElement('a');a.href=`mailto:${encodeURIComponent(m.email)}?subject=${sub}&body=${body}`;a.click();
+  toast(`ההזמנה ל-${m.name} מוכנה לשליחה במייל ✉️`);
+  if(pctTotal()!==100)setTimeout(()=>toast('עדכנו את אחוזי שכר הדירה כך שיסתכמו ל-100%'),2800)};
+$('#leaveOk').onclick=()=>{const name=mate(S.me).name;S.mates=S.mates.filter(m=>m.id!==S.me);S.me=S.mates[0].id;save();closeM();render();toast(`החשבון של ${name} נמחק`)};
+document.addEventListener('change',e=>{const p=e.target.closest('[data-pct]');if(p){mate(p.dataset.pct).pct=Math.max(0,Math.min(100,parseFloat(p.value)||0));save();render()}});
+$('#pctReset').onclick=()=>{const n=S.mates.length,eq=Math.floor(10000/n)/100;S.mates.forEach((m,i)=>m.pct=i===n-1?Math.round((100-eq*(n-1))*100)/100:eq);save();render();toast('אופס לחלוקה שווה')};
+$('#remOn').onchange=e=>{S.remind.on=e.target.checked;save();render();toast(S.remind.on?'תזכורת סוף חודש הופעלה':'תזכורת סוף חודש כובתה')};
+$('#remDay').onchange=e=>{S.remind.day=e.target.value;save();render()};
+$('#cycDay').onchange=e=>{S.cycleStart=+e.target.value;save();render()};
+$('#simNotif').onclick=()=>showNotif();$('#remChip').onclick=()=>showNotif();
 $('#reset').onclick=()=>{S=seed();save();render();toast('הנתונים אופסו')};
 
-/* ================= PAY ================= */
-let cur=null,origin=null;
-async function copy(t){try{await navigator.clipboard.writeText(t);return true}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}a.remove();return ok}}
-function openPay(t,btn){cur=t;origin=btn;const to=mate(t.to),f=mate(t.from);
-  $('#mAmt').textContent=ils(t.amt);$('#mTo').innerHTML=`מ<b>${esc(f.name)}</b> אל <b>${esc(to.name)}</b>`;
-  $('#payPhone').textContent=to.phone;$('#paySum').textContent=t.amt.toFixed(2);
-  document.querySelectorAll('[data-copy]').forEach(b=>{b.classList.remove('ok');b.textContent='העתקה'});
-  $('#modal').classList.add('open');
-  copy(to.phone.replace(/\D/g,'')).then(ok=>{if(ok){const b=document.querySelector('[data-copy=phone]');b.classList.add('ok');b.textContent='הועתק ✓'}});
-  setTimeout(()=>$('#mPaid').focus(),60)}
-function closePay(){$('#modal').classList.remove('open');origin&&origin.focus()}
-$('#mClose').onclick=closePay;$('#modal').onclick=e=>{if(e.target.id==='modal')closePay()};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('open'))closePay()});
-document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const v=b.dataset.copy==='phone'?mate(cur.to).phone.replace(/\D/g,''):cur.amt.toFixed(2);
-  if(await copy(v)){b.classList.add('ok');b.textContent='הועתק ✓'}else toast('לא הצלחתי להעתיק — סמנו והעתיקו ידנית')});
-$('#mPaid').onclick=()=>{const r=origin?.getBoundingClientRect();
-  S.items.push({id:'p'+Date.now(),k:'pay',from:cur.from,to:cur.to,amt:cur.amt,t:Date.now()});save();closePay();
-  burst(r?r.left+r.width/2:innerWidth/2,r?r.top:innerHeight/2);setTimeout(render,250);toast(`${mate(cur.from).name} שילם/ה ל${mate(cur.to).name} ${ils(cur.amt)} ✓`)};
+/* ================= RECEIPT SCAN (simulation) ================= */
+const RCPT=[{n:'🧻 נייר טואלט 32 גלילים (לילי)',p:24.90,sh:true},{n:'🥛 2x חלב תנובה 3% קרטון',p:13.80,sh:true},{n:'🫒 שמן זית כתית מעולה 750 מ״ל',p:32.50,sh:true},{n:'🍺 שישיית בירה (אישי)',p:44.00,sh:false}];
+function scanShow(){$('#scanStart').hidden=true;$('#scanBusy').hidden=false;
+  setTimeout(()=>{$('#scanBusy').hidden=true;$('#scanRes').hidden=false;
+    $('#rcpt').innerHTML=RCPT.map((r,i)=>`<label class="rc-row"><input type="checkbox" data-rc="${i}" ${r.sh?'checked':''}><span>${r.n}</span><b>${ils2(r.p)}</b></label>`).join('');rcTot()},1400)}
+function rcTot(){const s=$$('[data-rc]:checked').reduce((a,x)=>a+RCPT[+x.dataset.rc].p,0);$('#rcTotal').innerHTML=`סך הכל משותף לדירה (מתחלק ל-${S.mates.length}): <b>${ils2(s)}</b>`;return s}
+$('#scanFile').onchange=()=>{if($('#scanFile').files.length)scanShow()};
+$('#scanDemo').onclick=scanShow;
+document.addEventListener('change',e=>{if(e.target.matches('[data-rc]'))rcTot()});
+$('#scanOk').onclick=()=>{const s=Math.round(rcTot()*100)/100;if(!(s>0)){toast('לא סומנו פריטים משותפים');return}
+  S.items.push({id:'e'+Date.now(),k:'exp',cat:5,title:'קבלה – שופרסל שלי (פריטים משותפים)',amt:s,payer:S.me,parts:S.mates.map(m=>m.id),split:'equal',t:Date.now()});
+  save();closeM();S.tab='exp';render();toast(`נוספה הוצאה משותפת של ${ils2(s)}`)};
+
+/* ================= PAYPAL ================= */
+let cur=null;
+function openPay(t){cur=t;const to=mate(t.to),f=mate(t.from);
+  $('#payAmt').textContent=ils2(t.amt);$('#payTo').innerHTML=`מ<b>${esc(f.name)}</b> אל <b>${esc(to.name)}</b>`;
+  const a=$('#ppLink');
+  if(to.paypal){a.href=`https://www.paypal.com/paypalme/${encodeURIComponent(to.paypal)}/${t.amt.toFixed(2)}ILS`;a.removeAttribute('aria-disabled');a.classList.remove('off');
+    $('#ppNote').textContent=`הקישור פותח את paypal.me/${to.paypal} עם הסכום מוכן. בדמו אלו שמות לדוגמה — כל שותף מגדיר את שלו בלשונית "שותפים".`}
+  else{a.href='#';a.setAttribute('aria-disabled','true');a.classList.add('off');$('#ppNote').textContent=`ל${to.name} עדיין אין PayPal.me — אפשר להוסיף בהזמנה/בפרטי השותף.`}
+  openM('mPay')}
+$('#ppLink').addEventListener('click',e=>{if($('#ppLink').classList.contains('off'))e.preventDefault()});
+$('#payDone').onclick=()=>{S.items.push({id:'p'+Date.now(),k:'pay',from:cur.from,to:cur.to,amt:cur.amt,t:Date.now()});save();closeM();
+  burst(innerWidth/2,innerHeight/2);setTimeout(render,250);toast(`${mate(cur.from).name} שילם/ה ל${mate(cur.to).name} ${ils(cur.amt)} ב-PayPal ✓`)};
+
+/* ================= REMINDER POPUP (simulation) ================= */
+function showNotif(){const b=balances(),tr=settle(b);
+  if(!tr.length){toast('אין כרגע אף דייר/ת עם חוב פתוח 🎉');return}
+  const t=tr[0],f=mate(t.from);
+  $('#nfText').innerHTML=`היי ${esc(f.name)}! נותרו יומיים לסגירת מחזור החשבונות. יש לך חוב פתוח בדירה: <b>${ils(t.amt)}</b> ל${esc(mate(t.to).name)}.`;
+  const n=$('#notif');n.classList.add('on');n.setAttribute('aria-hidden','false');
+  $('#nfPay').onclick=()=>{hideNotif();openPay(t)};$('#nfIgnore').onclick=hideNotif;
+  clearTimeout(window.__nt);window.__nt=setTimeout(hideNotif,9000)}
+function hideNotif(){const n=$('#notif');n.classList.remove('on');n.setAttribute('aria-hidden','true')}
 
 /* ================= FX ================= */
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2600)}
@@ -692,37 +966,40 @@ function burst(x,y){if(matchMedia('(prefers-reduced-motion:reduce)').matches)ret
       {transform:`translate(${x-15+Math.cos(a)*s}px,${y-15+Math.sin(a)*s-140}px) scale(1) rotateY(540deg)`,opacity:1,offset:.55},
       {transform:`translate(${x-15+Math.cos(a)*s*1.2}px,${y+220}px) scale(.8) rotateY(900deg)`,opacity:0}],{duration:1300+Math.random()*500,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>c.remove()}}
 function bindTilt(){if(matchMedia('(hover:none)').matches)return;
-  document.querySelectorAll('.tilt').forEach(el=>{if(el.__t)return;el.__t=1;
+  $$('.tilt').forEach(el=>{if(el.__t)return;el.__t=1;
     el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      el.style.transition='transform .15s';el.style.transform=`rotateX(${-y*12}deg) rotateY(${x*14}deg) translateZ(6px)`});
+      el.style.transition='transform .15s';el.style.transform=`rotateX(${-y*10}deg) rotateY(${x*12}deg) translateZ(6px)`});
     el.addEventListener('pointerleave',()=>{el.style.transition='';el.style.transform=''})})}
 
-const hdr=$('#hdr');addEventListener('scroll',()=>hdr.classList.toggle('glass',scrollY>innerHeight*.85),{passive:true});
+const hdr=$('#hdr');addEventListener('scroll',()=>hdr.classList.toggle('glass',scrollY>innerHeight*.6),{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+$$('.reveal').forEach(el=>io.observe(el));
 (()=>{const w=$('#wins');for(let i=0;i<46;i++){const s=document.createElement('i');s.style.left=Math.random()*100+'%';s.style.top=(10+Math.random()*80)+'%';s.style.animationDelay=(-Math.random()*6)+'s';s.style.animationDuration=(4+Math.random()*6)+'s';w.appendChild(s)}})();
-(()=>{const words=['<b>שכירות</b> · Rent','<b>חשמל</b> · Power','<b>סופר</b> · Groceries','<b>אינטרנט</b> · Wi-Fi','<b>ועד בית</b> · Building','<b>ניקיון</b> · Cleaning'];
-  const h=words.map(w=>`<span>${w}</span><span>✦</span>`).join('');const q=$('#mq');q&&(q.innerHTML=h+h)})();
 
-/* cinematic films: autoplay loop if the clip exists, otherwise slow drift on the still (never scroll-driven) */
-document.querySelectorAll('[data-video]').forEach(box=>{const v=document.createElement('video');
-  v.muted=true;v.loop=true;v.playsInline=true;v.autoplay=true;v.preload='auto';
-  ['muted','playsinline','autoplay','loop'].forEach(a=>v.setAttribute(a,''));v.setAttribute('aria-hidden','true');
-  v.addEventListener('loadeddata',()=>{box.appendChild(v);v.play().catch(()=>{});const im=box.querySelector('img');im&&(im.style.visibility='hidden')},{once:true});
-  v.src=box.dataset.video;});
+/* background films: silent inline loops that fade in only once actually playing — never a play button.
+   If the phone refuses autoplay (e.g. Low Power Mode) the still keeps drifting underneath and we retry on the first touch. */
+(()=>{const vids=$$('video.vid');
+  const kick=()=>vids.forEach(v=>{v.muted=true;const p=v.play();p&&p.catch(()=>{})});
+  vids.forEach(v=>{v.muted=true;v.defaultMuted=true;v.controls=false;
+    v.addEventListener('playing',()=>v.classList.add('on'));
+    v.addEventListener('ended',()=>{v.currentTime=0;v.play().catch(()=>{})});});
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){v.play().catch(()=>{})}else v.pause()}),{threshold:.05});
+  vids.forEach(v=>vio.observe(v));
+  kick();['touchstart','pointerdown','scroll'].forEach(ev=>addEventListener(ev,kick,{once:true,passive:true}));
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)kick()});})();
 
-/* cloud intro (light, never from black) */
-(()=>{const intro=$('#intro');if(matchMedia('(prefers-reduced-motion:reduce)').matches){intro.remove();document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));return}
+/* cloud intro */
+(()=>{const intro=$('#intro');if(matchMedia('(prefers-reduced-motion:reduce)').matches){intro.remove();$$('.reveal').forEach(e=>e.classList.add('in'));return}
   const W=innerWidth,H=innerHeight;
   for(let i=0;i<14;i++){const c=document.createElement('div');c.className='cl';const s=(Math.max(W,H)*(.45+Math.random()*.5))|0;
     const x=Math.random()*W-s/2;c.style.width=s+'px';c.style.height=(s*.62)+'px';c.style.left=x+'px';c.style.top=(Math.random()*H-s*.3)+'px';
     c.dataset.dx=(x+s/2<W/2?-1:1)*(W*.7);intro.appendChild(c)}
-  requestAnimationFrame(()=>setTimeout(()=>{intro.classList.add('go');intro.querySelectorAll('.cl').forEach(c=>c.style.transform=`translateX(${c.dataset.dx}px) scale(1.4)`);
-    document.querySelectorAll('.cine .reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),300+i*110))},700));
-  setTimeout(()=>intro.remove(),3200)})();
+  requestAnimationFrame(()=>setTimeout(()=>{intro.classList.add('go');intro.querySelectorAll('.cl').forEach(c=>c.style.transform=`translateX(${c.dataset.dx}px) scale(1.4)`)},600));
+  setTimeout(()=>intro.remove(),3000)})();
 
-document.querySelectorAll('[data-focus]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.getElementById(a.dataset.focus);t.scrollIntoView({behavior:'smooth',block:'center'});if(t.tagName==='INPUT')setTimeout(()=>t.focus({preventScroll:true}),700)}));
 render();
+/* demo: show the month-end reminder once, a few seconds after opening */
+
 </script>
 </body>
 </html>
